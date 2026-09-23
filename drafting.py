@@ -11,6 +11,7 @@ No external libraries: the output is a self-contained SVG that opens offline.
 """
 
 import math
+from contextlib import contextmanager
 
 # ---------------------------------------------------------------------------
 # sheet + scale
@@ -84,6 +85,16 @@ class Sheet:
     def raw(self, s):
         self.body.append(s)
 
+    @contextmanager
+    def on(self, layer):
+        """Name the drawing layer for the enclosed calls.
+
+        Layers mean nothing to SVG, but the DXF backend uses the same calls
+        to sort entities onto proper CAD layers, so the drawing code names
+        them once, here, for both.
+        """
+        yield
+
     def line_mm(self, x1, y1, x2, y2, w=LW_THIN, color=INK, dash=None,
                 cap="butt"):
         d = f' stroke-dasharray="{dash}"' if dash else ""
@@ -127,6 +138,12 @@ class Sheet:
     def circle(self, x, y, r_m, fill="none", stroke=INK, sw=LW_FIXTURE):
         self.raw(f'<circle cx="{X(x):.3f}" cy="{Y(y):.3f}" r="{r_m * S:.3f}" '
                  f'fill="{fill}" stroke="{stroke}" stroke-width="{sw}"/>')
+
+    def ellipse(self, cx, cy, rx_m, ry_m, fill="none", stroke=INK,
+                sw=LW_FIXTURE):
+        self.raw(f'<ellipse cx="{X(cx):.3f}" cy="{Y(cy):.3f}" '
+                 f'rx="{mm(rx_m):.3f}" ry="{mm(ry_m):.3f}" fill="{fill}" '
+                 f'stroke="{stroke}" stroke-width="{sw}"/>')
 
     def arc(self, cx, cy, r_m, a0, a1, sw=LW_THIN, color=INK, dash=None):
         """Angles in degrees, counter-clockwise from east, plan space."""

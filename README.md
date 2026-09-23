@@ -4,10 +4,17 @@ A four-sheet architectural drawing set for a three-storey vacation house,
 set out from the client's hand survey sketch (long garden corridor onto the
 street, an L-shaped footprint hard against three neighbouring plots).
 
-The drawings are **generated**, not hand-drawn: a small drafting engine emits
-true-to-scale SVG, so every wall, opening and dimension on the sheet can be
-scaled off with a rule. Nothing here relates to the daily-movers dashboard
-that occupies the rest of this repository.
+Everything is produced with free, open-source software — Python, [ezdxf]
+for the CAD files and [CairoSVG] for the sheets — and exported in the
+formats the free desktop and online design tools accept. The drawings are
+generated rather than hand-drawn, so every wall, opening and dimension is
+true to scale and can be measured off.
+
+[ezdxf]: https://ezdxf.mozman.at/
+[CairoSVG]: https://cairosvg.org/
+
+Nothing here relates to the daily-movers dashboard in the rest of this
+repository.
 
 ## The set
 
@@ -21,30 +28,88 @@ that occupies the rest of this repository.
 All sheets are ISO A1 landscape (841 × 594 mm) with a title block, key,
 area schedule, general notes, north point and graphic scale.
 
-- `drawings/*.svg` — the four sheets, one file each, print-ready at A1.
-- `drawing-set.html` — all four sheets in one self-contained page with tabs,
-  zoom and pan. Inline SVG only: no libraries, fonts or network calls, so it
-  opens offline.
+## Which file to open, and in what
+
+| Folder              | Format                              | Open it in                                                                 |
+| ------------------- | ----------------------------------- | -------------------------------------------------------------------------- |
+| `cad/`              | DXF R2010, millimetres, 1:1         | **LibreCAD**, **QCAD**, **FreeCAD**, nanoCAD, DraftSight — editable CAD     |
+| `drawings/`         | SVG, A1                             | **Inkscape**, **Penpot**, Figma, any browser — editable vector artwork      |
+| `pdf/`              | vector PDF, exactly 841 × 594 mm    | any reader; prints to scale; Inkscape and Scribus can edit it              |
+| `png/`              | 150 dpi, 4967 px wide               | **Sweet Home 3D** and the online planners, to trace a 3D model over        |
+| `drawing-set.html`  | all four sheets, self-contained     | any browser, offline — tabs, zoom, pan                                      |
+
+### Editing the plans as CAD
+
+`cad/` holds one DXF per level plus `vacation-house-all-levels.dxf`, which
+carries all four side by side, each on its own layer set (`…-SITE`, `…-00`,
+`…-01`, `…-02`). Model space is millimetres at full size, so a wall measures
+its real length and you can draw straight on top.
+
+Entities are sorted onto standard architectural layers, so you can switch
+off what you don't want and edit what you do:
+
+```
+A-WALL / A-WALL-PATT / A-WALL-PRHT   walls, poche, terrace parapets
+A-DOOR / A-GLAZ                      doors and swings, glazed openings
+A-FLOR-STRS / A-FURN / A-EQPM        stairs, furniture, sanitaryware
+A-ANNO-TEXT / -DIMS / -SYMB / -PATT  labels, dimensions, arch heads, hatch
+L-SITE / L-PLNT / G-ANNO-BNDY        paving and pergolas, planting, boundary
+```
+
+Dimensions are real DXF `DIMENSION` entities, so they stay editable and
+re-measure themselves when you move something.
+
+### Building a 3D model from the plans
+
+Sweet Home 3D is the shortest route, and it is free:
+
+1. `Plan > Import background image…` and choose the PNG for the level you
+   want — the wizard takes BMP, JPEG, PNG or GIF.
+2. When it asks for the scale, click the two ends of the overall dimension
+   and type its value: **11.50 m** across the building on any floor plan, or
+   **23.00 m** along the garden on the site plan.
+3. Draw walls over the traced plan, then switch to the 3D view.
+
+The online planners (Floorplanner, Planner5D, Coohom and similar) work the
+same way on their free tiers: upload the PNG or PDF, set the scale from a
+known dimension, and trace. DXF import is generally a paid feature there,
+which is why the PNG and PDF issues exist.
 
 ## Regenerating
 
 ```sh
-python3 plans.py          # writes drawings/*.svg
-python3 viewer.py         # bundles them into drawing-set.html
+python3 build.py          # every format, in one pass
 ```
 
-No dependencies beyond the Python standard library.
+or one at a time:
 
-| Module        | Role                                                        |
-| ------------- | ----------------------------------------------------------- |
-| `geometry.py` | Single source of truth for the set-out: every dimension.     |
-| `drafting.py` | Drawing engine — scale, walls, doors, windows, dimensions.   |
-| `fixtures.py` | Sanitaryware, joinery, furniture, stairs, landscape symbols. |
-| `frame.py`    | Sheet border, title block, key, schedule, notes.             |
-| `plans.py`    | The four sheets themselves.                                  |
-| `viewer.py`   | Bundles the SVGs into the offline HTML viewer.               |
+```sh
+python3 plans.py          # drawings/*.svg
+python3 export_cad.py     # cad/*.dxf
+python3 export_share.py   # pdf/*.pdf and png/*.png
+python3 viewer.py         # drawing-set.html
+```
 
-Change a dimension in `geometry.py` and every sheet follows.
+`build.py` needs `ezdxf` and `cairosvg` (`pip install ezdxf cairosvg`);
+`plans.py` alone needs nothing beyond the standard library.
+
+| Module          | Role                                                          |
+| --------------- | ------------------------------------------------------------- |
+| `geometry.py`   | Single source of truth for the set-out: every dimension.       |
+| `drafting.py`   | Drawing engine — scale, walls, doors, windows, dimensions.     |
+| `fixtures.py`   | Sanitaryware, joinery, furniture, stairs, landscape symbols.   |
+| `frame.py`      | Sheet border, title block, key, schedule, notes.               |
+| `plans.py`      | The four sheets themselves.                                    |
+| `dxf_backend.py`| The same drawing interface, emitting CAD geometry.             |
+| `export_cad.py` | Runs the sheets against the CAD backend.                       |
+| `export_share.py`| PDF and PNG issues.                                           |
+| `viewer.py`     | Bundles the SVGs into the offline HTML page.                   |
+
+`dxf_backend.DXFSheet` implements the same interface as `drafting.Sheet`, so
+`plans.py` draws each sheet once and both the SVG and the DXF come out of
+those same calls — the plotted sheets and the CAD files cannot drift apart.
+Change a dimension in `geometry.py` and every format follows on the next
+build.
 
 ## Set-out
 

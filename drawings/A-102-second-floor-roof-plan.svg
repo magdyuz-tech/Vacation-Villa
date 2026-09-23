@@ -43,7 +43,7 @@
 <path d="M 243.000 374.000 A 14.000 14.000 0 0 1 271.000 374.000" fill="none" stroke="#5d5d5d" stroke-width="0.18" stroke-dasharray="1.8 1.2"/>
 <path d="M 293.000 374.000 A 15.000 15.000 0 0 1 323.000 374.000" fill="none" stroke="#5d5d5d" stroke-width="0.18" stroke-dasharray="1.8 1.2"/>
 <path d="M 339.000 374.000 A 15.000 15.000 0 0 1 369.000 374.000" fill="none" stroke="#5d5d5d" stroke-width="0.18" stroke-dasharray="1.8 1.2"/>
-<path d="M 278.000 320.000 A 12.000 12.000 0 0 1 278.000 296.000" fill="none" stroke="#5d5d5d" stroke-width="0.18" stroke-dasharray="1.8 1.2"/>
+<path d="M 278.000 296.000 A 12.000 12.000 0 0 0 278.000 320.000" fill="none" stroke="#5d5d5d" stroke-width="0.18" stroke-dasharray="1.8 1.2"/>
 <rect x="222.600" y="174.000" width="2.400" height="94.000" fill="#141414" stroke="#141414" stroke-width="0.05"/>
 <rect x="222.600" y="136.000" width="2.400" height="10.000" fill="#141414" stroke="#141414" stroke-width="0.05"/>
 <rect x="222.600" y="185.600" width="18.400" height="2.400" fill="#141414" stroke="#141414" stroke-width="0.05"/>
@@ -175,7 +175,7 @@
 <line x1="374.000" y1="241.000" x2="355.000" y2="222.000" stroke="#9a9a9a" stroke-width="0.13" stroke-linecap="butt"/>
 <circle cx="364.500" cy="231.500" r="1.200" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>
 <rect x="337.200" y="262.400" width="7.600" height="3.200" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>
-<ellipse cx="341.00" cy="256.80" rx="3.40" ry="5.60" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>
+<ellipse cx="341.000" cy="256.800" rx="3.400" ry="5.600" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>
 <rect x="366.000" y="250.500" width="9.000" height="11.000" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>
 <circle cx="370.500" cy="256.000" r="1.100" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>
 <rect x="314.000" y="127.000" width="36.000" height="42.000" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>

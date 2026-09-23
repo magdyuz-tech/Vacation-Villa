@@ -132,7 +132,7 @@
 <line x1="281.000" y1="180.000" x2="281.000" y2="148.000" stroke="#5d5d5d" stroke-width="0.13" stroke-linecap="butt"/>
 <line x1="235.000" y1="362.000" x2="237.400" y2="362.000" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
 <line x1="235.000" y1="332.000" x2="237.400" y2="332.000" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
-<path d="M 235.000 362.000 A 15.000 15.000 0 0 1 235.000 332.000" fill="none" stroke="#5d5d5d" stroke-width="0.18" stroke-dasharray="1.8 1.2"/>
+<path d="M 235.000 332.000 A 15.000 15.000 0 0 0 235.000 362.000" fill="none" stroke="#5d5d5d" stroke-width="0.18" stroke-dasharray="1.8 1.2"/>
 <line x1="245.000" y1="324.000" x2="245.000" y2="321.600" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
 <line x1="261.000" y1="324.000" x2="261.000" y2="321.600" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
 <line x1="245.000" y1="322.800" x2="245.000" y2="306.800" stroke="#141414" stroke-width="0.2" stroke-linecap="butt"/>
@@ -163,7 +163,7 @@
 <rect x="180.000" y="313.000" width="26.000" height="14.000" fill="none" stroke="#5d5d5d" stroke-width="0.2" rx="2.0"/>
 <rect x="231.400" y="300.000" width="3.200" height="28.000" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>
 <rect x="274.800" y="299.200" width="3.200" height="7.600" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>
-<ellipse cx="269.20" cy="303.00" rx="5.60" ry="3.40" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>
+<ellipse cx="269.200" cy="303.000" rx="5.600" ry="3.400" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>
 <rect x="241.000" y="288.000" width="12.000" height="9.600" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>
 <circle cx="247.000" cy="292.800" r="1.100" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>
 <rect x="172.800" y="221.000" width="34.000" height="20.000" fill="none" stroke="#5d5d5d" stroke-width="0.2" rx="4.0"/>
@@ -224,7 +224,7 @@
 <line x1="305.000" y1="221.000" x2="286.000" y2="202.000" stroke="#9a9a9a" stroke-width="0.13" stroke-linecap="butt"/>
 <circle cx="295.500" cy="211.500" r="1.200" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>
 <rect x="284.000" y="225.200" width="3.200" height="7.600" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>
-<ellipse cx="292.80" cy="229.00" rx="5.60" ry="3.40" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>
+<ellipse cx="292.800" cy="229.000" rx="5.600" ry="3.400" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>
 <rect x="310.000" y="198.400" width="12.000" height="9.600" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>
 <circle cx="316.000" cy="203.200" r="1.100" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>
 <rect x="331.000" y="221.000" width="13.000" height="13.000" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>

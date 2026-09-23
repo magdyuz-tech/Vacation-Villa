@@ -31,11 +31,13 @@ GIA = {0: 121.8, 1: 94.7, 2: 41.5}
 # shared pieces
 # ===========================================================================
 def boundary(sh, label=True):
-    sh.poly(PLOT, stroke=INK, sw=0.45, dash="6 1.5 1.2 1.5")
+    with sh.on("G-ANNO-BNDY"):
+        sh.poly(PLOT, stroke=INK, sw=0.45, dash="6 1.5 1.2 1.5")
     if label:
         sh.tag(8.60, 5.40, "SITE BOUNDARY", size=1.9, color=GREY)
 
 
+@fx.layer("A-ANNO-PATT")
 def _hatch(sh, x, y, w, d, pitch=0.9, color="#e2e2e2"):
     n = int((w + d) / pitch)
     for i in range(n + 1):
@@ -59,6 +61,7 @@ def neighbours(sh):
     sh.tag(20.5, 19.4, "NEIGHBOURING PLOT", size=2.4, color=LIGHT)
 
 
+@fx.layer("L-SITE")
 def street(sh, y0=-3.4):
     sh.rect(-1.5, y0, 26.5, -y0, fill="#f5f5f5", stroke="none", sw=0)
     sh.line(-1.5, 0.0, 25.0, 0.0, w=LW_SECONDARY, color=GREY)
@@ -113,17 +116,14 @@ def arch_note(sh, a, b, face, axis="h", side=1):
     direction it turns into: +1 = north / east, -1 = south / west.
     """
     r = (b - a) / 2.0
+    mid = (a + b) / 2.0
     if axis == "h":
-        (x0, y0), (x1, y1) = (a, face), (b, face)
-        sweep = 1 if side > 0 else 0
+        a0, a1 = (180, 0) if side > 0 else (180, 360)
+        cx, cy = mid, face
     else:
-        (x0, y0), (x1, y1) = (face, a), (face, b)
-        sweep = 0 if side > 0 else 1
-    rr = D.mm(r)
-    sh.raw(f'<path d="M {D.X(x0):.3f} {D.Y(y0):.3f} A {rr:.3f} {rr:.3f} '
-           f'0 0 {sweep} {D.X(x1):.3f} {D.Y(y1):.3f}" fill="none" '
-           f'stroke="{GREY}" stroke-width="{LW_HIDDEN}" '
-           f'stroke-dasharray="1.8 1.2"/>')
+        a0, a1 = (-90, 90) if side > 0 else (90, 270)
+        cx, cy = face, mid
+    sh.arc(cx, cy, r, a0, a1, sw=LW_HIDDEN, color=GREY, dash="1.8 1.2")
 
 
 OPENINGS = {
