@@ -227,5 +227,13 @@ the notes on sheets A-101 and A-102.
 
 ## Status
 
-Preliminary design issue, revision P1 — not for construction. Work to
+Preliminary design issue, revision **P2** — not for construction. Work to
 figured dimensions only; do not scale from the drawings.
+
+| Rev | Date | Issued for |
+| --- | ---- | ---------- |
+| P1  | 2026-09-18 | First issue |
+| P2  | 2026-09-24 | East boundary windows, 3.30 m floor heights, garden shown with the ground floor |
+
+The title block carries this record and stamps the build date, so a sheet
+always says which issue it is.

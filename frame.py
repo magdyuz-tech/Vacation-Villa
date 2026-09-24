@@ -12,7 +12,13 @@ PANEL_X = 580.0
 PANEL_R = 831.0
 PROJECT = "VACATION HOUSE — NEW BUILD"
 CLIENT = "PRIVATE CLIENT"
-REV = "P1"
+REV = "P2"
+# Revision record, newest last.  A revision letter is only useful if it
+# says what changed, so the title block prints this.
+REVISIONS = [
+    ("P1", "2026-09-18", "first issue"),
+    ("P2", None, "east windows, taller floors, garden on A-100"),
+]
 # The issue date, stamped at build time. Set SHEET_DATE to pin it when a
 # reproducible build matters.
 DATE = os.environ.get("SHEET_DATE") or _dt.date.today().isoformat()
@@ -191,6 +197,13 @@ def titleblock(sh, y0=468):
     sh.text_mm(PANEL_X + 3, y0 + 76,
                "Do not scale; work to figured dimensions only.",
                size=2.1, anchor="start", color=GREY)
+    sh.line_mm(PANEL_X, y0 + 82, PANEL_R, y0 + 82, w=0.3, color=GREY)
+    sh.text_mm(PANEL_X + 3, y0 + 89, "REVISIONS", size=2.0, anchor="start",
+               color=GREY, ls=0.4)
+    for i, (rev, when, what) in enumerate(REVISIONS):
+        sh.text_mm(PANEL_X + 44, y0 + 89 + i * 7.0,
+                   f"{rev}   {when or DATE}   {what}", size=2.1,
+                   anchor="start")
 
 
 def compass_and_scale(sh, x=440.0, y=500.0):
