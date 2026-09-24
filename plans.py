@@ -512,10 +512,13 @@ def sheet_first():
     sh.dim_h(A_X0, A_X1, 4.6, "6.50")
     sh.dim_h(A_X1, B_X1, 4.6, "5.00")
     sh.dim_v(A_Y0, A_Y1, 10.2, "12.50", ext_from=A_X0)
-    sh.dim_v(B_Y0, B_Y1, 24.4, "13.00", ext_from=B_X1)
-    sh.dim_v(B_Y0, 6.90, 25.6, "1.90")
-    sh.dim_v(6.90, 11.20, 25.6, "4.30")
-    sh.dim_v(11.20, B_Y1, 25.6, "6.80")
+    sh.dim_v(B_Y0, B_Y1, 24.9, "13.00", ext_from=B_X1)
+    sh.dim_v(B_Y0, 6.90, 26.3, "1.90")
+    sh.dim_v(6.90, 11.20, 26.3, "4.30")
+    sh.dim_v(11.20, B_Y1, 26.3, "6.80")
+    sh.tag(23.45, 12.90,
+           "OPENABLE WINDOWS TO EAST BOUNDARY   1.60 / 0.90 / 0.60 m",
+           size=2.0, color=INK, rot=-90)
     sh.dim_h(a_x0, ST_WALL_X, 18.6, "3.28")
     sh.level_tag(15.40, 8.55, "TERRACE +3.27")
     sh.level_tag(18.40, 5.75, "BALCONY +3.27")
@@ -630,9 +633,12 @@ def sheet_second():
     sh.dim_h(A_X0, A_X1, 4.6, "6.50")
     sh.dim_h(A_X1, B_X1, 4.6, "5.00")
     sh.dim_v(A_Y0, A_Y1, 10.2, "12.50", ext_from=A_X0)
-    sh.dim_v(B_Y0, B_Y1, 24.4, "13.00", ext_from=B_X1)
-    sh.dim_v(B_Y0, 10.60, 25.6, "5.60")
-    sh.dim_v(10.60, B_Y1, 25.6, "7.40")
+    sh.dim_v(B_Y0, B_Y1, 24.9, "13.00", ext_from=B_X1)
+    sh.dim_v(B_Y0, 10.60, 26.3, "5.60")
+    sh.dim_v(10.60, B_Y1, 26.3, "7.40")
+    sh.tag(23.45, 14.00,
+           "OPENABLE WINDOWS TO EAST BOUNDARY   0.70 / 1.10 / 1.10 m",
+           size=2.0, color=INK, rot=-90)
     sh.level_tag(13.3, 6.30, "TERRACE +6.57")
     sh.level_tag(19.10, 13.45, "FFL +6.60")
     sh.tag(17.25, 8.60, "ARCHED LINK BETWEEN TERRACES", size=1.7,

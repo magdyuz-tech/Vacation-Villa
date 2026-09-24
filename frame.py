@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 """frame.py - sheet border, title block, legend, notes and key panel."""
 
+import datetime as _dt
+import os
+
 from drafting import (Sheet, esc, SHEET_W, SHEET_H, INK, GREY, LIGHT, FONT,
                       LW_CUT, LW_SECONDARY, LW_FIXTURE, LW_THIN, LW_HIDDEN, S)
 import fixtures as fx
@@ -10,7 +13,9 @@ PANEL_R = 831.0
 PROJECT = "VACATION HOUSE — NEW BUILD"
 CLIENT = "PRIVATE CLIENT"
 REV = "P1"
-DATE = "2026-09-18"
+# The issue date, stamped at build time. Set SHEET_DATE to pin it when a
+# reproducible build matters.
+DATE = os.environ.get("SHEET_DATE") or _dt.date.today().isoformat()
 
 
 def border(sh):

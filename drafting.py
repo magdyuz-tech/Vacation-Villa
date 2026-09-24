@@ -228,27 +228,32 @@ class Sheet:
             self.arc(mid, hy, w, a0, a1, sw=LW_THIN, color=GREY)
 
     def window(self, a, b, wall_lo, wall_hi, axis, arched=False):
-        """Glazed opening: frame lines across the reveal + glass line."""
+        """Glazed opening: frame lines across the reveal + glass line.
+
+        Drawn in full-weight ink.  At 1:50 the wall is only 6 mm wide on the
+        sheet, so hairlines inside it read as an empty gap rather than as a
+        window -- these have to carry the same weight as the wall itself.
+        """
         t = wall_hi - wall_lo
         if axis == "h":
-            self.line(a, wall_lo, a, wall_hi, w=LW_SECONDARY)
-            self.line(b, wall_lo, b, wall_hi, w=LW_SECONDARY)
-            for f in (0.30, 0.70):
+            self.line(a, wall_lo, a, wall_hi, w=LW_CUT)
+            self.line(b, wall_lo, b, wall_hi, w=LW_CUT)
+            for f in (0.22, 0.78):
                 self.line(a, wall_lo + t * f, b, wall_lo + t * f,
-                          w=LW_FIXTURE)
+                          w=LW_SECONDARY)
             self.line(a, (wall_lo + wall_hi) / 2, b, (wall_lo + wall_hi) / 2,
-                      w=LW_THIN, color=GREY)
+                      w=LW_FIXTURE)
             if arched:
                 self.arc((a + b) / 2, (wall_lo + wall_hi) / 2, (b - a) / 2.4,
                          180, 0, sw=LW_THIN, color=LIGHT, dash="0.8 0.6")
         else:
-            self.line(wall_lo, a, wall_hi, a, w=LW_SECONDARY)
-            self.line(wall_lo, b, wall_hi, b, w=LW_SECONDARY)
-            for f in (0.30, 0.70):
+            self.line(wall_lo, a, wall_hi, a, w=LW_CUT)
+            self.line(wall_lo, b, wall_hi, b, w=LW_CUT)
+            for f in (0.22, 0.78):
                 self.line(wall_lo + t * f, a, wall_lo + t * f, b,
-                          w=LW_FIXTURE)
+                          w=LW_SECONDARY)
             self.line((wall_lo + wall_hi) / 2, a, (wall_lo + wall_hi) / 2, b,
-                      w=LW_THIN, color=GREY)
+                      w=LW_FIXTURE)
             if arched:
                 self.arc((wall_lo + wall_hi) / 2, (a + b) / 2, (b - a) / 2.4,
                          -90, 90, sw=LW_THIN, color=LIGHT, dash="0.8 0.6")

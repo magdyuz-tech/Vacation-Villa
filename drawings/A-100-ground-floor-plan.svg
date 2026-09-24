@@ -290,34 +290,34 @@
 <rect x="453.000" y="143.400" width="2.400" height="39.200" fill="#141414" stroke="#141414" stroke-width="0.05"/>
 <rect x="411.000" y="141.000" width="19.000" height="2.400" fill="#141414" stroke="#141414" stroke-width="0.05"/>
 <rect x="448.000" y="141.000" width="54.000" height="2.400" fill="#141414" stroke="#141414" stroke-width="0.05"/>
-<line x1="294.000" y1="325.000" x2="294.000" y2="319.000" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
-<line x1="322.000" y1="325.000" x2="322.000" y2="319.000" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
-<line x1="294.000" y1="323.200" x2="322.000" y2="323.200" stroke="#141414" stroke-width="0.2" stroke-linecap="butt"/>
-<line x1="294.000" y1="320.800" x2="322.000" y2="320.800" stroke="#141414" stroke-width="0.2" stroke-linecap="butt"/>
-<line x1="294.000" y1="322.000" x2="322.000" y2="322.000" stroke="#5d5d5d" stroke-width="0.13" stroke-linecap="butt"/>
+<line x1="294.000" y1="325.000" x2="294.000" y2="319.000" stroke="#141414" stroke-width="0.7" stroke-linecap="butt"/>
+<line x1="322.000" y1="325.000" x2="322.000" y2="319.000" stroke="#141414" stroke-width="0.7" stroke-linecap="butt"/>
+<line x1="294.000" y1="323.680" x2="322.000" y2="323.680" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
+<line x1="294.000" y1="320.320" x2="322.000" y2="320.320" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
+<line x1="294.000" y1="322.000" x2="322.000" y2="322.000" stroke="#141414" stroke-width="0.2" stroke-linecap="butt"/>
 <path d="M 294.000 319.000 A 14.000 14.000 0 0 1 322.000 319.000" fill="none" stroke="#5d5d5d" stroke-width="0.18" stroke-dasharray="1.8 1.2"/>
-<line x1="332.000" y1="325.000" x2="332.000" y2="319.000" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
-<line x1="354.000" y1="325.000" x2="354.000" y2="319.000" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
-<line x1="332.000" y1="323.200" x2="354.000" y2="323.200" stroke="#141414" stroke-width="0.2" stroke-linecap="butt"/>
-<line x1="332.000" y1="320.800" x2="354.000" y2="320.800" stroke="#141414" stroke-width="0.2" stroke-linecap="butt"/>
-<line x1="332.000" y1="322.000" x2="354.000" y2="322.000" stroke="#5d5d5d" stroke-width="0.13" stroke-linecap="butt"/>
+<line x1="332.000" y1="325.000" x2="332.000" y2="319.000" stroke="#141414" stroke-width="0.7" stroke-linecap="butt"/>
+<line x1="354.000" y1="325.000" x2="354.000" y2="319.000" stroke="#141414" stroke-width="0.7" stroke-linecap="butt"/>
+<line x1="332.000" y1="323.680" x2="354.000" y2="323.680" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
+<line x1="332.000" y1="320.320" x2="354.000" y2="320.320" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
+<line x1="332.000" y1="322.000" x2="354.000" y2="322.000" stroke="#141414" stroke-width="0.2" stroke-linecap="butt"/>
 <path d="M 332.000 319.000 A 11.000 11.000 0 0 1 354.000 319.000" fill="none" stroke="#5d5d5d" stroke-width="0.18" stroke-dasharray="1.8 1.2"/>
 <line x1="373.000" y1="325.000" x2="373.000" y2="319.000" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
 <line x1="395.000" y1="325.000" x2="395.000" y2="319.000" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
 <line x1="373.000" y1="322.000" x2="373.000" y2="300.000" stroke="#141414" stroke-width="0.2" stroke-linecap="butt"/>
 <path d="M 373.000 300.000 A 22.000 22.000 0 0 1 395.000 322.000" fill="none" stroke="#5d5d5d" stroke-width="0.13"/>
 <path d="M 373.000 319.000 A 11.000 11.000 0 0 1 395.000 319.000" fill="none" stroke="#5d5d5d" stroke-width="0.18" stroke-dasharray="1.8 1.2"/>
-<line x1="424.000" y1="325.000" x2="424.000" y2="319.000" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
-<line x1="452.000" y1="325.000" x2="452.000" y2="319.000" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
-<line x1="424.000" y1="323.200" x2="452.000" y2="323.200" stroke="#141414" stroke-width="0.2" stroke-linecap="butt"/>
-<line x1="424.000" y1="320.800" x2="452.000" y2="320.800" stroke="#141414" stroke-width="0.2" stroke-linecap="butt"/>
-<line x1="424.000" y1="322.000" x2="452.000" y2="322.000" stroke="#5d5d5d" stroke-width="0.13" stroke-linecap="butt"/>
+<line x1="424.000" y1="325.000" x2="424.000" y2="319.000" stroke="#141414" stroke-width="0.7" stroke-linecap="butt"/>
+<line x1="452.000" y1="325.000" x2="452.000" y2="319.000" stroke="#141414" stroke-width="0.7" stroke-linecap="butt"/>
+<line x1="424.000" y1="323.680" x2="452.000" y2="323.680" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
+<line x1="424.000" y1="320.320" x2="452.000" y2="320.320" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
+<line x1="424.000" y1="322.000" x2="452.000" y2="322.000" stroke="#141414" stroke-width="0.2" stroke-linecap="butt"/>
 <path d="M 424.000 319.000 A 14.000 14.000 0 0 1 452.000 319.000" fill="none" stroke="#5d5d5d" stroke-width="0.18" stroke-dasharray="1.8 1.2"/>
-<line x1="468.000" y1="325.000" x2="468.000" y2="319.000" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
-<line x1="494.000" y1="325.000" x2="494.000" y2="319.000" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
-<line x1="468.000" y1="323.200" x2="494.000" y2="323.200" stroke="#141414" stroke-width="0.2" stroke-linecap="butt"/>
-<line x1="468.000" y1="320.800" x2="494.000" y2="320.800" stroke="#141414" stroke-width="0.2" stroke-linecap="butt"/>
-<line x1="468.000" y1="322.000" x2="494.000" y2="322.000" stroke="#5d5d5d" stroke-width="0.13" stroke-linecap="butt"/>
+<line x1="468.000" y1="325.000" x2="468.000" y2="319.000" stroke="#141414" stroke-width="0.7" stroke-linecap="butt"/>
+<line x1="494.000" y1="325.000" x2="494.000" y2="319.000" stroke="#141414" stroke-width="0.7" stroke-linecap="butt"/>
+<line x1="468.000" y1="323.680" x2="494.000" y2="323.680" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
+<line x1="468.000" y1="320.320" x2="494.000" y2="320.320" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
+<line x1="468.000" y1="322.000" x2="494.000" y2="322.000" stroke="#141414" stroke-width="0.2" stroke-linecap="butt"/>
 <path d="M 468.000 319.000 A 13.000 13.000 0 0 1 494.000 319.000" fill="none" stroke="#5d5d5d" stroke-width="0.18" stroke-dasharray="1.8 1.2"/>
 <line x1="405.000" y1="299.000" x2="411.000" y2="299.000" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
 <line x1="405.000" y1="281.000" x2="411.000" y2="281.000" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
@@ -327,21 +327,21 @@
 <line x1="405.000" y1="187.000" x2="411.000" y2="187.000" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
 <line x1="408.000" y1="187.000" x2="426.000" y2="187.000" stroke="#141414" stroke-width="0.2" stroke-linecap="butt"/>
 <path d="M 426.000 187.000 A 18.000 18.000 0 0 1 408.000 205.000" fill="none" stroke="#5d5d5d" stroke-width="0.13"/>
-<line x1="349.600" y1="119.000" x2="352.000" y2="119.000" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
-<line x1="349.600" y1="91.000" x2="352.000" y2="91.000" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
-<line x1="350.320" y1="119.000" x2="350.320" y2="91.000" stroke="#141414" stroke-width="0.2" stroke-linecap="butt"/>
-<line x1="351.280" y1="119.000" x2="351.280" y2="91.000" stroke="#141414" stroke-width="0.2" stroke-linecap="butt"/>
-<line x1="350.800" y1="119.000" x2="350.800" y2="91.000" stroke="#5d5d5d" stroke-width="0.13" stroke-linecap="butt"/>
-<line x1="368.000" y1="133.000" x2="368.000" y2="130.600" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
-<line x1="392.000" y1="133.000" x2="392.000" y2="130.600" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
-<line x1="368.000" y1="132.280" x2="392.000" y2="132.280" stroke="#141414" stroke-width="0.2" stroke-linecap="butt"/>
-<line x1="368.000" y1="131.320" x2="392.000" y2="131.320" stroke="#141414" stroke-width="0.2" stroke-linecap="butt"/>
-<line x1="368.000" y1="131.800" x2="392.000" y2="131.800" stroke="#5d5d5d" stroke-width="0.13" stroke-linecap="butt"/>
-<line x1="405.000" y1="125.000" x2="411.000" y2="125.000" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
-<line x1="405.000" y1="93.000" x2="411.000" y2="93.000" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
-<line x1="406.800" y1="125.000" x2="406.800" y2="93.000" stroke="#141414" stroke-width="0.2" stroke-linecap="butt"/>
-<line x1="409.200" y1="125.000" x2="409.200" y2="93.000" stroke="#141414" stroke-width="0.2" stroke-linecap="butt"/>
-<line x1="408.000" y1="125.000" x2="408.000" y2="93.000" stroke="#5d5d5d" stroke-width="0.13" stroke-linecap="butt"/>
+<line x1="349.600" y1="119.000" x2="352.000" y2="119.000" stroke="#141414" stroke-width="0.7" stroke-linecap="butt"/>
+<line x1="349.600" y1="91.000" x2="352.000" y2="91.000" stroke="#141414" stroke-width="0.7" stroke-linecap="butt"/>
+<line x1="350.128" y1="119.000" x2="350.128" y2="91.000" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
+<line x1="351.472" y1="119.000" x2="351.472" y2="91.000" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
+<line x1="350.800" y1="119.000" x2="350.800" y2="91.000" stroke="#141414" stroke-width="0.2" stroke-linecap="butt"/>
+<line x1="368.000" y1="133.000" x2="368.000" y2="130.600" stroke="#141414" stroke-width="0.7" stroke-linecap="butt"/>
+<line x1="392.000" y1="133.000" x2="392.000" y2="130.600" stroke="#141414" stroke-width="0.7" stroke-linecap="butt"/>
+<line x1="368.000" y1="132.472" x2="392.000" y2="132.472" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
+<line x1="368.000" y1="131.128" x2="392.000" y2="131.128" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
+<line x1="368.000" y1="131.800" x2="392.000" y2="131.800" stroke="#141414" stroke-width="0.2" stroke-linecap="butt"/>
+<line x1="405.000" y1="125.000" x2="411.000" y2="125.000" stroke="#141414" stroke-width="0.7" stroke-linecap="butt"/>
+<line x1="405.000" y1="93.000" x2="411.000" y2="93.000" stroke="#141414" stroke-width="0.7" stroke-linecap="butt"/>
+<line x1="406.320" y1="125.000" x2="406.320" y2="93.000" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
+<line x1="409.680" y1="125.000" x2="409.680" y2="93.000" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
+<line x1="408.000" y1="125.000" x2="408.000" y2="93.000" stroke="#141414" stroke-width="0.2" stroke-linecap="butt"/>
 <line x1="362.000" y1="307.000" x2="364.400" y2="307.000" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
 <line x1="362.000" y1="277.000" x2="364.400" y2="277.000" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
 <path d="M 362.000 277.000 A 15.000 15.000 0 0 0 362.000 307.000" fill="none" stroke="#5d5d5d" stroke-width="0.18" stroke-dasharray="1.8 1.2"/>
@@ -684,7 +684,7 @@
 <text x="696.000" y="518.000" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#5d5d5d" text-anchor="start" font-weight="400" letter-spacing="0.4" style="">SCALE</text>
 <text x="696.000" y="525.000" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="start" font-weight="700" letter-spacing="0.0" style="">1:50 @ A1</text>
 <text x="766.000" y="518.000" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#5d5d5d" text-anchor="start" font-weight="400" letter-spacing="0.4" style="">DATE</text>
-<text x="766.000" y="525.000" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="start" font-weight="700" letter-spacing="0.0" style="">2026-09-18</text>
+<text x="766.000" y="525.000" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="start" font-weight="700" letter-spacing="0.0" style="">2026-09-24</text>
 <text x="583.000" y="537.000" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#5d5d5d" text-anchor="start" font-weight="400" letter-spacing="0.0" style="">Preliminary design issue — not for construction.</text>
 <text x="583.000" y="544.000" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#5d5d5d" text-anchor="start" font-weight="400" letter-spacing="0.0" style="">Do not scale; work to figured dimensions only.</text>
 </svg>
