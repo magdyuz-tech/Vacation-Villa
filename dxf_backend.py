@@ -188,6 +188,7 @@ class DXFSheet(D.Sheet):
 
     def text(self, x, y, s, size=2.4, anchor="middle", color=INK, weight=400,
              ls=0.0, rot=None, style=""):
+        size = max(D.MIN_TEXT, size)
         align = {"middle": TextEntityAlignment.MIDDLE_CENTER,
                  "start": TextEntityAlignment.MIDDLE_LEFT,
                  "end": TextEntityAlignment.MIDDLE_RIGHT}[anchor]
@@ -203,11 +204,11 @@ class DXFSheet(D.Sheet):
         cx, cy = at if at else (x + w / 2.0, y + h / 2.0)
         if area is None:
             area = w * h
-        rows = [(name.upper(), size)]
+        rows = [(name.upper(), max(D.MIN_TEXT, size))]
         if area and show_area:
-            rows.append((f"{area:.1f} m²", size - 0.45))
+            rows.append((f"{area:.1f} m²", max(D.MIN_TEXT, size - 0.45)))
         if sub:
-            rows.append((sub, size - 0.65))
+            rows.append((sub, max(D.MIN_TEXT, size - 0.65)))
         lead = [r[1] * 1.38 for r in rows]
         top = cy + (sum(lead) / 2.0) * self.s / 1000.0
         with self.on("A-ANNO-TEXT"):

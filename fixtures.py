@@ -250,10 +250,10 @@ def stair(sh, core, direction="up", floor_to_floor=3.00, label=True):
     x0, y0, x1, y1 = core
     well = 0.25
     flight_w = (x1 - x0 - well) / 2.0
-    risers = 17
+    risers = max(2, round(floor_to_floor / 0.175))   # ~175 mm target rise
     rise = floor_to_floor / risers
     going = 0.275
-    treads = 8                                   # per flight
+    treads = risers // 2                             # per flight
     run = treads * going
     landing_d = 1.30
     start_y = y1 - landing_d - run                # bottom of the up flight
@@ -286,7 +286,7 @@ def stair(sh, core, direction="up", floor_to_floor=3.00, label=True):
         sh.poly([(ax, hy + 0.16), (ax - 0.09, hy - 0.10),
                  (ax + 0.09, hy - 0.10)], fill=INK, stroke=INK, sw=LW_THIN)
         if label:
-            sh.tag(ax, start_y - 0.22, "UP", size=1.7)
+            sh.tag(ax, start_y + 0.22, "UP", size=1.7)
     if direction in ("dn", "both"):
         sh.line(dx, y1 - landing_d - 0.35, dx, start_y + 0.30, w=LW_FIXTURE,
                 color=INK)
@@ -294,9 +294,9 @@ def stair(sh, core, direction="up", floor_to_floor=3.00, label=True):
         sh.poly([(dx, hy - 0.16), (dx - 0.09, hy + 0.10),
                  (dx + 0.09, hy + 0.10)], fill=INK, stroke=INK, sw=LW_THIN)
         if label:
-            sh.tag(dx, start_y - 0.22, "DN", size=1.7)
+            sh.tag(dx, start_y + 0.22, "DN", size=1.7)
     sh.tag((x0 + x1) / 2, y1 - landing_d + 0.45,
-           f"{risers} RISERS @ {rise * 1000:.0f} × {going * 1000:.0f}",
+           f"{risers}R @ {rise * 1000:.0f} × {going * 1000:.0f}",
            size=1.6, color=LIGHT)
     return dict(risers=risers, rise=rise, going=going)
 

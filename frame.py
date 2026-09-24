@@ -5,7 +5,7 @@ from drafting import (Sheet, esc, SHEET_W, SHEET_H, INK, GREY, LIGHT, FONT,
                       LW_CUT, LW_SECONDARY, LW_FIXTURE, LW_THIN, LW_HIDDEN, S)
 import fixtures as fx
 
-PANEL_X = 545.0
+PANEL_X = 580.0
 PANEL_R = 831.0
 PROJECT = "VACATION HOUSE — NEW BUILD"
 CLIENT = "PRIVATE CLIENT"
@@ -28,12 +28,12 @@ def border(sh):
 
 
 def heading(sh):
-    sh.text_mm(PANEL_X, 30, sh.title.upper(), size=7.2, anchor="start",
+    sh.text_mm(PANEL_X, 30, sh.title.upper(), size=6.6, anchor="start",
                weight=700, ls=0.6)
-    sh.text_mm(PANEL_X, 38, f"LEVEL {sh.level}   ·   SCALE {sh.scale_note}"
-               "   ·   ALL DIMENSIONS IN METRES", size=2.6,
+    sh.text_mm(PANEL_X, 40, f"LEVEL {sh.level}   ·   {sh.scale_note}"
+               "   ·   METRES", size=2.6,
                anchor="start", color=GREY, ls=0.35)
-    sh.line_mm(PANEL_X, 42, PANEL_R, 42, w=0.5, color=INK)
+    sh.line_mm(PANEL_X, 46, PANEL_R, 46, w=0.5, color=INK)
 
 
 def legend(sh, y0=52):
@@ -41,7 +41,7 @@ def legend(sh, y0=52):
     sh.text_mm(PANEL_X, y0, "KEY", size=3.0, anchor="start", weight=700,
                ls=0.45)
     sh.line_mm(PANEL_X, y0 + 2.2, PANEL_R, y0 + 2.2, w=0.25, color=GREY)
-    y = y0 + 9
+    y = y0 + 12
     rows = [
         ("wall", "Masonry wall cut by section — 200 mm partition,"
                  " 300 mm external / party"),
@@ -55,9 +55,10 @@ def legend(sh, y0=52):
     ]
     for kind, txt in rows:
         _symbol(sh, PANEL_X + 1, y, kind)
-        sh.text_mm(PANEL_X + 30, y + 1.1, txt, size=2.25, anchor="start",
-                   color=INK)
-        y += 8.2
+        for k, line in enumerate(_wrap(txt, 46)):
+            sh.text_mm(PANEL_X + 30, y + 1.4 + k * 5.4, line, size=2.25,
+                       anchor="start", color=INK)
+        y += 11.5
     return y
 
 
@@ -106,8 +107,8 @@ def schedule(sh, y0, extra=()):
     sh.text_mm(PANEL_X, y0, "AREA SCHEDULE", size=3.0, anchor="start",
                weight=700, ls=0.45)
     sh.line_mm(PANEL_X, y0 + 2.2, PANEL_R, y0 + 2.2, w=0.25, color=GREY)
-    y = y0 + 7.6
-    col2 = PANEL_X + 150
+    y = y0 + 11.0
+    col2 = PANEL_X + 238
     total = 0.0
     for name, a in sh.schedule:
         sh.text_mm(PANEL_X + 1, y, name.upper(), size=2.3, anchor="start")
@@ -115,18 +116,18 @@ def schedule(sh, y0, extra=()):
         sh.line_mm(PANEL_X + 1, y + 1.4, col2, y + 1.4, w=0.12,
                    color="#e2e2e2")
         total += a
-        y += 5.0
+        y += 7.4
     sh.line_mm(PANEL_X, y - 2.2, col2, y - 2.2, w=0.4, color=INK)
-    y += 1.2
+    y += 2.4
     sh.text_mm(PANEL_X + 1, y, "TOTAL", size=2.5, anchor="start", weight=700)
     sh.text_mm(col2, y, f"{total:>6.1f} m²", size=2.5, anchor="end",
                weight=700)
-    y += 6.0
+    y += 8.5
     for label, val in extra:
         sh.text_mm(PANEL_X + 1, y, label.upper(), size=2.3, anchor="start",
                    color=GREY)
         sh.text_mm(col2, y, val, size=2.3, anchor="end", color=GREY)
-        y += 5.0
+        y += 7.4
     return y
 
 
@@ -134,14 +135,14 @@ def notes(sh, y0, items):
     sh.text_mm(PANEL_X, y0, "GENERAL NOTES", size=3.0, anchor="start",
                weight=700, ls=0.45)
     sh.line_mm(PANEL_X, y0 + 2.2, PANEL_R, y0 + 2.2, w=0.25, color=GREY)
-    y = y0 + 7.6
+    y = y0 + 11.0
     for i, t in enumerate(items, 1):
-        for j, line in enumerate(_wrap(t, 74)):
+        for j, line in enumerate(_wrap(t, 58)):
             sh.text_mm(PANEL_X + (1 if j else 1), y,
                        (f"{i}.  " if j == 0 else "     ") + line, size=2.2,
                        anchor="start")
-            y += 4.0
-        y += 1.2
+            y += 5.9
+        y += 3.0
     return y
 
 
@@ -157,36 +158,34 @@ def _wrap(t, n):
     return out
 
 
-def titleblock(sh, y0=490):
+def titleblock(sh, y0=468):
     h = SHEET_H - 20 - y0
     sh.rect_mm(PANEL_X, y0, PANEL_R - PANEL_X, h, sw=0.6, stroke=INK)
-    sh.line_mm(PANEL_X, y0 + 13, PANEL_R, y0 + 13, w=0.3, color=GREY)
-    sh.line_mm(PANEL_X, y0 + 34, PANEL_R, y0 + 34, w=0.3, color=GREY)
-    sh.line_mm(PANEL_X, y0 + 48, PANEL_R, y0 + 48, w=0.3, color=GREY)
-    sh.text_mm(PANEL_X + 3, y0 + 9, PROJECT, size=4.4, anchor="start",
+    sh.line_mm(PANEL_X, y0 + 16, PANEL_R, y0 + 16, w=0.3, color=GREY)
+    sh.line_mm(PANEL_X, y0 + 42, PANEL_R, y0 + 42, w=0.3, color=GREY)
+    sh.line_mm(PANEL_X, y0 + 60, PANEL_R, y0 + 60, w=0.3, color=GREY)
+    sh.text_mm(PANEL_X + 3, y0 + 11, PROJECT, size=5.2, anchor="start",
                weight=700, ls=0.5)
-    sh.text_mm(PANEL_R - 3, y0 + 9, CLIENT, size=2.4, anchor="end",
+    sh.text_mm(PANEL_R - 3, y0 + 11, CLIENT, size=2.4, anchor="end",
                color=GREY, ls=0.3)
-    sh.text_mm(PANEL_X + 3, y0 + 19, "DRAWING", size=2.0, anchor="start",
+    sh.text_mm(PANEL_X + 3, y0 + 24, "DRAWING", size=2.0, anchor="start",
                color=GREY, ls=0.4)
-    sh.text_mm(PANEL_X + 3, y0 + 29, sh.title.upper(), size=5.0,
+    sh.text_mm(PANEL_X + 3, y0 + 36, sh.title.upper(), size=5.6,
                anchor="start", weight=700, ls=0.4)
     cols = [(PANEL_X + 3, "DRAWING No", sh.number),
-            (PANEL_X + 72, "REVISION", REV),
-            (PANEL_X + 120, "SCALE", sh.scale_note),
-            (PANEL_X + 196, "DATE", DATE)]
+            (PANEL_X + 66, "REVISION", REV),
+            (PANEL_X + 116, "SCALE", sh.scale_note),
+            (PANEL_X + 186, "DATE", DATE)]
     for x, k, v in cols:
-        sh.text_mm(x, y0 + 40, k, size=2.0, anchor="start", color=GREY,
+        sh.text_mm(x, y0 + 50, k, size=2.0, anchor="start", color=GREY,
                    ls=0.4)
-        sh.text_mm(x, y0 + 46, v, size=3.0, anchor="start", weight=700)
-    sh.text_mm(PANEL_X + 3, y0 + 55,
-               "Preliminary design issue — not for construction.  "
-               "Do not scale from this drawing;", size=2.1, anchor="start",
-               color=GREY)
-    sh.text_mm(PANEL_X + 3, y0 + 59.5,
-               "work to figured dimensions only and verify all levels and "
-               "site boundaries before work.", size=2.1, anchor="start",
-               color=GREY)
+        sh.text_mm(x, y0 + 57, v, size=3.4, anchor="start", weight=700)
+    sh.text_mm(PANEL_X + 3, y0 + 69,
+               "Preliminary design issue — not for construction.",
+               size=2.1, anchor="start", color=GREY)
+    sh.text_mm(PANEL_X + 3, y0 + 76,
+               "Do not scale; work to figured dimensions only.",
+               size=2.1, anchor="start", color=GREY)
 
 
 def compass_and_scale(sh, x=440.0, y=500.0):

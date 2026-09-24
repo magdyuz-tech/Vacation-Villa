@@ -21,7 +21,8 @@ import frame as F
 from geometry import *          # noqa: F401,F403  (pure constants)
 
 SITE_ORIGIN = (155.0, 333.0)     # 1:75
-PLAN_ORIGIN = (-79.0, 480.0)     # 1:50
+PLAN_ORIGIN = (-79.0, 480.0)     # 1:50, upper floors
+GF_ORIGIN = (48.0, 425.0)        # 1:50, ground floor with the whole plot
 PARAPET_FILL = "#6f6f6f"
 
 GIA = {0: 121.8, 1: 94.7, 2: 41.5}
@@ -62,14 +63,18 @@ def neighbours(sh):
 
 
 @fx.layer("L-SITE")
-def street(sh, y0=-3.4):
-    sh.rect(-1.5, y0, 26.5, -y0, fill="#f5f5f5", stroke="none", sw=0)
-    sh.line(-1.5, 0.0, 25.0, 0.0, w=LW_SECONDARY, color=GREY)
+def street(sh, top=0.0, depth=3.4):
+    """Carriageway below the plot.  `top` lets it drop clear of the
+    dimension chains when the ground floor plan carries them."""
+    y0 = top - depth
+    sh.rect(-1.5, y0, 26.5, depth, fill="#f5f5f5", stroke="none", sw=0)
+    sh.line(-1.5, top, 25.0, top, w=LW_SECONDARY, color=GREY)
     sh.line(-1.5, y0, 25.0, y0, w=LW_THIN, color=LIGHT)
     for i in range(10):
         x = -0.6 + i * 2.7
-        sh.line(x, y0 / 2, x + 1.4, y0 / 2, w=LW_THIN, color=LIGHT)
-    sh.tag(11.5, y0 + 0.75, "S T R E E T", size=3.4, color=GREY)
+        sh.line(x, y0 + depth / 2, x + 1.4, y0 + depth / 2, w=LW_THIN,
+                color=LIGHT)
+    sh.tag(11.5, y0 + 0.85, "S T R E E T", size=3.4, color=GREY)
 
 
 def shell(sh, floor):
@@ -142,16 +147,10 @@ OPENINGS = {
 }
 
 
-# ===========================================================================
-# A-000  SITE PLAN
-# ===========================================================================
-def sheet_site():
-    D.set_scale(75, *SITE_ORIGIN)
-    sh = Sheet("A-000", "Site Plan", "+0.00", "1:75 @ A1")
-    F.border(sh)
-    neighbours(sh)
-    street(sh)
-
+@fx.layer("L-SITE")
+def garden(sh):
+    """The 23 m entrance corridor: walkway, planting, pergola,
+    barbecue, the private patio and the steps up to the house."""
     walk_y0, walk_y1 = 1.60, 3.40
     fx.paving(sh, 0.30, walk_y0, 16.30, walk_y1 - walk_y0, pitch=0.9)
     sh.rect(0.30, walk_y0, 16.30, walk_y1 - walk_y0, sw=LW_SECONDARY,
@@ -183,6 +182,22 @@ def sheet_site():
     sh.line(0.30, 1.40, 2.70, 1.40, w=LW_FIXTURE, color=INK)
     sh.tag(1.9, 5.35, "MAIN GATE", size=2.2, color=INK)
 
+    # the house stands 0.50 m above the garden
+    fx.steps(sh, WIN_B_1[0] - 0.05, 4.05, 1.50, 0.95, n=ENTRY_RISERS)
+
+
+# ===========================================================================
+# A-000  SITE PLAN
+# ===========================================================================
+def sheet_site():
+    D.set_scale(75, *SITE_ORIGIN)
+    sh = Sheet("A-000", "Site Plan", "+0.00", "1:75 @ A1")
+    F.border(sh)
+    neighbours(sh)
+    street(sh)
+
+    garden(sh)
+
     shell(sh, 0)
     sh.rect(a_x0, a_y0, a_x1 - a_x0, a_y1 - a_y0, fill="#f1f1f1",
             stroke="none", sw=0)
@@ -190,16 +205,16 @@ def sheet_site():
             stroke="none", sw=0)
     light_court(sh, 0, size=1.9)
     sh.room(a_x0, 7.0, 3.9, 4.0, "Block A — front", area=None,
-            sub="6.50 × 12.50 m · three storeys", size=2.9,
+            sub="6.50 × 12.50 m", size=2.9,
             schedule=False, show_area=False, at=(14.30, 9.60))
     sh.room(b_x0, 7.0, 4.55, 4.0, "Block B — rear", area=None,
-            sub="5.00 × 13.00 m · three storeys", size=2.9,
+            sub="5.00 × 13.00 m", size=2.9,
             schedule=False, show_area=False, at=(20.42, 9.60))
     sh.level_tag(12.9, 6.10, "FFL +0.00")
-    sh.level_tag(2.6, 2.05, "GARDEN −0.45")
+    sh.level_tag(2.2, 2.05, "GARDEN −0.50")
 
     boundary(sh)
-    sh.tag(7.6, 2.55, "ENTRANCE GARDEN CORRIDOR   23.00 × 5.00 m",
+    sh.tag(13.6, 2.55, "ENTRANCE GARDEN CORRIDOR   23.00 × 5.00 m",
            size=2.3, color=INK)
 
     sh.dim_h(0, 23.0, -4.8, "23.00", ext_from=0.0)
@@ -228,8 +243,9 @@ def sheet_site():
         "boundaries. The south elevation onto the garden is the only open "
         "facade, so a 2.65 × 2.48 m light court is cut through all "
         "three storeys to daylight the centre of the plan.",
-        "The garden falls 0.45 m from the house threshold to the gate. "
-        "Surface water to a soakaway within the planted border.",
+        "The ground floor sits 0.50 m above the garden, reached by three "
+        "risers at 167 mm at the entrance and at the patio doors. Surface "
+        "water to a soakaway within the planted border.",
         "No part of the new work oversails or undermines the adjoining "
         "plots; party wall notices to be served on the north, east and "
         "west owners before excavation.",
@@ -243,18 +259,16 @@ def sheet_site():
 # A-100  GROUND FLOOR
 # ===========================================================================
 def sheet_ground():
-    D.set_scale(50, *PLAN_ORIGIN)
+    D.set_scale(50, *GF_ORIGIN)
     sh = Sheet("A-100", "Ground Floor Plan", "+0.00", "1:50 @ A1")
     F.border(sh)
-
-    fx.paving(sh, 11.50, 2.60, 11.50, 2.40, pitch=0.9, color="#e8e8e8")
-    fx.steps(sh, DOOR_ENTRY[0] - 0.35, 4.05, 1.80, 0.95, n=3)
-    sh.tag(13.6, 3.35, "ENTRANCE GARDEN — SEE A-000", size=2.1,
-           color=GREY)
-    sh.tag(20.4, 3.35, "PRIVATE PATIO", size=2.1, color=GREY)
-    for bx in (11.50, 23.00):
-        sh.line(bx, 5.00, bx, 2.60, w=LW_THIN, color=LIGHT,
-                dash="6 1.5 1.2 1.5")
+    neighbours(sh)
+    street(sh, top=-3.4, depth=1.6)
+    garden(sh)
+    boundary(sh)
+    sh.level_tag(6.2, 2.25, "GARDEN −0.50")
+    sh.tag(0.55, 4.45, "ENTRANCE GARDEN CORRIDOR  23.00 × 5.00 m",
+           size=2.1, color=GREY, anchor="start")
 
     shell(sh, 0)
     sh.wall(15.70, a_y0, 15.82, 9.72, openings=[(5.90, 7.40)])
@@ -306,7 +320,6 @@ def sheet_ground():
     fx.counter(sh, 12.60, 14.60, 2.40, 0.65)
     for sx in (13.10, 13.80, 14.50):
         sh.circle(sx, 14.15, 0.22, stroke=GREY, sw=LW_FIXTURE)
-    sh.tag(13.80, 13.60, "BREAKFAST BAR", size=1.8, color=GREY)
     fx.stair(sh, (ST_X0, ST_Y0, ST_X1, ST_Y1), direction="up",
              floor_to_floor=FLOOR_TO_FLOOR)
     # tv lounge
@@ -328,39 +341,41 @@ def sheet_ground():
     fx.wardrobe(sh, 22.15, 14.35, 0.55, 3.20, axis="v")
 
     sh.room(a_x0, a_y0, 3.90, 5.30, "Living & Reception", area=22.8,
-            size=2.7, at=(13.85, 6.65))
-    sh.room(15.82, a_y0, 2.03, 2.50, "Entrance Foyer", area=5.4, size=2.1,
-            at=(16.85, 7.30))
+            size=2.5, at=(13.60, 8.80))
+    sh.room(15.82, a_y0, 2.03, 2.50, "Foyer", area=5.4, size=2.1,
+            sched_name="Entrance foyer", at=(16.83, 7.15))
     sh.room(15.82, 7.92, 2.03, 1.68, "Guest WC", area=3.9, size=2.0,
-            at=(16.45, 8.65))
+            at=(16.45, 8.45))
     sh.room(a_x0, 10.72, 3.28, 3.88, "Dining", area=12.7, size=2.5,
-            at=(13.44, 14.05))
+            at=(13.44, 11.08))
     sh.room(a_x0, 14.60, 3.28, 2.60, "Kitchen", area=8.5, size=2.5,
-            sub="open plan", at=(13.40, 15.85))
+            at=(13.20, 15.85))
     sh.room(ST_X0, ST_Y0, 2.65, 4.00, "Stair Hall", area=10.6, size=2.1,
-            show_area=False, at=(16.30, 10.92))
+            show_area=False, at=(16.52, 14.25))
     light_court(sh, 0)
-    sh.room(b_x0, b_y0, 4.55, 5.30, "TV Lounge", area=24.1, size=2.6,
-            at=(20.30, 6.45))
+    sh.room(b_x0, b_y0, 4.55, 5.30, "TV Lounge", area=24.1, size=2.5,
+            at=(20.30, 6.60))
     sh.room(b_x0, 10.72, 4.55, 1.28, "Corridor", area=5.8, size=1.9,
             at=(20.60, 11.36))
     sh.room(b_x0, 12.12, 2.10, 1.96, "Guest Bath", area=4.1, size=1.9,
-            at=(19.62, 12.60))
-    sh.room(20.37, 12.12, 2.33, 1.96, "Laundry & Store", area=4.6, size=1.9,
-            at=(21.35, 13.60))
-    sh.room(b_x0, 14.20, 4.55, 3.50, "Guest Bedroom", area=15.9, size=2.5,
-            at=(20.80, 15.05))
+            at=(19.30, 12.50))
+    sh.room(20.37, 12.12, 2.33, 1.96, "Laundry", area=4.6, size=1.9,
+            sched_name="Laundry & store", at=(21.20, 13.50))
+    sh.room(b_x0, 14.20, 4.55, 3.50, "Guest Bedroom", area=15.9, size=2.4,
+            at=(21.00, 14.90))
 
-    sh.dim_h(A_X0, B_X1, 1.0, "11.50", ext_from=A_Y0)
-    sh.dim_h(A_X0, A_X1, 2.2, "6.50")
-    sh.dim_h(A_X1, B_X1, 2.2, "5.00")
-    sh.dim_v(A_Y0, A_Y1, 10.2, "12.50", ext_from=A_X0)
-    sh.dim_v(B_Y0, B_Y1, 24.4, "13.00", ext_from=B_X1)
-    sh.dim_v(A_Y0, ST_Y0, 25.6, "5.60")
-    sh.dim_v(ST_Y0, ST_Y1, 25.6, "4.00")
-    sh.dim_v(ST_Y1, B_Y1, 25.6, "3.40")
+    sh.dim_h(0, PLOT_W, -2.6, "23.00", ext_from=0.0)
+    sh.dim_h(0, A_X0, -1.2, "11.50")
+    sh.dim_h(A_X0, A_X1, -1.2, "6.50")
+    sh.dim_h(A_X1, B_X1, -1.2, "5.00")
+    sh.dim_v(0, GARDEN_D, -1.0, "5.00", ext_from=0.0)
+    sh.dim_v(A_Y0, A_Y1, -1.0, "12.50")
+    sh.dim_v(B_Y0, B_Y1, 24.2, "13.00", ext_from=B_X1)
+    sh.dim_v(A_Y0, ST_Y0, 25.4, "5.60")
+    sh.dim_v(ST_Y0, ST_Y1, 25.4, "4.00")
+    sh.dim_v(ST_Y1, B_Y1, 25.4, "3.40")
     sh.dim_h(b_x0, 22.15, 18.6, "4.00")
-    sh.dim_v(14.20, 17.70, 23.5, "3.50")
+    sh.dim_v(14.20, 17.70, 23.4, "3.50")
     sh.level_tag(12.05, 10.15, "FFL +0.00")
     sh.level_tag(20.75, 7.45, "FFL +0.00")
 
@@ -368,12 +383,15 @@ def sheet_ground():
     y = F.legend(sh, 52)
     y = F.schedule(sh, y + 8, extra=[
         ("Gross internal area, this floor", f"{GIA[0]} m²"),
-        ("Slab to slab", "3.00 m")])
+        ("Slab to slab", "3.30 m · 3.00 m clear")])
     F.notes(sh, y + 6, [
         "Living, dining and kitchen read as one space, linked by 2.00 m and "
         "1.50 m wide arched openings; arch heads are shown dashed.",
         "South elevation glazing to the living room and TV lounge is arched "
         "and faces the 23 m garden corridor.",
+        "The ground floor sits 0.50 m above the garden: three risers at "
+        "167 mm at the entrance and at the patio doors. Garden level "
+        "−0.50, finished floor level +0.00.",
         "The east boundary wall is solid at this level: the adjoining owner "
         "may build up to 3.00 m against it. Every room here is ventilated "
         "from the garden elevation or the light court.",
@@ -384,7 +402,7 @@ def sheet_ground():
         "undercut 15 mm to draw make-up air from the corridor.",
         "Gross internal area excludes the light court.",
     ])
-    F.compass_and_scale(sh, x=470.0, y=500.0)
+    F.compass_and_scale(sh, x=500.0, y=548.0)
     F.titleblock(sh)
     return sh
 
@@ -394,7 +412,7 @@ def sheet_ground():
 # ===========================================================================
 def sheet_first():
     D.set_scale(50, *PLAN_ORIGIN)
-    sh = Sheet("A-101", "First Floor Plan", "+3.00", "1:50 @ A1")
+    sh = Sheet("A-101", "First Floor Plan", "+3.30", "1:50 @ A1")
     F.border(sh)
     shell(sh, 1)
     parapet(sh, A_X0, A_Y0, 17.85, A_Y0 + WT, openings=OPENINGS[1]["a_south"])
@@ -473,7 +491,7 @@ def sheet_first():
     sh.room(ST_X0, 8.32, 2.65, 2.28, "Family Bath", area=6.0, size=2.0,
             at=(16.55, 9.55))
     sh.room(ST_X0, ST_Y0, 2.65, 4.00, "Landing", area=10.6, size=2.1,
-            show_area=False, at=(16.52, 10.92))
+            show_area=False, at=(16.52, 14.25))
     sh.room(a_x0, 13.72, 3.28, 3.48, "Study / Nook", area=11.4, size=2.3,
             at=(13.40, 14.35))
     light_court(sh, 1)
@@ -483,8 +501,8 @@ def sheet_first():
             at=(21.30, 8.05))
     sh.room(b_x0, 11.32, 4.55, 1.40, "Suite Lobby", area=6.4, size=2.0,
             at=(20.35, 11.72))
-    sh.room(b_x0, 12.84, 2.15, 4.86, "Walk-in Dressing", area=10.4, size=2.1,
-            at=(19.20, 15.60))
+    sh.room(b_x0, 12.84, 2.15, 4.86, "Dressing", area=10.4, size=2.1,
+            sched_name="Walk-in dressing", at=(19.20, 15.60))
     sh.room(20.42, 12.84, 2.28, 2.76, "Ensuite", area=6.3, size=2.1,
             at=(21.55, 13.85))
     sh.room(20.42, 15.72, 2.28, 1.98, "Linen", area=4.5, size=1.8,
@@ -499,8 +517,8 @@ def sheet_first():
     sh.dim_v(6.90, 11.20, 25.6, "4.30")
     sh.dim_v(11.20, B_Y1, 25.6, "6.80")
     sh.dim_h(a_x0, ST_WALL_X, 18.6, "3.28")
-    sh.level_tag(16.30, 7.60, "TERRACE +2.97")
-    sh.level_tag(21.85, 5.75, "BALCONY +2.97")
+    sh.level_tag(15.40, 8.55, "TERRACE +3.27")
+    sh.level_tag(18.40, 5.75, "BALCONY +3.27")
 
     F.heading(sh)
     y = F.legend(sh, 52)
@@ -534,7 +552,7 @@ def sheet_first():
 # ===========================================================================
 def sheet_second():
     D.set_scale(50, *PLAN_ORIGIN)
-    sh = Sheet("A-102", "Second Floor & Roof Plan", "+6.00", "1:50 @ A1")
+    sh = Sheet("A-102", "Second Floor & Roof Plan", "+6.60", "1:50 @ A1")
     F.border(sh)
 
     parapet(sh, A_X0, A_Y0, 17.85, A_Y0 + WT, openings=OPENINGS[2]["a_south"])
@@ -597,14 +615,14 @@ def sheet_second():
     sh.room(a_x0, 10.60, 3.28, 4.00, "Roof Terrace", area=54.0, size=3.2,
             sub="open air · 1.10 m parapet", at=(13.45, 12.40))
     sh.room(ST_X0, ST_Y0, 2.65, 4.00, "Stair Head", area=10.6, size=2.1,
-            show_area=False, at=(16.52, 10.92))
+            show_area=False, at=(16.52, 14.25))
     light_court(sh, 2)
     sh.room(b_x0, b_y0, 4.55, 5.30, "Roof Terrace", area=24.1, size=2.6, sched_name="Roof terrace, block B",
             at=(20.42, 9.30))
     sh.room(b_x0, 10.72, 2.15, 2.28, "Kitchenette", area=4.9, size=2.0,
-            sub="coffee bar", at=(19.72, 11.55))
+            at=(19.20, 11.55))
     sh.room(20.42, 10.72, 2.28, 2.28, "Shower Room", area=5.2, size=1.8,
-            at=(21.02, 12.70))
+            at=(21.55, 12.60))
     sh.room(b_x0, 13.12, 4.55, 4.58, "Studio Suite", area=20.8, size=2.6,
             sub="independent guest suite", at=(20.35, 14.45))
 
@@ -615,8 +633,8 @@ def sheet_second():
     sh.dim_v(B_Y0, B_Y1, 24.4, "13.00", ext_from=B_X1)
     sh.dim_v(B_Y0, 10.60, 25.6, "5.60")
     sh.dim_v(10.60, B_Y1, 25.6, "7.40")
-    sh.level_tag(13.3, 6.30, "TERRACE +5.97")
-    sh.level_tag(19.10, 13.45, "FFL +6.00")
+    sh.level_tag(13.3, 6.30, "TERRACE +6.57")
+    sh.level_tag(19.10, 13.45, "FFL +6.60")
     sh.tag(17.25, 8.60, "ARCHED LINK BETWEEN TERRACES", size=1.7,
            color=GREY, rot=-90)
 

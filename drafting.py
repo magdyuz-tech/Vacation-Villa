@@ -28,6 +28,12 @@ LW_FIXTURE = 0.20    # sanitaryware, joinery, furniture
 LW_THIN = 0.13       # dimension lines, hatching, leaders
 LW_HIDDEN = 0.18     # elements above / below the cut plane
 
+# Minimum lettering height on the sheet.  The client asked for 12 point as a
+# floor; everything smaller is raised to it, and hierarchy is carried by
+# weight and colour rather than size.
+POINT = 25.4 / 72.0
+MIN_TEXT = 12.0 * POINT          # 4.23 mm
+
 INK = "#141414"
 GREY = "#5d5d5d"
 LIGHT = "#9a9a9a"
@@ -112,6 +118,7 @@ class Sheet:
 
     def text_mm(self, x, y, s, size=2.4, anchor="middle", color=INK,
                 weight=400, ls=0.0, rot=None, style=""):
+        size = max(MIN_TEXT, size)
         t = (f' transform="rotate({rot} {x:.3f} {y:.3f})"' if rot is not None
              else "")
         self.raw(f'<text x="{x:.3f}" y="{y:.3f}" font-family="{FONT}" '
@@ -254,11 +261,14 @@ class Sheet:
         cx, cy = at if at else (x + w / 2.0, y + h / 2.0)
         if area is None:
             area = w * h
-        rows = [(name.upper(), size, 700, INK, 0.18)]
+        # sizes are clamped here as well as in text_mm, so the leading
+        # matches the type that actually gets drawn
+        rows = [(name.upper(), max(MIN_TEXT, size), 700, INK, 0.18)]
         if area and show_area:
-            rows.append((f"{area:.1f} m²", size - 0.45, 400, GREY, 0.0))
+            rows.append((f"{area:.1f} m²", max(MIN_TEXT, size - 0.45),
+                         400, GREY, 0.0))
         if sub:
-            rows.append((sub, size - 0.65, 400, GREY, 0.0))
+            rows.append((sub, max(MIN_TEXT, size - 0.65), 400, GREY, 0.0))
         total = sum(r[1] * 1.38 for r in rows)
         yy = Y(cy) - total / 2.0 + rows[0][1]
         for txt, sz, wt, col, ls in rows:

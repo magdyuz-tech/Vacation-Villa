@@ -22,11 +22,13 @@ repository.
 | ------- | ------------------------- | ------ | ----- |
 | `A-000` | Site Plan                 | +0.00  | 1:75  |
 | `A-100` | Ground Floor Plan         | +0.00  | 1:50  |
-| `A-101` | First Floor Plan          | +3.00  | 1:50  |
-| `A-102` | Second Floor & Roof Plan  | +6.00  | 1:50  |
+| `A-101` | First Floor Plan          | +3.30  | 1:50  |
+| `A-102` | Second Floor & Roof Plan  | +6.60  | 1:50  |
 
 All sheets are ISO A1 landscape (841 × 594 mm) with a title block, key,
-area schedule, general notes, north point and graphic scale.
+area schedule, general notes, north point and graphic scale. A-100 covers
+the whole plot, so the garden corridor, barbecue, pergola and patio are
+drawn with the ground floor; A-101 and A-102 cover the building only.
 
 ## Which file to open, and in what
 
@@ -125,8 +127,19 @@ plot                               261.25 m²   site coverage 56 %
 ```
 
 External and party walls are 300 mm, internal partitions 120 mm, terrace
-parapets 250 mm × 1100 mm high. Floor to floor is 3.00 m; the stair is a
-17-riser dog-leg at 176 × 275 mm.
+parapets 250 mm × 1100 mm high.
+
+Clear ceiling height is **3.00 m**, the client's minimum. A 0.30 m
+structural zone puts the floors 3.30 m apart, so levels are +0.00,
++3.30 and +6.60, and the stair is a 19-riser dog-leg at 174 × 275 mm.
+
+The ground floor sits **0.50 m above the garden**: garden level −0.50,
+finished floor level +0.00, with three risers at 167 mm at the entrance
+and again at the patio doors onto the TV lounge.
+
+Lettering is set at a minimum of 12 point (4.23 mm on the sheet); the
+hierarchy between a room name, its area and its note is carried by
+weight and colour rather than size.
 
 ### A note on the survey sketch
 
@@ -156,8 +169,8 @@ from that:
 | Level  | Accommodation                                                                       | GIA       | External  |
 | ------ | ----------------------------------------------------------------------------------- | --------- | --------- |
 | +0.00  | Living & reception, dining, open kitchen with breakfast bar, TV lounge, guest bedroom (4.00 × 3.50 m clear), guest bath, guest WC, laundry | 121.8 m²  | —         |
-| +3.00  | Master suite (bedroom, ensuite, walk-in dressing, balcony), bedroom 2, family bathroom, study nook, front terrace | 94.7 m²   | 27.1 m²   |
-| +6.00  | Studio suite with its own shower room and kitchenette, roof terraces with timber pergolas | 41.5 m²   | 78.1 m²   |
+| +3.30  | Master suite (bedroom, ensuite, walk-in dressing, balcony), bedroom 2, family bathroom, study nook, front terrace | 94.7 m²   | 27.1 m²   |
+| +6.60  | Studio suite with its own shower room and kitchenette, roof terraces with timber pergolas | 41.5 m²   | 78.1 m²   |
 | **Total** |                                                                                  | **258.0 m²** | **105.2 m²** |
 
 ## Ventilation
@@ -170,11 +183,11 @@ Six openings were added on that wall:
 
 | Level  | Room          | Opening            |
 | ------ | ------------- | ------------------ |
-| +3.00  | Master bedroom| 1.60 m             |
-| +3.00  | Ensuite       | 0.90 m             |
-| +3.00  | Linen store   | 0.60 m             |
-| +6.00  | Shower room   | 0.70 m             |
-| +6.00  | Studio suite  | 1.10 m + 1.10 m    |
+| +3.30  | Master bedroom| 1.60 m             |
+| +3.30  | Ensuite       | 0.90 m             |
+| +3.30  | Linen store   | 0.60 m             |
+| +6.60  | Shower room   | 0.70 m             |
+| +6.60  | Studio suite  | 1.10 m + 1.10 m    |
 
 What that changes: the master bedroom and the studio suite now cross
 ventilate (balcony to east window, and light court to east windows), and the
@@ -191,14 +204,14 @@ Every room, after the change:
 | TV lounge  +0.00            | 2 arched openings, garden         | single sided, 5.3 m deep |
 | Guest bedroom  +0.00        | light court                       | single sided, door undercut |
 | Guest WC / bath / laundry  +0.00 | —                            | mechanical extract, 6 ACH |
-| Bedroom 2  +3.00            | glazed door to front terrace      | single sided, 4.5 m deep |
-| Family bathroom  +3.00      | front terrace                     | natural                |
-| Study nook, dressing  +3.00 | light court                       | natural                |
-| Master bedroom  +3.00       | balcony **and** east window       | **cross ventilated**   |
-| Ensuite, linen  +3.00       | east windows                      | **natural**            |
-| Kitchenette  +6.00          | door to roof terrace              | natural                |
-| Shower room  +6.00          | east window                       | **natural**            |
-| Studio suite  +6.00         | light court **and** 2 east windows| **cross ventilated**   |
+| Bedroom 2  +3.30            | glazed door to front terrace      | single sided, 4.5 m deep |
+| Family bathroom  +3.30      | front terrace                     | natural                |
+| Study nook, dressing  +3.30 | light court                       | natural                |
+| Master bedroom  +3.30       | balcony **and** east window       | **cross ventilated**   |
+| Ensuite, linen  +3.30       | east windows                      | **natural**            |
+| Kitchenette  +6.60          | door to roof terrace              | natural                |
+| Shower room  +6.60          | east window                       | **natural**            |
+| Studio suite  +6.60         | light court **and** 2 east windows| **cross ventilated**   |
 
 The four rooms that remain single sided are all shallower than 2.5 × their
 ceiling height (5.7 m, 5.3 m, 4.5 m and 3.5 m deep against a 2.70 m ceiling),

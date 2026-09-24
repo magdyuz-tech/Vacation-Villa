@@ -53,10 +53,18 @@ ST_WALL_X = 15.08                      # west wall of the stair enclosure
 CT_X0, CT_X1 = 15.20, 17.85            # light court / void, clear
 CT_Y0, CT_Y1 = 14.72, 17.20            # 2.65 x 2.48 = 6.6 m2, open to sky
 
-FLOOR_TO_FLOOR = 3.00
+# 3.00 m clear ceiling height is the client's minimum; the structural zone
+# (slab plus floor build-up) adds 0.30 m, so floors are 3.30 m apart.
+CLEAR_HEIGHT = 3.00
+STRUCTURAL_ZONE = 0.30
+FLOOR_TO_FLOOR = CLEAR_HEIGHT + STRUCTURAL_ZONE          # 3.30 m
+
+# the ground floor sits 0.50 m above the garden, reached by three risers
+GARDEN_LEVEL = -0.50
+ENTRY_RISERS = 3
 
 # levels
-LEVELS = {0: "+0.00", 1: "+3.00", 2: "+6.00"}
+LEVELS = {0: "+0.00", 1: "+3.30", 2: "+6.60"}
 
 # ---------------------------------------------------------------------------
 # openings in the south (garden) elevation - x ranges
