@@ -70,6 +70,20 @@ WIN_B_2 = (21.00, 22.30)       # TV lounge, arched
 # window from block B onto the light court, through the party wall
 CT_WIN_B = (15.00, 16.60)
 
+# ---------------------------------------------------------------------------
+# openings in the east boundary wall - y ranges
+# ---------------------------------------------------------------------------
+# The adjoining owner to the east is limited to 3.00 m in height, so that
+# wall is free to open above first floor level and is used to cross
+# ventilate block B.  It stays solid at ground floor, where a 3.00 m
+# neighbouring building may be built against it.
+WIN_E_MASTER = (8.60, 10.20)      # master bedroom, +3.00
+WIN_E_ENSUITE = (14.40, 15.30)    # master ensuite, +3.00
+WIN_E_LINEN = (16.65, 17.25)      # linen store, +3.00
+WIN_E_SHOWER = (11.05, 11.75)     # studio shower room, +6.00
+WIN_E_STUDIO_1 = (14.40, 15.50)   # studio suite, +6.00
+WIN_E_STUDIO_2 = (16.00, 17.10)   # studio suite, +6.00
+
 
 def area(x0, y0, x1, y1):
     return (x1 - x0) * (y1 - y0)

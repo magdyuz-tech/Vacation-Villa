@@ -34,7 +34,10 @@
 <rect x="284.000" y="374.000" width="9.000" height="6.000" fill="#141414" stroke="#141414" stroke-width="0.05"/>
 <rect x="323.000" y="374.000" width="16.000" height="6.000" fill="#141414" stroke="#141414" stroke-width="0.05"/>
 <rect x="369.000" y="374.000" width="12.000" height="6.000" fill="#141414" stroke="#141414" stroke-width="0.05"/>
-<rect x="375.000" y="120.000" width="6.000" height="260.000" fill="#141414" stroke="#141414" stroke-width="0.05"/>
+<rect x="375.000" y="308.000" width="6.000" height="72.000" fill="#141414" stroke="#141414" stroke-width="0.05"/>
+<rect x="375.000" y="192.000" width="6.000" height="84.000" fill="#141414" stroke="#141414" stroke-width="0.05"/>
+<rect x="375.000" y="147.000" width="6.000" height="27.000" fill="#141414" stroke="#141414" stroke-width="0.05"/>
+<rect x="375.000" y="120.000" width="6.000" height="15.000" fill="#141414" stroke="#141414" stroke-width="0.05"/>
 <rect x="284.000" y="120.000" width="97.000" height="6.000" fill="#141414" stroke="#141414" stroke-width="0.05"/>
 <rect x="151.000" y="374.000" width="10.000" height="6.000" fill="#6f6f6f" stroke="#6f6f6f" stroke-width="0.05"/>
 <rect x="193.000" y="374.000" width="8.000" height="6.000" fill="#6f6f6f" stroke="#6f6f6f" stroke-width="0.05"/>
@@ -93,6 +96,21 @@
 <line x1="279.800" y1="180.000" x2="279.800" y2="148.000" stroke="#141414" stroke-width="0.2" stroke-linecap="butt"/>
 <line x1="282.200" y1="180.000" x2="282.200" y2="148.000" stroke="#141414" stroke-width="0.2" stroke-linecap="butt"/>
 <line x1="281.000" y1="180.000" x2="281.000" y2="148.000" stroke="#5d5d5d" stroke-width="0.13" stroke-linecap="butt"/>
+<line x1="375.000" y1="308.000" x2="381.000" y2="308.000" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
+<line x1="375.000" y1="276.000" x2="381.000" y2="276.000" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
+<line x1="376.800" y1="308.000" x2="376.800" y2="276.000" stroke="#141414" stroke-width="0.2" stroke-linecap="butt"/>
+<line x1="379.200" y1="308.000" x2="379.200" y2="276.000" stroke="#141414" stroke-width="0.2" stroke-linecap="butt"/>
+<line x1="378.000" y1="308.000" x2="378.000" y2="276.000" stroke="#5d5d5d" stroke-width="0.13" stroke-linecap="butt"/>
+<line x1="375.000" y1="192.000" x2="381.000" y2="192.000" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
+<line x1="375.000" y1="174.000" x2="381.000" y2="174.000" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
+<line x1="376.800" y1="192.000" x2="376.800" y2="174.000" stroke="#141414" stroke-width="0.2" stroke-linecap="butt"/>
+<line x1="379.200" y1="192.000" x2="379.200" y2="174.000" stroke="#141414" stroke-width="0.2" stroke-linecap="butt"/>
+<line x1="378.000" y1="192.000" x2="378.000" y2="174.000" stroke="#5d5d5d" stroke-width="0.13" stroke-linecap="butt"/>
+<line x1="375.000" y1="147.000" x2="381.000" y2="147.000" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
+<line x1="375.000" y1="135.000" x2="381.000" y2="135.000" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
+<line x1="376.800" y1="147.000" x2="376.800" y2="135.000" stroke="#141414" stroke-width="0.2" stroke-linecap="butt"/>
+<line x1="379.200" y1="147.000" x2="379.200" y2="135.000" stroke="#141414" stroke-width="0.2" stroke-linecap="butt"/>
+<line x1="378.000" y1="147.000" x2="378.000" y2="135.000" stroke="#5d5d5d" stroke-width="0.13" stroke-linecap="butt"/>
 <line x1="165.000" y1="300.000" x2="165.000" y2="297.600" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
 <line x1="193.000" y1="300.000" x2="193.000" y2="297.600" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
 <line x1="165.000" y1="299.280" x2="193.000" y2="299.280" stroke="#141414" stroke-width="0.2" stroke-linecap="butt"/>
@@ -404,8 +422,14 @@
 <text x="546.000" y="245.200" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="2.2" fill="#141414" text-anchor="start" font-weight="400" letter-spacing="0.0" style="">     outlets at the parapet.</text>
 <text x="546.000" y="250.400" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="2.2" fill="#141414" text-anchor="start" font-weight="400" letter-spacing="0.0" style="">3.  The master suite occupies block B with the bedroom on the garden side; the</text>
 <text x="546.000" y="254.400" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="2.2" fill="#141414" text-anchor="start" font-weight="400" letter-spacing="0.0" style="">     dressing room is daylit from the light court.</text>
-<text x="546.000" y="259.600" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="2.2" fill="#141414" text-anchor="start" font-weight="400" letter-spacing="0.0" style="">4.  All bedroom doors give 900 mm clear opening, and the landing holds a 1.10</text>
-<text x="546.000" y="263.600" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="2.2" fill="#141414" text-anchor="start" font-weight="400" letter-spacing="0.0" style="">     m clear route to the stair.</text>
+<text x="546.000" y="259.600" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="2.2" fill="#141414" text-anchor="start" font-weight="400" letter-spacing="0.0" style="">4.  East boundary openings: the adjoining plot is limited to 3.00 m in height,</text>
+<text x="546.000" y="263.600" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="2.2" fill="#141414" text-anchor="start" font-weight="400" letter-spacing="0.0" style="">     so the east wall is opened above that level. The master bedroom cross</text>
+<text x="546.000" y="267.600" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="2.2" fill="#141414" text-anchor="start" font-weight="400" letter-spacing="0.0" style="">     ventilates between the balcony and its east window, and the ensuite and</text>
+<text x="546.000" y="271.600" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="2.2" fill="#141414" text-anchor="start" font-weight="400" letter-spacing="0.0" style="">     linen store are naturally ventilated.</text>
+<text x="546.000" y="276.800" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="2.2" fill="#141414" text-anchor="start" font-weight="400" letter-spacing="0.0" style="">5.  Openings in a boundary wall are subject to local fire separation and</text>
+<text x="546.000" y="280.800" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="2.2" fill="#141414" text-anchor="start" font-weight="400" letter-spacing="0.0" style="">     rights of light rules; confirm before construction.</text>
+<text x="546.000" y="286.000" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="2.2" fill="#141414" text-anchor="start" font-weight="400" letter-spacing="0.0" style="">6.  All bedroom doors give 900 mm clear opening, and the landing holds a 1.10</text>
+<text x="546.000" y="290.000" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="2.2" fill="#141414" text-anchor="start" font-weight="400" letter-spacing="0.0" style="">     m clear route to the stair.</text>
 <circle cx="470.0" cy="490.0" r="10.0" fill="none" stroke="#5d5d5d" stroke-width="0.13"/>
 <polygon points="470.0,478.0 465.8,496.2 470.0,491.8 " fill="#141414" stroke="#141414" stroke-width="0.2"/>
 <polygon points="470.0,478.0 474.2,496.2 470.0,491.8 " fill="none" stroke="#141414" stroke-width="0.35"/>

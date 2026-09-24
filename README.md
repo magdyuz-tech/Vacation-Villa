@@ -160,6 +160,58 @@ from that:
 | +6.00  | Studio suite with its own shower room and kitchenette, roof terraces with timber pergolas | 41.5 m²   | 78.1 m²   |
 | **Total** |                                                                                  | **258.0 m²** | **105.2 m²** |
 
+## Ventilation
+
+The east neighbour is limited to 3.00 m in height, so the east boundary wall
+is opened above that level and used to cross ventilate block B. It stays
+solid at ground floor, where a 3.00 m building may be built against it.
+
+Six openings were added on that wall:
+
+| Level  | Room          | Opening            |
+| ------ | ------------- | ------------------ |
+| +3.00  | Master bedroom| 1.60 m             |
+| +3.00  | Ensuite       | 0.90 m             |
+| +3.00  | Linen store   | 0.60 m             |
+| +6.00  | Shower room   | 0.70 m             |
+| +6.00  | Studio suite  | 1.10 m + 1.10 m    |
+
+What that changes: the master bedroom and the studio suite now cross
+ventilate (balcony to east window, and light court to east windows), and the
+master ensuite and the studio shower room are naturally ventilated instead of
+relying on mechanical extract.
+
+Every room, after the change:
+
+| Room                        | Opens onto                        | Ventilation           |
+| --------------------------- | --------------------------------- | --------------------- |
+| Living & reception  +0.00   | 2 arched windows, garden          | single sided, 5.7 m deep |
+| Dining  +0.00               | open plan to living and kitchen   | cross path, south to court |
+| Kitchen  +0.00              | light court                       | natural, plus hob extract |
+| TV lounge  +0.00            | 2 arched openings, garden         | single sided, 5.3 m deep |
+| Guest bedroom  +0.00        | light court                       | single sided, door undercut |
+| Guest WC / bath / laundry  +0.00 | —                            | mechanical extract, 6 ACH |
+| Bedroom 2  +3.00            | glazed door to front terrace      | single sided, 4.5 m deep |
+| Family bathroom  +3.00      | front terrace                     | natural                |
+| Study nook, dressing  +3.00 | light court                       | natural                |
+| Master bedroom  +3.00       | balcony **and** east window       | **cross ventilated**   |
+| Ensuite, linen  +3.00       | east windows                      | **natural**            |
+| Kitchenette  +6.00          | door to roof terrace              | natural                |
+| Shower room  +6.00          | east window                       | **natural**            |
+| Studio suite  +6.00         | light court **and** 2 east windows| **cross ventilated**   |
+
+The four rooms that remain single sided are all shallower than 2.5 × their
+ceiling height (5.7 m, 5.3 m, 4.5 m and 3.5 m deep against a 2.70 m ceiling),
+which is the usual limit for single-sided ventilation to work. The light
+court runs the full 9 m height of the building and is open at the top, so it
+also acts as a stack for the rooms that open onto it.
+
+Openings in a boundary wall are subject to local fire separation and rights
+of light rules, whatever the neighbour's height is limited to — worth
+confirming with the local code before construction. The drawings say so in
+the notes on sheets A-101 and A-102.
+
+
 ## Status
 
 Preliminary design issue, revision P1 — not for construction. Work to

@@ -79,7 +79,7 @@ def shell(sh, floor):
     sh.wall(A_X0, A_Y1 - WT, 17.85, A_Y1)
     sh.wall(PARTY_X0, A_Y0, PARTY_X1, B_Y1, openings=o["party"])
     sh.wall(b_x0, B_Y0, B_X1, B_Y0 + WT, openings=o["b_south"])
-    sh.wall(B_X1 - WT, B_Y0, B_X1, B_Y1)
+    sh.wall(B_X1 - WT, B_Y0, B_X1, B_Y1, openings=o["b_east"])
     sh.wall(b_x0, B_Y1 - WT, B_X1, B_Y1)
 
 
@@ -129,13 +129,16 @@ def arch_note(sh, a, b, face, axis="h", side=1):
 OPENINGS = {
     0: dict(a_south=[WIN_A_1, WIN_A_2, DOOR_ENTRY],
             b_south=[WIN_B_1, WIN_B_2],
-            party=[(6.30, 7.20), (11.00, 11.90), CT_WIN_B]),
+            party=[(6.30, 7.20), (11.00, 11.90), CT_WIN_B],
+            b_east=[]),
     1: dict(a_south=[(12.00, 13.60), (14.00, 15.40), (16.10, 17.50)],
             b_south=[(18.60, 20.10), (20.90, 22.40)],
-            party=[(11.40, 12.30), CT_WIN_B]),
+            party=[(11.40, 12.30), CT_WIN_B],
+            b_east=[WIN_E_MASTER, WIN_E_ENSUITE, WIN_E_LINEN]),
     2: dict(a_south=[(12.00, 13.60), (14.00, 15.40), (16.10, 17.50)],
             b_south=[(18.60, 20.10), (20.90, 22.40)],
-            party=[(8.00, 9.20), (11.40, 12.30), CT_WIN_B]),
+            party=[(8.00, 9.20), (11.40, 12.30), CT_WIN_B],
+            b_east=[WIN_E_SHOWER, WIN_E_STUDIO_1, WIN_E_STUDIO_2]),
 }
 
 
@@ -371,10 +374,14 @@ def sheet_ground():
         "1.50 m wide arched openings; arch heads are shown dashed.",
         "South elevation glazing to the living room and TV lounge is arched "
         "and faces the 23 m garden corridor.",
+        "The east boundary wall is solid at this level: the adjoining owner "
+        "may build up to 3.00 m against it. Every room here is ventilated "
+        "from the garden elevation or the light court.",
         "Guest bath and laundry are internal rooms: mechanical extract to "
         "the light court at six air changes per hour.",
-        "The guest bedroom takes daylight from the light court through the "
-        "party wall, and is 4.00 × 3.50 m clear of the fitted wardrobe.",
+        "The guest bedroom is single sided onto the light court, and is "
+        "4.00 × 3.50 m clear of the fitted wardrobe. Its door is "
+        "undercut 15 mm to draw make-up air from the corridor.",
         "Gross internal area excludes the light court.",
     ])
     F.compass_and_scale(sh, x=470.0, y=500.0)
@@ -414,6 +421,8 @@ def sheet_first():
 
     sh.door(11.40, 12.30, PARTY_X0, PARTY_X1, "v", hinge="lo", swing="right")
     core_openings(sh)
+    for a, b in OPENINGS[1]["b_east"]:
+        sh.window(a, b, B_X1 - WT, B_X1, "v")
     sh.window(12.20, 13.60, 9.00, 9.12, "h")
     arch_note(sh, 12.20, 13.60, 9.12, side=1)
     sh.window(19.40, 20.90, 6.90, 7.02, "h")
@@ -506,6 +515,12 @@ def sheet_first():
         "to outlets at the parapet.",
         "The master suite occupies block B with the bedroom on the garden "
         "side; the dressing room is daylit from the light court.",
+        "East boundary openings: the adjoining plot is limited to 3.00 m in "
+        "height, so the east wall is opened above that level. The master "
+        "bedroom cross ventilates between the balcony and its east window, "
+        "and the ensuite and linen store are naturally ventilated.",
+        "Openings in a boundary wall are subject to local fire separation "
+        "and rights of light rules; confirm before construction.",
         "All bedroom doors give 900 mm clear opening, and the landing "
         "holds a 1.10 m clear route to the stair.",
     ])
@@ -528,7 +543,7 @@ def sheet_second():
     sh.wall(PARTY_X0, A_Y0, PARTY_X1, B_Y1, openings=OPENINGS[2]["party"])
     parapet(sh, b_x0, B_Y0, B_X1, B_Y0 + WT, openings=OPENINGS[2]["b_south"])
     parapet(sh, B_X1 - PARAPET, B_Y0, B_X1, 10.72)
-    sh.wall(B_X1 - WT, 10.60, B_X1, B_Y1)
+    sh.wall(B_X1 - WT, 10.60, B_X1, B_Y1, openings=OPENINGS[2]["b_east"])
     sh.wall(b_x0, B_Y1 - WT, B_X1, B_Y1)
     for a, b in OPENINGS[2]["a_south"]:
         arch_note(sh, a, b, A_Y0 + WT, side=1)
@@ -545,6 +560,8 @@ def sheet_second():
     sh.door(16.30, 17.10, ST_Y0, ST_Y0 + PT, "h", hinge="lo", swing="down")
     sh.door(11.40, 12.30, PARTY_X0, PARTY_X1, "v", hinge="lo", swing="right")
     core_openings(sh)
+    for a, b in OPENINGS[2]["b_east"]:
+        sh.window(a, b, B_X1 - WT, B_X1, "v")
     sh.door(18.60, 19.50, 10.60, 10.72, "h", hinge="lo", swing="down")
     sh.door(18.70, 19.60, 13.00, 13.12, "h", hinge="lo", swing="up")
     sh.door(11.60, 12.40, 20.30, 20.42, "v", hinge="lo", swing="right")
@@ -568,9 +585,9 @@ def sheet_second():
     fx.sink(sh, 18.45, 10.80)
     sh.rect(19.45, 10.80, 0.55, 0.50, sw=LW_FIXTURE, stroke=GREY)
     fx.fridge(sh, 19.50, 12.25, 0.65, 0.65)
-    fx.shower(sh, 21.70, 11.95, 0.95, 0.95)
+    fx.shower(sh, 21.70, 11.90, 1.00, 1.00)
     fx.wc(sh, 21.00, 10.72, facing="n")
-    fx.basin(sh, 22.70, 11.20, w=0.55, d=0.45, facing="w")
+    fx.basin(sh, 22.10, 10.72, w=0.55, d=0.45, facing="n")
     fx.bed(sh, 19.65, 15.55, 1.80, 2.10, head="n")
     for bx in (19.05, 21.55):
         sh.rect(bx, 17.15, 0.50, 0.45, sw=LW_FIXTURE, stroke=GREY)
@@ -617,6 +634,11 @@ def sheet_second():
         "The studio suite is self-contained, with its own shower room and "
         "kitchenette, and is entered from the stair head without crossing "
         "the family floor below.",
+        "The studio cross ventilates between the light court on the west "
+        "and two east windows; the shower room has an openable east window "
+        "in place of mechanical extract. East boundary openings are "
+        "subject to local fire separation and rights of light rules; "
+        "confirm before construction.",
         "Roof falls 1:60 to rainwater outlets at the parapet; "
         "waterproofing turned up 150 mm minimum behind the terrace finish.",
     ])
