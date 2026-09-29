@@ -13,6 +13,12 @@ Revision P3 converts the three-storey house into a four-storey building:
     +6.60   two one-bedroom apartments (identical to +3.30)
     +9.90   two-bedroom apartment, south terrace and north terrace
 
+Only the WEST boundary is built against.  The client confirms that the
+north and east boundaries are open to the environment and may be windowed;
+the adjoining owner to the east will not build above 3.00 m.  The west
+wall is therefore the only blind elevation, and it is opened over the
+1.50 m where it faces the plot's own garden corridor.
+
 Three set-out changes came with it:
 
   * The north boundary is taken as a straight line at y = 18.00.  The
@@ -88,8 +94,12 @@ LF_Y0, LF_Y1 = 7.30, 8.86              # 1.70 x 1.56
 RS_X0, RS_X1 = 17.20, 17.85            # services riser cupboard
 RS_Y0, RS_Y1 = 7.30, 8.86              # 0.65 x 1.56, opens off the lobby
 
-CT_X0, CT_X1 = 15.40, 17.85            # light court / void, clear
-CT_Y0, CT_Y1 = 14.72, 17.70            # 2.45 x 2.98 = 7.3 m2, open to sky
+# Revision P4 removes the light court that used to fill the core's north
+# end (2.45 x 2.98, open to sky on every floor).  It was there only because
+# the north and east boundaries were taken as blind; with both open to the
+# environment the same rooms are daylit from their own external walls, and
+# the 7.3 m2 a floor comes back as usable area.
+CORE_N = 14.72                         # north face of the stair enclosure
 
 # 3.00 m clear ceiling height is the client's minimum; the structural zone
 # (flat slab plus floor build-up) adds 0.30 m, so floors are 3.30 m apart.
@@ -136,19 +146,31 @@ UP_B_SOUTH = [(18.60, 20.40), (21.00, 22.40)]
 WIN_W_LIVING = (3.95, 4.85)
 
 # ---------------------------------------------------------------------------
-# openings in the east boundary wall - y ranges
+# openings in the east wall - y ranges
 # ---------------------------------------------------------------------------
-# The adjoining owner to the east is limited to 3.00 m in height, so that
-# wall is free to open above first floor level.  It stays solid at ground
-# floor, where a 3.00 m neighbouring building may be built against it.
-WIN_E_BATH = (9.70, 10.55)        # apartment B bathroom, floors 1 and 2
+# The east boundary is open, so block B is windowed on this face at every
+# level, at ordinary sill height.  Every range clears the 300 mm columns on
+# GRID_Y, which stand in this wall at y 3.65, 7.24, 10.54, 14.66 and 17.85.
+WIN_E_LIV_B = (4.60, 6.40)        # block B living room, every floor
+WIN_E_LOUNGE = (7.60, 8.70)       # ground floor lounge, second window
+WIN_E_LAUNDRY = (9.35, 10.15)     # ground floor central laundry
+WIN_E_GBATH = (10.90, 11.90)      # ground floor guest bath
+WIN_E_GBED = (15.00, 16.80)       # ground floor guest bedroom / office
+WIN_E_BATH = (9.30, 10.20)        # apartment B bathroom, floors 1 and 2
 WIN_E_BED = (12.20, 13.80)        # apartment B bedroom, floors 1 and 2
 WIN_E_STUDY = (15.90, 17.10)      # apartment B dressing / study
-WIN_E_BED1 = (8.60, 10.60)        # third floor, bedroom 1 (master)
+WIN_E_BED1 = (8.50, 10.20)        # third floor, bedroom 1 (master)
 WIN_E_ENS3 = (12.70, 13.90)       # third floor, master ensuite
 
-# window from block B onto the light court, through the party wall
-CT_WIN_B = (15.00, 16.60)
+# ---------------------------------------------------------------------------
+# openings in the north wall - x ranges
+# ---------------------------------------------------------------------------
+# The north boundary is open too.  Block A's north end is one room 6.05 m
+# wide on every floor now that the court has gone, and takes two windows;
+# block B's north room takes two more, except on the third floor where the
+# north terrace is in front of it and the wall becomes a parapet.
+WIN_N_A = [(12.00, 13.60), (16.00, 17.40)]
+WIN_N_B = [(18.80, 20.40), (21.00, 22.50)]
 
 # ---------------------------------------------------------------------------
 # third floor

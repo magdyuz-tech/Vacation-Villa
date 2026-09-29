@@ -10,16 +10,27 @@ import fixtures as fx
 
 PANEL_X = 580.0
 PANEL_R = 831.0
-TITLEBLOCK_Y = 468.0      # top edge of the title block, in sheet mm
+TITLEBLOCK_Y = 468.0      # top edge of the title block with three revisions
+REV_PITCH = 7.0           # spacing of the revision rows, in sheet mm
+
+
+def titleblock_top():
+    """Top edge of the title block, in sheet mm.
+
+    The block grows upward as revision rows are added, so a new issue can
+    never push the last row out through the bottom of the frame.
+    """
+    return TITLEBLOCK_Y - max(0, len(REVISIONS) - 3) * REV_PITCH
 PROJECT = "FOUR-STOREY VACATION HOME"
 CLIENT = "PRIVATE CLIENT"
-REV = "P3"
+REV = "P4"
 # Revision record, newest last.  A revision letter is only useful if it
 # says what changed, so the title block prints this.
 REVISIONS = [
     ("P1", "2026-09-18", "first issue"),
     ("P2", "2026-09-24", "east windows, taller floors, garden on A-100"),
-    ("P3", None, "four storeys, apartments, straight north boundary"),
+    ("P3", "2026-09-29", "four storeys, apartments, straight north boundary"),
+    ("P4", None, "north and east opened up, light court removed"),
 ]
 # The issue date, stamped at build time. Set SHEET_DATE to pin it when a
 # reproducible build matters.
@@ -178,11 +189,11 @@ def notes(sh, y0, items):
     # text is fixed at the client's 12 point minimum, so a note block that
     # is too long can only be shortened - fail loudly rather than print it
     # over the title block
-    if last > TITLEBLOCK_Y - 4.0:
+    top = titleblock_top()
+    if last > top - 4.0:
         raise ValueError(
             f"{sh.number}: general notes run to y={last:.1f} mm and would "
-            f"print over the title block at y={TITLEBLOCK_Y:.0f} mm - "
-            f"shorten them")
+            f"print over the title block at y={top:.0f} mm - shorten them")
     return y
 
 
@@ -198,7 +209,8 @@ def _wrap(t, n):
     return out
 
 
-def titleblock(sh, y0=TITLEBLOCK_Y):
+def titleblock(sh, y0=None):
+    y0 = titleblock_top() if y0 is None else y0
     h = SHEET_H - 20 - y0
     sh.rect_mm(PANEL_X, y0, PANEL_R - PANEL_X, h, sw=0.6, stroke=INK)
     sh.line_mm(PANEL_X, y0 + 16, PANEL_R, y0 + 16, w=0.3, color=GREY)
@@ -230,7 +242,7 @@ def titleblock(sh, y0=TITLEBLOCK_Y):
     sh.text_mm(PANEL_X + 3, y0 + 89, "REVISIONS", size=2.0, anchor="start",
                color=GREY, ls=0.4)
     for i, (rev, when, what) in enumerate(REVISIONS):
-        sh.text_mm(PANEL_X + 44, y0 + 89 + i * 7.0,
+        sh.text_mm(PANEL_X + 44, y0 + 89 + i * REV_PITCH,
                    f"{rev}   {when or DATE}   {what}", size=2.1,
                    anchor="start")
 

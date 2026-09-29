@@ -39,11 +39,11 @@ drawn with the ground floor; the upper sheets cover the building only.
 
 | Level  | Accommodation | GIA | External |
 | ------ | ------------- | --- | -------- |
-| +0.00  | Entrance lobby and reception, living and reception, lounge and breakfast room, guest bedroom or office, central service kitchen (12.9 m²) with servery, wash-up, staff WC and bin store, central laundry (4.0 m²), guest WC, guest bath, linen | 140.0 m² | — |
-| +3.30  | Two one-bedroom apartments — A 57.1 m², B 63.3 m² — each with a kitchenette and a cantilevered balcony the full width of its block | 140.0 m² | 13.8 m² |
-| +6.60  | Identical to the floor below | 140.0 m² | 13.8 m² |
-| +9.90  | Two-bedroom apartment (≈101 m²) whose living, dining and kitchen span both blocks, between a full-width south terrace on the cantilever and a shaded north terrace | 127.8 m² | 26.1 m² |
-| **Total** | Five apartments over a floor of shared service accommodation | **547.9 m²** | **53.7 m²** |
+| +0.00  | Entrance lobby and reception, living and reception, lounge and breakfast room, guest bedroom or office, central service kitchen (12.9 m²) with servery, wash-up, staff WC and bin store, central laundry (4.0 m²), guest WC, guest bath, linen, dry store and plant | 147.3 m² | — |
+| +3.30  | Two one-bedroom apartments — A 64.7 m², B 63.2 m² — each with a kitchenette and a cantilevered balcony the full width of its block | 147.3 m² | 13.8 m² |
+| +6.60  | Identical to the floor below | 147.3 m² | 13.8 m² |
+| +9.90  | Two-bedroom apartment (≈116 m²) whose living, dining and kitchen span both blocks, between a full-width south terrace on the cantilever and a shaded north terrace | 135.1 m² | 26.1 m² |
+| **Total** | Five apartments over a floor of shared service accommodation | **577.1 m²** | **53.7 m²** |
 
 The service kitchen and laundry on the ground floor serve every apartment
 above.
@@ -188,24 +188,29 @@ sheet A-000.
 
 ## Design response
 
-The plot touches neighbours on its north, east and west boundaries, so the
-south elevation onto the garden is the only fully open facade. Four moves
-follow from that:
+**Only the west boundary is built against.** The client confirms that the
+north and east boundaries are open to the environment and may be windowed;
+the adjoining owner to the east will not build above 3.00 m. So three of
+the four elevations — south, east and north — are glazed, and the west is
+the single blind wall. Three moves follow from that:
 
-- **A light court**, 2.45 × 2.98 m, is cut through all four storeys against
-  the stair. It daylights the service kitchen, the stair, the ground floor
-  guest bedroom and apartment A's bedroom on each floor above — rooms that
-  would otherwise be landlocked.
+- **Every habitable room sits on an external wall.** Block B takes windows
+  in the east wall at every level; block A's north end is one room the full
+  6.05 m width with two windows in the north wall. The light court that
+  revision P3 cut through all four storeys has gone with them, which gives
+  back 7.3 m² a floor — about 29 m² over the building.
 - **The building moves 1.50 m south** into its own garden, so each block is
   14.50 m deep instead of 13.00, and **balconies cantilever a further
   1.20 m** beyond that, each running the full width of its own block and
   divided on the party wall line by a 250 mm screen. Nothing projects over
   a boundary; the overhang is subject to the local projection rule.
 - **The west wall is opened** where it faces our own garden, south of
-  y = 5.00 — a short length that is not a party wall and gives apartment A's
-  living room corner light down the 23 m garden axis.
-- **Arched openings** face the garden on every level, and arch heads are
-  shown dashed in plan.
+  y = 5.00 — the one short length that is not a party wall, giving
+  apartment A's living room corner light down the 23 m garden axis.
+  Everywhere else the west wall is blind.
+
+Arched openings face the garden on every level, and arch heads are shown
+dashed in plan.
 
 ### The core
 
@@ -213,7 +218,6 @@ Stair, lift, protected lobby and services riser stack identically on every
 floor in the east strip of block A:
 
 ```
-light court     15.40 – 17.85   14.72 – 17.70    2.45 × 2.98   open to sky
 protected stair 15.40 – 17.85   10.60 – 14.60    2.45 × 4.00   two 1.10 m flights
 fire lobby      15.40 – 17.85    8.98 – 10.48    2.45 × 1.50
 lift shaft      15.40 – 17.10    7.30 –  8.86    1.70 × 1.56   knock-out slabs
@@ -225,6 +229,11 @@ level, so a lift can be installed later without cutting structure or taking
 area out of an occupied apartment. Both apartments on a floor open directly
 off the fire lobby, and the riser cupboard is entered from the lobby rather
 than from inside a dwelling.
+
+The core stops at y = 14.72. North of it, block A is one room the full
+6.05 m width on every floor: the dry store and plant room on the ground
+floor, apartment A's 23.6 m² bedroom on floors 1 and 2, and the 18.0 m²
+bedroom 2 on the third.
 
 ### Where the party wall can be opened
 
@@ -249,31 +258,31 @@ within that cupboard and discharges above roof level.
 
 ## Ventilation
 
-The east neighbour is limited to 3.00 m in height, so the east boundary
-wall is opened above that level. It stays solid at ground floor, where a
-3.00 m building may be built against it.
+Three elevations are open, so every habitable room is daylit and cross
+ventilated from its own external wall.
 
-| Level  | Room                    | Opening       |
-| ------ | ----------------------- | ------------- |
-| +3.30  | Apt B bathroom          | 0.85 m        |
-| +3.30  | Apt B bedroom           | 1.60 m        |
-| +3.30  | Apt B dressing / study  | 1.20 m        |
-| +6.60  | as +3.30                |               |
-| +9.90  | Bedroom 2               | 1.40 m        |
-| +9.90  | Bedroom 1               | 1.60 m        |
+| Wall  | Level  | Openings                                                    |
+| ----- | ------ | ----------------------------------------------------------- |
+| East  | +0.00  | Lounge ×2, central laundry, guest bath, guest bedroom       |
+| East  | +3.30  | Apt B living, bathroom, bedroom, dressing / study           |
+| East  | +6.60  | as +3.30                                                     |
+| East  | +9.90  | Living band, bedroom 1, master ensuite                       |
+| North | +0.00  | Service kitchen, dry store; guest bedroom ×2 in block B     |
+| North | +3.30  | Apt A bedroom ×2; apt B dressing / study ×2                 |
+| North | +6.60  | as +3.30                                                     |
+| North | +9.90  | Bedroom 2 ×2 (block B's north wall is the terrace parapet)  |
+| South | all    | Full garden frontage, arched at ground floor                |
+| West  | all    | Blind, except one window where it faces our own garden      |
 
-Apartment B's bathroom is naturally ventilated from it rather than
-mechanically extracted, and its bedroom cross ventilates between the south
-balcony and the east window. Apartment A's bedroom and the ground floor
-service kitchen are daylit and ventilated from the light court, which runs
-the full 13 m height of the building and is open at the top, so it also
-acts as a stack. The remaining internal rooms — both bathrooms on the third
-floor, the stores, the laundry and the guest bath — are mechanically
-extracted at six air changes per hour.
+Every window range clears the 300 mm columns standing in that wall. What is
+left internal — the third floor family bath, guest WC, store and passage,
+the ground floor wash-up, servery, staff WC, bin store and guest WC — is
+mechanically extracted at six air changes per hour.
 
-Openings in a boundary wall are subject to local fire separation and rights
-of light rules, whatever the neighbour's height is limited to. The drawings
-say so in the notes on A-101, A-102 and A-103.
+The adjoining owner to the east may build up to 3.00 m. That would obscure
+the ground floor east windows but none above; the drawings say so in note 4
+on A-100. Openings in a boundary wall remain subject to local fire
+separation and rights of light rules.
 
 ## Fire
 
@@ -300,7 +309,7 @@ before it goes any further.
 
 ## Status
 
-Preliminary design issue, revision **P3** — not for construction. Work to
+Preliminary design issue, revision **P4** — not for construction. Work to
 figured dimensions only; do not scale from the drawings.
 
 | Rev | Date | Issued for |
@@ -308,6 +317,7 @@ figured dimensions only; do not scale from the drawings.
 | P1  | 2026-09-18 | First issue |
 | P2  | 2026-09-24 | East boundary windows, 3.30 m floor heights, garden shown with the ground floor |
 | P3  | 2026-09-29 | Four storeys, apartments and central service floor, straight north boundary, 1.50 m south extension, RC frame, lift shaft. Central kitchen reduced 30 % to 12.9 m²; laundry reduced to one machine at 4.0 m²; balconies taken to the full width of each block; every WC and bathroom re-routed so that none is entered through a service room or another room; third floor replanned around the party wall constraint |
+| P4  | 2026-09-29 | Client confirms only the west boundary is built against. North and east opened up and windowed at every level; light court removed and built over, +7.3 m² a floor; block A's north end replanned as one room the full width; single protected stair recorded as the client's decision, with a 1.2 m² automatic opening vent at the stair head |
 
 The title block carries this record and stamps the build date, so a sheet
 always says which issue it is.
@@ -318,7 +328,9 @@ always says which issue it is.
 north–south axis onto the sheet's x and the level onto its y, so its
 dimensions come out of `geometry.py` like everything else. It cuts at
 y = 16.20 — marked A–A on every floor plan — through the south glazing,
-the lift shaft, the protected lobby, one stair flight and the light court.
+the lift shaft, the protected lobby, one stair flight and the room at the
+north end of block A, where it passes through a north window at every
+level.
 
 The 1:25 sheets run the ordinary plan code at a larger scale and crop to
 the part being shown, so an enlargement cannot disagree with the plan it
@@ -334,6 +346,6 @@ whole-unit plans stay at 1:50 on A-101 and A-103.
   standard.
 - Measured survey of the north boundary, and the local rule on the 1.20 m
   balcony overhang.
-- Apartment A's bedroom takes its light from the court only, and the third
-  floor's guest WC, store, family bath and passage are windowless — both
-  are deliberate, both are worth the client's confirmation.
+- The third floor's guest WC, store, family bath and passage stay
+  internal and mechanically extracted; everything habitable is now on an
+  external wall.

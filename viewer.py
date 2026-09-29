@@ -22,7 +22,7 @@ SHEETS = [
     ("A-103", "Third Floor & Roof Plan", "+9.90", "1:50",
      "Two-bedroom apartment between a south and a north terrace."),
     ("A-200", "Section A–A", "through the core", "1:50",
-     "Cut through the glazing, lift shaft, stair and light court."),
+     "Cut through the glazing, lift shaft, stair and north rooms."),
     ("A-300", "Typical Apartment — Enlarged Plan", "+3.30 / +6.60", "1:25",
      "Entry, wet rooms and kitchenettes of both apartments."),
     ("A-301", "Third Floor Apartment — Enlarged Plan", "+9.90", "1:25",
@@ -175,7 +175,7 @@ def build(drawings_dir, out_path):
 <body>
 <header>
   <h1>Four-Storey Vacation Home</h1>
-  <span class="sub">Preliminary drawing set · Rev P3 · ISO A1 ·
+  <span class="sub">Preliminary drawing set · Rev P4 · ISO A1 ·
   nine sheets</span>
 </header>
 <nav>
