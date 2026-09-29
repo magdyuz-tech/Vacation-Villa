@@ -143,6 +143,23 @@ def schedule(sh, y0, extra=()):
     return y
 
 
+def datum_panel(sh, y0, heading, rows):
+    """Two-column reference panel with no total - used by the section,
+    where the rows are level datums rather than areas."""
+    sh.text_mm(PANEL_X, y0, heading, size=3.0, anchor="start", weight=700,
+               ls=0.45)
+    sh.line_mm(PANEL_X, y0 + 2.2, PANEL_R, y0 + 2.2, w=0.25, color=GREY)
+    y = y0 + 11.0
+    col2 = PANEL_X + 238
+    for name, val in rows:
+        sh.text_mm(PANEL_X + 1, y, name.upper(), size=2.3, anchor="start")
+        sh.text_mm(col2, y, val, size=2.3, anchor="end")
+        sh.line_mm(PANEL_X + 1, y + 1.4, col2, y + 1.4, w=0.12,
+                   color="#e2e2e2")
+        y += 7.4
+    return y
+
+
 def notes(sh, y0, items):
     sh.text_mm(PANEL_X, y0, "GENERAL NOTES", size=3.0, anchor="start",
                weight=700, ls=0.45)

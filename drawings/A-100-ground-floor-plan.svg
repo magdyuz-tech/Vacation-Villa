@@ -609,6 +609,13 @@
 <text x="283.400" y="326.400" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="start" font-weight="400" letter-spacing="0.0" style="">FFL +0.00</text>
 <polygon points="455.00,403.00 453.40,400.60 456.60,400.60" fill="none" stroke="#141414" stroke-width="0.13"/>
 <text x="457.400" y="402.400" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="start" font-weight="400" letter-spacing="0.0" style="">FFL +0.00</text>
+<line x1="364.000" y1="451.000" x2="364.000" y2="116.000" stroke="#141414" stroke-width="0.13" stroke-linecap="butt" stroke-dasharray="9 2 1.6 2"/>
+<circle cx="364.000" cy="451.000" r="9.000" fill="#ffffff" stroke="#141414" stroke-width="0.35"/>
+<text x="364.000" y="454.400" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="middle" font-weight="400" letter-spacing="0.0" style="">A</text>
+<circle cx="364.000" cy="116.000" r="9.000" fill="#ffffff" stroke="#141414" stroke-width="0.35"/>
+<text x="364.000" y="119.400" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="middle" font-weight="400" letter-spacing="0.0" style="">A</text>
+<polygon points="351.600,437.000 362.800,431.800 362.800,442.200" fill="#141414" stroke="#141414" stroke-width="0.13"/>
+<polygon points="351.600,130.000 362.800,124.800 362.800,135.200" fill="#141414" stroke="#141414" stroke-width="0.13"/>
 <text x="580.000" y="30.000" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="6.6" fill="#141414" text-anchor="start" font-weight="700" letter-spacing="0.6" style="">GROUND FLOOR PLAN</text>
 <text x="580.000" y="40.000" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#5d5d5d" text-anchor="start" font-weight="400" letter-spacing="0.35" style="">LEVEL +0.00   ·   1:50 @ A1   ·   METRES</text>
 <line x1="580.000" y1="46.000" x2="831.000" y2="46.000" stroke="#141414" stroke-width="0.5" stroke-linecap="butt"/>

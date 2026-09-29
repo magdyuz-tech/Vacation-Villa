@@ -29,6 +29,7 @@ LEVELS = [
     (plans.sheet_first,  "A-101-first-floor",  "-01",  60.0),
     (plans.sheet_second, "A-102-second-floor", "-02",  90.0),
     (plans.sheet_third,  "A-103-third-floor",  "-03", 120.0),
+    (plans.sheet_section, "A-200-section",      "-SEC", 150.0),
 ]
 
 

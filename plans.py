@@ -182,6 +182,21 @@ def arch_note(sh, a, b, face, axis="h", side=1):
     sh.arc(cx, cy, r, a0, a1, sw=LW_HIDDEN, color=GREY, dash="1.8 1.2")
 
 
+def section_line(sh, y0=2.20, y1=18.95):
+    """The A-A cut line, so the section can be located on every plan."""
+    with sh.on("A-ANNO-SYMB"):
+        sh.line(SEC_X, y0, SEC_X, y1, w=LW_THIN, color=INK,
+                dash="9 2 1.6 2")
+    for yy in (y0, y1):
+        sh.circle(SEC_X, yy, 0.45, fill="#ffffff", stroke=INK,
+                  sw=LW_SECONDARY)
+        sh.tag(SEC_X, yy - 0.17, "A", size=2.6, color=INK)
+    for yy in (y0 + 0.70, y1 - 0.70):
+        sh.poly([(SEC_X - 0.62, yy), (SEC_X - 0.06, yy + 0.26),
+                 (SEC_X - 0.06, yy - 0.26)], fill=INK, stroke=INK,
+                sw=LW_THIN)
+
+
 def balcony(sh, span, level_txt, name="Balcony", screen_w=True, label=True):
     """Cantilevered slab 1.20 m beyond the south wall, full width of a block.
 
@@ -512,6 +527,8 @@ def sheet_ground():
     sh.level_tag(12.05, 8.40, "FFL +0.00")
     sh.level_tag(20.75, 4.60, "FFL +0.00")
 
+    section_line(sh)
+
     F.heading(sh)
     y = F.legend(sh, 52)
     y = F.schedule(sh, y + 8, extra=[
@@ -664,6 +681,8 @@ def _apartment_floor(number, title, level, floor):
            size=2.0, color=INK, rot=-90)
     sh.level_tag(12.10, 4.55, f"FFL {level}")
     sh.level_tag(18.60, 12.60, f"FFL {level}")
+
+    section_line(sh)
 
     F.heading(sh)
     y = F.legend(sh, 52)
@@ -857,6 +876,8 @@ def sheet_third():
     sh.level_tag(16.40, 5.10, "FFL +9.90")
     sh.level_tag(21.90, 15.35, "+9.87")
 
+    section_line(sh)
+
     F.heading(sh)
     y = F.legend(sh, 52)
     y = F.schedule(sh, y + 8, extra=[
@@ -889,7 +910,193 @@ def sheet_third():
     return sh
 
 # ===========================================================================
-SHEETS = (sheet_site, sheet_ground, sheet_first, sheet_second, sheet_third)
+# A-200  SECTION A-A
+# ===========================================================================
+# The section is drawn in the same engine as the plans by mapping the plan's
+# north-south axis onto the sheet's x and the level onto the sheet's y, so
+# every dimension still comes out of geometry.py and nothing is drawn twice.
+SEC_ORIGIN = (96.0, 462.0)      # 1:50; x = plan y, y = level
+SEC_X = 16.20                   # the cut passes through lift, stair and court
+SEC_LEVELS = [0, 1, 2, 3]
+
+
+def _slab(sh, y0, y1, ffl, dash=None):
+    """Structural slab: 300 mm zone with its top at finished floor level."""
+    if dash:
+        sh.rect(y0, ffl - STRUCTURAL_ZONE, y1 - y0, STRUCTURAL_ZONE,
+                sw=LW_SECONDARY, stroke=GREY, dash=dash)
+    else:
+        sh.wall(y0, ffl - STRUCTURAL_ZONE, y1, ffl)
+
+
+def _stair_section(sh, ffl):
+    """The west flight, which is the one the cut plane passes through."""
+    risers, rise, going = 19, FLOOR_TO_FLOOR / 19.0, 0.275
+    treads = risers // 2
+    run = treads * going
+    start = ST_Y1 - 1.30 - run
+    x, z = start, ffl
+    pts = [(x, z)]
+    for _ in range(treads):
+        z += rise
+        pts.append((x, z))
+        x += going
+        pts.append((x, z))
+    sh.poly(pts, close=False, stroke=INK, sw=LW_FIXTURE)
+    half = ffl + rise * treads
+    sh.wall(ST_Y1 - 1.30, half - 0.20, ST_Y1, half)
+    sh.line(start, ffl, ST_Y1 - 1.30, half, w=LW_THIN, color=LIGHT)
+    sh.tag((start + ST_Y1) / 2.0, ffl + 1.95,
+           f"{risers}R @ {rise * 1000:.0f}", size=1.6, color=LIGHT)
+
+
+def sheet_section():
+    D.set_scale(50, *SEC_ORIGIN)
+    sh = Sheet("A-200", "Section A–A", "through the core", "1:50 @ A1")
+    F.border(sh)
+
+    top = 3 * FLOOR_TO_FLOOR                      # +9.90
+    roof = ROOF_LEVEL                             # +13.20
+
+    # ground, garden and the street beyond
+    sh.rect(-1.0, -2.60, A_Y0 + 1.0, 2.10, fill="#f4f4f4", stroke="none",
+            sw=0)
+    _hatch(sh, -1.0, -2.60, A_Y0 + 1.0, 2.10, pitch=0.7, color="#dcdcdc")
+    sh.line(-1.0, GARDEN_LEVEL, A_Y0, GARDEN_LEVEL, w=LW_CUT, color=INK)
+    sh.rect(A_Y0, -2.60, A_Y1 - A_Y0, 2.60, fill="#f4f4f4", stroke="none",
+            sw=0)
+    _hatch(sh, A_Y0, -2.60, A_Y1 - A_Y0, 2.10, pitch=0.7, color="#dcdcdc")
+    sh.level_tag(1.60, GARDEN_LEVEL, "GARDEN −0.50")
+    fx.steps(sh, A_Y0 - 0.95, GARDEN_LEVEL, 0.95, 0.50, n=ENTRY_RISERS,
+             axis="e")
+
+    # foundations, indicative
+    for a, b in ((A_Y0, A_Y0 + WT), (LF_Y0 - PT, LF_Y0), (LOB_Y1, ST_Y0),
+                 (ST_Y1, CT_Y0), (a_y1, A_Y1)):
+        sh.wall(a - 0.25, -1.55, b + 0.25, -1.15)
+        sh.wall(a, -1.15, b, -STRUCTURAL_ZONE)
+
+    for lv in SEC_LEVELS:
+        ffl = lv * FLOOR_TO_FLOOR
+        # floor slabs: continuous except across the light court, which is
+        # open to sky from the ground up
+        _slab(sh, A_Y0, CT_Y0, ffl)
+        _slab(sh, a_y1, A_Y1, ffl)
+        # the lift shaft carries removable infill slabs, shown dashed
+        _slab(sh, LF_Y0, LF_Y1, ffl, dash="2.2 1.4")
+        # cantilevered balcony or terrace slab
+        if lv > 0:
+            _slab(sh, A_Y0 - BALC_D, A_Y0, ffl - 0.03)
+            sh.wall(A_Y0 - BALC_D, ffl - 0.03, A_Y0 - BALC_D + PARAPET,
+                    ffl + 1.10)
+        # external and core walls of the storey
+        clear = CLEAR_HEIGHT
+        for a, b in ((LF_Y0 - PT, LF_Y0), (LF_Y1, LOB_Y0),
+                     (LOB_Y1, ST_Y0), (ST_Y1, CT_Y0), (a_y1, A_Y1)):
+            sh.wall(a, ffl, b, ffl + clear)
+        # south wall: glazed at the cut, so only the piers above and below
+        sh.wall(A_Y0, ffl + 2.35, A_Y0 + WT, ffl + clear)
+        sh.wall(A_Y0, ffl, A_Y0 + WT, ffl + 0.10)
+        sh.line(A_Y0 + WT / 2, ffl + 0.10, A_Y0 + WT / 2, ffl + 2.35,
+                w=LW_FIXTURE, color=GREY)
+        _stair_section(sh, ffl)
+        sh.level_tag(A_Y0 + 0.9, ffl, f"FFL +{ffl:.2f}")
+
+    # roof slab and parapets
+    _slab(sh, A_Y0, CT_Y0, roof)
+    _slab(sh, a_y1, A_Y1, roof)
+    sh.wall(A_Y0, roof, A_Y0 + PARAPET, roof + 1.10)
+    sh.wall(CT_Y0 - PARAPET, roof, CT_Y0, roof + 1.10)
+    sh.wall(a_y1, roof, A_Y1, roof + 1.10)
+    sh.level_tag(A_Y0 + 0.9, roof, f"ROOF +{roof:.2f}")
+
+    # the light court, open to sky through the whole height
+    fx.void_hatch(sh, CT_Y0, GARDEN_LEVEL, CT_Y1 - CT_Y0, roof + 1.10
+                  - GARDEN_LEVEL)
+    sh.tag((CT_Y0 + CT_Y1) / 2.0, roof + 2.05, "LIGHT COURT — OPEN TO SKY",
+           size=2.1, color=INK)
+    for lv in SEC_LEVELS:
+        sh.tag((CT_Y0 + CT_Y1) / 2.0, lv * FLOOR_TO_FLOOR + 1.35,
+               "COURT", size=1.8, color=GREY)
+
+    # lift shaft: pit, car and overrun
+    sh.wall(LF_Y0 - PT, -1.45, LF_Y0, 0.0)
+    sh.wall(LF_Y1, -1.45, LOB_Y0, 0.0)
+    sh.wall(LF_Y0 - PT, -1.55, LOB_Y0, -1.45)
+    sh.tag((LF_Y0 + LF_Y1) / 2.0, -0.95, "PIT", size=1.7, color=GREY)
+    sh.rect(LF_Y0, top + 0.10, LF_Y1 - LF_Y0, 1.55, sw=LW_SECONDARY,
+            stroke=GREY, dash="2.2 1.4")
+    sh.tag((LF_Y0 + LF_Y1) / 2.0, top + 1.00, "OVERRUN", size=1.6,
+           color=GREY)
+    for lv in SEC_LEVELS:
+        sh.tag((LF_Y0 + LF_Y1) / 2.0, lv * FLOOR_TO_FLOOR + 1.35, "LIFT",
+               size=1.8, color=GREY)
+
+    # what the cut passes through, named at each level
+    rooms = {0: ("Entrance lobby", "Fire lobby", "Stair hall"),
+             1: ("Apt A living", "Fire lobby", "Landing"),
+             2: ("Apt A living", "Fire lobby", "Landing"),
+             3: ("Living / dining", "Fire lobby", "Landing")}
+    for lv in SEC_LEVELS:
+        ffl = lv * FLOOR_TO_FLOOR
+        south, lobby, stair = rooms[lv]
+        sh.tag((a_y0 + LF_Y0) / 2.0, ffl + 1.05, south.upper(), size=1.9,
+               color=INK)
+        sh.tag((LOB_Y0 + LOB_Y1) / 2.0, ffl + 1.05, lobby.upper(), size=1.7,
+               color=INK)
+        if lv > 0:
+            sh.tag(A_Y0 - BALC_D / 2.0, ffl + 0.62,
+                   "TERRACE" if lv == 3 else "BALCONY", size=1.7, color=GREY,
+                   rot=-90)
+
+    # dimensions: storey heights on the left, the plan axis along the bottom
+    for lv in SEC_LEVELS:
+        ffl = lv * FLOOR_TO_FLOOR
+        sh.dim_v(ffl, ffl + FLOOR_TO_FLOOR if lv < 3 else roof, -1.60,
+                 f"{FLOOR_TO_FLOOR:.2f}" if lv < 3 else f"{roof - top:.2f}")
+    sh.dim_v(GARDEN_LEVEL, 0.0, -1.60, "0.50")
+    sh.dim_v(GARDEN_LEVEL, roof, -2.65, f"{roof - GARDEN_LEVEL:.2f}")
+    sh.dim_h(A_Y0, A_Y1, -3.05, "14.50", ext_from=GARDEN_LEVEL)
+    sh.dim_h(A_Y0 - BALC_D, A_Y0, -3.05, "1.20")
+    sh.dim_h(CT_Y0, CT_Y1, -2.05, "2.98")
+    sh.dim_h(ST_Y0, ST_Y1, -2.05, "4.00")
+
+    F.heading(sh)
+    y = F.legend(sh, 52)
+    y = F.datum_panel(sh, y + 8, "LEVEL DATUMS", [
+        ("Garden", f"{GARDEN_LEVEL:+.2f}"),
+        ("Ground floor", "+0.00"),
+        ("First floor", f"+{FLOOR_TO_FLOOR:.2f}"),
+        ("Second floor", f"+{2 * FLOOR_TO_FLOOR:.2f}"),
+        ("Third floor", f"+{top:.2f}"),
+        ("Roof, top of slab", f"+{roof:.2f}"),
+        ("Clear ceiling height", f"{CLEAR_HEIGHT:.2f} m"),
+        ("Structural zone", f"{STRUCTURAL_ZONE:.2f} m"),
+        ("Overall, garden to roof", f"{roof - GARDEN_LEVEL:.2f} m")])
+    F.notes(sh, y + 6, [
+        "Section looking west, cut on the line marked A–A on the floor "
+        "plans: through the south glazing, the lift shaft, the protected "
+        "lobby, the stair and the light court.",
+        "The light court is open to sky for the full height of the "
+        "building and is the daylight and stack ventilation source for "
+        "the centre of the plan, where the boundaries are blind.",
+        "The lift shaft is built full height with removable infill slabs "
+        "at each level, shown dashed, so a lift can be installed later "
+        "without cutting structure. Pit and overrun are indicative and to "
+        "be confirmed against the chosen lift.",
+        "Flat slab on the column grid, 300 mm structural zone, giving "
+        "3.00 m clear at every level and 3.30 m floor to floor.",
+        "Foundations are shown indicatively only and are subject to a "
+        "ground investigation and the engineer's design.",
+    ])
+    fx.scale_bar(sh, 96, 556, metres=10)
+    F.titleblock(sh)
+    return sh
+
+
+# ===========================================================================
+SHEETS = (sheet_site, sheet_ground, sheet_first, sheet_second, sheet_third,
+          sheet_section)
 
 
 def main():
@@ -899,7 +1106,8 @@ def main():
     paths = []
     for builder in SHEETS:
         sh = builder()
-        slug = sh.title.lower().replace(" & ", "-").replace(" ", "-")
+        slug = (sh.title.lower().replace(" & ", "-").replace(" ", "-")
+                .replace("\u2013", "-"))
         path = os.path.join(out, f"{sh.number}-{slug}.svg")
         with open(path, "w", encoding="utf-8") as fh:
             fh.write(F.render(sh))
