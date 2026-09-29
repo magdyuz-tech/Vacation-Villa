@@ -10,14 +10,15 @@ import fixtures as fx
 
 PANEL_X = 580.0
 PANEL_R = 831.0
-PROJECT = "VACATION HOUSE — NEW BUILD"
+PROJECT = "FOUR-STOREY VACATION HOME"
 CLIENT = "PRIVATE CLIENT"
-REV = "P2"
+REV = "P3"
 # Revision record, newest last.  A revision letter is only useful if it
 # says what changed, so the title block prints this.
 REVISIONS = [
     ("P1", "2026-09-18", "first issue"),
-    ("P2", None, "east windows, taller floors, garden on A-100"),
+    ("P2", "2026-09-24", "east windows, taller floors, garden on A-100"),
+    ("P3", None, "four storeys, apartments, straight north boundary"),
 ]
 # The issue date, stamped at build time. Set SHEET_DATE to pin it when a
 # reproducible build matters.

@@ -38,6 +38,8 @@ LAYERS = {
     "A-ANNO-DIMS":   (5,   13, "CONTINUOUS"),
     "A-ANNO-SYMB":   (5,   13, "DASHED"),
     "A-ANNO-PATT":   (8,    9, "CONTINUOUS"),
+    "S-COLS":        (7,   35, "CONTINUOUS"),   # RC columns
+    "S-GRID":        (5,    9, "DASHDOT"),      # column grid lines
     "L-SITE":        (3,   18, "CONTINUOUS"),
     "L-PLNT":        (3,   13, "CONTINUOUS"),
     "G-ANNO-BNDY":   (1,   25, "DASHDOT"),

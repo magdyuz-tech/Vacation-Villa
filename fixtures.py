@@ -301,6 +301,74 @@ def stair(sh, core, direction="up", floor_to_floor=3.00, label=True):
     return dict(risers=risers, rise=rise, going=going)
 
 
+@layer("A-EQPM")
+def lift(sh, x0, y0, x1, y1, door="n"):
+    """Lift shaft with the car drawn inside it and the landing doors shown.
+
+    `door` names the face the landing doors open onto.
+    """
+    w, d = x1 - x0, y1 - y0
+    sh.rect(x0, y0, w, d, sw=LW_SECONDARY, stroke=GREY)
+    m = 0.11
+    sh.rect(x0 + m, y0 + m, w - 2 * m, d - 2 * m, **F)
+    sh.line(x0 + m, y0 + m, x1 - m, y1 - m, w=LW_THIN, color=LIGHT)
+    sh.line(x1 - m, y0 + m, x0 + m, y1 - m, w=LW_THIN, color=LIGHT)
+    half = 0.42
+    if door in ("n", "s"):
+        yy = y1 if door == "n" else y0
+        cx = (x0 + x1) / 2.0
+        for s in (-1, 1):
+            sh.line(cx + s * 0.05, yy, cx + s * half, yy, w=LW_CUT, color=INK)
+    else:
+        xx = x1 if door == "e" else x0
+        cy = (y0 + y1) / 2.0
+        for s in (-1, 1):
+            sh.line(xx, cy + s * 0.05, xx, cy + s * half, w=LW_CUT, color=INK)
+
+
+@layer("A-EQPM")
+def riser(sh, x0, y0, x1, y1):
+    """Services shaft: crossed box, the standard duct symbol."""
+    sh.rect(x0, y0, x1 - x0, y1 - y0, sw=LW_SECONDARY, stroke=GREY)
+    sh.line(x0, y0, x1, y1, w=LW_THIN, color=GREY)
+    sh.line(x1, y0, x0, y1, w=LW_THIN, color=GREY)
+
+
+@layer("S-COLS")
+def column(sh, cx, cy, s=0.30):
+    """RC column, drawn solid because it is cut by the section."""
+    sh.rect(cx - s / 2, cy - s / 2, s, s, fill="#2a2a2a", stroke="#2a2a2a",
+            sw=0.05)
+
+
+@layer("A-FURN")
+def kitchenette(sh, x, y, w, d, axis="v"):
+    """Hotel-studio kitchen run: sink, two-ring cooktop, undercounter fridge.
+
+    Drawn as one continuous counter with the appliances set into it, which
+    is how these are built - a single joinery wall rather than loose units.
+    """
+    sh.rect(x, y, w, d, **F)
+    if axis == "v":                      # counter runs north-south
+        run = d
+        sink(sh, x + 0.06, y + run * 0.06, w=w - 0.12, d=0.44)
+        for dx, dy in ((0.28, 0.0), (0.28, 0.24), (0.62, 0.0), (0.62, 0.24)):
+            sh.circle(x + w * dx, y + run * 0.52 + dy, 0.07, stroke=GREY,
+                      sw=LW_FIXTURE)
+        sh.rect(x + 0.05, y + run - 0.68, w - 0.10, 0.62, **F)
+        sh.line(x, y + run - 0.68, x + w, y + run - 0.68, w=LW_THIN,
+                color=LIGHT)
+    else:                                # counter runs east-west
+        run = w
+        sink(sh, x + run * 0.06, y + 0.04, w=0.62, d=d - 0.10)
+        for dx, dy in ((0.52, 0.0), (0.52, 0.24), (0.62, 0.0), (0.62, 0.24)):
+            sh.circle(x + run * dx + dy, y + d * 0.5, 0.07, stroke=GREY,
+                      sw=LW_FIXTURE)
+        sh.rect(x + run - 0.68, y + 0.05, 0.62, d - 0.10, **F)
+        sh.line(x + run - 0.68, y, x + run - 0.68, y + d, w=LW_THIN,
+                color=LIGHT)
+
+
 @layer("A-ANNO-PATT")
 def void_hatch(sh, x, y, w, d, label="OPEN TO SKY", pitch=1.1):
     """Diagonal hatch used for voids / open-to-sky courts."""

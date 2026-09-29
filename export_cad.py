@@ -28,6 +28,7 @@ LEVELS = [
     (plans.sheet_ground, "A-100-ground-floor", "-00",  30.0),
     (plans.sheet_first,  "A-101-first-floor",  "-01",  60.0),
     (plans.sheet_second, "A-102-second-floor", "-02",  90.0),
+    (plans.sheet_third,  "A-103-third-floor",  "-03", 120.0),
 ]
 
 
@@ -62,7 +63,7 @@ def export(out_dir):
     doc = new_document()
     for builder, _name, suffix, dx in LEVELS:
         _run(builder, doc, offset=(dx * 1000.0, 0.0), suffix=suffix)
-    path = os.path.join(out_dir, "vacation-house-all-levels.dxf")
+    path = os.path.join(out_dir, "vacation-home-all-levels.dxf")
     doc.saveas(path)
     written.append((path, len(doc.modelspace())))
     return written

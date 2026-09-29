@@ -12,13 +12,15 @@ import sys
 
 SHEETS = [
     ("A-000", "Site Plan", "+0.00", "1:75",
-     "The plot, the 23 m garden corridor and the building footprint."),
+     "The plot, the garden corridor and the building footprint."),
     ("A-100", "Ground Floor Plan", "+0.00", "1:50",
-     "Living, dining, open kitchen, guest bedroom and the entrance."),
-    ("A-101", "First Floor Plan", "+3.00", "1:50",
-     "Master suite, second bedroom, family bathroom and front terrace."),
-    ("A-102", "Second Floor & Roof Plan", "+6.00", "1:50",
-     "Studio suite, kitchenette and the open-air roof terraces."),
+     "Entrance, lounges, guest room and the central kitchen and laundry."),
+    ("A-101", "First Floor Plan", "+3.30", "1:50",
+     "Two one-bedroom apartments with balconies and kitchenettes."),
+    ("A-102", "Second Floor Plan", "+6.60", "1:50",
+     "Two one-bedroom apartments, identical to the floor below."),
+    ("A-103", "Third Floor & Roof Plan", "+9.90", "1:50",
+     "Two-bedroom apartment between a south and a north terrace."),
 ]
 
 CSS = """
@@ -98,7 +100,7 @@ document.getElementById('out').onclick=()=>{z/=1.25;apply()};
 document.getElementById('fit').onclick=fit;
 document.getElementById('full').onclick=()=>{z=1;apply()};
 addEventListener('keydown',e=>{
-  if(e.key>='1'&&e.key<='4'){show(+e.key-1);return}
+  if(e.key>='1'&&e.key<='5'){show(+e.key-1);return}
   if(e.key==='+'||e.key==='='){z*=1.25;apply()}
   if(e.key==='-'){z/=1.25;apply()}
   if(e.key==='0'){fit()}
@@ -148,14 +150,14 @@ def build(drawings_dir, out_path):
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Vacation House — Drawing Set</title>
+<title>Four-Storey Vacation Home — Drawing Set</title>
 <style>{CSS}</style>
 </head>
 <body>
 <header>
-  <h1>Vacation House — New Build</h1>
-  <span class="sub">Preliminary drawing set · Rev P1 · ISO A1 ·
-  four sheets</span>
+  <h1>Four-Storey Vacation Home</h1>
+  <span class="sub">Preliminary drawing set · Rev P3 · ISO A1 ·
+  five sheets</span>
 </header>
 <nav>
   {''.join(tabs)}
@@ -170,7 +172,7 @@ def build(drawings_dir, out_path):
 </nav>
 <main><div class="stage" id="stage">{''.join(parts)}</div></main>
 <footer>
-  <kbd>1</kbd>–<kbd>4</kbd> sheets &nbsp;·&nbsp;
+  <kbd>1</kbd>–<kbd>5</kbd> sheets &nbsp;·&nbsp;
   <kbd>+</kbd> <kbd>−</kbd> <kbd>0</kbd> zoom &nbsp;·&nbsp;
   ctrl/⌘ + scroll to zoom, drag to pan &nbsp;·&nbsp;
   Preliminary design issue — not for construction.
