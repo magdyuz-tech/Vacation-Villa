@@ -223,7 +223,7 @@
 <line x1="206.000" y1="28.800" x2="206.000" y2="101.800" stroke="#141414" stroke-width="0.2" stroke-linecap="butt"/>
 <polygon points="206.000,108.200 202.400,97.800 209.600,97.800" fill="#141414" stroke="#141414" stroke-width="0.13"/>
 <text x="206.000" y="105.000" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#5d5d5d" text-anchor="middle" font-weight="400" letter-spacing="0.0" style="">DN</text>
-<text x="233.000" y="-3.200" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#9a9a9a" text-anchor="middle" font-weight="400" letter-spacing="0.0" style="">19R @ 174 × 275</text>
+<text x="233.000" y="64.300" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#9a9a9a" text-anchor="middle" font-weight="400" letter-spacing="0.0" style="" transform="rotate(-90 233.000 64.300)">19R @ 174 × 275</text>
 <line x1="282.000" y1="174.800" x2="294.000" y2="174.800" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
 <line x1="282.000" y1="138.800" x2="294.000" y2="138.800" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
 <line x1="288.000" y1="174.800" x2="324.000" y2="174.800" stroke="#141414" stroke-width="0.2" stroke-linecap="butt"/>

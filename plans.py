@@ -36,6 +36,14 @@ BALC = [(BALC_A[1] - BALC_A[0]) * BALC_D, (BALC_B[1] - BALC_B[0]) * BALC_D]
 GIA = {0: PLATE - COURT, 1: PLATE - COURT, 2: PLATE - COURT,
        3: PLATE - COURT - TER_N}
 
+# Automatic opening vent at the stair head.  The stair enclosure stands in
+# the middle of block A with no external wall, so it cannot be smoke
+# ventilated by a window; the vent goes through the roof slab over the top
+# landing instead.  Same figures drive the plan, the section and the notes.
+AOV_X = (15.55, 17.70)
+AOV_Y = (13.55, 14.10)
+AOV_AREA = (AOV_X[1] - AOV_X[0]) * (AOV_Y[1] - AOV_Y[0])
+
 
 # ===========================================================================
 # shared pieces
@@ -149,9 +157,12 @@ def core_rooms(sh, floor):
             area=(LOB_X1 - LOB_X0) * (LOB_Y1 - LOB_Y0), size=1.9,
             show_area=False, at=(16.62, 9.73))
     name = "Stair Hall" if floor == 0 else "Landing"
+    # on the top floor the north end of the landing carries the vent over,
+    # so the label drops clear of it
     sh.room(ST_X0, ST_Y0, ST_X1 - ST_X0, ST_Y1 - ST_Y0, name,
             area=(ST_X1 - ST_X0) * (ST_Y1 - ST_Y0), size=2.0,
-            sched_name="Protected stair", show_area=False, at=(16.62, 13.95))
+            sched_name="Protected stair", show_area=False,
+            at=(16.62, 14.35 if floor == 3 else 13.95))
     light_court(sh, floor)
 
 
@@ -540,27 +551,22 @@ def sheet_ground():
         ("Light court, open to sky", f"{COURT:.1f} m²"),
         ("Slab to slab", "3.30 m · 3.00 m clear")])
     F.notes(sh, y + 6, [
-        "The whole of this floor is one non-residential compartment under "
-        "the apartments: 2 hour separation to the floor over, sprinklered "
-        "throughout, with a suppression hood over the cooking line.",
+        "This floor is one non-residential compartment under the "
+        "apartments: 2 hour separation to the floor over, sprinklered, "
+        "with a suppression hood over the cooking line.",
         "The 12.9 m² service kitchen and the 4.0 m² laundry serve all "
         "four storeys, reached through the servery and the block B hall "
         "so that no room is entered through another. Kitchen extract "
-        "rises in a fire-rated shaft in the riser cupboard off the fire "
-        "lobby and discharges above roof level.",
-        "Living, reception, entrance lobby and the lounge read as one "
-        "connected sequence through 1.00 m arched openings in the party "
-        "wall. The guest WC opens off the reception and the guest bath "
-        "off the block B hall, so neither is reached through the service "
-        "route.",
-        "The east boundary wall is solid at this level: the adjoining "
-        "owner may build up to 3.00 m against it. The kitchen and the "
-        "guest bedroom are daylit from the light court, and the west wall "
-        "is opened where it faces our own garden south of y = 5.00.",
-        "Bins are stored internally beside the kitchen. Guest bath, "
-        "laundry, WCs and stores are internal, mechanically extracted at "
-        "six air changes per hour. Gross internal area excludes the "
-        "light court.",
+        "rises in a fire-rated shaft off the fire lobby, discharging "
+        "above roof level.",
+        "Living, reception, entrance lobby and lounge read as one "
+        "sequence through 1.00 m arched openings in the party wall. The "
+        "guest WC opens off the reception and the guest bath off the "
+        "block B hall, neither on the service route.",
+        "The east boundary wall is solid here — the adjoining owner may "
+        "build up to 3.00 m against it — so the kitchen and guest bedroom "
+        "are daylit from the light court. Internal rooms are extracted at "
+        "six air changes per hour.",
     ])
     F.compass_and_scale(sh, x=500.0, y=548.0)
     F.titleblock(sh)
@@ -702,24 +708,24 @@ def _apartment_floor(number, title, level, floor):
     F.notes(sh, y + 6, [
         "Two one-bedroom apartments, both entered off the protected fire "
         "lobby: apartment A occupies block A around the core, apartment B "
-        "the whole of block B.",
+        "the whole of block B. Balconies run the full width of each "
+        "block, cantilevered 1.20 m with a 1.10 m parapet.",
         "Both units are planned open: living, dining and kitchenette read "
         "as one room with no corridor, and every other room — bathroom "
-        "included — opens off the entry hall. Kitchenettes are a single "
-        "joinery run against the party wall.",
-        "Wet rooms stack floor to floor onto the party wall spine. The "
-        "riser cupboard carrying the soil, water and extract risers is "
-        "entered from the fire lobby, not from either apartment; "
-        "apartment A's kitchenette drains east to it in the floor zone.",
+        "included — opens off the entry hall.",
+        "Wet rooms stack onto the party wall spine. The riser cupboard "
+        "carrying the soil, water and extract risers is entered from the "
+        "fire lobby, not from either apartment.",
         "East boundary openings: the adjoining plot is limited to 3.00 m "
         "in height, so the east wall is opened above that level and "
-        "apartment B's bathroom is naturally ventilated. Openings in a "
-        "boundary wall are subject to local fire separation and rights of "
-        "light rules; confirm before construction.",
-        "Balconies run the full width of each block, cantilevered 1.20 m "
-        "with a 1.10 m parapet. Escape is by the single protected stair, "
-        "FD30S doors onto the lobby, sprinklers throughout — a proposal, "
-        "to be verified against the governing code.",
+        "apartment B's bathroom is naturally ventilated. Such openings "
+        "are subject to local fire and rights of light rules.",
+        "Escape is by a single protected stair, adopted on the client's "
+        "instruction: FD30S doors onto the fire lobby, sprinklers "
+        "throughout. The stair has no external wall, so it is smoke-"
+        f"vented by a {AOV_AREA:.1f} m² automatic opening vent at its head "
+        "— see A-103 and A-200. The governing code is still to be named "
+        "and the strategy agreed.",
     ])
     F.compass_and_scale(sh, x=470.0, y=500.0)
     F.titleblock(sh)
@@ -857,6 +863,11 @@ def _plan_third(sh):
     sh.room(a_x0, CT_Y0, 3.48, 2.98, "Bedroom 2", area=10.4, size=2.2,
             sub="light court", at=(13.54, 17.35))
     core_rooms(sh, 3)
+    # the smoke vent over the stair head, in the roof slab above this floor
+    sh.rect(AOV_X[0], AOV_Y[0], AOV_X[1] - AOV_X[0], AOV_Y[1] - AOV_Y[0],
+            sw=LW_HIDDEN, stroke=INK, dash="2.6 1.4")
+    sh.tag((AOV_X[0] + AOV_X[1]) / 2.0, (AOV_Y[0] + AOV_Y[1]) / 2.0 - 0.10,
+           f"AOV {AOV_AREA:.1f} m²", size=1.6, color=INK)
     sh.room(b_x0, LF_Y0, 4.55, 4.30, "Bedroom 1", area=19.6, size=2.4,
             sub="master", at=(20.42, 10.90))
     sh.room(b_x0, 11.72, 2.15, 3.28, "Dressing", area=7.1, size=1.8,
@@ -910,12 +921,13 @@ def sheet_third():
         "windows above +3.00. Bedroom 2 is in block A at the light court. "
         "No room is entered through another: the family bath, the WC, "
         "the store and bedroom 2 all open off the hall or its passage.",
-        "Terrace finish is 30 mm below internal floor level, falling 1:80 "
-        "to outlets at the parapet. Parapets are 250 mm thick and 1.10 m "
-        "high above the terrace finish.",
+        "Terrace finish is 30 mm below floor level, falling 1:80 to "
+        "outlets. Parapets are 250 mm thick and 1.10 m high.",
         "The roof over this floor falls 1:60 to outlets at the parapet, "
-        "waterproofing turned up 150 mm minimum. The light court is "
-        "carried up through this floor and remains open to sky.",
+        "waterproofing turned up 150 mm minimum; the light court is "
+        f"carried up through it, open to sky. The {AOV_AREA:.1f} m² vent "
+        "shown over the landing smoke-vents the protected stair, which "
+        "has no external wall of its own.",
     ])
     F.compass_and_scale(sh, x=470.0, y=500.0)
     F.titleblock(sh)
@@ -932,13 +944,13 @@ SEC_X = 16.20                   # the cut passes through lift, stair and court
 SEC_LEVELS = [0, 1, 2, 3]
 
 
-def _slab(sh, y0, y1, ffl, dash=None):
+def _slab(sh, y0, y1, ffl, dash=None, openings=()):
     """Structural slab: 300 mm zone with its top at finished floor level."""
     if dash:
         sh.rect(y0, ffl - STRUCTURAL_ZONE, y1 - y0, STRUCTURAL_ZONE,
                 sw=LW_SECONDARY, stroke=GREY, dash=dash)
     else:
-        sh.wall(y0, ffl - STRUCTURAL_ZONE, y1, ffl)
+        sh.wall(y0, ffl - STRUCTURAL_ZONE, y1, ffl, openings=openings)
 
 
 def _stair_section(sh, ffl):
@@ -1014,13 +1026,25 @@ def sheet_section():
         _stair_section(sh, ffl)
         sh.level_tag(A_Y0 + 0.9, ffl, f"FFL +{ffl:.2f}")
 
-    # roof slab and parapets
-    _slab(sh, A_Y0, CT_Y0, roof)
+    # roof slab and parapets, with the stair-head vent opening in it
+    _slab(sh, A_Y0, CT_Y0, roof, openings=[AOV_Y])
     _slab(sh, a_y1, A_Y1, roof)
     sh.wall(A_Y0, roof, A_Y0 + PARAPET, roof + 1.10)
     sh.wall(CT_Y0 - PARAPET, roof, CT_Y0, roof + 1.10)
     sh.wall(a_y1, roof, A_Y1, roof + 1.10)
     sh.level_tag(A_Y0 + 0.9, roof, f"ROOF +{roof:.2f}")
+
+    # the stair-head vent, drawn open: kerb upstand, the closed lid dashed
+    # and the flap in its open position
+    kerb = 0.30
+    sh.wall(AOV_Y[0] - PT, roof, AOV_Y[0], roof + kerb)
+    sh.wall(AOV_Y[1], roof, AOV_Y[1] + PT, roof + kerb)
+    sh.line(AOV_Y[0] - PT, roof + kerb, AOV_Y[1] + PT, roof + kerb,
+            w=LW_SECONDARY, color=GREY, dash="2.2 1.4")
+    sh.line(AOV_Y[0] - PT, roof + kerb, AOV_Y[1] - 0.05, roof + kerb + 0.55,
+            w=LW_CUT, color=INK)
+    sh.tag((AOV_Y[0] + AOV_Y[1]) / 2.0, roof + 1.20,
+           f"AOV {AOV_AREA:.1f} m² — STAIR SMOKE VENT", size=1.9, color=INK)
 
     # the light court, open to sky through the whole height
     fx.void_hatch(sh, CT_Y0, GARDEN_LEVEL, CT_Y1 - CT_Y0, roof + 1.10
@@ -1098,6 +1122,11 @@ def sheet_section():
         "be confirmed against the chosen lift.",
         "Flat slab on the column grid, 300 mm structural zone, giving "
         "3.00 m clear at every level and 3.30 m floor to floor.",
+        "The stair is enclosed in the middle of block A and has no "
+        "external wall, so it is smoke-vented at its head by a "
+        f"{AOV_AREA:.1f} m² automatic opening vent through the roof slab, "
+        "shown open. The single-stair strategy is the client's decision "
+        "and still needs the authority's agreement.",
         "Foundations are shown indicatively only and are subject to a "
         "ground investigation and the engineer's design.",
     ])

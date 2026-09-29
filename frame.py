@@ -10,6 +10,7 @@ import fixtures as fx
 
 PANEL_X = 580.0
 PANEL_R = 831.0
+TITLEBLOCK_Y = 468.0      # top edge of the title block, in sheet mm
 PROJECT = "FOUR-STOREY VACATION HOME"
 CLIENT = "PRIVATE CLIENT"
 REV = "P3"
@@ -165,13 +166,23 @@ def notes(sh, y0, items):
                weight=700, ls=0.45)
     sh.line_mm(PANEL_X, y0 + 2.2, PANEL_R, y0 + 2.2, w=0.25, color=GREY)
     y = y0 + 11.0
+    last = y
     for i, t in enumerate(items, 1):
         for j, line in enumerate(_wrap(t, 58)):
             sh.text_mm(PANEL_X + (1 if j else 1), y,
                        (f"{i}.  " if j == 0 else "     ") + line, size=2.2,
                        anchor="start")
+            last = y
             y += 5.9
         y += 3.0
+    # text is fixed at the client's 12 point minimum, so a note block that
+    # is too long can only be shortened - fail loudly rather than print it
+    # over the title block
+    if last > TITLEBLOCK_Y - 4.0:
+        raise ValueError(
+            f"{sh.number}: general notes run to y={last:.1f} mm and would "
+            f"print over the title block at y={TITLEBLOCK_Y:.0f} mm - "
+            f"shorten them")
     return y
 
 
@@ -187,7 +198,7 @@ def _wrap(t, n):
     return out
 
 
-def titleblock(sh, y0=468):
+def titleblock(sh, y0=TITLEBLOCK_Y):
     h = SHEET_H - 20 - y0
     sh.rect_mm(PANEL_X, y0, PANEL_R - PANEL_X, h, sw=0.6, stroke=INK)
     sh.line_mm(PANEL_X, y0 + 16, PANEL_R, y0 + 16, w=0.3, color=GREY)

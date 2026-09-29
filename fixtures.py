@@ -295,9 +295,11 @@ def stair(sh, core, direction="up", floor_to_floor=3.00, label=True):
                  (dx + 0.09, hy + 0.10)], fill=INK, stroke=INK, sw=LW_THIN)
         if label:
             sh.tag(dx, start_y + 0.22, "DN", size=1.7)
-    sh.tag((x0 + x1) / 2, y1 - landing_d + 0.45,
+    # riser note reads up the well, which keeps the landing free for the
+    # room label and anything shown in the ceiling or roof over it
+    sh.tag(x0 + flight_w + well / 2.0, y1 - landing_d - run / 2.0,
            f"{risers}R @ {rise * 1000:.0f} × {going * 1000:.0f}",
-           size=1.6, color=LIGHT)
+           size=1.6, color=LIGHT, rot=-90)
     return dict(risers=risers, rise=rise, going=going)
 
 

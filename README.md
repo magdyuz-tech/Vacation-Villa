@@ -277,11 +277,17 @@ say so in the notes on A-101, A-102 and A-103.
 
 ## Fire
 
-Drawn as a **proposal**, not a compliance check — the governing code has
-not been named yet, and the sheets say so.
+A **single protected stair** is the client's decision, confirmed in
+writing, and the drawings are set out on that basis. It is not a
+compliance check: the governing code has not been named, so the strategy
+still needs the authority's agreement, and the sheets say so.
 
 - Single protected stair, FD30S self-closing doors onto a fire lobby at
   every level, apartments opening off that lobby.
+- The stair enclosure stands in the middle of block A and has no external
+  wall, so it cannot be smoke-ventilated by a window. A 1.2 m² automatic
+  opening vent (2.15 × 0.55 m) goes through the roof slab over the top
+  landing, drawn on A-103 and A-301 and shown open on A-200.
 - Sprinklers throughout.
 - The ground floor is one non-residential compartment under the
   apartments: 2 hour separation to the floor over, with a suppression hood
@@ -322,7 +328,12 @@ whole-unit plans stay at 1:50 on A-101 and A-103.
 
 ### Still open
 
-- The governing fire code, and with it the single-stair strategy.
+- The governing fire code. The single stair is settled as the client's
+  choice; what is open is the authority's agreement to it, and with it the
+  vent's required free area, the travel distances and the sprinkler
+  standard.
 - Measured survey of the north boundary, and the local rule on the 1.20 m
   balcony overhang.
-- A long section (A-200) and 1:25 unit plans (A-300 series) are to follow.
+- Apartment A's bedroom takes its light from the court only, and the third
+  floor's guest WC, store, family bath and passage are windowless — both
+  are deliberate, both are worth the client's confirmation.

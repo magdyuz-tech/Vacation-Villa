@@ -149,13 +149,19 @@
 <text x="350.250" y="225.000" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#9a9a9a" text-anchor="middle" font-weight="400" letter-spacing="0.0" style="">19R @ 174</text>
 <polygon points="184.00,264.00 182.40,261.60 185.60,261.60" fill="none" stroke="#141414" stroke-width="0.13"/>
 <text x="186.400" y="263.400" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="start" font-weight="400" letter-spacing="0.0" style="">FFL +9.90</text>
-<rect x="166.000" y="198.000" width="224.400" height="6.000" fill="#141414" stroke="#141414" stroke-width="0.05"/>
+<rect x="166.000" y="198.000" width="201.000" height="6.000" fill="#141414" stroke="#141414" stroke-width="0.05"/>
+<rect x="378.000" y="198.000" width="12.400" height="6.000" fill="#141414" stroke="#141414" stroke-width="0.05"/>
 <rect x="450.000" y="198.000" width="6.000" height="6.000" fill="#141414" stroke="#141414" stroke-width="0.05"/>
 <rect x="166.000" y="176.000" width="5.000" height="22.000" fill="#141414" stroke="#141414" stroke-width="0.05"/>
 <rect x="385.400" y="176.000" width="5.000" height="22.000" fill="#141414" stroke="#141414" stroke-width="0.05"/>
 <rect x="450.000" y="176.000" width="6.000" height="22.000" fill="#141414" stroke="#141414" stroke-width="0.05"/>
 <polygon points="184.00,198.00 182.40,195.60 185.60,195.60" fill="none" stroke="#141414" stroke-width="0.13"/>
 <text x="186.400" y="197.400" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="start" font-weight="400" letter-spacing="0.0" style="">ROOF +13.20</text>
+<rect x="364.600" y="192.000" width="2.400" height="6.000" fill="#141414" stroke="#141414" stroke-width="0.05"/>
+<rect x="378.000" y="192.000" width="2.400" height="6.000" fill="#141414" stroke="#141414" stroke-width="0.05"/>
+<line x1="364.600" y1="192.000" x2="380.400" y2="192.000" stroke="#5d5d5d" stroke-width="0.35" stroke-linecap="butt" stroke-dasharray="2.2 1.4"/>
+<line x1="364.600" y1="192.000" x2="377.000" y2="181.000" stroke="#141414" stroke-width="0.7" stroke-linecap="butt"/>
+<text x="372.500" y="174.000" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="middle" font-weight="400" letter-spacing="0.0" style="">AOV 1.2 m² — STAIR SMOKE VENT</text>
 <line x1="390.400" y1="472.000" x2="390.400" y2="472.000" stroke="#c9c9c9" stroke-width="0.13" stroke-linecap="butt"/>
 <line x1="412.400" y1="472.000" x2="390.400" y2="450.000" stroke="#c9c9c9" stroke-width="0.13" stroke-linecap="butt"/>
 <line x1="434.400" y1="472.000" x2="390.400" y2="428.000" stroke="#c9c9c9" stroke-width="0.13" stroke-linecap="butt"/>
@@ -325,8 +331,13 @@
 <text x="581.000" y="338.400" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="start" font-weight="400" letter-spacing="0.0" style="">4.  Flat slab on the column grid, 300 mm structural zone,</text>
 <text x="581.000" y="344.300" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="start" font-weight="400" letter-spacing="0.0" style="">     giving 3.00 m clear at every level and 3.30 m floor to</text>
 <text x="581.000" y="350.200" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="start" font-weight="400" letter-spacing="0.0" style="">     floor.</text>
-<text x="581.000" y="359.100" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="start" font-weight="400" letter-spacing="0.0" style="">5.  Foundations are shown indicatively only and are subject to</text>
-<text x="581.000" y="365.000" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="start" font-weight="400" letter-spacing="0.0" style="">     a ground investigation and the engineer's design.</text>
+<text x="581.000" y="359.100" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="start" font-weight="400" letter-spacing="0.0" style="">5.  The stair is enclosed in the middle of block A and has no</text>
+<text x="581.000" y="365.000" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="start" font-weight="400" letter-spacing="0.0" style="">     external wall, so it is smoke-vented at its head by a 1.2</text>
+<text x="581.000" y="370.900" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="start" font-weight="400" letter-spacing="0.0" style="">     m² automatic opening vent through the roof slab, shown</text>
+<text x="581.000" y="376.800" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="start" font-weight="400" letter-spacing="0.0" style="">     open. The single-stair strategy is the client's decision</text>
+<text x="581.000" y="382.700" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="start" font-weight="400" letter-spacing="0.0" style="">     and still needs the authority's agreement.</text>
+<text x="581.000" y="391.600" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="start" font-weight="400" letter-spacing="0.0" style="">6.  Foundations are shown indicatively only and are subject to</text>
+<text x="581.000" y="397.500" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="start" font-weight="400" letter-spacing="0.0" style="">     a ground investigation and the engineer's design.</text>
 <rect x="96.000" y="556.000" width="20.000" height="2.000" fill="#141414" stroke="#141414" stroke-width="0.13"/>
 <rect x="116.000" y="556.000" width="20.000" height="2.000" fill="#ffffff" stroke="#141414" stroke-width="0.13"/>
 <rect x="136.000" y="556.000" width="20.000" height="2.000" fill="#141414" stroke="#141414" stroke-width="0.13"/>

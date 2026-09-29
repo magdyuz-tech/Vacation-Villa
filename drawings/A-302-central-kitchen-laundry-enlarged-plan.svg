@@ -393,7 +393,7 @@
 <line x1="280.000" y1="361.000" x2="280.000" y2="288.000" stroke="#141414" stroke-width="0.2" stroke-linecap="butt"/>
 <polygon points="280.000,281.600 276.400,292.000 283.600,292.000" fill="#141414" stroke="#141414" stroke-width="0.13"/>
 <text x="280.000" y="366.200" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#5d5d5d" text-anchor="middle" font-weight="400" letter-spacing="0.0" style="">UP</text>
-<text x="253.000" y="258.000" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#9a9a9a" text-anchor="middle" font-weight="400" letter-spacing="0.0" style="">19R @ 174 × 275</text>
+<text x="253.000" y="325.500" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#9a9a9a" text-anchor="middle" font-weight="400" letter-spacing="0.0" style="" transform="rotate(-90 253.000 325.500)">19R @ 174 × 275</text>
 <line x1="199.200" y1="626.000" x2="204.000" y2="626.000" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
 <line x1="199.200" y1="566.000" x2="204.000" y2="566.000" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
 <path d="M 199.200 566.000 A 30.000 30.000 0 0 0 199.200 626.000" fill="none" stroke="#5d5d5d" stroke-width="0.18" stroke-dasharray="1.8 1.2"/>
