@@ -194,9 +194,9 @@
 <rect x="270.000" y="135.000" width="10.000" height="6.000" fill="#141414" stroke="#141414" stroke-width="0.05"/>
 <rect x="312.000" y="135.000" width="48.000" height="6.000" fill="#141414" stroke="#141414" stroke-width="0.05"/>
 <rect x="388.000" y="135.000" width="9.000" height="6.000" fill="#141414" stroke="#141414" stroke-width="0.05"/>
-<rect x="397.000" y="395.000" width="6.000" height="30.000" fill="#141414" stroke="#141414" stroke-width="0.05"/>
-<rect x="397.000" y="349.000" width="6.000" height="26.000" fill="#141414" stroke="#141414" stroke-width="0.05"/>
-<rect x="397.000" y="135.000" width="6.000" height="194.000" fill="#141414" stroke="#141414" stroke-width="0.05"/>
+<rect x="397.000" y="411.000" width="6.000" height="14.000" fill="#141414" stroke="#141414" stroke-width="0.05"/>
+<rect x="397.000" y="383.000" width="6.000" height="8.000" fill="#141414" stroke="#141414" stroke-width="0.05"/>
+<rect x="397.000" y="135.000" width="6.000" height="228.000" fill="#141414" stroke="#141414" stroke-width="0.05"/>
 <rect x="403.000" y="419.000" width="11.000" height="6.000" fill="#141414" stroke="#141414" stroke-width="0.05"/>
 <rect x="446.000" y="419.000" width="14.000" height="6.000" fill="#141414" stroke="#141414" stroke-width="0.05"/>
 <rect x="488.000" y="419.000" width="12.000" height="6.000" fill="#141414" stroke="#141414" stroke-width="0.05"/>
@@ -346,12 +346,12 @@
 <line x1="460.000" y1="139.680" x2="490.000" y2="139.680" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
 <line x1="460.000" y1="136.320" x2="490.000" y2="136.320" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
 <line x1="460.000" y1="138.000" x2="490.000" y2="138.000" stroke="#141414" stroke-width="0.2" stroke-linecap="butt"/>
-<line x1="397.000" y1="395.000" x2="403.000" y2="395.000" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
-<line x1="397.000" y1="375.000" x2="403.000" y2="375.000" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
-<path d="M 397.000 375.000 A 10.000 10.000 0 0 0 397.000 395.000" fill="none" stroke="#5d5d5d" stroke-width="0.18" stroke-dasharray="1.8 1.2"/>
-<line x1="397.000" y1="349.000" x2="403.000" y2="349.000" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
-<line x1="397.000" y1="329.000" x2="403.000" y2="329.000" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
-<path d="M 397.000 329.000 A 10.000 10.000 0 0 0 397.000 349.000" fill="none" stroke="#5d5d5d" stroke-width="0.18" stroke-dasharray="1.8 1.2"/>
+<line x1="397.000" y1="411.000" x2="403.000" y2="411.000" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
+<line x1="397.000" y1="391.000" x2="403.000" y2="391.000" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
+<path d="M 397.000 391.000 A 10.000 10.000 0 0 0 397.000 411.000" fill="none" stroke="#5d5d5d" stroke-width="0.18" stroke-dasharray="1.8 1.2"/>
+<line x1="397.000" y1="383.000" x2="403.000" y2="383.000" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
+<line x1="397.000" y1="363.000" x2="403.000" y2="363.000" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
+<path d="M 397.000 363.000 A 10.000 10.000 0 0 0 397.000 383.000" fill="none" stroke="#5d5d5d" stroke-width="0.18" stroke-dasharray="1.8 1.2"/>
 <rect x="348.000" y="317.800" width="34.000" height="31.200" fill="none" stroke="#5d5d5d" stroke-width="0.35"/>
 <rect x="350.200" y="320.000" width="29.600" height="26.800" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>
 <line x1="350.200" y1="346.800" x2="379.800" y2="320.000" stroke="#9a9a9a" stroke-width="0.13" stroke-linecap="butt"/>
@@ -451,8 +451,8 @@
 <line x1="345.600" y1="166.000" x2="348.000" y2="166.000" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
 <line x1="346.800" y1="184.000" x2="364.800" y2="184.000" stroke="#141414" stroke-width="0.2" stroke-linecap="butt"/>
 <path d="M 364.800 184.000 A 18.000 18.000 0 0 0 346.800 166.000" fill="none" stroke="#5d5d5d" stroke-width="0.13"/>
-<rect x="379.000" y="349.000" width="13.000" height="34.000" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>
-<text x="361.000" y="366.000" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#5d5d5d" text-anchor="middle" font-weight="400" letter-spacing="0.0" style="" transform="rotate(-90 361.000 366.000)">RECEPTION</text>
+<rect x="352.000" y="353.400" width="36.000" height="12.000" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>
+<text x="370.000" y="370.600" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#5d5d5d" text-anchor="middle" font-weight="400" letter-spacing="0.0" style="">RECEPTION</text>
 <rect x="276.000" y="349.000" width="17.000" height="42.000" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>
 <rect x="276.000" y="349.000" width="4.400" height="42.000" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>
 <rect x="302.000" y="398.000" width="42.000" height="17.000" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>
@@ -494,17 +494,17 @@
 <circle cx="327.600" cy="148.000" r="1.300" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>
 <circle cx="327.600" cy="152.000" r="1.300" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>
 <rect x="311.000" y="195.000" width="30.000" height="14.000" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>
-<rect x="403.400" y="367.000" width="3.200" height="28.000" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>
-<rect x="466.000" y="357.000" width="17.000" height="40.000" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>
-<rect x="478.600" y="357.000" width="4.400" height="40.000" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>
-<rect x="439.000" y="373.000" width="22.000" height="13.000" fill="none" stroke="#5d5d5d" stroke-width="0.2" rx="2.0"/>
-<rect x="422.000" y="329.000" width="30.000" height="18.000" fill="none" stroke="#5d5d5d" stroke-width="0.2" rx="4.0"/>
-<rect x="422.200" y="318.200" width="9.600" height="8.800" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>
-<rect x="432.200" y="318.200" width="9.600" height="8.800" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>
-<rect x="442.200" y="318.200" width="9.600" height="8.800" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>
-<rect x="422.200" y="349.000" width="9.600" height="8.800" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>
-<rect x="432.200" y="349.000" width="9.600" height="8.800" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>
-<rect x="442.200" y="349.000" width="9.600" height="8.800" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>
+<rect x="438.000" y="390.000" width="30.000" height="18.000" fill="none" stroke="#5d5d5d" stroke-width="0.2" rx="4.0"/>
+<rect x="438.200" y="379.200" width="9.600" height="8.800" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>
+<rect x="448.200" y="379.200" width="9.600" height="8.800" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>
+<rect x="458.200" y="379.200" width="9.600" height="8.800" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>
+<rect x="438.200" y="410.000" width="9.600" height="8.800" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>
+<rect x="448.200" y="410.000" width="9.600" height="8.800" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>
+<rect x="458.200" y="410.000" width="9.600" height="8.800" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>
+<rect x="403.400" y="321.000" width="3.200" height="28.000" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>
+<rect x="463.000" y="318.000" width="17.000" height="32.000" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>
+<rect x="475.600" y="318.000" width="4.400" height="32.000" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>
+<rect x="435.000" y="328.600" width="20.000" height="12.400" fill="none" stroke="#5d5d5d" stroke-width="0.2" rx="2.0"/>
 <rect x="431.000" y="295.400" width="13.200" height="13.200" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>
 <circle cx="437.600" cy="302.000" r="4.200" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>
 <rect x="448.000" y="296.600" width="27.000" height="12.400" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>

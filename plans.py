@@ -227,7 +227,10 @@ OPENINGS = {
             a_north=WIN_N_A,
             b_south=[WIN_B_1, WIN_B_2],
             b_north=WIN_N_B,
-            party=[(5.00, 6.00), (7.30, 8.30)],
+            # the party wall can only be opened between y 3.80 and 7.18:
+            # north of that, block A's side of it is the lift and the
+            # services riser, not a room
+            party=[(4.20, 5.20), (5.60, 6.60)],
             b_east=[WIN_E_LIV_B, WIN_E_LOUNGE, WIN_E_LAUNDRY,
                     WIN_E_GBATH, WIN_E_GBED]),
     1: dict(a_south=UP_A_SOUTH,
@@ -436,10 +439,9 @@ def _plan_ground(sh):
     for a, b in OPENINGS[0]["b_east"]:
         sh.window(a, b, B_X1 - WT, B_X1, "v")
     north_windows(sh, 0)
-    sh.door(5.00, 6.00, PARTY_X0, PARTY_X1, "v", leaf=False)
-    arch_note(sh, 5.00, 6.00, PARTY_X0, axis="v", side=-1)
-    sh.door(7.30, 8.30, PARTY_X0, PARTY_X1, "v", leaf=False)
-    arch_note(sh, 7.30, 8.30, PARTY_X0, axis="v", side=-1)
+    for a, b in OPENINGS[0]["party"]:
+        sh.door(a, b, PARTY_X0, PARTY_X1, "v", leaf=False)
+        arch_note(sh, a, b, PARTY_X0, axis="v", side=-1)
     core_fittings(sh, 0)
     sh.door(4.55, 6.05, CORE_WALL_X, ST_X0, "v", leaf=False)
     arch_note(sh, 4.55, 6.05, CORE_WALL_X, axis="v", side=-1)
@@ -457,9 +459,10 @@ def _plan_ground(sh):
     sh.door(18.40, 19.20, 13.30, 13.42, "h", hinge="lo", swing="up")
     sh.door(15.55, 16.45, CORE_WALL_X, ST_X0, "v", hinge="lo", swing="right")
 
-    # entrance lobby
-    fx.counter(sh, 16.95, 5.60, 0.65, 1.70)
-    sh.tag(16.05, 6.45, "RECEPTION", size=1.7, color=GREY, rot=-90)
+    # entrance lobby: the desk sits on the north wall, clear of the two
+    # arched openings into the lounge
+    fx.counter(sh, 15.60, 6.48, 1.80, 0.60)
+    sh.tag(16.50, 6.22, "RECEPTION", size=1.7, color=GREY)
     # living and reception
     fx.sofa(sh, a_x0, 5.20, 0.85, 2.10, facing="e")
     fx.sofa(sh, 13.10, 4.00, 2.10, 0.85, facing="s")
@@ -484,11 +487,13 @@ def _plan_ground(sh):
     fx.counter(sh, 12.60, 16.95, 2.60, 0.65)
     fx.hob(sh, 14.05, 17.00, w=0.95, d=0.55)
     fx.counter(sh, 13.55, 14.30, 1.50, 0.70)
-    # lounge
-    fx.tv(sh, 18.17, 5.00, 1.40, axis="v")
-    fx.sofa(sh, 21.30, 4.90, 0.85, 2.00, facing="w")
-    sh.rect(19.95, 5.45, 1.10, 0.65, rx=D.mm(0.1), sw=LW_FIXTURE, stroke=GREY)
-    fx.table(sh, 19.10, 7.40, 1.50, 0.90, seats_n=3, seats_s=3)
+    # lounge: breakfast table south by the garden and east windows, the
+    # sitting end north where the party wall is solid and can carry the TV
+    fx.table(sh, 19.90, 4.35, 1.50, 0.90, seats_n=3, seats_s=3)
+    fx.tv(sh, 18.17, 7.30, 1.40, axis="v")
+    fx.sofa(sh, 21.15, 7.25, 0.85, 1.60, facing="w")
+    sh.rect(19.75, 7.70, 1.00, 0.62, rx=D.mm(0.1), sw=LW_FIXTURE,
+            stroke=GREY)
     # laundry - one washer-dryer, a utility sink and a folding counter
     sh.rect(19.55, 9.32, 0.66, 0.66, sw=LW_FIXTURE, stroke=GREY)
     sh.circle(19.88, 9.65, 0.21, stroke=GREY, sw=LW_FIXTURE)

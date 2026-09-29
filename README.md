@@ -332,6 +332,20 @@ the lift shaft, the protected lobby, one stair flight and the room at the
 north end of block A, where it passes through a north window at every
 level.
 
+### Checks
+
+`checks.py` runs before every build and stops it if the plans have gone
+astray. It rebuilds each sheet with the drawing calls recording what they
+were asked to draw, then reads the record back for three faults that a
+tidy-looking sheet hides: a door or window drawn where its wall carries no
+opening, an opening cut with no leaf in it, and an opening running through
+one of the 300 mm columns standing in that same wall.
+
+It earned its place immediately: it found that the ground floor's second
+arched opening was cut through the party wall into the services riser
+cupboard rather than into a room. Both arches now sit in y 3.80 – 7.18,
+the only band where the wall has a room on each side.
+
 The 1:25 sheets run the ordinary plan code at a larger scale and crop to
 the part being shown, so an enlargement cannot disagree with the plan it
 came from. They cover the wet cores, the kitchenettes and the service

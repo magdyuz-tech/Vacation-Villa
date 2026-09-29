@@ -11,7 +11,8 @@ build.py - produce the whole drawing set in every format, in one pass.
     drawing-set.html  all four sheets offline, with zoom and pan
 
 Everything is generated from `geometry.py`, so a dimension changed there
-flows into every format on the next build.
+flows into every format on the next build.  `checks.py` runs first and
+stops the build if a door, window or opening has gone astray.
 """
 
 import os
@@ -22,12 +23,17 @@ sys.path.insert(0, HERE)
 
 
 def main():
+    import checks
     import plans
     import viewer
     import export_cad
     import export_share
 
-    print("sheets (svg)")
+    print("checks")
+    if checks.main():
+        raise SystemExit("fix the plans before issuing the set")
+
+    print("\nsheets (svg)")
     svgs = plans.main()
 
     print("\ncad (dxf)")
