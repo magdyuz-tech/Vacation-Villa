@@ -106,11 +106,14 @@ LEVELS = {0: "+0.00", 1: "+3.30", 2: "+6.60", 3: "+9.90"}
 ROOF_LEVEL = 13.20             # top of the slab over the third floor
 
 # ---------------------------------------------------------------------------
-# balconies - cantilevered 1.20 m beyond the south wall, floors 1 to 3
+# balconies - cantilevered 1.20 m beyond the south wall, floors 1 and 2
 # ---------------------------------------------------------------------------
+# Each balcony runs the full width of its own block, divided on the party
+# wall line by a 250 mm screen, so every apartment gets the whole of its
+# south frontage rather than a 3.00 m slot in the middle of it.
 BALC_D = 1.20
-BALC_A = (12.60, 15.60)        # apartment A, 3.00 m wide
-BALC_B = (19.20, 22.20)        # apartment B, 3.00 m wide
+BALC_A = (A_X0, 18.00)         # apartment A, 6.50 m - full width of block A
+BALC_B = (18.00, B_X1)         # apartment B, 5.00 m - full width of block B
 
 # ---------------------------------------------------------------------------
 # openings in the south (garden) elevation - x ranges
@@ -141,17 +144,23 @@ WIN_W_LIVING = (3.95, 4.85)
 WIN_E_BATH = (9.70, 10.55)        # apartment B bathroom, floors 1 and 2
 WIN_E_BED = (12.20, 13.80)        # apartment B bedroom, floors 1 and 2
 WIN_E_STUDY = (15.90, 17.10)      # apartment B dressing / study
-WIN_E_BED2 = (9.00, 10.40)        # third floor, bedroom 2
-WIN_E_BED1 = (12.00, 13.60)       # third floor, bedroom 1
+WIN_E_BED1 = (8.60, 10.60)        # third floor, bedroom 1 (master)
+WIN_E_ENS3 = (12.70, 13.90)       # third floor, master ensuite
 
 # window from block B onto the light court, through the party wall
 CT_WIN_B = (15.00, 16.60)
 
 # ---------------------------------------------------------------------------
-# third floor terraces
+# third floor
 # ---------------------------------------------------------------------------
-TER_S_Y0, TER_S_Y1 = 3.80, 6.25        # south terrace, 2.45 m deep
-TER_N_Y0, TER_N_Y1 = 15.00, 17.70      # north terrace, 2.70 m deep
+# The party wall can only be opened between y 3.80 and 7.18: north of that,
+# block A's east strip is the stair, lobby, lift and riser, so the wall
+# backs onto the core rather than onto a room.  The third floor apartment
+# therefore runs its living space right across that band, which is the only
+# place the two blocks can be joined inside one dwelling.  The south terrace
+# moves out onto the cantilever so that it does not sit on the link.
+LIV3_Y1 = 7.18                         # north face of the living band
+TER_N_Y0, TER_N_Y1 = 15.00, 17.70      # north terrace, block B, 2.70 m deep
 
 
 def area(x0, y0, x1, y1):

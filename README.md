@@ -35,11 +35,11 @@ drawn with the ground floor; the upper sheets cover the building only.
 
 | Level  | Accommodation | GIA | External |
 | ------ | ------------- | --- | -------- |
-| +0.00  | Entrance lobby and reception, living and reception, lounge and breakfast room, guest bedroom or office, central service kitchen (18.4 m²) and wash-up, central laundry (10.4 m²), guest bath, WC, linen | 140.0 m² | — |
-| +3.30  | Two one-bedroom apartments — A 57.1 m², B 63.3 m² — each with a kitchenette and a cantilevered balcony | 140.0 m² | 7.2 m² |
-| +6.60  | Identical to the floor below | 140.0 m² | 7.2 m² |
-| +9.90  | Two-bedroom apartment (≈73 m²) between a south terrace under a pergola and a shaded north terrace | 92.4 m² | 47.7 m² |
-| **Total** | Five apartments over a floor of shared service accommodation | **512.5 m²** | **62.1 m²** |
+| +0.00  | Entrance lobby and reception, living and reception, lounge and breakfast room, guest bedroom or office, central service kitchen (12.9 m²) with servery, wash-up, staff WC and bin store, central laundry (4.0 m²), guest WC, guest bath, linen | 140.0 m² | — |
+| +3.30  | Two one-bedroom apartments — A 57.1 m², B 63.3 m² — each with a kitchenette and a cantilevered balcony the full width of its block | 140.0 m² | 13.8 m² |
+| +6.60  | Identical to the floor below | 140.0 m² | 13.8 m² |
+| +9.90  | Two-bedroom apartment (≈101 m²) whose living, dining and kitchen span both blocks, between a full-width south terrace on the cantilever and a shaded north terrace | 127.8 m² | 26.1 m² |
+| **Total** | Five apartments over a floor of shared service accommodation | **547.9 m²** | **53.7 m²** |
 
 The service kitchen and laundry on the ground floor serve every apartment
 above.
@@ -194,8 +194,9 @@ follow from that:
   would otherwise be landlocked.
 - **The building moves 1.50 m south** into its own garden, so each block is
   14.50 m deep instead of 13.00, and **balconies cantilever a further
-  1.20 m** beyond that on the upper floors. Nothing projects over a
-  boundary; the overhang is subject to the local projection rule.
+  1.20 m** beyond that, each running the full width of its own block and
+  divided on the party wall line by a 250 mm screen. Nothing projects over
+  a boundary; the overhang is subject to the local projection rule.
 - **The west wall is opened** where it faces our own garden, south of
   y = 5.00 — a short length that is not a party wall and gives apartment A's
   living room corner light down the 23 m garden axis.
@@ -220,6 +221,18 @@ level, so a lift can be installed later without cutting structure or taking
 area out of an occupied apartment. Both apartments on a floor open directly
 off the fire lobby, and the riser cupboard is entered from the lobby rather
 than from inside a dwelling.
+
+### Where the party wall can be opened
+
+The party wall can only be opened between **y 3.80 and 7.18**. North of
+that, block A's east strip is the stair, the fire lobby, the lift and the
+riser, so the wall backs onto the core rather than onto a room. On floors
+1 and 2 that matters only for apartment B's front door, which opens off
+the lobby. On the third floor it decides the whole plan: the living,
+dining and kitchen run right across that band as one 10.60 m wide room,
+because it is the only place the two blocks can be joined inside a single
+dwelling — and the south terrace therefore moves out onto the cantilever
+rather than sitting on the link.
 
 ### Services
 
@@ -284,7 +297,7 @@ figured dimensions only; do not scale from the drawings.
 | --- | ---- | ---------- |
 | P1  | 2026-09-18 | First issue |
 | P2  | 2026-09-24 | East boundary windows, 3.30 m floor heights, garden shown with the ground floor |
-| P3  | 2026-09-29 | Four storeys, apartments and central service floor, straight north boundary, 1.50 m south extension, RC frame, lift shaft |
+| P3  | 2026-09-29 | Four storeys, apartments and central service floor, straight north boundary, 1.50 m south extension, RC frame, lift shaft. Central kitchen reduced 30 % to 12.9 m²; laundry reduced to one machine at 4.0 m²; balconies taken to the full width of each block; every WC and bathroom re-routed so that none is entered through a service room or another room; third floor replanned around the party wall constraint |
 
 The title block carries this record and stamps the build date, so a sheet
 always says which issue it is.
