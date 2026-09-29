@@ -32,6 +32,9 @@ LEVELS = [
     (plans.sheet_section, "A-200-section",      "-SEC", 150.0),
 ]
 
+# enlargements are the same geometry at a larger plotted scale, so they add
+# nothing to a 1:1 CAD model and are not exported as separate DXF files
+
 
 def _run(builder, doc, offset=(0.0, 0.0), suffix=""):
     """Run a sheet builder against the DXF backend."""

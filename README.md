@@ -25,6 +25,10 @@ repository.
 | `A-101` | First Floor Plan          | +3.30  | 1:50  |
 | `A-102` | Second Floor Plan         | +6.60  | 1:50  |
 | `A-103` | Third Floor & Roof Plan   | +9.90  | 1:50  |
+| `A-200` | Section A–A               | —      | 1:50  |
+| `A-300` | Typical Apartment — Enlarged Plan | +3.30 / +6.60 | 1:25 |
+| `A-301` | Third Floor Apartment — Enlarged Plan | +9.90 | 1:25 |
+| `A-302` | Central Kitchen & Laundry — Enlarged Plan | +0.00 | 1:25 |
 
 All sheets are ISO A1 landscape (841 × 594 mm) with a title block, key,
 area schedule, general notes, north point and graphic scale. A-100 covers
@@ -52,7 +56,7 @@ above.
 | `drawings/`         | SVG, A1                             | **Inkscape**, **Penpot**, Figma, any browser — editable vector artwork      |
 | `pdf/`              | vector PDF, exactly 841 × 594 mm    | any reader; prints to scale; Inkscape and Scribus can edit it              |
 | `png/`              | 150 dpi, 4967 px wide               | **Sweet Home 3D** and the online planners, to trace a 3D model over        |
-| `drawing-set.html`  | all five sheets, self-contained     | any browser, offline — tabs, zoom, pan                                      |
+| `drawing-set.html`  | all nine sheets, self-contained     | any browser, offline — tabs, zoom, pan                                      |
 
 ### Editing the plans as CAD
 
@@ -301,6 +305,20 @@ figured dimensions only; do not scale from the drawings.
 
 The title block carries this record and stamps the build date, so a sheet
 always says which issue it is.
+
+### The section and the enlargements
+
+`A-200` is drawn by the same engine as the plans, by mapping the plan's
+north–south axis onto the sheet's x and the level onto its y, so its
+dimensions come out of `geometry.py` like everything else. It cuts at
+y = 16.20 — marked A–A on every floor plan — through the south glazing,
+the lift shaft, the protected lobby, one stair flight and the light court.
+
+The 1:25 sheets run the ordinary plan code at a larger scale and crop to
+the part being shown, so an enlargement cannot disagree with the plan it
+came from. They cover the wet cores, the kitchenettes and the service
+floor; a whole 13.90 m unit does not fit an A1 sheet at 1:25, so the
+whole-unit plans stay at 1:50 on A-101 and A-103.
 
 ### Still open
 

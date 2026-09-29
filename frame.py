@@ -230,10 +230,17 @@ def compass_and_scale(sh, x=440.0, y=500.0):
 
 
 def render(sh):
+    defs = ""
+    if getattr(sh, "clips", None):
+        paths = "".join(
+            f'<clipPath id="{cid}"><rect x="{x:.2f}" y="{y:.2f}" '
+            f'width="{w:.2f}" height="{h:.2f}"/></clipPath>'
+            for cid, x, y, w, h in sh.clips)
+        defs = f"<defs>{paths}</defs>\n"
     return (f'<?xml version="1.0" encoding="UTF-8"?>\n'
             f'<svg xmlns="http://www.w3.org/2000/svg" '
             f'width="{SHEET_W}mm" height="{SHEET_H}mm" '
             f'viewBox="0 0 {SHEET_W} {SHEET_H}">\n'
             f'<title>{esc(sh.number)} {esc(sh.title)}</title>\n'
             f'<rect width="{SHEET_W}" height="{SHEET_H}" fill="#ffffff"/>\n'
-            + "\n".join(sh.body) + "\n</svg>\n")
+            + defs + "\n".join(sh.body) + "\n</svg>\n")

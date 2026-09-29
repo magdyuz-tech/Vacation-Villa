@@ -23,6 +23,12 @@ SHEETS = [
      "Two-bedroom apartment between a south and a north terrace."),
     ("A-200", "Section A–A", "through the core", "1:50",
      "Cut through the glazing, lift shaft, stair and light court."),
+    ("A-300", "Typical Apartment — Enlarged Plan", "+3.30 / +6.60", "1:25",
+     "Entry, wet rooms and kitchenettes of both apartments."),
+    ("A-301", "Third Floor Apartment — Enlarged Plan", "+9.90", "1:25",
+     "The living band across both blocks and the master suite."),
+    ("A-302", "Central Kitchen & Laundry — Enlarged Plan", "+0.00", "1:25",
+     "The service floor: kitchen, servery, wash-up, laundry, stores."),
 ]
 
 CSS = """
@@ -102,7 +108,7 @@ document.getElementById('out').onclick=()=>{z/=1.25;apply()};
 document.getElementById('fit').onclick=fit;
 document.getElementById('full').onclick=()=>{z=1;apply()};
 addEventListener('keydown',e=>{
-  if(e.key>='1'&&e.key<='6'){show(+e.key-1);return}
+  if(e.key>='1'&&e.key<='9'){show(+e.key-1);return}
   if(e.key==='+'||e.key==='='){z*=1.25;apply()}
   if(e.key==='-'){z/=1.25;apply()}
   if(e.key==='0'){fit()}
@@ -129,6 +135,17 @@ show(0);fit();
 """
 
 
+def _slug(title):
+    """Must match plans.slugify so the viewer finds the generated files."""
+    out = []
+    for ch in title.lower():
+        out.append(ch if (ch.isalnum() and ch.isascii()) else "-")
+    s = "".join(out)
+    while "--" in s:
+        s = s.replace("--", "-")
+    return s.strip("-")
+
+
 def inline(svg_text):
     """Strip the XML declaration and let the SVG scale inside its frame."""
     svg_text = re.sub(r"<\?xml[^>]*\?>\s*", "", svg_text)
@@ -139,8 +156,7 @@ def inline(svg_text):
 def build(drawings_dir, out_path):
     parts, tabs = [], []
     for i, (num, title, level, scale, blurb) in enumerate(SHEETS):
-        slug = (title.lower().replace(" & ", "-").replace(" ", "-")
-                .replace("\u2013", "-"))
+        slug = _slug(title)
         path = os.path.join(drawings_dir, f"{num}-{slug}.svg")
         with open(path, encoding="utf-8") as fh:
             svg = inline(fh.read())
@@ -160,7 +176,7 @@ def build(drawings_dir, out_path):
 <header>
   <h1>Four-Storey Vacation Home</h1>
   <span class="sub">Preliminary drawing set · Rev P3 · ISO A1 ·
-  six sheets</span>
+  nine sheets</span>
 </header>
 <nav>
   {''.join(tabs)}
@@ -175,7 +191,7 @@ def build(drawings_dir, out_path):
 </nav>
 <main><div class="stage" id="stage">{''.join(parts)}</div></main>
 <footer>
-  <kbd>1</kbd>–<kbd>6</kbd> sheets &nbsp;·&nbsp;
+  <kbd>1</kbd>–<kbd>9</kbd> sheets &nbsp;·&nbsp;
   <kbd>+</kbd> <kbd>−</kbd> <kbd>0</kbd> zoom &nbsp;·&nbsp;
   ctrl/⌘ + scroll to zoom, drag to pan &nbsp;·&nbsp;
   Preliminary design issue — not for construction.

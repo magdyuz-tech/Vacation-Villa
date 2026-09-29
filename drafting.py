@@ -86,10 +86,26 @@ class Sheet:
         self.scale_note = scale_note
         self.body = []
         self.schedule = []          # (room name, area m2)
+        self.clips = []             # (id, x, y, w, h) in sheet millimetres
 
     # -- raw primitives ----------------------------------------------------
     def raw(self, s):
         self.body.append(s)
+
+    def begin_clip(self, x, y, w, h):
+        """Clip everything until end_clip() to a window on the sheet.
+
+        Enlarged details run the ordinary plan code at a larger scale and
+        simply crop to the part being shown, so the detail and the plan can
+        never disagree.  The CAD backend ignores it and keeps the geometry.
+        """
+        cid = f"clip{len(self.clips) + 1}"
+        self.clips.append((cid, x, y, w, h))
+        self.raw(f'<g clip-path="url(#{cid})">')
+        return cid
+
+    def end_clip(self):
+        self.raw("</g>")
 
     @contextmanager
     def on(self, layer):

@@ -367,10 +367,7 @@ def sheet_site():
 # ===========================================================================
 # A-100  GROUND FLOOR
 # ===========================================================================
-def sheet_ground():
-    D.set_scale(50, *GF_ORIGIN)
-    sh = Sheet("A-100", "Ground Floor Plan", "+0.00", "1:50 @ A1")
-    F.border(sh)
+def _plan_ground(sh):
     neighbours(sh)
     garden(sh)
     boundary(sh)
@@ -514,6 +511,13 @@ def sheet_ground():
     sh.room(b_x0, 13.42, 4.55, 4.28, "Guest Bedroom", area=19.5, size=2.4,
             sub="or office", at=(20.42, 16.30))
 
+
+
+def sheet_ground():
+    D.set_scale(50, *GF_ORIGIN)
+    sh = Sheet("A-100", "Ground Floor Plan", "+0.00", "1:50 @ A1")
+    F.border(sh)
+    _plan_ground(sh)
     sh.dim_h(0, PLOT_W, -2.0, "23.00", ext_from=0.0)
     sh.dim_h(A_X0, A_X1, -0.9, "6.50")
     sh.dim_h(A_X1, B_X1, -0.9, "5.00")
@@ -566,10 +570,7 @@ def sheet_ground():
 # ===========================================================================
 # A-101 / A-102  APARTMENT FLOORS
 # ===========================================================================
-def _apartment_floor(number, title, level, floor):
-    D.set_scale(50, *PLAN_ORIGIN)
-    sh = Sheet(number, title, level, "1:50 @ A1")
-    F.border(sh)
+def _plan_apartment(sh, floor, level):
     shell(sh, floor)
     parapet(sh, A_X0, A_Y0, 17.85, A_Y0 + WT, openings=OPENINGS[floor]["a_south"])
     parapet(sh, b_x0, B_Y0, B_X1, B_Y0 + WT, openings=OPENINGS[floor]["b_south"])
@@ -668,6 +669,13 @@ def _apartment_floor(number, title, level, floor):
     sh.room(b_x0, 15.52, 4.55, 2.18, "Dressing / Study", area=9.9, size=2.0,
             sched_name="Apt B dressing / study", at=(20.42, 16.60))
 
+
+
+def _apartment_floor(number, title, level, floor):
+    D.set_scale(50, *PLAN_ORIGIN)
+    sh = Sheet(number, title, level, "1:50 @ A1")
+    F.border(sh)
+    _plan_apartment(sh, floor, level)
     sh.dim_h(A_X0, B_X1, 1.6, "11.50", ext_from=A_Y0)
     sh.dim_h(A_X0, A_X1, 0.4, "6.50")
     sh.dim_h(A_X1, B_X1, 0.4, "5.00")
@@ -729,10 +737,7 @@ def sheet_second():
 # ===========================================================================
 # A-103  THIRD FLOOR / ROOF
 # ===========================================================================
-def sheet_third():
-    D.set_scale(50, *PLAN_ORIGIN)
-    sh = Sheet("A-103", "Third Floor & Roof Plan", "+9.90", "1:50 @ A1")
-    F.border(sh)
+def _plan_third(sh):
     o = OPENINGS[3]
 
     shell(sh, 3)
@@ -862,6 +867,13 @@ def sheet_third():
             sub="shaded · plant", sched_name="North terrace",
             at=(20.42, 16.00))
 
+
+
+def sheet_third():
+    D.set_scale(50, *PLAN_ORIGIN)
+    sh = Sheet("A-103", "Third Floor & Roof Plan", "+9.90", "1:50 @ A1")
+    F.border(sh)
+    _plan_third(sh)
     sh.dim_h(A_X0, B_X1, 1.05, "11.50", ext_from=A_Y0)
     sh.dim_h(A_X0, A_X1, -0.15, "6.50")
     sh.dim_h(A_X1, B_X1, -0.15, "5.00")
@@ -1095,8 +1107,167 @@ def sheet_section():
 
 
 # ===========================================================================
+# A-300 / A-301 / A-302  ENLARGED PLANS AT 1:25
+# ===========================================================================
+# These run the ordinary plan code at 1:25 and crop to the part being shown,
+# so an enlargement can never disagree with the plan it came from.  A whole
+# 13.90 m unit does not fit an A1 sheet at 1:25, which is why these cover
+# the wet cores, the kitchenettes and the service floor - the places where
+# the extra scale actually buys something - and the whole-unit plans stay at
+# 1:50 on A-101 and A-103.
+
+
+def _detail_sheet(number, title, level, origin, clip, draw, schedule):
+    D.set_scale(25, *origin)
+    sh = Sheet(number, title, level, "1:25 @ A1")
+    F.border(sh)
+    sh.begin_clip(*clip)
+    draw(sh)
+    sh.end_clip()
+    sh.schedule = schedule
+    return sh
+
+
+def sheet_unit_typical():
+    sh = _detail_sheet(
+        "A-300", "Typical Apartment — Enlarged Plan", "+3.30 / +6.60",
+        (-432.0, 546.8), (25, 78, 490, 336),
+        lambda s: _plan_apartment(s, 1, "+3.30"),
+        [("Apt A bathroom", 3.4), ("Apt A entry hall", 4.4),
+         ("Apt A living / kitchen", 26.3), ("Apt B entry hall", 4.2),
+         ("Apt B bathroom", 4.6), ("Apt B living / kitchen", 23.7)])
+
+    sh.dim_h(a_x0, 13.28, 11.55, "1.48")
+    sh.dim_h(13.40, CORE_WALL_X, 11.55, "1.88")
+    sh.dim_h(20.40, b_x1, 11.55, "2.30")
+    sh.dim_v(8.98, 11.30, 11.50, "2.32")
+    sh.dim_v(9.12, 11.10, 23.10, "1.98")
+
+    F.heading(sh)
+    y = F.legend(sh, 52)
+    y = F.schedule(sh, y + 8, extra=[
+        ("Apartment A / apartment B", "57.1 / 63.3 m²"),
+        ("Balcony A / B (external)", f"{BALC[0]:.1f} / {BALC[1]:.1f} m²")])
+    F.notes(sh, y + 6, [
+        "Enlarged from A-101; the second floor is identical. Only the "
+        "entry, wet rooms and kitchenettes are shown at this scale — a "
+        "whole 13.90 m unit does not fit an A1 sheet at 1:25.",
+        "Apartment A: bathroom and entry hall side by side on the front "
+        "door, so the bathroom is reached from the hall and from the "
+        "bedroom without crossing the living room. Kitchenette runs "
+        "against the party wall in the south-east bay.",
+        "Apartment B: bathroom off its own entry hall with an openable "
+        "east window above +3.00, kitchenette against the party wall "
+        "opposite apartment A's riser.",
+        "All kitchenettes are one joinery run: 600 mm sink bay, two-ring "
+        "induction hob, undercounter fridge and overhead storage over the "
+        "full length. Recirculating hood unless a duct to the riser is "
+        "confirmed.",
+        "Every wet room drains to the riser cupboard on the party wall; "
+        "runs longer than 2 m fall at 1:40 within the 300 mm floor zone.",
+    ])
+    fx.scale_bar(sh, 40, 556, metres=5)
+    F.titleblock(sh)
+    return sh
+
+
+def sheet_unit_third():
+    sh = _detail_sheet(
+        "A-301", "Third Floor Apartment — Enlarged Plan", "+9.90",
+        (-432.0, 690.0), (25, 78, 490, 472), _plan_third,
+        [("Living / dining / kitchen", 35.8), ("Bedroom 1", 19.6),
+         ("Ensuite", 7.5), ("Dressing", 7.1), ("Family bath", 5.2),
+         ("Guest WC", 2.3)])
+
+    sh.dim_h(a_x0, b_x1, 15.20, "10.90")
+    sh.dim_h(b_x0, 20.30, 15.20, "2.15")
+    sh.dim_v(a_y0, LIV3_Y1, 11.50, "3.38")
+    sh.dim_v(LF_Y0, 11.60, 23.10, "4.30")
+    sh.tag(17.00, 4.35, "LIVING BAND ACROSS BOTH BLOCKS", size=2.4,
+           color=INK)
+
+    F.heading(sh)
+    y = F.legend(sh, 52)
+    y = F.schedule(sh, y + 8, extra=[
+        ("Apartment, gross internal", "≈101 m²"),
+        ("South terrace / north terrace", f"{TER_S:.1f} / {TER_N:.1f} m²")])
+    F.notes(sh, y + 6, [
+        "Enlarged from A-103. The party wall can only be opened between "
+        "y 3.80 and 7.18, so the living, dining and kitchen occupy that "
+        "whole band as one 10.60 m wide room and form the only link "
+        "between the two blocks.",
+        "Bedroom 1 and its ensuite take block B, with openable east "
+        "windows above +3.00. The ensuite is entered from the dressing "
+        "room, and the dressing room from bedroom 1.",
+        "Block A carries the entry hall on the front door, with the guest "
+        "WC, the store, the family bath and its passage off it, and "
+        "bedroom 2 at the light court beyond.",
+        "No room on this floor is entered through another.",
+    ])
+    fx.scale_bar(sh, 40, 556, metres=5)
+    F.titleblock(sh)
+    return sh
+
+
+def sheet_service():
+    sh = _detail_sheet(
+        "A-302", "Central Kitchen & Laundry — Enlarged Plan", "+0.00",
+        (-412.0, 808.0), (40, 78, 480, 374), _plan_ground,
+        [("Service kitchen", 12.9), ("Servery", 3.0), ("Wash-up", 3.2),
+         ("Staff WC", 2.0), ("Bin store", 1.9), ("Central laundry", 4.0),
+         ("Guest bath", 5.9), ("Linen & store", 3.3)])
+
+    sh.dim_v(14.00, a_y1, 11.55, "3.70")
+    sh.dim_h(a_x0, CORE_WALL_X, 17.85, "3.48")
+    sh.dim_v(9.12, 10.32, 23.05, "1.20")
+    sh.dim_h(19.37, b_x1, 8.98, "3.33")
+
+    F.heading(sh)
+    y = F.legend(sh, 52)
+    y = F.schedule(sh, y + 8, extra=[
+        ("Kitchen, previous issue", "18.4 m²"),
+        ("Kitchen, this issue", "12.9 m²  (−30 %)"),
+        ("Laundry, previous issue", "10.4 m²"),
+        ("Laundry, this issue", "4.0 m²")])
+    F.notes(sh, y + 6, [
+        "Enlarged from A-100. The kitchen is reduced 30 % on the client's "
+        "instruction; the area released carries a staff WC, an internal "
+        "bin store and a servery on the route in, so bins no longer stand "
+        "out on the patio.",
+        "Kitchen fit-out: a wet run on the west wall with a deep bowl "
+        "sink and undercounter refrigeration, a cooking line on the north "
+        "wall under the extract hood, and a free-standing preparation "
+        "counter between them.",
+        "Laundry takes one washer-dryer, a utility sink and a folding "
+        "counter, as instructed. Linen and housekeeping stores are next "
+        "to it off the same hall.",
+        "The hall in block B is 1.10 m clear and serves the laundry, the "
+        "guest bath, the linen store and the guest bedroom, so none of "
+        "them is entered through another room.",
+        "Kitchen extract rises in a fire-rated shaft inside the riser "
+        "cupboard off the fire lobby and discharges above roof level. "
+        "Suppression over the cooking line; 2 hour separation to the "
+        "floor over.",
+    ])
+    fx.scale_bar(sh, 50, 556, metres=5)
+    F.titleblock(sh)
+    return sh
+
+
+# ===========================================================================
 SHEETS = (sheet_site, sheet_ground, sheet_first, sheet_second, sheet_third,
-          sheet_section)
+          sheet_section, sheet_unit_typical, sheet_unit_third, sheet_service)
+
+
+def slugify(title):
+    """Sheet title -> file name: ASCII, lower case, hyphen separated."""
+    out = []
+    for ch in title.lower():
+        out.append(ch if (ch.isalnum() and ch.isascii()) else "-")
+    s = "".join(out)
+    while "--" in s:
+        s = s.replace("--", "-")
+    return s.strip("-")
 
 
 def main():
@@ -1106,8 +1277,7 @@ def main():
     paths = []
     for builder in SHEETS:
         sh = builder()
-        slug = (sh.title.lower().replace(" & ", "-").replace(" ", "-")
-                .replace("\u2013", "-"))
+        slug = slugify(sh.title)
         path = os.path.join(out, f"{sh.number}-{slug}.svg")
         with open(path, "w", encoding="utf-8") as fh:
             fh.write(F.render(sh))
