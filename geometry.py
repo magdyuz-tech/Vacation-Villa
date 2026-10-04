@@ -201,6 +201,16 @@ V_WIN_B_E_1 = [(4.60, 6.40), (7.60, 8.50),   # wing sitting room
                (12.20, 13.80),                # wing bedroom
                (15.90, 17.10)]                # wing dressing
 
+# villa second floor - master suite in block A, two bedrooms in block B.
+# The party wall is opened at the NORTH band here: block A's south band is
+# the master bedroom, so the route into block B cannot run through it.
+V_PARTY_BEDS = (15.40, 16.40)
+V_WIN_B_E_2 = [(4.60, 6.40),                 # bedroom 4
+               (9.30, 10.20),                # bath 4
+               (11.60, 12.60),               # bath 3
+               (15.00, 16.80)]               # bedroom 3
+V_WIN_B_N_2 = [(18.40, 19.20), (20.00, 22.40)]   # wing hall, bedroom 3
+
 # ---------------------------------------------------------------------------
 # third floor
 # ---------------------------------------------------------------------------
