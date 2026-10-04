@@ -148,13 +148,13 @@ def core_fittings(sh, floor):
              floor_to_floor=FLOOR_TO_FLOOR)
 
 
-def core_rooms(sh, floor):
+def core_rooms(sh, floor, lobby_name="Fire Lobby"):
     """Common parts, labelled the same way on every floor."""
     sh.room(LF_X0, LF_Y0, LF_X1 - LF_X0, LF_Y1 - LF_Y0, "Lift",
             area=(LF_X1 - LF_X0) * (LF_Y1 - LF_Y0), size=1.8,
             sched_name="Lift shaft", sub="shaft reserved", show_area=False,
             at=(16.25, 8.05))
-    sh.room(LOB_X0, LOB_Y0, LOB_X1 - LOB_X0, LOB_Y1 - LOB_Y0, "Fire Lobby",
+    sh.room(LOB_X0, LOB_Y0, LOB_X1 - LOB_X0, LOB_Y1 - LOB_Y0, lobby_name,
             area=(LOB_X1 - LOB_X0) * (LOB_Y1 - LOB_Y0), size=1.9,
             show_area=False, at=(16.62, 9.73))
     name = "Stair Hall" if floor == 0 else "Landing"
@@ -222,17 +222,17 @@ def balcony(sh, span, level_txt, name="Balcony", screen_w=True, label=True):
 # a_west stays a single window: the west wall is the one blind elevation,
 # open only over the 1.50 m where it faces the plot's own garden corridor.
 OPENINGS = {
-    0: dict(a_south=[WIN_A_1, WIN_A_2, DOOR_ENTRY],
+    # Villa ground floor (P5): two front doors, guest wing in block B.
+    # The party wall opens twice - once at the south so the family can
+    # greet guests, once at the north so the dirty kitchen can serve the
+    # show kitchen.  Between them it backs onto the core.
+    0: dict(a_south=[V_DOOR_FAMILY] + V_WIN_A_S,
             a_west=[WIN_W_LIVING],
             a_north=WIN_N_A,
-            b_south=[WIN_B_1, WIN_B_2],
-            b_north=WIN_N_B,
-            # the party wall can only be opened between y 3.80 and 7.18:
-            # north of that, block A's side of it is the lift and the
-            # services riser, not a room
-            party=[(4.20, 5.20), (5.60, 6.60)],
-            b_east=[WIN_E_LIV_B, WIN_E_LOUNGE, WIN_E_LAUNDRY,
-                    WIN_E_GBATH, WIN_E_GBED]),
+            b_south=[V_DOOR_MAJLIS] + V_WIN_B_S,
+            b_north=[V_DOOR_SERVICE] + V_WIN_B_N,
+            party=[V_PARTY_HALL, V_PARTY_SERVE],
+            b_east=V_WIN_B_E),
     1: dict(a_south=UP_A_SOUTH,
             a_west=[WIN_W_LIVING],
             a_north=WIN_N_A,
@@ -392,10 +392,17 @@ def sheet_site():
 # A-100  GROUND FLOOR
 # ===========================================================================
 def _plan_ground(sh):
+    """Villa ground floor: guest wing in block B, family rooms in block A.
+
+    Two front doors on the south elevation, as far apart as the frontage
+    allows: the family at the west end of block A nearest the garden, the
+    guests at the east end of block B straight into the majlis.  The core
+    sits between the two, so the routes never cross.
+    """
     neighbours(sh)
     garden(sh)
     boundary(sh)
-    sh.level_tag(6.2, 1.95, "GARDEN −0.50")
+    sh.level_tag(6.2, 1.95, "GARDEN \u22120.50")
     sh.tag(0.55, 4.45, "ENTRANCE GARDEN CORRIDOR", size=2.1, color=GREY,
            anchor="start")
 
@@ -403,153 +410,100 @@ def _plan_ground(sh):
     core_walls(sh)
     columns(sh)
 
-    # block A: entrance lobby, living, service band, kitchen.  The hall sits
-    # on the fire-lobby door so the route runs lobby - hall - living or
-    # kitchen without passing through a room.
-    sh.wall(CORE_WALL_X, a_y0, ST_X0, LF_Y0 - PT, openings=[(4.55, 6.05)])
-    sh.wall(a_x0, 8.90, CORE_WALL_X, 9.02,
-            openings=[(12.10, 12.90), (13.50, 14.80)])
-    sh.wall(13.28, 9.02, 13.40, 10.60)
-    sh.wall(a_x0, 10.60, CORE_WALL_X, 10.72, openings=[(13.40, 14.60)])
-    sh.wall(13.10, 10.72, 13.22, 12.28, openings=[(11.20, 12.00)])
-    sh.wall(a_x0, 12.28, CORE_WALL_X, 12.40, openings=[(13.40, 14.60)])
-    sh.wall(13.10, 12.40, 13.22, 13.88, openings=[(12.60, 13.40)])
-    sh.wall(a_x0, 13.88, CORE_WALL_X, 14.00, openings=[(13.40, 14.60)])
-    # the old light court is now a store and plant room off the kitchen
-    sh.wall(CORE_WALL_X, CORE_N, ST_X0, a_y1, openings=[(15.55, 16.45)])
+    # --- block A: entrance hall, gallery past the core, dining, kitchen ---
+    sh.wall(a_x0, 10.50, CORE_WALL_X, 10.62, openings=[(12.60, 13.80)])
+    sh.wall(a_x0, 14.60, CORE_WALL_X, CORE_N, openings=[(12.40, 13.60)])
 
-    # block B: lounge, then a 1.10 m hall so that no room is entered
-    # through another - the fault the previous issue carried
-    sh.wall(b_x0, 9.00, b_x1, 9.12, openings=[(18.35, 19.15)])
-    sh.wall(19.25, 9.12, 19.37, 13.30,
-            openings=[(9.55, 10.25), (10.90, 11.70), (12.50, 13.15)])
-    sh.wall(19.37, 10.32, b_x1, 10.44)
-    sh.wall(19.37, 12.20, b_x1, 12.32)
-    sh.wall(b_x0, 13.30, b_x1, 13.42, openings=[(18.40, 19.20)])
+    # --- block B: majlis, guest WC, service lobby, dirty kitchen ---------
+    sh.wall(b_x0, 11.00, b_x1, 11.12,
+            openings=[(18.50, 19.40), (20.80, 21.90)])
+    sh.wall(20.00, 11.12, 20.12, 13.00)
+    sh.wall(b_x0, 13.00, b_x1, 13.12, openings=[(20.80, 21.90)])
 
-    for a, b in (WIN_A_1, WIN_A_2):
+    # --- openings ---------------------------------------------------------
+    sh.door(*V_DOOR_FAMILY, A_Y0, A_Y0 + WT, "h", hinge="lo", swing="up")
+    arch_note(sh, *V_DOOR_FAMILY, A_Y0 + WT, side=1)
+    for a, b in V_WIN_A_S:
         sh.window(a, b, A_Y0, A_Y0 + WT, "h")
         arch_note(sh, a, b, A_Y0 + WT, side=1)
-    sh.door(*DOOR_ENTRY, A_Y0, A_Y0 + WT, "h", hinge="lo", swing="up")
-    arch_note(sh, *DOOR_ENTRY, A_Y0 + WT, side=1)
     sh.window(*WIN_W_LIVING, A_X0, A_X0 + WT, "v")
-    for a, b in (WIN_B_1, WIN_B_2):
+    sh.door(*V_DOOR_MAJLIS, B_Y0, B_Y0 + WT, "h", hinge="lo", swing="up")
+    arch_note(sh, *V_DOOR_MAJLIS, B_Y0 + WT, side=1)
+    for a, b in V_WIN_B_S:
         sh.window(a, b, B_Y0, B_Y0 + WT, "h")
         arch_note(sh, a, b, B_Y0 + WT, side=1)
-    for a, b in OPENINGS[0]["b_east"]:
+    for a, b in V_WIN_B_E:
         sh.window(a, b, B_X1 - WT, B_X1, "v")
-    north_windows(sh, 0)
-    for a, b in OPENINGS[0]["party"]:
-        sh.door(a, b, PARTY_X0, PARTY_X1, "v", leaf=False)
-        arch_note(sh, a, b, PARTY_X0, axis="v", side=-1)
+    for a, b in WIN_N_A:
+        sh.window(a, b, A_Y1 - WT, A_Y1, "h")
+    for a, b in V_WIN_B_N:
+        sh.window(a, b, B_Y1 - WT, B_Y1, "h")
+    sh.door(*V_DOOR_SERVICE, B_Y1 - WT, B_Y1, "h", hinge="lo", swing="down")
+    sh.door(*V_PARTY_HALL, PARTY_X0, PARTY_X1, "v", leaf=False)
+    arch_note(sh, *V_PARTY_HALL, PARTY_X0, axis="v", side=-1)
+    sh.door(*V_PARTY_SERVE, PARTY_X0, PARTY_X1, "v", leaf=False)
+
     core_fittings(sh, 0)
-    sh.door(4.55, 6.05, CORE_WALL_X, ST_X0, "v", leaf=False)
-    arch_note(sh, 4.55, 6.05, CORE_WALL_X, axis="v", side=-1)
-    sh.door(12.10, 12.90, 8.90, 9.02, "h", hinge="lo", swing="up")
-    sh.door(13.50, 14.80, 8.90, 9.02, "h", leaf=False)
-    sh.door(13.40, 14.60, 10.60, 10.72, "h", hinge="lo", swing="up")
-    sh.door(11.20, 12.00, 13.10, 13.22, "v", hinge="lo", swing="right")
-    sh.door(13.40, 14.60, 12.28, 12.40, "h", leaf=False)
-    sh.door(12.60, 13.40, 13.10, 13.22, "v", hinge="lo", swing="right")
-    sh.door(13.40, 14.60, 13.88, 14.00, "h", leaf=False)
-    sh.door(18.35, 19.15, 9.00, 9.12, "h", leaf=False)
-    sh.door(9.55, 10.25, 19.25, 19.37, "v", hinge="lo", swing="right")
-    sh.door(10.90, 11.70, 19.25, 19.37, "v", hinge="lo", swing="right")
-    sh.door(12.50, 13.15, 19.25, 19.37, "v", hinge="hi", swing="right")
-    sh.door(18.40, 19.20, 13.30, 13.42, "h", hinge="lo", swing="up")
-    sh.door(15.55, 16.45, CORE_WALL_X, ST_X0, "v", hinge="lo", swing="right")
+    sh.door(12.60, 13.80, 10.50, 10.62, "h", hinge="lo", swing="up")
+    sh.door(12.40, 13.60, 14.60, CORE_N, "h", hinge="lo", swing="down")
+    sh.door(18.50, 19.40, 11.00, 11.12, "h", hinge="lo", swing="up")
+    sh.door(20.80, 21.90, 11.00, 11.12, "h", hinge="lo", swing="up")
+    sh.door(20.80, 21.90, 13.00, 13.12, "h", hinge="lo", swing="up")
 
-    # entrance lobby: the desk sits on the north wall, clear of the two
-    # arched openings into the lounge
-    fx.counter(sh, 15.60, 6.48, 1.80, 0.60)
-    sh.tag(16.50, 6.22, "RECEPTION", size=1.7, color=GREY)
-    # living and reception
-    fx.sofa(sh, a_x0, 5.20, 0.85, 2.10, facing="e")
-    fx.sofa(sh, 13.10, 4.00, 2.10, 0.85, facing="s")
-    sh.rect(12.85, 5.40, 1.20, 0.65, rx=D.mm(0.1), sw=LW_FIXTURE, stroke=GREY)
-    fx.tv(sh, 15.10, 5.10, 1.40, axis="v")
-    fx.table(sh, 12.55, 7.15, 1.60, 0.95, seats_n=3, seats_s=3)
-    # guest wc
-    fx.wc(sh, 12.25, 9.18, facing="n")
-    fx.basin(sh, 12.90, 10.55, facing="s")
-    # staff WC, wash-up, bin store and servery
-    fx.wc(sh, 12.45, 10.90, facing="n")
-    fx.basin(sh, 12.05, 12.24, w=0.50, d=0.40, facing="s")
-    fx.counter(sh, 13.32, 10.85, 1.88, 0.62)
-    fx.sink(sh, 13.55, 10.95, w=0.75, d=0.45)
-    fx.counter(sh, 13.32, 12.52, 1.88, 0.60)
-    for bx in (11.95, 12.55):
-        sh.rect(bx, 12.60, 0.50, 0.55, sw=LW_FIXTURE, stroke=GREY)
-    # central service kitchen, reduced 30 % to 12.9 m2
-    fx.counter(sh, a_x0, 14.20, 0.70, 3.30)
-    fx.sink(sh, 11.86, 14.40, w=0.58, d=0.85)
-    fx.fridge(sh, a_x0, 15.70, 0.70, 1.30)
-    fx.counter(sh, 12.60, 16.95, 2.60, 0.65)
-    fx.hob(sh, 14.05, 17.00, w=0.95, d=0.55)
-    fx.counter(sh, 13.55, 14.30, 1.50, 0.70)
-    # lounge: breakfast table south by the garden and east windows, the
-    # sitting end north where the party wall is solid and can carry the TV
-    fx.table(sh, 19.90, 4.35, 1.50, 0.90, seats_n=3, seats_s=3)
-    fx.tv(sh, 18.17, 7.30, 1.40, axis="v")
-    fx.sofa(sh, 21.15, 7.25, 0.85, 1.60, facing="w")
-    sh.rect(19.75, 7.70, 1.00, 0.62, rx=D.mm(0.1), sw=LW_FIXTURE,
+    # --- block A fittings -------------------------------------------------
+    # entrance hall: console against the west wall, seat by the door
+    fx.counter(sh, a_x0, 5.60, 0.45, 1.40)
+    sh.rect(14.60, 4.00, 1.30, 0.60, rx=D.mm(0.1), sw=LW_FIXTURE, stroke=GREY)
+    # formal dining
+    fx.table(sh, 12.35, 11.35, 1.10, 2.60, seats_e=3, seats_w=3)
+    fx.wardrobe(sh, a_x0, 14.00, 1.60, 0.50)
+    # show kitchen: run along the north wall under the windows, island south
+    fx.counter(sh, a_x0, 17.00, 5.20, 0.65)
+    fx.sink(sh, 12.20, 17.10, w=0.80, d=0.48)
+    fx.hob(sh, 16.05, 17.08, w=0.95, d=0.55)
+    fx.fridge(sh, 17.20, 15.10, 0.62, 1.30)
+    fx.counter(sh, 12.60, 15.25, 2.80, 0.90)
+    sh.tag(14.00, 15.62, "ISLAND", size=1.6, color=GREY)
+
+    # --- block B fittings -------------------------------------------------
+    # majlis: low seating round three sides, the Gulf arrangement
+    fx.sofa(sh, b_x0, 4.30, 0.78, 5.60, facing="e")
+    fx.sofa(sh, 21.92, 4.30, 0.78, 5.60, facing="w")
+    fx.sofa(sh, 19.70, 10.05, 2.30, 0.78, facing="s")
+    sh.rect(19.90, 6.60, 1.00, 1.00, rx=D.mm(0.1), sw=LW_FIXTURE,
             stroke=GREY)
-    # laundry - one washer-dryer, a utility sink and a folding counter
-    sh.rect(19.55, 9.32, 0.66, 0.66, sw=LW_FIXTURE, stroke=GREY)
-    sh.circle(19.88, 9.65, 0.21, stroke=GREY, sw=LW_FIXTURE)
-    fx.counter(sh, 20.40, 9.30, 1.35, 0.62)
-    fx.sink(sh, 20.55, 9.40, w=0.68, d=0.44)
-    # guest bath, entered from the hall so it serves the breakfast room
-    fx.shower(sh, 19.55, 10.62, 1.05, 1.05)
-    fx.wc(sh, 22.70, 11.15, facing="w")
-    fx.basin(sh, 21.15, 12.18, w=0.62, d=0.45, facing="s")
-    # linen and store
-    fx.wardrobe(sh, 19.55, 12.45, 2.95, 0.55)
-    # guest bedroom / office
-    fx.bed(sh, 19.40, 14.70, 1.60, 2.00, head="n")
-    for bx in (18.90, 21.05):
-        sh.rect(bx, 16.20, 0.45, 0.45, sw=LW_FIXTURE, stroke=GREY)
-    fx.wardrobe(sh, 22.15, 13.90, 0.55, 2.60, axis="v")
-    # dry store and plant, in what used to be the light court
-    fx.wardrobe(sh, 17.25, 14.95, 0.58, 2.55, axis="v")
-    sh.rect(15.55, 14.90, 0.95, 0.72, sw=LW_FIXTURE, stroke=GREY)
-    sh.tag(16.02, 15.15, "PLANT", size=1.6, color=GREY)
+    # guest WC
+    fx.wc(sh, b_x0, 11.70, facing="e")
+    fx.basin(sh, 19.10, 12.88, w=0.60, d=0.44, facing="s")
+    # service lobby
+    fx.wardrobe(sh, 22.12, 11.30, 0.58, 1.60, axis="v")
+    # dirty kitchen: heavy cooking run on the east wall, prep against party
+    fx.counter(sh, 22.05, 13.30, 0.65, 3.90)
+    fx.sink(sh, 22.12, 13.55, w=0.50, d=0.75)
+    fx.hob(sh, 22.10, 15.60, w=0.55, d=0.95)
+    fx.counter(sh, b_x0, 13.30, 0.62, 2.40)
+    fx.fridge(sh, b_x0, 16.10, 0.70, 1.40)
 
-    sh.room(ST_X0, a_y0, 2.45, 3.38, "Entrance Lobby", area=8.3, size=2.2,
-            sched_name="Entrance lobby & reception", at=(16.62, 4.70))
-    sh.room(a_x0, a_y0, 3.48, 5.10, "Living & Reception", area=17.8,
-            size=2.5, at=(13.54, 6.30))
-    sh.room(a_x0, 9.02, 1.48, 1.58, "Guest WC", area=2.3, size=1.8,
-            at=(12.54, 9.92))
-    sh.room(13.40, 9.02, 1.88, 1.58, "Hall", area=3.0, size=1.8,
-            sched_name="Hall", at=(14.34, 9.86))
-    sh.room(a_x0, 10.72, 1.30, 1.56, "Staff WC", area=2.0, size=1.7,
-            show_area=False, at=(12.45, 11.98))
-    sh.room(13.22, 10.72, 2.06, 1.56, "Wash-up", area=3.2, size=1.7,
-            at=(14.25, 11.92))
-    sh.room(a_x0, 12.40, 1.30, 1.48, "Bin Store", area=1.9, size=1.7,
-            show_area=False, at=(12.45, 13.55))
-    sh.room(13.22, 12.40, 2.06, 1.48, "Servery", area=3.0, size=1.7,
-            at=(14.25, 13.42))
-    sh.room(a_x0, 14.00, 3.48, 3.70, "Service Kitchen", area=12.9, size=2.3,
-            sub="central, serves all floors", at=(13.54, 15.95))
-    sh.room(ST_X0, CORE_N, a_x1 - ST_X0, a_y1 - CORE_N, "Store & Plant",
-            area=7.3, size=1.9, sched_name="Dry store & plant",
-            at=(16.62, 16.40))
-    core_rooms(sh, 0)
-    sh.room(b_x0, b_y0, 4.55, 5.20, "Lounge & Breakfast", area=23.7,
-            size=2.5, at=(20.42, 6.35))
-    sh.room(b_x0, 9.12, 1.10, 4.18, "Hall", area=4.6, size=1.7,
-            sched_name="Hall, block B", show_area=False, at=(18.70, 11.30))
-    sh.room(19.37, 9.12, 3.33, 1.20, "Laundry", area=4.0, size=1.9,
-            sched_name="Central laundry", at=(21.70, 9.98))
-    sh.room(19.37, 10.44, 3.33, 1.76, "Guest Bath", area=5.9, size=1.9,
-            at=(21.35, 11.65))
-    sh.room(19.37, 12.32, 3.33, 0.98, "Linen & Store", area=3.3, size=1.7,
-            show_area=False, at=(21.05, 12.92))
-    sh.room(b_x0, 13.42, 4.55, 4.28, "Guest Bedroom", area=19.5, size=2.4,
-            sub="or office", at=(20.42, 16.30))
-
+    # --- rooms ------------------------------------------------------------
+    sh.room(a_x0, a_y0, a_x1 - a_x0, LF_Y0 - PT - a_y0, "Entrance Hall",
+            area=20.4, size=2.4, sub="family entrance", at=(13.70, 4.60))
+    sh.room(a_x0, LF_Y0 - PT, CORE_WALL_X - a_x0, 10.50 - (LF_Y0 - PT),
+            "Gallery", area=11.1, size=1.9, show_area=False,
+            at=(13.54, 8.90))
+    sh.room(a_x0, 10.62, CORE_WALL_X - a_x0, 14.60 - 10.62, "Formal Dining",
+            area=13.8, size=2.2, at=(13.54, 13.00))
+    sh.room(a_x0, CORE_N, a_x1 - a_x0, a_y1 - CORE_N, "Show Kitchen",
+            area=18.0, size=2.3, sub="open to the family", at=(14.60, 16.45))
+    core_rooms(sh, 0, lobby_name="Landing")
+    sh.room(b_x0, b_y0, b_x1 - b_x0, 11.00 - b_y0, "Majlis", area=32.8,
+            size=2.6, sub="guests\u2019 entrance", at=(20.42, 7.60))
+    sh.room(b_x0, 11.12, 20.00 - b_x0, 13.00 - 11.12, "Guest WC", area=3.5,
+            size=1.7, show_area=False, at=(19.08, 12.30))
+    sh.room(20.12, 11.12, b_x1 - 20.12, 13.00 - 11.12, "Service Lobby",
+            area=4.9, size=1.7, show_area=False, at=(21.41, 12.30))
+    sh.room(b_x0, 13.12, b_x1 - b_x0, b_y1 - 13.12, "Dirty Kitchen",
+            area=20.8, size=2.2, sub="service door north",
+            at=(20.42, 14.90))
 
 
 def sheet_ground():
@@ -578,21 +532,26 @@ def sheet_ground():
         ("Gross internal area, this floor", f"{GIA[0]:.1f} m²"),
         ("Slab to slab", "3.30 m · 3.00 m clear")])
     F.notes(sh, y + 6, [
-        "This floor is one non-residential compartment under the "
-        "apartments: 2 hour separation to the floor over, sprinklered, "
-        "with a suppression hood over the cooking line.",
-        "The 12.9 m² service kitchen and the 4.0 m² laundry serve all "
-        "four storeys, reached through the servery and the block B hall, "
-        "so no room is entered through another. Kitchen extract rises in "
-        "a shaft off the fire lobby.",
-        "Living, reception, entrance lobby and lounge read as one "
-        "sequence through 1.00 m arched openings in the party wall. The "
-        "guest WC opens off the reception, the guest bath off the block "
-        "B hall — neither on the service route.",
-        "North and east are open boundaries and are windowed; only the "
-        "west wall is blind. The owner to the east may build up to "
-        "3.00 m, which would obscure these ground floor windows but not "
-        "those above.",
+        "The villa is entered twice from the south. The family door is at "
+        "the west end of block A, nearest the garden corridor; the "
+        "guests\u2019 door is at the east end of block B, straight into the "
+        "majlis. The core stands between them, so the two routes never "
+        "cross and a guest reaches no family room.",
+        "Block B is the guest wing: a 32.8 m² majlis with low seating to "
+        "three sides, a guest WC opening off it, and a service lobby "
+        "linking it to the dirty kitchen for serving.",
+        "Two kitchens, as Gulf practice wants. The show kitchen opens to "
+        "the family side of block A under its north windows; the closed "
+        "dirty kitchen takes the north of block B with its own service "
+        "door. Each has its own extract, and the dirty kitchen door is "
+        "not in sight of the majlis.",
+        "The party wall is opened twice and nowhere else: an arched "
+        "opening at the south so the family can greet guests, and a "
+        "serving opening at the north between the two kitchens. Between "
+        "them it backs onto the lift, the riser and the stair.",
+        "Maid\u2019s accommodation goes at the top of the house with the "
+        "laundry. It does not fit on this floor once the majlis and both "
+        "kitchens are placed.",
     ])
     F.compass_and_scale(sh, x=500.0, y=548.0)
     F.titleblock(sh)

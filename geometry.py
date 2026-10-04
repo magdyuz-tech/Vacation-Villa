@@ -173,6 +173,28 @@ WIN_N_A = [(12.00, 13.60), (16.00, 17.40)]
 WIN_N_B = [(18.80, 20.40), (21.00, 22.50)]
 
 # ---------------------------------------------------------------------------
+# villa ground floor (revision P5) - openings
+# ---------------------------------------------------------------------------
+# The building becomes one family villa, so the ground floor is re-set-out
+# with two separate front doors on the south elevation: the family door at
+# the west end of block A, nearest the garden corridor, and the guests'
+# door into the majlis at the east end of block B.  They are as far apart
+# as the frontage allows, which is what keeps the two routes from crossing.
+#
+# Every range clears the 300 mm columns on GRID_X / GRID_Y.
+V_DOOR_FAMILY = (12.10, 13.30)      # family entrance, block A south
+V_WIN_A_S = [(13.70, 15.10), (15.70, 17.50)]
+V_DOOR_MAJLIS = (19.60, 20.90)      # guests' entrance, block B south
+V_WIN_B_S = [(18.45, 19.35), (21.30, 22.50)]
+V_DOOR_SERVICE = (18.80, 20.00)     # service door, block B north
+V_WIN_B_N = [(21.00, 22.50)]
+V_WIN_B_E = [(4.60, 6.40), (7.60, 9.00),    # majlis
+             (11.40, 12.40),                 # guest WC
+             (15.00, 16.80)]                 # dirty kitchen
+V_PARTY_HALL = (4.60, 5.80)         # hall to majlis, arched, lockable
+V_PARTY_SERVE = (15.40, 16.40)      # dirty kitchen to show kitchen
+
+# ---------------------------------------------------------------------------
 # third floor
 # ---------------------------------------------------------------------------
 # The party wall can only be opened between y 3.80 and 7.18: north of that,
