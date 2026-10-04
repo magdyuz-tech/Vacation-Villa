@@ -211,6 +211,16 @@ V_WIN_B_E_2 = [(4.60, 6.40),                 # bedroom 4
                (15.00, 16.80)]               # bedroom 3
 V_WIN_B_N_2 = [(18.40, 19.20), (20.00, 22.40)]   # wing hall, bedroom 3
 
+# villa third floor - roof majlis, gym, maid's suite, one guest bedroom.
+# The north terrace comes 2.00 m further south than it did as flats, so the
+# gym can open onto it and block B keeps a usable depth of internal rooms.
+V_TER_N_Y0 = 13.00
+V_PARTY_MAJLIS = (4.80, 5.90)       # roof majlis into the guest bedroom
+V_PARTY_TERRACE = (15.40, 16.40)    # gym out onto the north terrace
+V_WIN_B_E_3 = [(4.60, 6.40), (7.60, 8.70),   # guest bedroom
+               (9.30, 10.20),                 # guest ensuite
+               (11.60, 12.60)]                # store and plant
+
 # ---------------------------------------------------------------------------
 # third floor
 # ---------------------------------------------------------------------------
