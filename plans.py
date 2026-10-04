@@ -148,7 +148,7 @@ def core_fittings(sh, floor):
              floor_to_floor=FLOOR_TO_FLOOR)
 
 
-def core_rooms(sh, floor, lobby_name="Fire Lobby"):
+def core_rooms(sh, floor, lobby_name="Fire Lobby", stair_name=None):
     """Common parts, labelled the same way on every floor."""
     sh.room(LF_X0, LF_Y0, LF_X1 - LF_X0, LF_Y1 - LF_Y0, "Lift",
             area=(LF_X1 - LF_X0) * (LF_Y1 - LF_Y0), size=1.8,
@@ -157,7 +157,7 @@ def core_rooms(sh, floor, lobby_name="Fire Lobby"):
     sh.room(LOB_X0, LOB_Y0, LOB_X1 - LOB_X0, LOB_Y1 - LOB_Y0, lobby_name,
             area=(LOB_X1 - LOB_X0) * (LOB_Y1 - LOB_Y0), size=1.9,
             show_area=False, at=(16.62, 9.73))
-    name = "Stair Hall" if floor == 0 else "Landing"
+    name = stair_name or ("Stair Hall" if floor == 0 else "Landing")
     # on the top floor the north end of the landing carries the vent over,
     # so the label drops clear of it
     sh.room(ST_X0, ST_Y0, ST_X1 - ST_X0, ST_Y1 - ST_Y0, name,
@@ -262,7 +262,20 @@ def north_windows(sh, floor):
         sh.window(a, b, A_Y1 - WT, A_Y1, "h")
     for a, b in o["b_north"]:
         sh.window(a, b, B_Y1 - WT, B_Y1, "h")
-OPENINGS[2] = OPENINGS[1]
+# Floor 2 is still the apartment plan, so it keeps the openings floor 1 had
+# before the villa conversion.  Floors 1 and 2 stop being identical here.
+OPENINGS[2] = dict(OPENINGS[1])
+
+# Villa first floor (P5): block A is the family floor, block B the second
+# household's wing.  The party wall is opened once, at the south, which is
+# the wing's own front door.
+OPENINGS[1] = dict(a_south=UP_A_SOUTH,
+                   a_west=[WIN_W_LIVING],
+                   a_north=WIN_N_A,
+                   b_south=UP_B_SOUTH,
+                   b_north=WIN_N_B,
+                   party=[V_PARTY_WING],
+                   b_east=V_WIN_B_E_1)
 
 
 @fx.layer("L-SITE")
@@ -494,7 +507,7 @@ def _plan_ground(sh):
             area=13.8, size=2.2, at=(13.54, 13.00))
     sh.room(a_x0, CORE_N, a_x1 - a_x0, a_y1 - CORE_N, "Show Kitchen",
             area=18.0, size=2.3, sub="open to the family", at=(14.60, 16.45))
-    core_rooms(sh, 0, lobby_name="Landing")
+    core_rooms(sh, 0, lobby_name="Landing", stair_name="Stair Hall")
     sh.room(b_x0, b_y0, b_x1 - b_x0, 11.00 - b_y0, "Majlis", area=32.8,
             size=2.6, sub="guests\u2019 entrance", at=(20.42, 7.60))
     sh.room(b_x0, 11.12, 20.00 - b_x0, 13.00 - 11.12, "Guest WC", area=3.5,
@@ -670,6 +683,110 @@ def _plan_apartment(sh, floor, level):
 
 
 
+def _plan_first(sh, level):
+    """Villa first floor: the family floor, with the second household's
+    wing in block B.
+
+    The wing has its own sitting room, bathroom, bedroom, dressing room and
+    kitchenette, and the lift reaches it - which is the point of it, for
+    grandparents.  Its door is the arched opening at the south of the party
+    wall, and it locks.
+    """
+    shell(sh, 1)
+    parapet(sh, A_X0, A_Y0, 17.85, A_Y0 + WT, openings=OPENINGS[1]["a_south"])
+    parapet(sh, b_x0, B_Y0, B_X1, B_Y0 + WT, openings=OPENINGS[1]["b_south"])
+    core_walls(sh)
+    columns(sh)
+    balcony(sh, BALC_A, f"{level[:-1]}7")
+    balcony(sh, BALC_B, f"{level[:-1]}7", screen_w=False)
+
+    # --- block A: living at the south, hall past the core, family room ---
+    sh.wall(13.30, 7.30, 13.42, 9.40, openings=[(8.00, 8.90)])
+    sh.wall(a_x0, 9.40, 13.42, 9.52)
+    sh.wall(a_x0, 14.60, CORE_WALL_X, CORE_N, openings=[(12.40, 13.60)])
+
+    # --- block B: the wing ------------------------------------------------
+    sh.wall(b_x0, 8.60, b_x1, 8.72, openings=[(21.20, 22.10)])
+    sh.wall(20.60, 8.72, 20.72, 11.00, openings=[(9.40, 10.30)])
+    sh.wall(b_x0, 11.00, b_x1, 11.12, openings=[(21.20, 22.10)])
+    sh.wall(b_x0, 15.30, b_x1, 15.42, openings=[(20.80, 21.70)])
+
+    # --- openings ---------------------------------------------------------
+    for a, b in OPENINGS[1]["a_south"]:
+        sh.window(a, b, A_Y0, A_Y0 + WT, "h")
+        arch_note(sh, a, b, A_Y0 + WT, side=1)
+    for a, b in OPENINGS[1]["b_south"]:
+        sh.window(a, b, B_Y0, B_Y0 + WT, "h")
+        arch_note(sh, a, b, B_Y0 + WT, side=1)
+    sh.window(*WIN_W_LIVING, A_X0, A_X0 + WT, "v")
+    for a, b in OPENINGS[1]["b_east"]:
+        sh.window(a, b, B_X1 - WT, B_X1, "v")
+    north_windows(sh, 1)
+    sh.door(*V_PARTY_WING, PARTY_X0, PARTY_X1, "v", leaf=False)
+    arch_note(sh, *V_PARTY_WING, PARTY_X0, axis="v", side=-1)
+
+    core_fittings(sh, 1)
+    sh.door(8.00, 8.90, 13.30, 13.42, "v", hinge="lo", swing="right")
+    sh.door(12.40, 13.60, 14.60, CORE_N, "h", hinge="lo", swing="down")
+    sh.door(21.20, 22.10, 8.60, 8.72, "h", hinge="lo", swing="up")
+    sh.door(9.40, 10.30, 20.60, 20.72, "v", hinge="lo", swing="right")
+    sh.door(21.20, 22.10, 11.00, 11.12, "h", hinge="lo", swing="up")
+    sh.door(20.80, 21.70, 15.30, 15.42, "h", hinge="lo", swing="up")
+
+    # --- block A fittings -------------------------------------------------
+    fx.sofa(sh, 12.10, 5.55, 2.40, 0.85, facing="s")
+    fx.sofa(sh, a_x0, 3.95, 0.80, 1.50, facing="e")
+    sh.rect(12.60, 4.70, 1.25, 0.72, rx=D.mm(0.1), sw=LW_FIXTURE, stroke=GREY)
+    fx.table(sh, 15.30, 4.40, 1.45, 1.00, seats_n=3, seats_s=3)
+    fx.wc(sh, a_x0, 7.60, facing="e")
+    fx.basin(sh, 12.55, 9.40, w=0.58, d=0.42, facing="s")
+    fx.counter(sh, a_x0, 11.00, 0.45, 1.60)
+    fx.wardrobe(sh, a_x0, 12.90, 0.45, 1.60, axis="v")
+    fx.sofa(sh, 12.30, 15.05, 2.40, 0.85, facing="n")
+    fx.tv(sh, 15.10, 15.70, 1.30, axis="v")
+    sh.rect(12.85, 16.20, 1.30, 0.70, rx=D.mm(0.1), sw=LW_FIXTURE, stroke=GREY)
+
+    # --- block B fittings: the wing ---------------------------------------
+    fx.kitchenette(sh, b_x0, 6.55, 0.65, 1.95, axis="v")
+    fx.sofa(sh, 19.45, 4.20, 2.20, 0.85, facing="s")
+    sh.rect(19.95, 5.45, 1.15, 0.68, rx=D.mm(0.1), sw=LW_FIXTURE, stroke=GREY)
+    fx.table(sh, 20.95, 6.70, 1.30, 0.85, seats_n=2, seats_s=2)
+    fx.shower(sh, 18.25, 8.85, 1.20, 1.20)
+    fx.wc(sh, 20.60, 9.20, facing="w")
+    fx.basin(sh, 18.40, 11.00, w=0.65, d=0.45, facing="s")
+    fx.wardrobe(sh, 22.10, 8.90, 0.58, 1.40, axis="v")
+    fx.bed(sh, 19.50, 12.25, 1.80, 2.10, head="n")
+    for bx in (18.95, 21.35):
+        sh.rect(bx, 13.80, 0.50, 0.45, sw=LW_FIXTURE, stroke=GREY)
+    fx.wardrobe(sh, b_x0, 15.55, 0.58, 2.00, axis="v")
+    fx.wardrobe(sh, 22.12, 15.55, 0.58, 2.00, axis="v")
+
+    # --- rooms ------------------------------------------------------------
+    sh.room(a_x0, a_y0, a_x1 - a_x0, LF_Y0 - PT - a_y0,
+            "Family Living \u00b7 Dining", area=20.4, size=2.3,
+            sched_name="Family living / dining", sub="to the balcony",
+            at=(13.55, 7.00))
+    sh.room(a_x0, 7.30, 13.30 - a_x0, 9.40 - 7.30, "Powder", area=3.2,
+            size=1.7, show_area=False, at=(12.55, 8.30))
+    sh.room(13.42, 7.30, CORE_WALL_X - 13.42, 14.60 - 7.30, "Upper Hall",
+            area=22.2, size=2.0, sched_name="Upper hall", show_area=False,
+            at=(13.80, 11.90))
+    sh.room(a_x0, CORE_N, a_x1 - a_x0, a_y1 - CORE_N, "Family Room",
+            area=18.0, size=2.3, sub="north windows", at=(13.60, 17.30))
+    core_rooms(sh, 1, lobby_name="Landing", stair_name="Stair")
+    sh.room(b_x0, b_y0, b_x1 - b_x0, 8.60 - b_y0, "Wing Sitting",
+            area=21.8, size=2.2, sched_name="Wing sitting / kitchenette",
+            sub="second household", at=(20.42, 7.95))
+    sh.room(b_x0, 8.72, 20.60 - b_x0, 11.00 - 8.72, "Wing Bath", area=5.6,
+            size=1.7, show_area=False, at=(19.30, 9.65))
+    sh.room(20.72, 8.72, b_x1 - 20.72, 11.00 - 8.72, "Wing Hall", area=4.5,
+            size=1.7, show_area=False, at=(21.71, 10.60))
+    sh.room(b_x0, 11.12, b_x1 - b_x0, 15.30 - 11.12, "Wing Bedroom",
+            area=19.0, size=2.2, at=(20.42, 14.60))
+    sh.room(b_x0, 15.42, b_x1 - b_x0, b_y1 - 15.42, "Wing Dressing",
+            area=10.4, size=1.9, show_area=False, at=(20.42, 16.60))
+
+
 def _apartment_floor(number, title, level, floor):
     D.set_scale(50, *PLAN_ORIGIN)
     sh = Sheet(number, title, level, "1:50 @ A1")
@@ -725,7 +842,55 @@ def _apartment_floor(number, title, level, floor):
 
 
 def sheet_first():
-    return _apartment_floor("A-101", "First Floor Plan", "+3.30", 1)
+    """A-101, the villa family floor - no longer the apartment plan."""
+    level = "+3.30"
+    D.set_scale(50, *PLAN_ORIGIN)
+    sh = Sheet("A-101", "First Floor Plan", level, "1:50 @ A1")
+    F.border(sh)
+    _plan_first(sh, level)
+    sh.dim_h(A_X0, B_X1, 1.6, "11.50", ext_from=A_Y0)
+    sh.dim_h(A_X0, A_X1, 0.4, "6.50")
+    sh.dim_h(A_X1, B_X1, 0.4, "5.00")
+    sh.dim_v(A_Y0, A_Y1, 10.4, "14.50", ext_from=A_X0)
+    sh.dim_v(B_Y0, B_Y1, 24.6, "14.50", ext_from=B_X1)
+    sh.dim_v(B_Y0, 8.60, 26.0, "5.10")
+    sh.dim_v(8.60, 11.00, 26.0, "2.40")
+    sh.dim_v(11.00, 15.30, 26.0, "4.30")
+    sh.dim_v(15.30, B_Y1, 26.0, "2.70")
+    sh.tag(23.45, 13.20, "OPEN BOUNDARY \u2014 WINDOWS TO EAST",
+           size=2.0, color=INK, rot=-90)
+    sh.level_tag(12.60, 10.60, f"FFL {level}")
+    sh.level_tag(18.40, 11.60, f"FFL {level}")
+
+    section_line(sh)
+
+    F.heading(sh)
+    y = F.legend(sh, 52)
+    y = F.schedule(sh, y + 8, extra=[
+        ("Gross internal area, this floor", f"{GIA[1]:.1f} m\u00b2"),
+        ("Family floor / wing", "64.7 / 63.2 m\u00b2"),
+        ("Balcony A / B (external)",
+         f"{BALC[0]:.1f} / {BALC[1]:.1f} m\u00b2")])
+    F.notes(sh, y + 6, [
+        "The family floor. Block A holds the everyday living and dining at "
+        "the south, opening onto the full-width balcony, with the family "
+        "room at the north under its own windows and the upper hall "
+        "running past the core between them.",
+        "Block B is the second household\u2019s wing: sitting room with a "
+        "kitchenette, bathroom, bedroom and dressing room, 63.2 m\u00b2 in "
+        "all. The lift reaches it, which is the point of putting it here "
+        "rather than at the top.",
+        "The wing has one door \u2014 the arched opening at the south of the "
+        "party wall \u2014 and it locks. Everywhere else the party wall backs "
+        "onto the lift, the riser and the stair, so it cannot be opened.",
+        "Balconies cantilever 1.20 m beyond the south wall, the full width "
+        "of each block, divided on the party wall line by a 250 mm screen.",
+        "Every habitable room is on an external wall. The west wall stays "
+        "blind except where it faces the plot\u2019s own garden.",
+    ])
+    F.compass_and_scale(sh, x=470.0, y=500.0)
+    F.titleblock(sh)
+    return sh
 
 
 def sheet_second():

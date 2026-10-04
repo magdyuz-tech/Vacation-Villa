@@ -194,6 +194,13 @@ V_WIN_B_E = [(4.60, 6.40), (7.60, 9.00),    # majlis
 V_PARTY_HALL = (4.60, 5.80)         # hall to majlis, arched, lockable
 V_PARTY_SERVE = (15.40, 16.40)      # dirty kitchen to show kitchen
 
+# villa first floor - block B is the second household's wing
+V_PARTY_WING = (4.80, 5.90)         # family living into the wing's sitting room
+V_WIN_B_E_1 = [(4.60, 6.40), (7.60, 8.50),   # wing sitting room
+               (9.30, 10.20),                 # wing bathroom
+               (12.20, 13.80),                # wing bedroom
+               (15.90, 17.10)]                # wing dressing
+
 # ---------------------------------------------------------------------------
 # third floor
 # ---------------------------------------------------------------------------
