@@ -1016,8 +1016,9 @@ def _villa_living_floor(sh):
     sh.wall(V3_X1 - WT, V3_Y0, V3_X1, V3_Y1, openings=V1_WIN_E)
 
     # --- the spine -------------------------------------------------------
+    # the spine carries no wall along the lobby: see V1_SPINE_OPEN
     sh.wall(V3_SPINE_X0, v3_y0, V3_SPINE_X1, v3_y1,
-            openings=[V2_DOOR_LOBBY, V2_DOOR_BED4])
+            openings=[V1_SPINE_OPEN, V2_DOOR_BED4])
 
     # --- master bedroom, with both its doors in one wall ------------------
     sh.wall(V3_SPINE_X1, V2_S2_BED_Y1, v3_x1, V2_S2_BED_Y1 + PT,
@@ -1057,8 +1058,7 @@ def _villa_living_floor(sh):
     for a, b in V1_VENT_W:
         fx.vent(sh, a, b, V3_X0, V3_X0 + WT, "v")
 
-    sh.door(*V2_DOOR_LOBBY, V3_SPINE_X0, V3_SPINE_X1, "v", hinge="lo",
-            swing="right")
+    sh.door(*V1_SPINE_OPEN, V3_SPINE_X0, V3_SPINE_X1, "v", leaf=False)
     sh.door(*V2_DOOR_S2, V2_S2_BED_Y1, V2_S2_BED_Y1 + PT, "h",
             hinge="lo", swing="down")
     sh.door(*V2_DOOR_S2_ENS, V2_S2_BED_Y1, V2_S2_BED_Y1 + PT, "h",
@@ -1143,7 +1143,8 @@ def _villa_living_floor(sh):
             at=(20.60, 8.42))
     sh.room(V3_SPINE_X1, V2_S2_BED_Y1 + PT, V2_LOBBY_X1 - V3_SPINE_X1,
             V3_STAIR[3] - V2_S2_BED_Y1 - PT, "Lobby", area=6.5, size=1.7,
-            show_area=False, at=(18.25, 11.60))
+            sub="open", show_area=False,
+            at=(18.25, 11.70))
     sh.room(V2_LOBBY_X1 + PT, V3_STAIR[1], v3_x1 - V2_LOBBY_X1 - PT,
             V3_STAIR[3] - V3_STAIR[1], "Shared Bath", area=8.8, size=1.8,
             sched_name="Shared bath", show_area=False, at=(20.05, 9.60))
@@ -1209,24 +1210,25 @@ def sheet_first():
         "sleeping rooms. The living area is 32.3 m² with the stair "
         "standing in it and the pantry open along the spine, and it opens "
         "through a sliding door onto the cantilever.",
-        "The pantry here is a counter run, not the walled room the third "
-        "floor has: sink, kettle and coffee machine against the spine, the "
-        "only wall in reach with nothing in it.",
+        "The pantry is a counter run against the solid stretch of spine, "
+        "not the walled room the third floor has. The lobby has no wall to "
+        "the living area either: the spine is opened 3.69 m between the "
+        "columns at y 8.46 and 12.56, so over that length it is a "
+        "downstand beam rather than a wall — the frame stays, the infill "
+        "goes.",
         "The west strip is otherwise the third floor's and the east strip "
-        "the second's, so the master ensuite, lobby and shared bath sit "
-        "over their counterparts and the stair lines through.",
+        "the second's, so the ensuite, lobby and shared bath sit over "
+        "their counterparts and the stair lines through.",
         "The master loses the dressing room it had when this floor was "
         "planned without a living area: a 114.8 m² plate cannot carry both "
         "a 44 m² master suite and a living area.",
-        "Bedroom 2 and bedroom 3 take the north off the hall; the shared "
-        "bath serves them both. East and north carry ordinary windows, "
-        "the west louvred ventilation only.",
+        "Bedrooms 2 and 3 take the north off the hall. East and north "
+        "carry ordinary windows, the west louvred ventilation only.",
         "The south cantilever is the third floor's, repeated: the same "
-        f"asymmetric curve, {V3_WAVE_W:.2f} m at the west end sweeping to "
-        f"{V3_WAVE_E:.2f} m at the east, {wave_area():.1f} m². The living "
-        "area and the master bedroom each have a sliding door onto it.",
-        "The second floor has no balcony, so the two do not yet stack. "
-        "The ground floor and site plan are still on the old footprint.",
+        f"asymmetric curve, {V3_WAVE_W:.2f} m west sweeping to "
+        f"{V3_WAVE_E:.2f} m east, {wave_area():.1f} m², with a sliding "
+        "door from the living area and another from the master bedroom. "
+        "The second floor has none, so the two do not yet stack.",
     ])
     F.compass_and_scale(sh, x=470.0, y=500.0)
     F.titleblock(sh)

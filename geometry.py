@@ -481,7 +481,15 @@ V1_LIV_Y1 = 12.42              # north face of the open living space
 # living area, not the walled room the third floor has.  The spine is the
 # only wall in reach with nothing in it: the south is glazed to the
 # balcony, the west is louvred, and the television takes y 4.55-6.05.
-V1_PANTRY = (16.71, 6.60, V3_SPINE_X0, 9.00)   # 0.60 deep, 2.40 long
+V1_PANTRY = (16.71, 6.60, V3_SPINE_X0, 8.55)   # 0.60 deep, 1.95 long
+
+# The lobby has no wall to the living area: the spine is opened between the
+# columns at y 8.46 and y 12.56, so the two read as one space with the frame
+# standing in it.  Over that length the spine stops being a wall and becomes
+# a downstand beam between columns - the columns stay, the infill goes.  The
+# opening starts clear of the column at 8.46 and of the pantry counter that
+# backs onto the solid stretch below it.
+V1_SPINE_OPEN = (8.61, 12.30)
 V1_DOOR_BALC = (13.00, 15.30)  # living area onto the balcony, sliding
 V1_DOOR_BALC_M = (17.80, 19.60)   # master bedroom onto it, sliding
 V1_BALC_LEVEL = "+3.27"
