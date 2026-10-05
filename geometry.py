@@ -280,7 +280,15 @@ V3_GRID_Y = [3.65, 8.46, 12.56, 16.85]             # spans 4.81, 4.10, 4.29
 # opening is what makes the living area open rather than a room with a door,
 # and the stair rises into it as a feature instead of a sealed box.
 V3_LIV_Y1 = 8.40               # north face of the open living area
-V3_LIV_OPEN = (13.40, 16.80)   # the 3.40 m the living area opens through
+V3_LIV_OPEN = (13.40, 15.70)   # the 2.30 m the living area opens through
+
+# A tea point rather than a second kitchen: counter, sink, kettle and coffee
+# machine, in the living area's north-east corner against the spine, open to
+# the room through a cased opening so it is part of the living space.  It
+# costs the living area 2.3 m2 including its walls.
+V3_PANT_X0, V3_PANT_X1 = 15.95, V3_SPINE_X0      # 1.36 clear
+V3_PANT_Y0, V3_PANT_Y1 = 7.00, V3_LIV_Y1         # 1.40 clear
+V3_PANT_OPEN = (16.20, 17.10)  # cased opening from the living area
 V3_HALL_X0 = 16.27             # notional west face of the hall run
 V3_BED3_X1 = 16.15             # east face of bedroom 3, onto the hall
 V3_BED3_Y0 = 12.62             # south face of bedroom 3
@@ -303,10 +311,11 @@ V3_DOOR_BED3 = (13.20, 14.10)  # hall into bedroom 3, through its east wall
 # ---------------------------------------------------------------------------
 # the south cantilever: a wavy reinforced-concrete balcony
 # ---------------------------------------------------------------------------
-# One continuous cosine, not a segmental arc and not tangent arcs: the client
-# asked for a wave, and a single curve is a bulge.  Four crests over the
-# 9.50 m frontage give a 2.375 m wavelength, short enough against the span
-# for the eye to read it as repetition rather than a wobble.
+# One continuous cosine, and now ONE wave across the whole frontage: the
+# four-crest ripple read as corrugation rather than as a wave, so the client
+# asked for a single smooth swell instead.  Troughs at both ends, one crest
+# at the centre, nothing repeating - a 9.50 m wavelength against a 1.10 m
+# depth swing, which is as gentle as a curve can be and still be a curve.
 #
 # V3_WAVE_MAX is a hard maximum, not a target: 2.00 m is the projection the
 # client set, and checks.py samples the curve to prove no point passes it.
@@ -314,7 +323,7 @@ V3_DOOR_BED3 = (13.20, 14.10)  # hall into bedroom 3, through its east wall
 V3_WAVE_SPAN = (V3_X0, V3_X1)
 V3_WAVE_MIN = 0.90             # projection at the troughs
 V3_WAVE_MAX = 2.00             # projection at the crests, as drawn
-V3_WAVE_CRESTS = 4
+V3_WAVE_CRESTS = 1             # one smooth wave, not a ripple
 
 # The client's cap, held separately from the figures that generate the curve
 # and never read by them.  Checking the crest against V3_WAVE_MAX would prove

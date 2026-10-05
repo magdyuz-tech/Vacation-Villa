@@ -1113,6 +1113,10 @@ def _plan_third(sh):
     # living area to the stair hall: one 3.40 m opening, no door
     sh.wall(v3_x0, V3_LIV_Y1, V3_SPINE_X0, V3_LIV_Y1 + PT,
             openings=[V3_LIV_OPEN])
+    # the pantry, in the corner the living area makes with the spine
+    sh.wall(V3_PANT_X0 - PT, V3_PANT_Y0 - PT, V3_PANT_X1, V3_PANT_Y0,
+            openings=[V3_PANT_OPEN])
+    sh.wall(V3_PANT_X0 - PT, V3_PANT_Y0, V3_PANT_X0, V3_PANT_Y1)
     # bedroom 3, closing the north end of the stair hall
     sh.wall(v3_x0, V3_STAIR[3], V3_BED3_X1, V3_BED3_Y0)
     sh.wall(V3_BED3_X1, V3_BED3_Y0, V3_BED3_X1 + PT, v3_y1,
@@ -1147,8 +1151,9 @@ def _plan_third(sh):
     for a, b in V3_VENT_W:
         fx.vent(sh, a, b, V3_X0, V3_X0 + WT, "v")
 
-    # the living area's 3.40 m opening is cased, not a doorway: jambs, no leaf
+    # both of these are cased openings, not doorways: jambs, no leaf
     sh.door(*V3_LIV_OPEN, V3_LIV_Y1, V3_LIV_Y1 + PT, "h", leaf=False)
+    sh.door(*V3_PANT_OPEN, V3_PANT_Y0 - PT, V3_PANT_Y0, "h", leaf=False)
     sh.door(*V3_DOOR_S1, V3_SPINE_X0, V3_SPINE_X1, "v", hinge="lo",
             swing="right")
     sh.door(*V3_DOOR_S2, V3_SPINE_X0, V3_SPINE_X1, "v", hinge="hi",
@@ -1184,6 +1189,17 @@ def _plan_third(sh):
     fx.table(sh, 15.00, 4.40, 1.00, 0.60, rx=0.18)
     fx.table(sh, 14.30, 6.30, 1.30, 0.80, seats_n=2, seats_s=2)
 
+    # --- pantry: counter along its north wall, tea point at the east end ---
+    fx.counter(sh, V3_PANT_X0, V3_PANT_Y1 - 0.60, V3_PANT_X1 - V3_PANT_X0,
+               0.60)
+    fx.sink(sh, V3_PANT_X0 + 0.08, V3_PANT_Y1 - 0.52, w=0.45, d=0.40)
+    sh.rect(16.60, V3_PANT_Y1 - 0.48, 0.22, 0.24, rx=D.mm(0.03),
+            sw=LW_FIXTURE, stroke=GREY)                      # kettle
+    sh.rect(16.92, V3_PANT_Y1 - 0.50, 0.30, 0.28, rx=D.mm(0.03),
+            sw=LW_FIXTURE, stroke=GREY)                      # coffee machine
+    # no fridge drawn: 1.36 x 1.40 takes a counter run or a fridge, not both,
+    # and the counter is what the kettle and the coffee machine need
+
     # --- suite 1 ----------------------------------------------------------
     # the suite door swings into the bedroom's north-west corner, so the
     # wardrobe run starts east of the arc
@@ -1209,8 +1225,11 @@ def _plan_third(sh):
 
     # --- rooms ------------------------------------------------------------
     sh.room(v3_x0, v3_y0, V3_SPINE_X0 - v3_x0, V3_LIV_Y1 - v3_y0,
-            "Living Area", area=20.7, size=2.6,
-            sched_name="Living area", at=(16.30, 7.70))
+            "Living Area", area=18.5, size=2.6,
+            sched_name="Living area", at=(13.95, 7.85))
+    sh.room(V3_PANT_X0, V3_PANT_Y0, V3_PANT_X1 - V3_PANT_X0,
+            V3_PANT_Y1 - V3_PANT_Y0, "Pantry", area=1.9, size=1.7,
+            show_area=False, at=(16.63, 7.38))
     sh.room(v3_x0, V3_STAIR[1], V3_BED3_X1 - v3_x0,
             V3_STAIR[3] - V3_STAIR[1], "Stair Hall", area=13.3, size=2.0,
             sched_name="Stair hall", show_area=False, at=(15.10, 11.90))
@@ -1269,7 +1288,7 @@ def sheet_third():
            color=INK)
     sh.tag(11.60, 6.60, "VENTILATION ONLY — NO BALCONY WEST", size=2.0,
            color=INK, rot=-90)
-    sh.tag(17.25, 0.25, f"CANTILEVER — {V3_WAVE_CRESTS} CRESTS, "
+    sh.tag(17.25, 0.25, f"CANTILEVER — ONE SMOOTH WAVE, "
            f"{V3_WAVE_MIN:.2f}–{V3_WAVE_MAX:.2f} m PROJECTION",
            size=2.0, color=INK)
 
@@ -1289,22 +1308,22 @@ def sheet_third():
         "Detaching costs 22% of the floor — 114.8 m² against 147.3 — and "
         "removes the party wall, so the plate is planned as one room and "
         "divided by a single structural spine.",
-        "The living area is open: full width of the west strip, opening "
-        "through 3.40 m to the stair hall with no door. As one dwelling "
-        "the stair needs no enclosure, no fire lobby and no smoke vent, "
-        "and there is no lift.",
-        f"The south cantilever is reinforced concrete, {V3_WAVE_CRESTS} "
-        f"crests over {V3_X1 - V3_X0:.2f} m, projecting "
-        f"{V3_WAVE_MIN:.2f} m at the troughs and {V3_WAVE_MAX:.2f} m at "
-        "the crests — one continuous curve, 200 mm deep at the root "
-        "tapering to 110 mm. Nothing lands in the forecourt.",
+        "The living area is open to the stair hall through a 2.30 m cased "
+        "opening, with the pantry — counter, sink, kettle and coffee "
+        "machine — open off its north-east corner. As one dwelling the "
+        "stair needs no enclosure, no fire lobby and no smoke vent, and "
+        "there is no lift.",
+        f"The south cantilever is reinforced concrete, one smooth wave "
+        f"across the whole {V3_X1 - V3_X0:.2f} m frontage, projecting "
+        f"{V3_WAVE_MIN:.2f} m at each end and {V3_WAVE_MAX:.2f} m at the "
+        "centre — one continuous curve, 200 mm deep at the root tapering "
+        "to 110 mm. Nothing lands in the forecourt.",
         "East and north carry ordinary windows; both neighbours are "
         "3.00 m high. The west carries louvred ventilation openings only.",
-        "Suite 1 is entered from the living area, suite 2 from the hall. "
-        "Giving the living area and both suites a south or east aspect "
-        "leaves no other route to suite 1 — flagged for the client.",
-        "Floors 0–2, the site plan and section A-A are still drawn to the "
-        "old 11.50 × 14.50 footprint and do not match this sheet yet.",
+        "Suite 1 is entered from the living area, suite 2 from the hall — "
+        "giving all three a south or east aspect leaves no other route to "
+        "suite 1. Floors 0–2, the site plan and section A-A are still on "
+        "the old 11.50 × 14.50 footprint.",
     ])
     F.compass_and_scale(sh, x=470.0, y=500.0)
     F.titleblock(sh)
