@@ -47,7 +47,7 @@ def _record():
     vent = fx.vent
 
     def _wall(self, x0, y0, x1, y1, openings=(), **kw):
-        walls.append((x0, y0, x1, y1, list(openings)))
+        walls.append((x0, y0, x1, y1, list(openings), kw.get("fill", D.INK)))
         return wall(self, x0, y0, x1, y1, openings=openings, **kw)
 
     def _door(self, a, b, lo, hi, axis, **kw):
@@ -82,6 +82,28 @@ def _near(a, b):
     return abs(a - b) <= TOL
 
 
+def _parapet_across(walls, axis, p, q, wlo, whi):
+    """Is this opening closed by a parapet rather than by a leaf?
+
+    An inset balcony genuinely interrupts the external wall: there is no
+    door or window in the gap, only a 1.10 m parapet standing at the
+    building line.  That is not a hole in the plan - but an opening with
+    nothing at all in it is, so the parapet has to be there and has to
+    span the whole gap.
+    """
+    from dxf_backend import PARAPET_FILL
+
+    for x0, y0, x1, y1, _openings, fill in walls:
+        if fill != PARAPET_FILL:
+            continue
+        ax, (s, e), plo, phi = _wall_span(x0, y0, x1, y1)
+        if ax != axis or s > p + TOL or e < q - TOL:
+            continue
+        if plo >= wlo - TOL and phi <= whi + TOL:
+            return True
+    return False
+
+
 def _wall_span(x0, y0, x1, y1):
     """(axis, along, lo, hi) - which way the wall runs and how thick it is."""
     if (x1 - x0) >= (y1 - y0):
@@ -102,7 +124,7 @@ def check(build, leaves_expected=True, west_vent_only=False):
         problems += _west_is_vent_only(leaves, vents)
 
     for kind, a, b, lo, hi, axis in leaves:
-        for x0, y0, x1, y1, openings in walls:
+        for x0, y0, x1, y1, openings, _fill in walls:
             ax, (s, e), wlo, whi = _wall_span(x0, y0, x1, y1)
             if ax != axis or not _near(wlo, lo) or not _near(whi, hi):
                 continue
@@ -116,16 +138,19 @@ def check(build, leaves_expected=True, west_vent_only=False):
                 f"is drawn in solid wall - no matching opening")
 
     if leaves_expected:
-        for x0, y0, x1, y1, openings in walls:
+        for x0, y0, x1, y1, openings, _fill in walls:
             ax, _, wlo, whi = _wall_span(x0, y0, x1, y1)
             for p, q in openings:
-                if not any(a2 == ax and _near(a, p) and _near(b, q)
-                           and _near(lo, wlo) and _near(hi, whi)
-                           for _k, a, b, lo, hi, a2 in leaves):
-                    problems.append(
-                        f"opening {p:.2f}-{q:.2f} in the wall at "
-                        f"{wlo:.2f}-{whi:.2f} ({ax}) carries no door or "
-                        f"window - it reads as a hole")
+                if any(a2 == ax and _near(a, p) and _near(b, q)
+                       and _near(lo, wlo) and _near(hi, whi)
+                       for _k, a, b, lo, hi, a2 in leaves):
+                    continue
+                if _parapet_across(walls, ax, p, q, wlo, whi):
+                    continue
+                problems.append(
+                    f"opening {p:.2f}-{q:.2f} in the wall at "
+                    f"{wlo:.2f}-{whi:.2f} ({ax}) carries no door, window or "
+                    f"parapet - it reads as a hole")
 
     for kind, a, b, lo, hi, axis in leaves:
         for cx, cy, s in cols:
@@ -166,7 +191,7 @@ def wave_cantilever():
     import geometry as g
 
     problems = []
-    pts = g.wave_points(n_per_crest=200)
+    pts = g.wave_points(n=2000)
     worst = max(g.V3_Y0 - y for _x, y in pts)
     if worst > g.V3_WAVE_LIMIT + 1e-9:
         problems.append(

@@ -302,54 +302,108 @@ V3_STAIR_GOING = 0.26
 V3_STAIR_LANDING = 0.95
 V3_STAIR_WELL = 0.20
 
-# --- east strip, the two suites -------------------------------------------
+# --- east strip: suite 1 south, shared bath in the middle, suite 2 north ---
+# Suite 2 moves to the north end so its bedroom takes the north wall and can
+# have a balcony off it, and the shared bath moves to the middle of the
+# strip, where it is the same distance from the living area and from both
+# suites - which is what makes it genuinely shared rather than suite 2's.
 V3_S1_ENS_Y0 = 7.72            # suite 1: bedroom / ensuite
-V3_S1_Y1 = 9.30                # suite 1 / suite 2
-V3_S2_BED_Y0 = 11.00           # suite 2: ensuite / bedroom
-V3_BATH_Y0 = 15.12             # shared bath, in the north-east corner
+V3_S1_Y1 = 9.30                # suite 1 / shared bath
+V3_BATH_Y1 = 11.00             # shared bath / suite 2
+V3_S2_ENS_Y1 = 12.70           # suite 2: ensuite / bedroom
+
+# Suite 2's balcony is INSET, cut out of the floor plate, not cantilevered
+# north.  A projecting balcony would reach into the 1.00 m setback and put
+# the building back against the boundary it was pulled off; this keeps the
+# whole envelope inside the setback and costs bedroom 2 the floor instead.
+V3_BAL2 = (19.80, 15.60, 21.70, 16.70)        # clear: 1.90 x 1.10
+V3_BAL2_DOOR = (20.20, 21.20)                 # glazed door off bedroom 2
+V3_BAL2_AREA = (V3_BAL2[2] - V3_BAL2[0]) * (V3_BAL2[3] - V3_BAL2[1])
+# the balcony and its two walls come out of the plate, so the floor's gross
+# internal area is no longer the whole plate
+V3_GIA = V3_PLATE - (V3_BAL2[2] - (V3_BAL2[0] - PT)) * \
+    (V3_BAL2[3] - (V3_BAL2[1] - PT))
 
 # doors through the spine, from the living area and the hall.  Each clears
 # the 300 mm columns standing in that wall at y 8.46 and y 12.56.
 V3_DOOR_S1 = (6.50, 7.40)      # living area into suite 1's bedroom
-V3_DOOR_S2 = (11.30, 12.20)    # hall into suite 2's bedroom
-V3_DOOR_BATH = (15.75, 16.65)  # hall into the shared bath
+V3_DOOR_BATH = (10.10, 11.00)  # living area into the shared bath
+V3_DOOR_S2 = (13.40, 14.30)    # hall into suite 2's bedroom
 V3_DOOR_BED3 = (13.20, 14.10)  # hall into bedroom 3, through its east wall
 
 # ---------------------------------------------------------------------------
 # the south cantilever: a wavy reinforced-concrete balcony
 # ---------------------------------------------------------------------------
-# One continuous cosine, and now ONE wave across the whole frontage: the
-# four-crest ripple read as corrugation rather than as a wave, so the client
-# asked for a single smooth swell instead.  Troughs at both ends, one crest
-# at the centre, nothing repeating - a 9.50 m wavelength against a 1.10 m
-# depth swing, which is as gentle as a curve can be and still be a curve.
+# Asymmetric, and a single curve rather than anything repeating.  The two
+# ends are deliberately unequal - 2.00 m at the west, where the living area
+# opens onto it, and 1.50 m at the east off suite 1 - joined by one
+# continuous sweep that draws in to 0.95 m on the way.  A symmetrical curve
+# reads as a motif applied to the elevation; an asymmetric one reads as a
+# shape the building has.
 #
-# V3_WAVE_MAX is a hard maximum, not a target: 2.00 m is the projection the
-# client set, and checks.py samples the curve to prove no point passes it.
-# Every trough still leaves 0.90 m of usable depth.
+# The edge is one cubic in the projection, fixed by four conditions: the two
+# end projections, the narrowest point, and the requirement that the curve
+# be flat there, so the two halves meet without a kink.  Solving it rather
+# than hardcoding coefficients means the four numbers below are the only
+# things to argue about, and the curve stays smooth whatever they become.
 V3_WAVE_SPAN = (V3_X0, V3_X1)
-V3_WAVE_MIN = 0.90             # projection at the troughs
-V3_WAVE_MAX = 2.00             # projection at the crests, as drawn
-V3_WAVE_CRESTS = 1             # one smooth wave, not a ripple
+V3_WAVE_W = 2.00               # projection at the west end
+V3_WAVE_E = 1.50               # projection at the east end
+V3_WAVE_MIN = 0.95             # narrowest point
+V3_WAVE_AT = 0.40              # where it falls, as a fraction of the span
+V3_WAVE_MAX = max(V3_WAVE_W, V3_WAVE_E)
 
 # The client's cap, held separately from the figures that generate the curve
-# and never read by them.  Checking the crest against V3_WAVE_MAX would prove
-# nothing - raise that and the curve rises with it.  This is the number the
-# brief set, so the check has something fixed to fail against.
+# and never read by them.  Checking the deep end against V3_WAVE_W would
+# prove nothing - raise that and the curve rises with it.  This is the
+# number the brief set, so the check has something fixed to fail against.
 V3_WAVE_LIMIT = 2.00
 V3_WAVE_BALUSTRADE = 0.12      # glass line, inboard of the slab edge
 V3_WAVE_REVEAL = 0.40          # recessed reveal in the soffit, same curve
 V3_WAVE_FASCIA = 0.15          # upstand band on the slab edge (elevation)
-V3_WAVE_AREA = (V3_WAVE_MIN + V3_WAVE_MAX) / 2.0 * (V3_X1 - V3_X0)
+
+
+def _solve(rows):
+    """Gauss-Jordan on a small dense system; each row is [a... | b]."""
+    n = len(rows)
+    m = [list(r) for r in rows]
+    for i in range(n):
+        p = max(range(i, n), key=lambda r: abs(m[r][i]))
+        m[i], m[p] = m[p], m[i]
+        for r in range(n):
+            if r != i:
+                f = m[r][i] / m[i][i]
+                for c in range(i, n + 1):
+                    m[r][c] -= f * m[i][c]
+    return [m[i][n] / m[i][i] for i in range(n)]
+
+
+def _wave_coeffs():
+    """p(t) = c0 + c1 t + c2 t^2 + c3 t^3 through the four conditions."""
+    t = V3_WAVE_AT
+    return _solve([
+        [1.0, 0.0, 0.0, 0.0, V3_WAVE_W],          # p(0)  = west projection
+        [1.0, 1.0, 1.0, 1.0, V3_WAVE_E],          # p(1)  = east projection
+        [1.0, t, t * t, t ** 3, V3_WAVE_MIN],     # p(t)  = narrowest point
+        [0.0, 1.0, 2.0 * t, 3.0 * t * t, 0.0],    # p'(t) = 0, so no kink
+    ])
+
+
+_WAVE_C = _wave_coeffs()
 
 
 def wave_projection(x):
     """Projection of the south cantilever at plan x, metres from the wall."""
     x0, x1 = V3_WAVE_SPAN
-    mean = (V3_WAVE_MIN + V3_WAVE_MAX) / 2.0
-    amp = (V3_WAVE_MAX - V3_WAVE_MIN) / 2.0
     t = (x - x0) / (x1 - x0)
-    return mean - amp * math.cos(2.0 * math.pi * V3_WAVE_CRESTS * t)
+    c0, c1, c2, c3 = _WAVE_C
+    return c0 + c1 * t + c2 * t * t + c3 * t ** 3
+
+
+def wave_area():
+    """Area under the curve: the projection integrated along the span."""
+    c0, c1, c2, c3 = _WAVE_C
+    return (c0 + c1 / 2.0 + c2 / 3.0 + c3 / 4.0) * (V3_X1 - V3_X0)
 
 
 def wave_edge(x):
@@ -357,14 +411,13 @@ def wave_edge(x):
     return V3_Y0 - wave_projection(x)
 
 
-def wave_points(n_per_crest=18, offset=0.0):
+def wave_points(n=72, offset=0.0):
     """The slab edge, or a curve parallel to it, as a list of (x, y).
 
     `offset` moves the curve inboard, which is how the balustrade, the
     soffit reveal and the fascia band are drawn from the same geometry.
     """
     x0, x1 = V3_WAVE_SPAN
-    n = n_per_crest * V3_WAVE_CRESTS
     return [(x0 + (x1 - x0) * i / n, wave_edge(x0 + (x1 - x0) * i / n) + offset)
             for i in range(n + 1)]
 
@@ -380,12 +433,14 @@ V3_WIN_S_LIV = [(13.00, 15.30), (15.60, 17.20)]    # living, to the balcony
 V3_WIN_S_S1 = [(17.80, 19.60), (20.00, 21.60)]     # suite 1 bedroom
 V3_WIN_E = [(4.20, 6.00), (6.40, 7.40),            # suite 1 bedroom
             (8.70, 9.20),                          # suite 1 ensuite
-            (9.70, 10.70),                         # suite 2 ensuite
-            (11.40, 12.30), (12.90, 14.70),        # suite 2 bedroom
-            (15.40, 16.40)]                        # shared bath
+            (9.70, 10.70),                         # shared bath
+            (11.40, 12.30),                        # suite 2 ensuite
+            (13.00, 14.70)]                        # suite 2 bedroom
 V3_WIN_N = [(13.10, 14.50), (14.90, 16.00),        # bedroom 3
             (16.40, 17.20),                        # head of the hall
-            (18.00, 19.20)]                        # shared bath
+            (18.00, 19.40)]                        # suite 2 bedroom
+# the north wall stops at the inset balcony and a parapet carries on across
+V3_OPEN_N = [(V3_BAL2[0], V3_BAL2[2])]
 V3_VENT_W = [(4.00, 4.80), (6.50, 7.30),           # living area
              (13.60, 14.40), (15.20, 16.00)]       # bedroom 3
 
