@@ -1104,7 +1104,7 @@ def _plan_third(sh):
     sh.wall(V3_X0, V3_Y0, V3_X1, V3_Y0 + WT,
             openings=V3_WIN_S_LIV + V3_WIN_S_S1)
     sh.wall(V3_X0, V3_Y0, V3_X0 + WT, V3_Y1, openings=V3_VENT_W)
-    sh.wall(V3_X0, V3_Y1 - WT, V3_X1, V3_Y1, openings=V3_WIN_N + V3_OPEN_N)
+    sh.wall(V3_X0, V3_Y1 - WT, V3_X1, V3_Y1, openings=V3_WIN_N)
     sh.wall(V3_X1 - WT, V3_Y0, V3_X1, V3_Y1, openings=V3_WIN_E)
 
     # --- the spine, and the walls either side of it ----------------------
@@ -1128,11 +1128,6 @@ def _plan_third(sh):
     sh.wall(V3_SPINE_X1, V3_BATH_Y1, v3_x1, V3_BATH_Y1 + PT)
     sh.wall(V3_SPINE_X1, V3_S2_ENS_Y1, v3_x1, V3_S2_ENS_Y1 + PT,
             openings=[(17.80, 18.70)])
-    # suite 2's inset balcony: cut out of the plate, parapet at the boundary
-    sh.wall(V3_BAL2[0] - PT, V3_BAL2[1] - PT, v3_x1, V3_BAL2[1],
-            openings=[V3_BAL2_DOOR])
-    sh.wall(V3_BAL2[0] - PT, V3_BAL2[1], V3_BAL2[0], V3_BAL2[3])
-    parapet(sh, V3_BAL2[0], V3_Y1 - PARAPET, V3_BAL2[2], V3_Y1)
 
     for cx in V3_GRID_X:
         for cy in V3_GRID_Y:
@@ -1170,8 +1165,6 @@ def _plan_third(sh):
             swing="up")
     sh.door(17.80, 18.70, V3_S2_ENS_Y1, V3_S2_ENS_Y1 + PT, "h", hinge="lo",
             swing="down")
-    # glazed door from bedroom 2 onto its balcony
-    sh.window(*V3_BAL2_DOOR, V3_BAL2[1] - PT, V3_BAL2[1], "h")
 
     # --- the stair, open to the living area ------------------------------
     fx.stair(sh, V3_STAIR, direction="dn", floor_to_floor=FLOOR_TO_FLOOR,
@@ -1229,7 +1222,7 @@ def _plan_third(sh):
     fx.bed(sh, 18.80, 13.00, 1.80, 2.10, head="n")
     for bx in (18.30, 20.65):
         sh.rect(bx, 14.65, 0.50, 0.45, sw=LW_FIXTURE, stroke=GREY)
-    fx.wardrobe(sh, 17.73, 15.40, 1.90, 0.50)
+    fx.wardrobe(sh, 17.73, 15.50, 2.60, 0.50)
 
     # --- bedroom 3 --------------------------------------------------------
     fx.bed(sh, 13.00, 12.95, 1.60, 2.00, head="n")
@@ -1262,12 +1255,9 @@ def _plan_third(sh):
             size=1.8, sched_name="Suite 2 ensuite", show_area=False,
             at=(19.50, 12.40))
     sh.room(V3_SPINE_X1, V3_S2_ENS_Y1 + PT, v3_x1 - V3_SPINE_X1,
-            v3_y1 - (V3_S2_ENS_Y1 + PT), "Suite 2", area=13.4, size=2.4,
+            v3_y1 - (V3_S2_ENS_Y1 + PT), "Suite 2", area=15.9, size=2.4,
             sub="bedroom", sched_name="Suite 2 bedroom",
-            at=(18.62, 16.32))
-    sh.room(*V3_BAL2[:2], V3_BAL2[2] - V3_BAL2[0], V3_BAL2[3] - V3_BAL2[1],
-            "Balcony 2", area=V3_BAL2_AREA, size=1.6, schedule=False,
-            show_area=False, at=(20.75, 16.15))
+            at=(19.65, 16.30))
     sh.room(v3_x0, V3_BED3_Y0, V3_BED3_X1 - v3_x0, v3_y1 - V3_BED3_Y0,
             "Bedroom 3", area=13.9, size=2.4, at=(15.20, 16.20))
 
@@ -1315,8 +1305,7 @@ def sheet_third():
     y = F.legend(sh, 52)
     y = F.schedule(sh, y + 8, extra=[
         ("Gross internal area, this floor", f"{V3_GIA:.1f} m²"),
-        ("South balcony / suite 2 balcony",
-         f"{wave_area():.1f} / {V3_BAL2_AREA:.1f} m²"),
+        ("Balcony, external", f"{wave_area():.1f} m²"),
         ("Roof over, top of slab", f"+{ROOF_LEVEL:.2f}")])
     F.notes(sh, y + 6, [
         "Draft for comment. The building is set back 1.00 m from the west, "
@@ -1330,16 +1319,17 @@ def sheet_third():
         "flights, 18R at 183 × 260, landing 950 mm — needing no enclosure, "
         "no fire lobby and no smoke vent. There is no lift.",
         f"The south cantilever is reinforced concrete: one asymmetric "
-        f"curve, {V3_WAVE_W:.2f} m at the west end and {V3_WAVE_E:.2f} m at "
-        f"the east, drawing in to {V3_WAVE_MIN:.2f} m between them.",
+        f"curve bowed outward, {V3_WAVE_W:.2f} m at the west end sweeping "
+        f"away to {V3_WAVE_E:.2f} m at the east. Every point on the edge "
+        "stands outside the line joining the two ends.",
         "East and north carry ordinary windows; both neighbours are "
         "3.00 m high. The west carries louvred ventilation only.",
         "Suite 1 and the shared bath open off the living area; suite 2 and "
         "bedroom 3 off the hall. The bath is in the middle of the strip, "
         "the same distance from all three.",
-        "Suite 2's balcony is inset, not cantilevered north: a projecting "
-        "one would reach into the setback. Floors 0–2, the site plan and "
-        "section A-A are still on the old footprint.",
+        "Suite 2 has no balcony: its bedroom takes the north wall and two "
+        "windows instead. Floors 0–2, the site plan and section A-A are "
+        "still on the old 11.50 × 14.50 footprint.",
     ])
     F.compass_and_scale(sh, x=470.0, y=500.0)
     F.titleblock(sh)
