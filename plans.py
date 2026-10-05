@@ -1019,12 +1019,6 @@ def _villa_living_floor(sh):
     sh.wall(V3_SPINE_X0, v3_y0, V3_SPINE_X1, v3_y1,
             openings=[V2_DOOR_LOBBY, V2_DOOR_BED4])
 
-    # --- the pantry, in the same corner as the floor above ---------------
-    sh.wall(V3_PANT_X0 - PT, V3_PANT_Y0 - PT, V3_PANT_X1, V3_PANT_Y0,
-            openings=[V3_PANT_OPEN])
-    sh.wall(V3_PANT_X0 - PT, V3_PANT_Y1, V3_PANT_X1, V3_PANT_Y1 + PT)
-    sh.wall(V3_PANT_X0 - PT, V3_PANT_Y0, V3_PANT_X0, V3_PANT_Y1)
-
     # --- master bedroom, with both its doors in one wall ------------------
     sh.wall(V3_SPINE_X1, V2_S2_BED_Y1, v3_x1, V2_S2_BED_Y1 + PT,
             openings=[V2_DOOR_S2, V2_DOOR_S2_ENS])
@@ -1063,7 +1057,6 @@ def _villa_living_floor(sh):
     for a, b in V1_VENT_W:
         fx.vent(sh, a, b, V3_X0, V3_X0 + WT, "v")
 
-    sh.door(*V3_PANT_OPEN, V3_PANT_Y0 - PT, V3_PANT_Y0, "h", leaf=False)
     sh.door(*V2_DOOR_LOBBY, V3_SPINE_X0, V3_SPINE_X1, "v", hinge="lo",
             swing="right")
     sh.door(*V2_DOOR_S2, V2_S2_BED_Y1, V2_S2_BED_Y1 + PT, "h",
@@ -1096,14 +1089,16 @@ def _villa_living_floor(sh):
     fx.table(sh, 14.40, 5.30, 1.10, 0.70, rx=0.18)
     fx.table(sh, 15.40, 9.60, 1.40, 0.90, seats_n=2, seats_s=2)
 
-    # --- pantry -----------------------------------------------------------
-    fx.counter(sh, V3_PANT_X0, V3_PANT_Y1 - 0.60, V3_PANT_X1 - V3_PANT_X0,
-               0.60)
-    fx.sink(sh, V3_PANT_X0 + 0.08, V3_PANT_Y1 - 0.52, w=0.45, d=0.40)
-    sh.rect(16.60, V3_PANT_Y1 - 0.48, 0.22, 0.24, rx=D.mm(0.03),
-            sw=LW_FIXTURE, stroke=GREY)
-    sh.rect(16.92, V3_PANT_Y1 - 0.50, 0.30, 0.28, rx=D.mm(0.03),
-            sw=LW_FIXTURE, stroke=GREY)
+    # --- pantry: an open counter run against the spine --------------------
+    px0, py0, px1, py1 = V1_PANTRY
+    fx.counter(sh, px0, py0, px1 - px0, py1 - py0)
+    fx.sink(sh, px0 + 0.10, py0 + 0.22, w=0.40, d=0.42)
+    sh.rect(px0 + 0.16, py0 + 1.00, 0.24, 0.22, rx=D.mm(0.03),
+            sw=LW_FIXTURE, stroke=GREY)                      # kettle
+    sh.rect(px0 + 0.14, py0 + 1.45, 0.28, 0.30, rx=D.mm(0.03),
+            sw=LW_FIXTURE, stroke=GREY)                      # coffee machine
+    sh.tag(px0 - 0.22, (py0 + py1) / 2.0, "PANTRY",
+           size=1.6, color=GREY, rot=-90)
 
     # --- master bedroom ---------------------------------------------------
     fx.bed(sh, 19.10, 5.20, 1.80, 2.10, head="n")
@@ -1133,11 +1128,9 @@ def _villa_living_floor(sh):
 
     # --- rooms ------------------------------------------------------------
     sh.room(v3_x0, v3_y0, V3_SPINE_X0 - v3_x0, V1_LIV_Y1 - v3_y0,
-            "Living Area", area=29.6, size=2.6, sub="open — stair within",
-            sched_name="Living area", at=(14.15, 7.95))
-    sh.room(V3_PANT_X0, V3_PANT_Y0, V3_PANT_X1 - V3_PANT_X0,
-            V3_PANT_Y1 - V3_PANT_Y0, "Pantry", area=2.3, size=1.7,
-            show_area=False, at=(16.63, 7.85))
+            "Living Area", area=32.3, size=2.6,
+            sub="open plan",
+            sched_name="Living area", at=(14.15, 8.60))
     sh.room(V3_STAIR[0], V3_STAIR[1], V3_STAIR[2] - V3_STAIR[0],
             V3_STAIR[3] - V3_STAIR[1], "Stair", area=6.6, size=1.9,
             show_area=False, at=(13.80, 12.15))
@@ -1213,13 +1206,15 @@ def sheet_first():
         ("Floor above / below", "+6.60 / +0.00")])
     F.notes(sh, y + 6, [
         "Draft for comment. The living floor — a living area and three "
-        "sleeping rooms. The living area takes the south-west with the "
-        "stair standing in it and the pantry in its corner, opening "
+        "sleeping rooms. The living area is 32.3 m² with the stair "
+        "standing in it and the pantry open along the spine, and it opens "
         "through a sliding door onto the cantilever.",
-        "It is a copy of neither neighbour. The west strip is the third "
-        "floor's, so the two line through and the pantry's plumbing "
-        "stacks; the east strip is the second floor's, so the master "
-        "ensuite, lobby and shared bath sit over their counterparts.",
+        "The pantry here is a counter run, not the walled room the third "
+        "floor has: sink, kettle and coffee machine against the spine, the "
+        "only wall in reach with nothing in it.",
+        "The west strip is otherwise the third floor's and the east strip "
+        "the second's, so the master ensuite, lobby and shared bath sit "
+        "over their counterparts and the stair lines through.",
         "The master loses the dressing room it had when this floor was "
         "planned without a living area: a 114.8 m² plate cannot carry both "
         "a 44 m² master suite and a living area.",
@@ -1327,7 +1322,7 @@ def _plan_third(sh):
     for a, b in V3_VENT_W:
         fx.vent(sh, a, b, V3_X0, V3_X0 + WT, "v")
 
-    # a cased opening, not a doorway: jambs, no leaf
+    # the pantry's opening is cased, not a doorway: jambs, no leaf
     sh.door(*V3_PANT_OPEN, V3_PANT_Y0 - PT, V3_PANT_Y0, "h", leaf=False)
     sh.door(*V3_DOOR_S1, V3_SPINE_X0, V3_SPINE_X1, "v", hinge="lo",
             swing="right")
@@ -1408,9 +1403,6 @@ def _plan_third(sh):
     sh.room(v3_x0, v3_y0, V3_SPINE_X0 - v3_x0, V3_LIV_Y1 - v3_y0,
             "Living Area", area=29.4, size=2.6, sub="open — stair within",
             sched_name="Living area", at=(14.15, 7.95))
-    sh.room(V3_PANT_X0, V3_PANT_Y0, V3_PANT_X1 - V3_PANT_X0,
-            V3_PANT_Y1 - V3_PANT_Y0, "Pantry", area=2.3, size=1.7,
-            show_area=False, at=(16.63, 7.85))
     sh.room(V3_STAIR[0], V3_STAIR[1], V3_STAIR[2] - V3_STAIR[0],
             V3_STAIR[3] - V3_STAIR[1], "Stair", area=6.6, size=1.9,
             show_area=False, at=(13.80, 12.15))

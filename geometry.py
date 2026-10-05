@@ -477,6 +477,11 @@ V2_VENT_W = [(4.00, 4.80), (5.40, 6.20),       # suite 1 bedroom
 # the constants it needs already exist: V3_PANT_* and V3_WIN_S_LIV from the
 # third floor, V2_LOBBY_X1 and the suite-2 doors from the second.
 V1_LIV_Y1 = 12.42              # north face of the open living space
+# The pantry here is open - a counter run against the spine, inside the
+# living area, not the walled room the third floor has.  The spine is the
+# only wall in reach with nothing in it: the south is glazed to the
+# balcony, the west is louvred, and the television takes y 4.55-6.05.
+V1_PANTRY = (16.71, 6.60, V3_SPINE_X0, 9.00)   # 0.60 deep, 2.40 long
 V1_DOOR_BALC = (13.00, 15.30)  # living area onto the balcony, sliding
 V1_DOOR_BALC_M = (17.80, 19.60)   # master bedroom onto it, sliding
 V1_BALC_LEVEL = "+3.27"
