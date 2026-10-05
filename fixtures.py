@@ -357,6 +357,28 @@ def vent(sh, a, b, lo, hi, axis):
             sh.line(lo, t - 0.07, hi, t + 0.07, w=LW_FIXTURE, color=GREY)
 
 
+@layer("A-GLAZ")
+def slider(sh, a, b, lo, hi, axis):
+    """Sliding glazed door - the way onto a balcony.
+
+    A balcony reached only through windows is not a balcony, which is what
+    both upper floors showed until this was added.  Drawn through `window`
+    so the opening is still recorded the way checks.py expects, with the
+    two leaves offset across the reveal so it reads as something you can
+    walk through rather than glazing you cannot.
+    """
+    sh.window(a, b, lo, hi, axis)
+    mid = (a + b) / 2.0
+    t = (lo + hi) / 2.0
+    off = (hi - lo) * 0.24
+    if axis == "h":
+        sh.line(a, t - off, mid + 0.08, t - off, w=LW_SECONDARY, color=INK)
+        sh.line(mid - 0.08, t + off, b, t + off, w=LW_SECONDARY, color=INK)
+    else:
+        sh.line(t - off, a, t - off, mid + 0.08, w=LW_SECONDARY, color=INK)
+        sh.line(t + off, mid - 0.08, t + off, b, w=LW_SECONDARY, color=INK)
+
+
 @layer("A-FLOR")
 def wave_balcony(sh, pts, wall_y, balustrade, reveal, label=None,
                  level_txt=None, area=None, show_area=True, label_y=None):

@@ -397,6 +397,7 @@ def wave_points(n=72, offset=0.0):
 # openings only - louvred, for air and a little light, never a balcony.
 # Every range clears the 300 mm columns on V3_GRID_X / V3_GRID_Y.
 V3_WIN_S_LIV = [(13.00, 15.30), (15.60, 17.20)]    # living, to the balcony
+V3_DOOR_BALC = (13.00, 15.30)   # of those, the sliding door onto it
 V3_WIN_S_S1 = [(17.80, 19.60), (20.00, 21.60)]     # suite 1 bedroom
 V3_WIN_E = [(4.20, 6.00), (6.40, 7.40),            # suite 1 bedroom
             (8.70, 9.20),                          # suite 1 ensuite
@@ -490,6 +491,11 @@ V1_DOOR_S3_ENS = (17.80, 18.70)      # suite 3's bedroom into its ensuite
 
 V1_WIN_S = [(13.00, 15.30), (15.60, 17.20),    # master bedroom
             (17.80, 19.60), (20.00, 21.60)]    # master dressing
+# The first floor carries the same cantilever as the third.  It is reached
+# from the master bedroom only - a dressing room is not a way onto a
+# balcony - so the suite gets the whole 9.50 m frontage to itself.
+V1_DOOR_BALC = (13.00, 15.30)
+V1_BALC_LEVEL = "+3.27"
 V1_WIN_E = [(4.20, 6.00),                      # master dressing
             (6.80, 7.80),                      # master ensuite
             (9.70, 10.70),                     # shared bath

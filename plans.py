@@ -1042,9 +1042,18 @@ def _villa_master_floor(sh):
         for cy in V3_GRID_Y:
             fx.column(sh, cx, cy, COL)
 
+    # --- the same wavy cantilever the third floor carries ----------------
+    fx.wave_balcony(sh, wave_points(), V3_Y0, V3_WAVE_BALUSTRADE,
+                    V3_WAVE_REVEAL, label="Balcony",
+                    level_txt=V1_BALC_LEVEL, area=wave_area(),
+                    show_area=False, label_y=3.03)
+
     # --- openings ---------------------------------------------------------
     for a, b in V1_WIN_S:
-        sh.window(a, b, V3_Y0, V3_Y0 + WT, "h")
+        if (a, b) == V1_DOOR_BALC:
+            fx.slider(sh, a, b, V3_Y0, V3_Y0 + WT, "h")
+        else:
+            sh.window(a, b, V3_Y0, V3_Y0 + WT, "h")
     for a, b in V1_WIN_N:
         sh.window(a, b, V3_Y1 - WT, V3_Y1, "h")
     for a, b in V1_WIN_E:
@@ -1162,9 +1171,9 @@ def sheet_first():
 
     _villa_master_floor(sh)
 
-    sh.dim_h(V3_X0, V3_X1, 1.95, ext_from=V3_Y0)
-    sh.dim_h(V3_X0, V3_GRID_X[1], 1.20)
-    sh.dim_h(V3_GRID_X[1], V3_X1, 1.20)
+    sh.dim_h(V3_X0, V3_X1, 0.95, ext_from=V3_Y0)
+    sh.dim_h(V3_X0, V3_GRID_X[1], -0.30)
+    sh.dim_h(V3_GRID_X[1], V3_X1, -0.30)
     sh.dim_v(V3_Y0, V3_Y1, 10.70, ext_from=V3_X0)
     sh.dim_v(V3_Y0, V1_MASTER_Y1, 11.35)
     sh.dim_v(V1_MASTER_Y1, V3_BED3_Y0, 11.35)
@@ -1174,6 +1183,8 @@ def sheet_first():
     sh.dim_v(V1_MASTER_Y1, V1_BATH_Y1, 23.25)
     sh.dim_v(V1_BATH_Y1, V1_S3_ENS_Y1, 23.25)
     sh.dim_v(V1_S3_ENS_Y1, V3_Y1, 23.25)
+    sh.dim_v(V3_Y0 - V3_WAVE_W, V3_Y0, 12.10)
+    sh.dim_v(V3_Y0 - V3_WAVE_E, V3_Y0, 22.45)
 
     sh.tag(24.00, 7.00, "OPEN ASPECT — WINDOWS TO EAST", size=2.0,
            color=INK, rot=-90)
@@ -1181,8 +1192,9 @@ def sheet_first():
            color=INK)
     sh.tag(11.60, 6.60, "VENTILATION ONLY — NO BALCONY WEST", size=2.0,
            color=INK, rot=-90)
-    sh.tag(17.25, 2.55, "NO BALCONY THIS FLOOR — SEE NOTE 6", size=2.0,
-           color=INK)
+    sh.tag(17.25, 0.25, f"CANTILEVER — SINGLE ASYMMETRIC CURVE, "
+           f"{V3_WAVE_W:.2f} m WEST → {V3_WAVE_E:.2f} m EAST",
+           size=2.0, color=INK)
 
     sh.level_tag(13.00, 4.25, "FFL +3.30")
 
@@ -1191,27 +1203,28 @@ def sheet_first():
     y = F.schedule(sh, y + 8, extra=[
         ("Gross internal area, this floor", f"{V3_PLATE:.1f} m²"),
         ("Master suite, total", "44.3 m²"),
+        ("Balcony, external", f"{wave_area():.1f} m²"),
         ("Bedrooms", "3 — the master, suite 3, bedroom 2"),
         ("Floor above / below", "+6.60 / +0.00")])
     F.notes(sh, y + 6, [
         "Draft for comment. The master floor — sleeping rooms, but not the "
-        "second floor repeated. A master suite takes the whole south "
-        "frontage, with one further suite and one bedroom to the north.",
-        "The master is 44.3 m²: bedroom west of the spine on the street "
-        "frontage, dressing and ensuite east of it, the ensuite with a tub "
-        "under its own window. It is nearly twice anything on the floor "
-        "above.",
-        "Three sleeping rooms here against four above — the trade for the "
-        "master. Say the word if you would rather have four of equal size.",
+        "second floor repeated. The master suite takes the whole south "
+        "frontage at 44.3 m²: bedroom west of the spine, dressing and "
+        "ensuite east of it, the ensuite with a tub under its own window. "
+        "Three sleeping rooms here against four above, which is the trade.",
         "The stair well, spine and column grid are the same on every villa "
         "floor. Most wet rooms land under their counterparts above, so the "
         "drainage stacks: the shared bath and ensuite 3 beneath the second "
         "floor's bath and lobby, the master ensuite beneath suite 2's.",
-        "Bedroom 2 and suite 3 take the north off the hall, as on the "
-        "floor above. The east and north walls carry ordinary windows; the "
-        "west carries louvred ventilation only.",
-        "No balcony at this level. The ground floor and the site plan are "
-        "still on the old 11.50 × 14.50 footprint.",
+        "Bedroom 2 and suite 3 take the north off the hall. East and north "
+        "carry ordinary windows; the west carries louvred ventilation only.",
+        "The south cantilever is the third floor's, repeated: the same "
+        f"asymmetric curve, {V3_WAVE_W:.2f} m at the west end sweeping to "
+        f"{V3_WAVE_E:.2f} m at the east, {wave_area():.1f} m². Reached "
+        "from the master bedroom through a sliding door — a dressing room "
+        "is no way onto a balcony — so the suite has the whole frontage.",
+        "The second floor has no balcony, so the two do not yet stack. "
+        "The ground floor and site plan are still on the old footprint.",
     ])
     F.compass_and_scale(sh, x=470.0, y=500.0)
     F.titleblock(sh)
@@ -1295,7 +1308,10 @@ def _plan_third(sh):
 
     # --- openings ---------------------------------------------------------
     for a, b in V3_WIN_S_LIV + V3_WIN_S_S1:
-        sh.window(a, b, V3_Y0, V3_Y0 + WT, "h")
+        if (a, b) == V3_DOOR_BALC:
+            fx.slider(sh, a, b, V3_Y0, V3_Y0 + WT, "h")
+        else:
+            sh.window(a, b, V3_Y0, V3_Y0 + WT, "h")
     for a, b in V3_WIN_N:
         sh.window(a, b, V3_Y1 - WT, V3_Y1, "h")
     for a, b in V3_WIN_E:
