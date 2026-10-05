@@ -253,13 +253,55 @@ def wave_cantilever():
     return problems
 
 
+def stair_stacks():
+    """The stair well must be the same box on every villa floor.
+
+    A stair that does not stack is not a stair - the flights would land on
+    the floor below’s rooms.  Both villa floors are drawn from V3_STAIR, so
+    this cannot fail today; it fails the day somebody gives one floor its
+    own well because the rooms were tight.
+    """
+    import plans
+
+    seen = {}
+    for build, number in ((plans.sheet_second, "A-102"),
+                          (plans.sheet_third, "A-103")):
+        walls, leaves, cols, vents, dims, restore = _record()
+        stairs = []
+        import fixtures as fx
+        real = fx.stair
+        fx.stair = plans.fx.stair = (
+            lambda sh, core, **kw: (stairs.append(tuple(core)),
+                                    real(sh, core, **kw))[1])
+        try:
+            build()
+        finally:
+            fx.stair = plans.fx.stair = real
+            restore()
+        seen[number] = stairs
+
+    problems = []
+    first = None
+    for number, cores in seen.items():
+        if len(cores) != 1:
+            problems.append(f"{number} draws {len(cores)} stairs, expected 1")
+            continue
+        if first is None:
+            first = (number, cores[0])
+        elif any(abs(a - b) > TOL for a, b in zip(first[1], cores[0])):
+            problems.append(
+                f"{number}’s stair well {cores[0]} does not sit over "
+                f"{first[0]}’s {first[1]} - the stair does not stack")
+    return problems
+
+
 def main():
     import plans
 
     sheets = [(plans.sheet_site, "A-000", False, False),
               (plans.sheet_ground, "A-100", True, False),
               (plans.sheet_first, "A-101", True, False),
-              (plans.sheet_second, "A-102", True, False),
+              (plans.sheet_second, "A-102", True, True),
               (plans.sheet_third, "A-103", True, True)]
     total = 0
     for build, number, leaves_expected, west in sheets:
@@ -270,11 +312,13 @@ def main():
         for line in problems:
             print(f"       {line}")
 
-    problems = wave_cantilever()
-    total += len(problems)
-    print(f"{'wave':6s} {'OK' if not problems else f'{len(problems)} PROBLEMS'}")
-    for line in problems:
-        print(f"       {line}")
+    for name, fn in (("stair", stair_stacks), ("wave", wave_cantilever)):
+        problems = fn()
+        total += len(problems)
+        state = "OK" if not problems else f"{len(problems)} PROBLEMS"
+        print(f"{name:6s} {state}")
+        for line in problems:
+            print(f"       {line}")
     return total
 
 

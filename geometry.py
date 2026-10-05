@@ -410,5 +410,56 @@ V3_VENT_W = [(4.00, 4.80), (6.50, 7.30),           # living area
              (13.60, 14.40), (15.20, 16.00)]       # bedroom 3
 
 
+# ---------------------------------------------------------------------------
+# detached villa, second floor (revision P6) - the bedroom floor
+# ---------------------------------------------------------------------------
+# Two suites and two further bedrooms.  Same envelope, same spine, same column
+# grid and - this is not negotiable - the SAME STAIR WELL as the third floor.
+# A stair that does not stack is not a stair, so V3_STAIR fixes where the
+# circulation sits and the rooms are planned around it rather than the other
+# way round.
+#
+# That one fixed point drives the whole layout.  With the stair against the
+# west wall in the middle of the plate, the south-east corner cannot be
+# reached from the landing: the spine faces suite 1 along its whole southern
+# length.  Hence the inner lobby - a small hall off the landing that serves
+# suite 2 and the shared bath between them.  It is the price of stacking the
+# stair, and it is cheaper than the alternatives.
+V2_S1_BED_Y1 = 6.90            # suite 1: bedroom / ensuite + dressing
+V2_S1_Y1 = 9.00                # suite 1 / landing, and suite 2 / lobby
+V2_S1_ENS_X1 = 15.00           # suite 1: ensuite | dressing
+V2_S2_BED_Y1 = 7.30            # suite 2: bedroom / lobby + ensuite
+V2_LOBBY_X1 = 18.90            # lobby | suite 2's ensuite and the shared bath
+
+# doors, named for the wall they sit in
+V2_DOOR_S1 = (15.60, 16.50)    # landing into suite 1's dressing
+V2_DOOR_S1_BED = (15.60, 16.50)
+V2_DOOR_S1_ENS = (7.40, 8.30)
+V2_DOOR_LOBBY = (9.40, 10.30)  # landing into the lobby, through the spine
+# both of these sit in suite 2's north wall, so the bedroom is entered
+# straight off the lobby and its ensuite straight off the bedroom - no
+# second lobby in between
+V2_DOOR_S2 = (17.90, 18.70)    # lobby into suite 2's bedroom
+V2_DOOR_S2_ENS = (20.20, 21.10)  # bedroom into its own ensuite
+V2_DOOR_BATH = (10.20, 11.10)  # lobby into the shared bath
+V2_DOOR_BED4 = (13.40, 14.30)  # spur into bedroom 4, through the spine
+
+# Openings.  The south and east ranges repeat the third floor's wherever a
+# room allows it, so the two storeys line up in elevation; where they cannot,
+# the elevations still have to be drawn and reconciled.
+V2_WIN_S = [(13.00, 15.30), (15.60, 17.20),    # suite 1 bedroom
+            (17.80, 19.60), (20.00, 21.60)]    # suite 2 bedroom
+V2_WIN_E = [(4.20, 6.00), (6.40, 7.20),        # suite 2 bedroom
+            (7.60, 8.20),                      # suite 2 ensuite
+            (10.20, 11.60),                    # shared bath
+            (12.90, 14.70), (15.00, 16.40)]    # bedroom 4
+V2_WIN_N = [(13.10, 14.50), (14.90, 16.00),    # bedroom 3
+            (16.40, 17.20),                    # head of the spur
+            (18.00, 19.40), (19.90, 21.40)]    # bedroom 4
+V2_VENT_W = [(4.00, 4.80), (5.40, 6.20),       # suite 1 bedroom
+             (7.60, 8.20),                     # suite 1 ensuite
+             (13.60, 14.40), (15.20, 16.00)]   # bedroom 3
+
+
 def area(x0, y0, x1, y1):
     return (x1 - x0) * (y1 - y0)
