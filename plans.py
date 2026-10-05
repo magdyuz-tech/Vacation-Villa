@@ -996,20 +996,18 @@ def sheet_second():
     return sh
 
 
-def _villa_master_floor(sh):
-    """Detached villa, first floor (P6): the master floor.
+def _villa_living_floor(sh):
+    """Detached villa, first floor (P6): the living floor.
 
-    Sleeping rooms, but not the floor above repeated.  A master suite takes
-    the whole south frontage - bedroom west of the spine, dressing and
-    ensuite east of it - with one further suite and one bedroom to the
-    north.  Three sleeping rooms instead of four, and the master is nearly
-    twice the size of anything on the second floor.
+    A living area and three sleeping rooms.  The living area takes the
+    south-west with the stair standing in it and the pantry in its corner -
+    the third floor's west strip exactly, so the two line through and the
+    pantry's plumbing stacks.  The east strip follows the second floor
+    instead: master bedroom and ensuite over the south-east, lobby and
+    shared bath behind them, a bedroom across the north.
 
-    The envelope, spine, column grid and stair well are the same as every
-    other villa floor, and the wet rooms are placed so that most of them
-    still land under their counterparts above: the shared bath and suite
-    3's ensuite beneath the second floor's bath and lobby, the master's
-    ensuite beneath suite 2's.
+    The floor is therefore a copy of neither neighbour while every wet room
+    still sits over or under its counterpart.
     """
     # --- shell -----------------------------------------------------------
     sh.wall(V3_X0, V3_Y0, V3_X1, V3_Y0 + WT, openings=V1_WIN_S)
@@ -1017,24 +1015,28 @@ def _villa_master_floor(sh):
     sh.wall(V3_X0, V3_Y1 - WT, V3_X1, V3_Y1, openings=V1_WIN_N)
     sh.wall(V3_X1 - WT, V3_Y0, V3_X1, V3_Y1, openings=V1_WIN_E)
 
-    # --- the spine, carrying four of the floor's doors -------------------
+    # --- the spine -------------------------------------------------------
     sh.wall(V3_SPINE_X0, v3_y0, V3_SPINE_X1, v3_y1,
-            openings=[V1_DOOR_DRESS, V1_DOOR_M_ENS, V1_DOOR_BATH, V1_DOOR_S3])
+            openings=[V2_DOOR_LOBBY, V2_DOOR_BED4])
 
-    # --- the master suite -------------------------------------------------
-    sh.wall(v3_x0, V1_MASTER_Y1, V3_SPINE_X0, V1_MASTER_Y1 + PT,
-            openings=[V1_DOOR_MASTER])
-    sh.wall(V3_SPINE_X1, V1_DRESS_Y1, v3_x1, V1_DRESS_Y1 + PT,
-            openings=[V1_DOOR_DRESS_ENS])
-    sh.wall(V3_SPINE_X1, V1_MASTER_Y1, v3_x1, V1_MASTER_Y1 + PT)
+    # --- the pantry, in the same corner as the floor above ---------------
+    sh.wall(V3_PANT_X0 - PT, V3_PANT_Y0 - PT, V3_PANT_X1, V3_PANT_Y0,
+            openings=[V3_PANT_OPEN])
+    sh.wall(V3_PANT_X0 - PT, V3_PANT_Y1, V3_PANT_X1, V3_PANT_Y1 + PT)
+    sh.wall(V3_PANT_X0 - PT, V3_PANT_Y0, V3_PANT_X0, V3_PANT_Y1)
 
-    # --- the shared bath, and suite 3 beyond it --------------------------
-    sh.wall(V3_SPINE_X1, V1_BATH_Y1, v3_x1, V1_BATH_Y1 + PT)
-    sh.wall(V3_SPINE_X1, V1_S3_ENS_Y1, v3_x1, V1_S3_ENS_Y1 + PT,
-            openings=[V1_DOOR_S3_ENS])
+    # --- master bedroom, with both its doors in one wall ------------------
+    sh.wall(V3_SPINE_X1, V2_S2_BED_Y1, v3_x1, V2_S2_BED_Y1 + PT,
+            openings=[V2_DOOR_S2, V2_DOOR_S2_ENS])
 
-    # --- bedroom 2, closing the north end of the stair hall --------------
-    sh.wall(v3_x0, V3_STAIR[3], V3_BED3_X1, V3_BED3_Y0)
+    # --- the lobby, with the ensuite and shared bath stacked beside it ---
+    sh.wall(V2_LOBBY_X1, V2_S2_BED_Y1 + PT, V2_LOBBY_X1 + PT, V3_STAIR[3],
+            openings=[V2_DOOR_BATH])
+    sh.wall(V2_LOBBY_X1 + PT, V2_S1_Y1, v3_x1, V2_S1_Y1 + PT)
+    sh.wall(V3_SPINE_X1, V3_STAIR[3], v3_x1, V3_BED3_Y0)
+
+    # --- bedroom 2, the one wall across the west strip -------------------
+    sh.wall(v3_x0, V1_LIV_Y1, V3_BED3_X1, V3_BED3_Y0)
     sh.wall(V3_BED3_X1, V3_BED3_Y0, V3_BED3_X1 + PT, v3_y1,
             openings=[V3_DOOR_BED3])
 
@@ -1050,7 +1052,7 @@ def _villa_master_floor(sh):
 
     # --- openings ---------------------------------------------------------
     for a, b in V1_WIN_S:
-        if (a, b) == V1_DOOR_BALC:
+        if (a, b) in (V1_DOOR_BALC, V1_DOOR_BALC_M):
             fx.slider(sh, a, b, V3_Y0, V3_Y0 + WT, "h")
         else:
             sh.window(a, b, V3_Y0, V3_Y0 + WT, "h")
@@ -1061,98 +1063,104 @@ def _villa_master_floor(sh):
     for a, b in V1_VENT_W:
         fx.vent(sh, a, b, V3_X0, V3_X0 + WT, "v")
 
-    sh.door(*V1_DOOR_MASTER, V1_MASTER_Y1, V1_MASTER_Y1 + PT, "h",
+    sh.door(*V3_PANT_OPEN, V3_PANT_Y0 - PT, V3_PANT_Y0, "h", leaf=False)
+    sh.door(*V2_DOOR_LOBBY, V3_SPINE_X0, V3_SPINE_X1, "v", hinge="lo",
+            swing="right")
+    sh.door(*V2_DOOR_S2, V2_S2_BED_Y1, V2_S2_BED_Y1 + PT, "h",
             hinge="lo", swing="down")
-    sh.door(*V1_DOOR_DRESS, V3_SPINE_X0, V3_SPINE_X1, "v", hinge="lo",
+    sh.door(*V2_DOOR_S2_ENS, V2_S2_BED_Y1, V2_S2_BED_Y1 + PT, "h",
+            hinge="hi", swing="up")
+    sh.door(*V2_DOOR_BATH, V2_LOBBY_X1, V2_LOBBY_X1 + PT, "v", hinge="lo",
             swing="right")
-    sh.door(*V1_DOOR_M_ENS, V3_SPINE_X0, V3_SPINE_X1, "v", hinge="lo",
+    sh.door(*V2_DOOR_BED4, V3_SPINE_X0, V3_SPINE_X1, "v", hinge="lo",
             swing="right")
-    sh.door(*V1_DOOR_DRESS_ENS, V1_DRESS_Y1, V1_DRESS_Y1 + PT, "h",
-            hinge="lo", swing="up")
-    sh.door(*V1_DOOR_BATH, V3_SPINE_X0, V3_SPINE_X1, "v", hinge="lo",
-            swing="right")
-    sh.door(*V1_DOOR_S3, V3_SPINE_X0, V3_SPINE_X1, "v", hinge="lo",
-            swing="right")
-    sh.door(*V1_DOOR_S3_ENS, V1_S3_ENS_Y1, V1_S3_ENS_Y1 + PT, "h",
-            hinge="lo", swing="down")
     sh.door(*V3_DOOR_BED3, V3_BED3_X1, V3_BED3_X1 + PT, "v", hinge="lo",
             swing="left")
 
-    # --- the stair, in the same well as every other floor -----------------
+    # --- the stair, standing in the living area ---------------------------
     fx.stair(sh, V3_STAIR, direction="both", floor_to_floor=FLOOR_TO_FLOOR,
              rise_target=V3_STAIR_RISE, going=V3_STAIR_GOING,
              landing_d=V3_STAIR_LANDING, well=V3_STAIR_WELL)
+    sh.line(V3_STAIR[0], V3_STAIR[1], V3_STAIR[2], V3_STAIR[1],
+            w=LW_SECONDARY, color=INK)
     sh.line(V3_STAIR[2], V3_STAIR[1], V3_STAIR[2], V3_STAIR[3],
             w=LW_SECONDARY, color=INK)
     sh.tag(V3_STAIR[2] + 0.22, 10.80, "OPEN STAIR — BALUSTRADE", size=1.6,
            color=GREY, rot=-90)
-    fx.wardrobe(sh, V3_SPINE_X0 - 0.50, 10.60, 0.50, 1.60, axis="v")
+    fx.wardrobe(sh, V3_SPINE_X0 - 0.60, 11.10, 0.60, 1.30, axis="v")
+
+    # --- living area ------------------------------------------------------
+    fx.tv(sh, V3_SPINE_X0 - 0.16, 4.55, w=1.50, axis="v")
+    fx.sofa(sh, 13.10, 4.50, 0.88, 2.20, facing="e")
+    fx.sofa(sh, 14.30, 6.60, 1.90, 0.88, facing="s")
+    fx.table(sh, 14.40, 5.30, 1.10, 0.70, rx=0.18)
+    fx.table(sh, 15.40, 9.60, 1.40, 0.90, seats_n=2, seats_s=2)
+
+    # --- pantry -----------------------------------------------------------
+    fx.counter(sh, V3_PANT_X0, V3_PANT_Y1 - 0.60, V3_PANT_X1 - V3_PANT_X0,
+               0.60)
+    fx.sink(sh, V3_PANT_X0 + 0.08, V3_PANT_Y1 - 0.52, w=0.45, d=0.40)
+    sh.rect(16.60, V3_PANT_Y1 - 0.48, 0.22, 0.24, rx=D.mm(0.03),
+            sw=LW_FIXTURE, stroke=GREY)
+    sh.rect(16.92, V3_PANT_Y1 - 0.50, 0.30, 0.28, rx=D.mm(0.03),
+            sw=LW_FIXTURE, stroke=GREY)
 
     # --- master bedroom ---------------------------------------------------
-    fx.bed(sh, 13.40, 6.90, 1.80, 2.10, head="n")
-    sh.rect(12.90, 8.55, 0.45, 0.45, sw=LW_FIXTURE, stroke=GREY)
-    sh.rect(15.25, 8.55, 0.35, 0.45, sw=LW_FIXTURE, stroke=GREY)
-    fx.sofa(sh, 15.80, 4.00, 1.40, 0.80, facing="n")
-
-    # --- master dressing: wardrobe run on its north wall, island beyond ---
-    fx.wardrobe(sh, 18.60, V1_DRESS_Y1 - 0.60, 2.40, 0.55)
-    sh.rect(19.10, 4.30, 1.30, 0.70, rx=D.mm(0.1), sw=LW_FIXTURE,
-            stroke=GREY)
-
-    # --- master ensuite: tub under the east window, the rest on the north -
-    fx.bathtub(sh, 19.90, 6.55, 1.70, 0.75)
-    fx.basin(sh, 18.30, V1_MASTER_Y1, w=0.65, d=0.45, facing="s")
-    fx.wc(sh, 19.50, V1_MASTER_Y1, facing="s")
-    fx.shower(sh, 20.45, V1_MASTER_Y1 - 1.05, 1.05, 1.05)
-
-    # --- shared bath ------------------------------------------------------
-    fx.basin(sh, 18.30, V1_BATH_Y1, w=0.65, d=0.45, facing="s")
-    fx.wc(sh, 19.50, V1_BATH_Y1, facing="s")
-    fx.shower(sh, 20.45, V1_BATH_Y1 - 1.05, 1.05, 1.05)
-
-    # --- suite 3 ----------------------------------------------------------
-    _wet_room(sh, V1_BATH_Y1 + PT, V1_S3_ENS_Y1, fittings_north=False)
-    fx.bed(sh, 19.10, 12.94, 1.80, 2.10, head="s")
+    fx.bed(sh, 19.10, 5.20, 1.80, 2.10, head="n")
     for bx in (18.60, 20.95):
-        sh.rect(bx, 12.94, 0.45, 0.45, sw=LW_FIXTURE, stroke=GREY)
-    fx.wardrobe(sh, 17.73, 14.50, 0.50, 1.90, axis="v")
+        sh.rect(bx, 6.85, 0.45, 0.45, sw=LW_FIXTURE, stroke=GREY)
+    fx.wardrobe(sh, 17.73, 4.00, 0.50, 2.00, axis="v")
+
+    # --- master ensuite ---------------------------------------------------
+    fx.shower(sh, 19.12, 7.50, 1.00, 1.00)
+    fx.basin(sh, 19.60, V2_S1_Y1, w=0.55, d=0.42, facing="s")
+    fx.wc(sh, 20.65, V2_S1_Y1, facing="s")
+
+    # --- shared bath: fittings along the east wall ------------------------
+    fx.wc(sh, v3_x1, 9.80, facing="w")
+    fx.basin(sh, v3_x1, 10.90, w=0.55, d=0.42, facing="w")
+    fx.shower(sh, 20.55, 11.30, 1.05, 1.05)
 
     # --- bedroom 2 --------------------------------------------------------
     fx.bed(sh, 13.20, 12.66, 1.60, 2.00, head="s")
     fx.wardrobe(sh, 15.60, 14.60, 0.55, 1.80, axis="v")
 
+    # --- bedroom 3 --------------------------------------------------------
+    fx.bed(sh, 19.10, 12.66, 1.80, 2.10, head="s")
+    for bx in (18.60, 20.95):
+        sh.rect(bx, 12.66, 0.45, 0.45, sw=LW_FIXTURE, stroke=GREY)
+    fx.wardrobe(sh, 17.73, 14.60, 0.50, 1.90, axis="v")
+
     # --- rooms ------------------------------------------------------------
-    sh.room(v3_x0, v3_y0, V3_SPINE_X0 - v3_x0, V1_MASTER_Y1 - v3_y0,
-            "Master Bedroom", area=23.5, size=2.5, sub="master suite",
-            sched_name="Master bedroom", at=(14.60, 5.40))
-    sh.room(V3_SPINE_X1, v3_y0, v3_x1 - V3_SPINE_X1, V1_DRESS_Y1 - v3_y0,
-            "Dressing", area=10.2, size=2.0, sched_name="Master dressing",
-            show_area=False, at=(20.95, 4.55))
-    sh.room(V3_SPINE_X1, V1_DRESS_Y1 + PT, v3_x1 - V3_SPINE_X1,
-            V1_MASTER_Y1 - V1_DRESS_Y1 - PT, "Master Ensuite", area=10.6,
-            size=1.9, sched_name="Master ensuite", show_area=False,
-            at=(19.40, 7.92))
-    sh.room(V3_SPINE_X1, V1_MASTER_Y1 + PT, v3_x1 - V3_SPINE_X1,
-            V1_BATH_Y1 - V1_MASTER_Y1 - PT, "Shared Bath", area=7.7,
-            size=1.8, sched_name="Shared bath", show_area=False,
-            at=(19.40, 9.55))
-    sh.room(V3_SPINE_X1, V1_BATH_Y1 + PT, v3_x1 - V3_SPINE_X1,
-            V1_S3_ENS_Y1 - V1_BATH_Y1 - PT, "Ensuite 3", area=6.5, size=1.8,
-            sched_name="Suite 3 ensuite", show_area=False, at=(19.50, 12.35))
-    sh.room(V3_SPINE_X1, V1_S3_ENS_Y1 + PT, v3_x1 - V3_SPINE_X1,
-            v3_y1 - V1_S3_ENS_Y1 - PT, "Suite 3", area=15.9, size=2.4,
-            sub="bedroom", sched_name="Suite 3 bedroom", at=(18.62, 16.32))
+    sh.room(v3_x0, v3_y0, V3_SPINE_X0 - v3_x0, V1_LIV_Y1 - v3_y0,
+            "Living Area", area=29.6, size=2.6, sub="open — stair within",
+            sched_name="Living area", at=(14.15, 7.95))
+    sh.room(V3_PANT_X0, V3_PANT_Y0, V3_PANT_X1 - V3_PANT_X0,
+            V3_PANT_Y1 - V3_PANT_Y0, "Pantry", area=2.3, size=1.7,
+            show_area=False, at=(16.63, 7.85))
     sh.room(V3_STAIR[0], V3_STAIR[1], V3_STAIR[2] - V3_STAIR[0],
             V3_STAIR[3] - V3_STAIR[1], "Stair", area=6.6, size=1.9,
             show_area=False, at=(13.80, 12.15))
-    sh.room(V3_STAIR[2] + PT, V3_STAIR[1], V3_SPINE_X0 - V3_STAIR[2] - PT,
-            V3_STAIR[3] - V3_STAIR[1], "Landing", area=7.9, size=2.0,
-            show_area=False, at=(16.10, 11.90))
+    sh.room(V3_SPINE_X1, v3_y0, v3_x1 - V3_SPINE_X1, V2_S2_BED_Y1 - v3_y0,
+            "Master Bedroom", area=14.3, size=2.4, sub="master suite",
+            sched_name="Master bedroom", at=(19.95, 4.35))
+    sh.room(V2_LOBBY_X1 + PT, V2_S2_BED_Y1 + PT, v3_x1 - V2_LOBBY_X1 - PT,
+            V2_S1_Y1 - V2_S2_BED_Y1 - PT, "Ensuite", area=4.2,
+            size=1.7, sched_name="Master ensuite", show_area=False,
+            at=(20.60, 8.42))
+    sh.room(V3_SPINE_X1, V2_S2_BED_Y1 + PT, V2_LOBBY_X1 - V3_SPINE_X1,
+            V3_STAIR[3] - V2_S2_BED_Y1 - PT, "Lobby", area=6.5, size=1.7,
+            show_area=False, at=(18.25, 11.60))
+    sh.room(V2_LOBBY_X1 + PT, V3_STAIR[1], v3_x1 - V2_LOBBY_X1 - PT,
+            V3_STAIR[3] - V3_STAIR[1], "Shared Bath", area=8.8, size=1.8,
+            sched_name="Shared bath", show_area=False, at=(20.05, 9.60))
     sh.room(v3_x0, V3_BED3_Y0, V3_BED3_X1 - v3_x0, v3_y1 - V3_BED3_Y0,
             "Bedroom 2", area=13.9, size=2.4, at=(15.20, 16.20))
     sh.room(V3_HALL_X0, V3_BED3_Y0, V3_SPINE_X0 - V3_HALL_X0,
             v3_y1 - V3_BED3_Y0, "Hall", area=4.3, size=1.8,
             show_area=False, at=(16.79, 15.60))
+    sh.room(V3_SPINE_X1, V3_BED3_Y0, v3_x1 - V3_SPINE_X1, v3_y1 - V3_BED3_Y0,
+            "Bedroom 3", area=17.0, size=2.4, at=(19.80, 16.30))
 
 
 def sheet_first():
@@ -1169,20 +1177,18 @@ def sheet_first():
     sh.tag(22.55, 10.00, "1.00 m SETBACK", size=1.8, color=GREY, rot=-90)
     sh.tag(13.90, 17.55, "1.00 m SETBACK", size=1.8, color=GREY)
 
-    _villa_master_floor(sh)
+    _villa_living_floor(sh)
 
     sh.dim_h(V3_X0, V3_X1, 0.95, ext_from=V3_Y0)
     sh.dim_h(V3_X0, V3_GRID_X[1], -0.30)
     sh.dim_h(V3_GRID_X[1], V3_X1, -0.30)
     sh.dim_v(V3_Y0, V3_Y1, 10.70, ext_from=V3_X0)
-    sh.dim_v(V3_Y0, V1_MASTER_Y1, 11.35)
-    sh.dim_v(V1_MASTER_Y1, V3_BED3_Y0, 11.35)
-    sh.dim_v(V3_BED3_Y0, V3_Y1, 11.35)
-    sh.dim_v(V3_Y0, V1_DRESS_Y1, 23.25)
-    sh.dim_v(V1_DRESS_Y1, V1_MASTER_Y1, 23.25)
-    sh.dim_v(V1_MASTER_Y1, V1_BATH_Y1, 23.25)
-    sh.dim_v(V1_BATH_Y1, V1_S3_ENS_Y1, 23.25)
-    sh.dim_v(V1_S3_ENS_Y1, V3_Y1, 23.25)
+    sh.dim_v(V3_Y0, V1_LIV_Y1, 11.35)
+    sh.dim_v(V1_LIV_Y1, V3_Y1, 11.35)
+    sh.dim_v(V3_Y0, V2_S2_BED_Y1, 23.25)
+    sh.dim_v(V2_S2_BED_Y1, V2_S1_Y1, 23.25)
+    sh.dim_v(V2_S1_Y1, V3_BED3_Y0, 23.25)
+    sh.dim_v(V3_BED3_Y0, V3_Y1, 23.25)
     sh.dim_v(V3_Y0 - V3_WAVE_W, V3_Y0, 12.10)
     sh.dim_v(V3_Y0 - V3_WAVE_E, V3_Y0, 22.45)
 
@@ -1202,27 +1208,28 @@ def sheet_first():
     y = F.legend(sh, 52)
     y = F.schedule(sh, y + 8, extra=[
         ("Gross internal area, this floor", f"{V3_PLATE:.1f} m²"),
-        ("Master suite, total", "44.3 m²"),
         ("Balcony, external", f"{wave_area():.1f} m²"),
-        ("Bedrooms", "3 — the master, suite 3, bedroom 2"),
+        ("Bedrooms", "3 — the master, bedrooms 2 and 3"),
         ("Floor above / below", "+6.60 / +0.00")])
     F.notes(sh, y + 6, [
-        "Draft for comment. The master floor — sleeping rooms, but not the "
-        "second floor repeated. The master suite takes the whole south "
-        "frontage at 44.3 m²: bedroom west of the spine, dressing and "
-        "ensuite east of it, the ensuite with a tub under its own window. "
-        "Three sleeping rooms here against four above, which is the trade.",
-        "The stair well, spine and column grid are the same on every villa "
-        "floor. Most wet rooms land under their counterparts above, so the "
-        "drainage stacks: the shared bath and ensuite 3 beneath the second "
-        "floor's bath and lobby, the master ensuite beneath suite 2's.",
-        "Bedroom 2 and suite 3 take the north off the hall. East and north "
-        "carry ordinary windows; the west carries louvred ventilation only.",
+        "Draft for comment. The living floor — a living area and three "
+        "sleeping rooms. The living area takes the south-west with the "
+        "stair standing in it and the pantry in its corner, opening "
+        "through a sliding door onto the cantilever.",
+        "It is a copy of neither neighbour. The west strip is the third "
+        "floor's, so the two line through and the pantry's plumbing "
+        "stacks; the east strip is the second floor's, so the master "
+        "ensuite, lobby and shared bath sit over their counterparts.",
+        "The master loses the dressing room it had when this floor was "
+        "planned without a living area: a 114.8 m² plate cannot carry both "
+        "a 44 m² master suite and a living area.",
+        "Bedroom 2 and bedroom 3 take the north off the hall; the shared "
+        "bath serves them both. East and north carry ordinary windows, "
+        "the west louvred ventilation only.",
         "The south cantilever is the third floor's, repeated: the same "
         f"asymmetric curve, {V3_WAVE_W:.2f} m at the west end sweeping to "
-        f"{V3_WAVE_E:.2f} m at the east, {wave_area():.1f} m². Reached "
-        "from the master bedroom through a sliding door — a dressing room "
-        "is no way onto a balcony — so the suite has the whole frontage.",
+        f"{V3_WAVE_E:.2f} m at the east, {wave_area():.1f} m². The living "
+        "area and the master bedroom each have a sliding door onto it.",
         "The second floor has no balcony, so the two do not yet stack. "
         "The ground floor and site plan are still on the old footprint.",
     ])

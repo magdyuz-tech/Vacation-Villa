@@ -463,49 +463,34 @@ V2_VENT_W = [(4.00, 4.80), (5.40, 6.20),       # suite 1 bedroom
 
 
 # ---------------------------------------------------------------------------
-# detached villa, first floor (revision P6) - the master floor
+# detached villa, first floor (revision P6) - the living floor
 # ---------------------------------------------------------------------------
-# Sleeping rooms again, but deliberately NOT a repeat of the second floor.
-# This one is planned around a master suite that takes the whole south
-# frontage - bedroom west of the spine, dressing and ensuite east of it -
-# with one further suite and one bedroom to the north.  Three sleeping
-# rooms rather than four, and much the larger of them.
+# A living area and sleeping rooms.  The living area takes the south-west
+# with the stair standing in it, exactly as on the third floor - same walls,
+# same pantry, same opening onto the cantilever - so the west strip lines
+# through from first to third.  The east strip follows the SECOND floor
+# instead: master bedroom and ensuite over the south-east, lobby and shared
+# bath behind them, a bedroom across the north.
 #
-# Same envelope, same spine, same column grid, same stair well.  Several of
-# the wet rooms still land under their counterparts on the floor above, so
-# the drainage stacks where it can: the shared bath and suite 3's ensuite
-# both sit beneath the second floor's bath and lobby, and the master's
-# ensuite beneath suite 2's.
-V1_MASTER_Y1 = 9.00            # master suite / landing
-V1_DRESS_Y1 = 6.30             # master: dressing / ensuite
-V1_BATH_Y1 = 11.00             # shared bath / suite 3's ensuite
-V1_S3_ENS_Y1 = 12.70           # suite 3: ensuite / bedroom
-
-V1_DOOR_MASTER = (15.60, 16.50)      # landing into the master bedroom
-V1_DOOR_DRESS = (4.40, 5.30)         # bedroom into the dressing, via spine
-V1_DOOR_M_ENS = (7.00, 7.90)         # bedroom into the ensuite, via spine
-V1_DOOR_DRESS_ENS = (18.60, 19.50)   # dressing into the ensuite
-V1_DOOR_BATH = (9.40, 10.30)         # landing into the shared bath, via spine
-V1_DOOR_S3 = (13.40, 14.30)          # hall into suite 3, via spine
-V1_DOOR_S3_ENS = (17.80, 18.70)      # suite 3's bedroom into its ensuite
-
-V1_WIN_S = [(13.00, 15.30), (15.60, 17.20),    # master bedroom
-            (17.80, 19.60), (20.00, 21.60)]    # master dressing
-# The first floor carries the same cantilever as the third.  It is reached
-# from the master bedroom only - a dressing room is not a way onto a
-# balcony - so the suite gets the whole 9.50 m frontage to itself.
-V1_DOOR_BALC = (13.00, 15.30)
+# So the floor is not a copy of either neighbour, and every wet room and the
+# pantry still sit directly over or under their counterparts.  Nearly all
+# the constants it needs already exist: V3_PANT_* and V3_WIN_S_LIV from the
+# third floor, V2_LOBBY_X1 and the suite-2 doors from the second.
+V1_LIV_Y1 = 12.42              # north face of the open living space
+V1_DOOR_BALC = (13.00, 15.30)  # living area onto the balcony, sliding
+V1_DOOR_BALC_M = (17.80, 19.60)   # master bedroom onto it, sliding
 V1_BALC_LEVEL = "+3.27"
-V1_WIN_E = [(4.20, 6.00),                      # master dressing
-            (6.80, 7.80),                      # master ensuite
-            (9.70, 10.70),                     # shared bath
-            (11.40, 12.30),                    # suite 3 ensuite
-            (13.00, 14.70), (15.00, 16.40)]    # suite 3 bedroom
+
+V1_WIN_S = [(13.00, 15.30), (15.60, 17.20),    # living area
+            (17.80, 19.60), (20.00, 21.60)]    # master bedroom
+V1_WIN_E = [(4.20, 6.00), (6.40, 7.20),        # master bedroom
+            (7.60, 8.20),                      # master ensuite
+            (10.20, 11.60),                    # shared bath
+            (12.90, 14.70), (15.00, 16.40)]    # bedroom 3
 V1_WIN_N = [(13.10, 14.50), (14.90, 16.00),    # bedroom 2
             (16.40, 17.20),                    # head of the hall
-            (18.00, 19.40), (19.90, 21.40)]    # suite 3 bedroom
-V1_VENT_W = [(4.00, 4.80), (5.40, 6.20),       # master bedroom
-             (7.60, 8.20),                     # master bedroom, north end
+            (18.00, 19.40), (19.90, 21.40)]    # bedroom 3
+V1_VENT_W = [(4.00, 4.80), (6.50, 7.30),       # living area
              (13.60, 14.40), (15.20, 16.00)]   # bedroom 2
 
 
