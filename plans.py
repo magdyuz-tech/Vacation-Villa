@@ -361,14 +361,14 @@ def sheet_site():
     boundary(sh)
     sh.tag(6.5, 2.45, "ENTRANCE GARDEN CORRIDOR", size=2.3, color=INK)
 
-    sh.dim_h(0, 23.0, -4.8, "23.00", ext_from=0.0)
-    sh.dim_h(0, 11.5, -6.6, "11.50")
-    sh.dim_h(11.5, 18.0, -6.6, "6.50")
-    sh.dim_h(18.0, 23.0, -6.6, "5.00")
-    sh.dim_v(0, 5.0, -1.8, "5.00", ext_from=0.0)
-    sh.dim_v(0, 18.0, -3.6, "18.00")
-    sh.dim_v(3.5, 18.0, 24.5, "14.50", ext_from=23.0)
-    sh.dim_v(0, 3.5, 24.5, "3.50")
+    sh.dim_h(0, 23.0, -4.8, ext_from=0.0)
+    sh.dim_h(0, 11.5, -6.6)
+    sh.dim_h(11.5, 18.0, -6.6)
+    sh.dim_h(18.0, 23.0, -6.6)
+    sh.dim_v(0, 5.0, -1.8, ext_from=0.0)
+    sh.dim_v(0, 18.0, -3.6)
+    sh.dim_v(3.5, 18.0, 24.5, ext_from=23.0)
+    sh.dim_v(0, 3.5, 24.5)
 
     F.heading(sh)
     y = F.legend(sh, 52)
@@ -532,16 +532,16 @@ def sheet_ground():
     sh = Sheet("A-100", "Ground Floor Plan", "+0.00", "1:50 @ A1")
     F.border(sh)
     _plan_ground(sh)
-    sh.dim_h(0, PLOT_W, -2.0, "23.00", ext_from=0.0)
-    sh.dim_h(A_X0, A_X1, -0.9, "6.50")
-    sh.dim_h(A_X1, B_X1, -0.9, "5.00")
-    sh.dim_v(0, GARDEN_D, -1.0, "5.00", ext_from=0.0)
-    sh.dim_v(A_Y0, A_Y1, -1.0, "14.50")
-    sh.dim_v(B_Y0, B_Y1, 24.2, "14.50", ext_from=B_X1)
-    sh.dim_v(A_Y0, LF_Y0, 25.6, "3.80")
-    sh.dim_v(LF_Y0, ST_Y0, 25.6, "3.30")
-    sh.dim_v(ST_Y0, ST_Y1, 25.6, "4.00")
-    sh.dim_v(ST_Y1, B_Y1, 25.6, "3.40")
+    sh.dim_h(0, PLOT_W, -2.0, ext_from=0.0)
+    sh.dim_h(A_X0, A_X1, -0.9)
+    sh.dim_h(A_X1, B_X1, -0.9)
+    sh.dim_v(0, GARDEN_D, -1.0, ext_from=0.0)
+    sh.dim_v(A_Y0, A_Y1, -1.0)
+    sh.dim_v(B_Y0, B_Y1, 24.2, ext_from=B_X1)
+    sh.dim_v(A_Y0, LF_Y0, 25.6)
+    sh.dim_v(LF_Y0, ST_Y0, 25.6)
+    sh.dim_v(ST_Y0, ST_Y1, 25.6)
+    sh.dim_v(ST_Y1, B_Y1, 25.6)
     sh.level_tag(12.05, 8.40, "FFL +0.00")
     sh.level_tag(20.75, 4.60, "FFL +0.00")
 
@@ -910,14 +910,14 @@ def _apartment_floor(number, title, level, floor):
     sh = Sheet(number, title, level, "1:50 @ A1")
     F.border(sh)
     _plan_apartment(sh, floor, level)
-    sh.dim_h(A_X0, B_X1, 1.6, "11.50", ext_from=A_Y0)
-    sh.dim_h(A_X0, A_X1, 0.4, "6.50")
-    sh.dim_h(A_X1, B_X1, 0.4, "5.00")
-    sh.dim_v(A_Y0, A_Y1, 10.4, "14.50", ext_from=A_X0)
-    sh.dim_v(B_Y0, B_Y1, 24.6, "14.50", ext_from=B_X1)
-    sh.dim_v(B_Y0, 9.00, 26.0, "5.50")
-    sh.dim_v(9.00, 11.10, 26.0, "2.10")
-    sh.dim_v(11.10, B_Y1, 26.0, "6.60")
+    sh.dim_h(A_X0, B_X1, 1.6, ext_from=A_Y0)
+    sh.dim_h(A_X0, A_X1, 0.4)
+    sh.dim_h(A_X1, B_X1, 0.4)
+    sh.dim_v(A_Y0, A_Y1, 10.4, ext_from=A_X0)
+    sh.dim_v(B_Y0, B_Y1, 24.6, ext_from=B_X1)
+    sh.dim_v(B_Y0, 9.00, 26.0)
+    sh.dim_v(9.00, 11.10, 26.0)
+    sh.dim_v(11.10, B_Y1, 26.0)
     sh.tag(23.45, 13.20, "OPEN BOUNDARY — WINDOWS TO EAST",
            size=2.0, color=INK, rot=-90)
     sh.level_tag(12.10, 4.55, f"FFL {level}")
@@ -966,15 +966,15 @@ def sheet_first():
     sh = Sheet("A-101", "First Floor Plan", level, "1:50 @ A1")
     F.border(sh)
     _plan_first(sh, level)
-    sh.dim_h(A_X0, B_X1, 1.6, "11.50", ext_from=A_Y0)
-    sh.dim_h(A_X0, A_X1, 0.4, "6.50")
-    sh.dim_h(A_X1, B_X1, 0.4, "5.00")
-    sh.dim_v(A_Y0, A_Y1, 10.4, "14.50", ext_from=A_X0)
-    sh.dim_v(B_Y0, B_Y1, 24.6, "14.50", ext_from=B_X1)
-    sh.dim_v(B_Y0, 8.60, 26.0, "5.10")
-    sh.dim_v(8.60, 11.00, 26.0, "2.40")
-    sh.dim_v(11.00, 15.30, 26.0, "4.30")
-    sh.dim_v(15.30, B_Y1, 26.0, "2.70")
+    sh.dim_h(A_X0, B_X1, 1.6, ext_from=A_Y0)
+    sh.dim_h(A_X0, A_X1, 0.4)
+    sh.dim_h(A_X1, B_X1, 0.4)
+    sh.dim_v(A_Y0, A_Y1, 10.4, ext_from=A_X0)
+    sh.dim_v(B_Y0, B_Y1, 24.6, ext_from=B_X1)
+    sh.dim_v(B_Y0, 8.60, 26.0)
+    sh.dim_v(8.60, 11.00, 26.0)
+    sh.dim_v(11.00, 15.30, 26.0)
+    sh.dim_v(15.30, B_Y1, 26.0)
     sh.tag(23.45, 13.20, "OPEN BOUNDARY \u2014 WINDOWS TO EAST",
            size=2.0, color=INK, rot=-90)
     sh.level_tag(12.60, 10.60, f"FFL {level}")
@@ -1018,15 +1018,15 @@ def sheet_second():
     sh = Sheet("A-102", "Second Floor Plan", level, "1:50 @ A1")
     F.border(sh)
     _plan_second(sh, level)
-    sh.dim_h(A_X0, B_X1, 1.6, "11.50", ext_from=A_Y0)
-    sh.dim_h(A_X0, A_X1, 0.4, "6.50")
-    sh.dim_h(A_X1, B_X1, 0.4, "5.00")
-    sh.dim_v(A_Y0, A_Y1, 10.4, "14.50", ext_from=A_X0)
-    sh.dim_v(B_Y0, B_Y1, 24.6, "14.50", ext_from=B_X1)
-    sh.dim_v(B_Y0, 8.28, 26.0, "4.78")
-    sh.dim_v(8.28, 11.08, 26.0, "2.80")
-    sh.dim_v(11.08, 13.48, 26.0, "2.40")
-    sh.dim_v(13.48, B_Y1, 26.0, "4.22")
+    sh.dim_h(A_X0, B_X1, 1.6, ext_from=A_Y0)
+    sh.dim_h(A_X0, A_X1, 0.4)
+    sh.dim_h(A_X1, B_X1, 0.4)
+    sh.dim_v(A_Y0, A_Y1, 10.4, ext_from=A_X0)
+    sh.dim_v(B_Y0, B_Y1, 24.6, ext_from=B_X1)
+    sh.dim_v(B_Y0, 8.28, 26.0)
+    sh.dim_v(8.28, 11.08, 26.0)
+    sh.dim_v(11.08, 13.48, 26.0)
+    sh.dim_v(13.48, B_Y1, 26.0)
     sh.tag(23.45, 13.20, "OPEN BOUNDARY \u2014 WINDOWS TO EAST",
            size=2.0, color=INK, rot=-90)
     sh.level_tag(14.40, 12.40, f"FFL {level}")
@@ -1064,24 +1064,23 @@ def sheet_second():
 # ===========================================================================
 # A-103  THIRD FLOOR / ROOF
 # ===========================================================================
-def _ensuite(sh, y0, y1, door_south):
-    """A suite ensuite: shower, WC and basin, clear of the door's swing.
+def _wet_room(sh, y0, y1, fittings_north):
+    """Shower, WC and basin in a room the full width of the east strip.
 
-    Both ensuites are the full 4.09 m width of the east strip and only
-    about 1.50 m deep, so the leaf sweeps a 0.90 m quadrant across a third
-    of the room.  The fittings therefore hang off the wall furthest from
-    the door: hinge side south, fittings north, and the other way round for
-    suite 2, whose door comes from its bedroom to the north.  Drawing both
-    the same way is what put a door through a shower on the last scheme.
+    Every fitting backs onto the same long wall - basin, WC, then shower in
+    the corner - which is how a wet room is actually built: one drainage
+    run, one wall of tiling, and the other side left clear to walk.  They
+    were drawn floating in the middle of the room before, with the basin
+    half through the south wall and the WC cistern standing in open floor.
+
+    `fittings_north` puts them on the far wall from the door, so the leaf
+    never sweeps across a fitting.
     """
-    if door_south:
-        fx.basin(sh, 18.00, y1 - 0.55, w=0.65, d=0.45, facing="s")
-        fx.wc(sh, 19.60, y1 - 0.85, facing="n")
-        fx.shower(sh, 20.45, y1 - 1.15, 1.05, 1.05)
-    else:
-        fx.basin(sh, 18.00, y0 + 0.08, w=0.65, d=0.45, facing="s")
-        fx.wc(sh, 19.60, y0 + 0.13, facing="n")
-        fx.shower(sh, 20.45, y0 + 0.28, 1.05, 1.05)
+    wall = y1 if fittings_north else y0
+    face = "s" if fittings_north else "n"          # back to the wall
+    fx.basin(sh, 18.30, wall, w=0.65, d=0.45, facing=face)
+    fx.wc(sh, 19.50, wall, facing=face)
+    fx.shower(sh, 20.45, wall - 1.05 if fittings_north else wall, 1.05, 1.05)
 
 
 def _plan_third(sh):
@@ -1185,10 +1184,12 @@ def _plan_third(sh):
     # the television goes on the spine, the one wall here with no opening in
     # it: the south wall is glazed to the balcony and the west is louvred
     fx.tv(sh, V3_SPINE_X0 - 0.16, 4.55, w=1.50, axis="v")
-    fx.sofa(sh, 13.10, 4.10, 2.20, 0.88, facing="n")
-    fx.sofa(sh, 13.10, 5.20, 0.88, 1.80, facing="e")
-    fx.table(sh, 15.00, 4.40, 1.00, 0.60, rx=0.18)
-    fx.table(sh, 14.30, 6.30, 1.30, 0.80, seats_n=2, seats_s=2)
+    # both sofas face the set: one square on to it, one across the corner
+    fx.sofa(sh, 13.10, 4.50, 0.88, 2.20, facing="e")
+    fx.sofa(sh, 14.30, 6.60, 1.90, 0.88, facing="s")
+    fx.table(sh, 14.40, 5.30, 1.10, 0.70, rx=0.18)
+    # dining sits beside the pantry it is served from, north of the seating
+    fx.table(sh, 15.40, 9.60, 1.40, 0.90, seats_n=2, seats_s=2)
 
     # --- pantry: counter along its north wall, tea point at the east end ---
     fx.counter(sh, V3_PANT_X0, V3_PANT_Y1 - 0.60, V3_PANT_X1 - V3_PANT_X0,
@@ -1204,29 +1205,27 @@ def _plan_third(sh):
     # --- suite 1 ----------------------------------------------------------
     # the suite door swings into the bedroom's north-west corner, so the
     # wardrobe run starts east of the arc
-    fx.bed(sh, 18.60, 4.05, 1.80, 2.10, head="n")
-    for bx in (18.10, 20.45):
-        sh.rect(bx, 5.70, 0.50, 0.45, sw=LW_FIXTURE, stroke=GREY)
-    fx.wardrobe(sh, 18.70, 7.10, 2.20, 0.50)
-    _ensuite(sh, 7.72, 9.30, door_south=True)
+    fx.bed(sh, 19.10, 5.50, 1.80, 2.10, head="n")
+    for bx in (18.60, 20.95):
+        sh.rect(bx, 7.15, 0.50, 0.45, sw=LW_FIXTURE, stroke=GREY)
+    fx.wardrobe(sh, 17.73, 4.60, 0.50, 1.70, axis="v")
+    _wet_room(sh, V3_S1_ENS_Y0, V3_S1_Y1, fittings_north=True)
 
     # --- shared bath, now in the middle of the strip ----------------------
     # its door comes off the living area at the north end, so the fittings
     # keep to the south half, clear of the swing
-    fx.basin(sh, 18.00, 9.50, w=0.65, d=0.45, facing="s")
-    fx.wc(sh, 19.60, 10.15, facing="n")
-    fx.shower(sh, 20.45, 9.80, 1.05, 1.05)
+    _wet_room(sh, V3_S1_Y1 + PT, V3_BATH_Y1, fittings_north=False)
 
     # --- suite 2, facing north, with its inset balcony --------------------
-    _ensuite(sh, V3_BATH_Y1 + PT, V3_S2_ENS_Y1, door_south=False)
-    fx.bed(sh, 18.80, 13.00, 1.80, 2.10, head="n")
-    for bx in (18.30, 20.65):
-        sh.rect(bx, 14.65, 0.50, 0.45, sw=LW_FIXTURE, stroke=GREY)
-    fx.wardrobe(sh, 17.73, 15.50, 2.60, 0.50)
+    _wet_room(sh, V3_BATH_Y1 + PT, V3_S2_ENS_Y1, fittings_north=False)
+    fx.bed(sh, 19.10, 12.94, 1.80, 2.10, head="s")
+    for bx in (18.60, 20.95):
+        sh.rect(bx, 12.94, 0.50, 0.45, sw=LW_FIXTURE, stroke=GREY)
+    fx.wardrobe(sh, 17.73, 14.50, 0.50, 1.90, axis="v")
 
     # --- bedroom 3 --------------------------------------------------------
-    fx.bed(sh, 13.00, 12.95, 1.60, 2.00, head="n")
-    fx.wardrobe(sh, 12.90, 15.60, 1.60, 0.55)
+    fx.bed(sh, 13.20, 12.66, 1.60, 2.00, head="s")
+    fx.wardrobe(sh, 15.60, 14.60, 0.55, 1.80, axis="v")
 
     # --- rooms ------------------------------------------------------------
     sh.room(v3_x0, v3_y0, V3_SPINE_X0 - v3_x0, V3_LIV_Y1 - v3_y0,
@@ -1279,17 +1278,30 @@ def sheet_third():
 
     _plan_third(sh)
 
-    sh.dim_h(V3_X0, V3_X1, 0.95, "9.50", ext_from=V3_Y0)
-    sh.dim_h(V3_X0, V3_SPINE_X0, -0.25, "4.81")
-    sh.dim_h(V3_SPINE_X1, V3_X1, -0.25, "4.39")
-    sh.dim_v(V3_Y0, V3_Y1, 11.20, "13.50", ext_from=V3_X0)
-    sh.dim_v(V3_Y0, V3_LIV_Y1, 23.40, "4.90")
-    sh.dim_v(V3_LIV_Y1, V3_BED3_Y0, 23.40, "4.22")
-    sh.dim_v(V3_BED3_Y0, V3_Y1, 23.40, "4.38")
-    sh.dim_v(V3_Y0 - V3_WAVE_W, V3_Y0, 12.10, f"{V3_WAVE_W:.2f}")
-    sh.dim_v(V3_Y0 - V3_WAVE_E, V3_Y0, 22.40, f"{V3_WAVE_E:.2f}")
+    # Every dimension below measures itself.  The text argument is left out
+    # on purpose: the three vertical dimensions on the east once carried
+    # figures typed in by hand, and when the living area moved north they
+    # went on printing 4.90, 4.22 and 4.38 against spans of 8.92, 0.12 and
+    # 4.46.  checks.py now fails the build if a dimension's text disagrees
+    # with the distance it spans.
+    sh.dim_h(V3_X0, V3_X1, 0.95, ext_from=V3_Y0)              # 9.50 overall
+    sh.dim_h(V3_X0, V3_GRID_X[1], -0.30)                      # to spine centre
+    sh.dim_h(V3_GRID_X[1], V3_X1, -0.30)
+    sh.dim_v(V3_Y0, V3_Y1, 10.70, ext_from=V3_X0)             # 13.50 overall
+    # west strip: the open living space, then bedroom 3
+    sh.dim_v(V3_Y0, V3_LIV_Y1, 11.35)
+    sh.dim_v(V3_LIV_Y1, V3_Y1, 11.35)
+    # east strip, room by room, south to north
+    sh.dim_v(V3_Y0, V3_S1_ENS_Y0, 23.25)
+    sh.dim_v(V3_S1_ENS_Y0, V3_S1_Y1, 23.25)
+    sh.dim_v(V3_S1_Y1, V3_BATH_Y1, 23.25)
+    sh.dim_v(V3_BATH_Y1, V3_S2_ENS_Y1, 23.25)
+    sh.dim_v(V3_S2_ENS_Y1, V3_Y1, 23.25)
+    # the cantilever's two ends
+    sh.dim_v(V3_Y0 - V3_WAVE_W, V3_Y0, 12.10)
+    sh.dim_v(V3_Y0 - V3_WAVE_E, V3_Y0, 22.45)
 
-    sh.tag(23.10, 7.00, "OPEN ASPECT — WINDOWS TO EAST", size=2.0,
+    sh.tag(24.00, 7.00, "OPEN ASPECT — WINDOWS TO EAST", size=2.0,
            color=INK, rot=-90)
     sh.tag(19.60, 17.45, "OPEN ASPECT — WINDOWS TO NORTH", size=2.0,
            color=INK)
@@ -1487,12 +1499,12 @@ def sheet_section():
         ffl = lv * FLOOR_TO_FLOOR
         sh.dim_v(ffl, ffl + FLOOR_TO_FLOOR if lv < 3 else roof, -1.60,
                  f"{FLOOR_TO_FLOOR:.2f}" if lv < 3 else f"{roof - top:.2f}")
-    sh.dim_v(GARDEN_LEVEL, 0.0, -1.60, "0.50")
+    sh.dim_v(GARDEN_LEVEL, 0.0, -1.60)
     sh.dim_v(GARDEN_LEVEL, roof, -2.65, f"{roof - GARDEN_LEVEL:.2f}")
-    sh.dim_h(A_Y0, A_Y1, -3.05, "14.50", ext_from=GARDEN_LEVEL)
-    sh.dim_h(A_Y0 - BALC_D, A_Y0, -3.05, "1.20")
-    sh.dim_h(CORE_N, a_y1, -2.05, "2.98")
-    sh.dim_h(ST_Y0, ST_Y1, -2.05, "4.00")
+    sh.dim_h(A_Y0, A_Y1, -3.05, ext_from=GARDEN_LEVEL)
+    sh.dim_h(A_Y0 - BALC_D, A_Y0, -3.05)
+    sh.dim_h(CORE_N, a_y1, -2.05)
+    sh.dim_h(ST_Y0, ST_Y1, -2.05)
 
     F.heading(sh)
     y = F.legend(sh, 52)
@@ -1564,11 +1576,11 @@ def sheet_unit_typical():
          ("Apt A living / kitchen", 26.3), ("Apt B entry hall", 4.2),
          ("Apt B bathroom", 4.6), ("Apt B living / kitchen", 23.7)])
 
-    sh.dim_h(a_x0, 13.28, 11.55, "1.48")
-    sh.dim_h(13.40, CORE_WALL_X, 11.55, "1.88")
-    sh.dim_h(20.40, b_x1, 11.55, "2.30")
-    sh.dim_v(8.98, 11.30, 11.50, "2.32")
-    sh.dim_v(9.12, 11.10, 23.10, "1.98")
+    sh.dim_h(a_x0, 13.28, 11.55)
+    sh.dim_h(13.40, CORE_WALL_X, 11.55)
+    sh.dim_h(20.40, b_x1, 11.55)
+    sh.dim_v(8.98, 11.30, 11.50)
+    sh.dim_v(9.12, 11.10, 23.10)
 
     F.heading(sh)
     y = F.legend(sh, 52)
@@ -1606,10 +1618,10 @@ def sheet_unit_third():
          ("Ensuite", 7.5), ("Dressing", 7.1), ("Family bath", 5.2),
          ("Guest WC", 2.3)])
 
-    sh.dim_h(a_x0, b_x1, 15.20, "10.90")
-    sh.dim_h(b_x0, 20.30, 15.20, "2.15")
-    sh.dim_v(a_y0, LIV3_Y1, 11.50, "3.38")
-    sh.dim_v(LF_Y0, 11.60, 23.10, "4.30")
+    sh.dim_h(a_x0, b_x1, 15.20)
+    sh.dim_h(b_x0, 20.30, 15.20)
+    sh.dim_v(a_y0, LIV3_Y1, 11.50)
+    sh.dim_v(LF_Y0, 11.60, 23.10)
     sh.tag(17.00, 4.35, "LIVING BAND ACROSS BOTH BLOCKS", size=2.4,
            color=INK)
 
@@ -1645,10 +1657,10 @@ def sheet_service():
          ("Staff WC", 2.0), ("Bin store", 1.9), ("Central laundry", 4.0),
          ("Guest bath", 5.9), ("Linen & store", 3.3)])
 
-    sh.dim_v(14.00, a_y1, 11.55, "3.70")
-    sh.dim_h(a_x0, CORE_WALL_X, 17.85, "3.48")
-    sh.dim_v(9.12, 10.32, 23.05, "1.20")
-    sh.dim_h(19.37, b_x1, 8.98, "3.33")
+    sh.dim_v(14.00, a_y1, 11.55)
+    sh.dim_h(a_x0, CORE_WALL_X, 17.85)
+    sh.dim_v(9.12, 10.32, 23.05)
+    sh.dim_h(19.37, b_x1, 8.98)
 
     F.heading(sh)
     y = F.legend(sh, 52)

@@ -41,10 +41,11 @@ def _record():
     import fixtures as fx
     import plans
 
-    walls, leaves, cols, vents = [], [], [], []
+    walls, leaves, cols, vents, dims = [], [], [], [], []
     wall, door, window, column = (D.Sheet.wall, D.Sheet.door, D.Sheet.window,
                                   fx.column)
     vent = fx.vent
+    dim_h, dim_v = D.Sheet.dim_h, D.Sheet.dim_v
 
     def _wall(self, x0, y0, x1, y1, openings=(), **kw):
         walls.append((x0, y0, x1, y1, list(openings), kw.get("fill", D.INK)))
@@ -66,20 +67,56 @@ def _record():
         vents.append((a, b, lo, hi, axis))
         return vent(sh, a, b, lo, hi, axis)
 
+    def _dim_h(self, a, b, y_line, text=None, **kw):
+        dims.append(("h", a, b, text))
+        return dim_h(self, a, b, y_line, text, **kw)
+
+    def _dim_v(self, a, b, x_line, text=None, **kw):
+        dims.append(("v", a, b, text))
+        return dim_v(self, a, b, x_line, text, **kw)
+
     D.Sheet.wall, D.Sheet.door, D.Sheet.window = _wall, _door, _window
+    D.Sheet.dim_h, D.Sheet.dim_v = _dim_h, _dim_v
     fx.column = plans.fx.column = _column
     fx.vent = plans.fx.vent = _vent
 
     def restore():
         D.Sheet.wall, D.Sheet.door, D.Sheet.window = wall, door, window
+        D.Sheet.dim_h, D.Sheet.dim_v = dim_h, dim_v
         fx.column = plans.fx.column = column
         fx.vent = plans.fx.vent = vent
 
-    return walls, leaves, cols, vents, restore
+    return walls, leaves, cols, vents, dims, restore
 
 
 def _near(a, b):
     return abs(a - b) <= TOL
+
+
+def _dimensions_tell_the_truth(dims):
+    """A dimension that prints a figure must print the one it spans.
+
+    `dim_h` and `dim_v` work out the figure themselves when no text is
+    given.  Passing text overrides that, and an overridden figure goes on
+    being printed after the geometry it described has moved - which is how
+    this sheet came to carry 4.90, 4.22 and 4.38 against spans of 8.92,
+    0.12 and 4.46.  A drawing that lies about a dimension is worse than one
+    that omits it, so any text that parses as a number has to agree.
+    """
+    problems = []
+    for axis, a, b, text in dims:
+        if text is None:
+            continue
+        try:
+            printed = float(str(text).replace(",", ""))
+        except ValueError:
+            continue                      # a note like "VARIES", not a figure
+        span = abs(b - a)
+        if abs(printed - span) > 0.005:
+            problems.append(
+                f"dimension ({axis}) spans {span:.2f} m but prints "
+                f"{printed:.2f} - the drawing is lying about a dimension")
+    return problems
 
 
 def _parapet_across(walls, axis, p, q, wlo, whi):
@@ -113,12 +150,12 @@ def _wall_span(x0, y0, x1, y1):
 
 def check(build, leaves_expected=True, west_vent_only=False):
     """Build one sheet and return a list of problems, worst first."""
-    walls, leaves, cols, vents, restore = _record()
+    walls, leaves, cols, vents, dims, restore = _record()
     try:
         build()
     finally:
         restore()
-    problems = []
+    problems = _dimensions_tell_the_truth(dims)
 
     if west_vent_only:
         problems += _west_is_vent_only(leaves, vents)
