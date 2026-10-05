@@ -38,6 +38,8 @@ Three set-out changes came with it:
     plot                                                   = 264.50 m2
 """
 
+import math
+
 # ---------------------------------------------------------------------------
 # site
 # ---------------------------------------------------------------------------
@@ -232,6 +234,144 @@ V_WIN_B_E_3 = [(4.60, 6.40), (7.60, 8.70),   # guest bedroom
 # moves out onto the cantilever so that it does not sit on the link.
 LIV3_Y1 = 7.18                         # north face of the living band
 TER_N_Y0, TER_N_Y1 = 15.00, 17.70      # north terrace, block B, 2.70 m deep
+
+
+# ---------------------------------------------------------------------------
+# detached villa, third floor (revision P6)
+# ---------------------------------------------------------------------------
+# The client has restarted the design.  The building is pulled 1.00 m off the
+# west, north and east boundaries so that it stands clear of all three
+# neighbours; the south is not set back, because there is no neighbour there
+# to stand clear of - it faces the street across our own forecourt, and it is
+# where the balcony goes.
+#
+# Detaching costs 22 % of every floor, and buys the one thing every earlier
+# layout lacked: the wall between the old blocks A and B stops being a party
+# wall.  There is no longer any line that can only be opened where a room
+# happens to sit on both sides of it, so the floor is planned as a single
+# 8.90 x 12.90 m plate.
+#
+# Only the third floor is drawn to this envelope for now, at the client's
+# instruction; floors 0-2, the site plan and the section still sit on the old
+# 11.50 x 14.50 footprint and must follow before the set is coherent again.
+SETBACK = 1.00
+V3_X0, V3_X1 = A_X0 + SETBACK, B_X1 - SETBACK      # 12.50 .. 22.00   (9.50)
+V3_Y0, V3_Y1 = A_Y0, A_Y1 - SETBACK                #  3.50 .. 17.00  (13.50)
+
+v3_x0, v3_x1 = V3_X0 + WT, V3_X1 - WT              # 12.80 .. 21.70   (8.90)
+v3_y0, v3_y1 = V3_Y0 + WT, V3_Y1 - WT              #  3.80 .. 16.70  (12.90)
+V3_PLATE = (v3_x1 - v3_x0) * (v3_y1 - v3_y0)       # 114.81 m2
+
+# The spine: the one full-depth internal wall, dividing the west strip
+# (living area, stair, hall, bedroom 3) from the east strip (the two suites).
+# 300 mm, because it is structural - it carries both internal columns.
+V3_SPINE_X0, V3_SPINE_X1 = 17.31, 17.61
+
+# RC frame.  Three columns east-west, four north-south, every one of them on
+# a wall centreline: the perimeter lines sit in the external walls whatever
+# their other coordinate, and both internal intersections (17.46, 8.46) and
+# (17.46, 12.56) fall inside the spine.  No column stands in a room.
+V3_GRID_X = [12.65, 17.46, 21.85]                  # spans 4.81, 4.39
+V3_GRID_Y = [3.65, 8.46, 12.56, 16.85]             # spans 4.81, 4.10, 4.29
+
+# --- west strip -----------------------------------------------------------
+# The living area, the stair and the hall are one continuous space: the only
+# wall across the west strip is bedroom 3's, at the north.  The 3.40 m
+# opening is what makes the living area open rather than a room with a door,
+# and the stair rises into it as a feature instead of a sealed box.
+V3_LIV_Y1 = 8.40               # north face of the open living area
+V3_LIV_OPEN = (13.40, 16.80)   # the 3.40 m the living area opens through
+V3_HALL_X0 = 16.27             # notional west face of the hall run
+V3_BED3_X1 = 16.15             # east face of bedroom 3, onto the hall
+V3_BED3_Y0 = 12.62             # south face of bedroom 3
+V3_STAIR = (13.60, 8.52, 16.15, 12.50)   # stair well, clear: 2.55 x 3.98
+V3_CUPB_X1 = 13.48             # fitted cupboard run against the west wall
+
+# --- east strip, the two suites -------------------------------------------
+V3_S1_ENS_Y0 = 7.72            # suite 1: bedroom / ensuite
+V3_S1_Y1 = 9.30                # suite 1 / suite 2
+V3_S2_BED_Y0 = 11.00           # suite 2: ensuite / bedroom
+V3_BATH_Y0 = 15.12             # shared bath, in the north-east corner
+
+# doors through the spine, from the living area and the hall.  Each clears
+# the 300 mm columns standing in that wall at y 8.46 and y 12.56.
+V3_DOOR_S1 = (6.50, 7.40)      # living area into suite 1's bedroom
+V3_DOOR_S2 = (11.30, 12.20)    # hall into suite 2's bedroom
+V3_DOOR_BATH = (15.75, 16.65)  # hall into the shared bath
+V3_DOOR_BED3 = (13.20, 14.10)  # hall into bedroom 3, through its east wall
+
+# ---------------------------------------------------------------------------
+# the south cantilever: a wavy reinforced-concrete balcony
+# ---------------------------------------------------------------------------
+# One continuous cosine, not a segmental arc and not tangent arcs: the client
+# asked for a wave, and a single curve is a bulge.  Four crests over the
+# 9.50 m frontage give a 2.375 m wavelength, short enough against the span
+# for the eye to read it as repetition rather than a wobble.
+#
+# V3_WAVE_MAX is a hard maximum, not a target: 2.00 m is the projection the
+# client set, and checks.py samples the curve to prove no point passes it.
+# Every trough still leaves 0.90 m of usable depth.
+V3_WAVE_SPAN = (V3_X0, V3_X1)
+V3_WAVE_MIN = 0.90             # projection at the troughs
+V3_WAVE_MAX = 2.00             # projection at the crests, as drawn
+V3_WAVE_CRESTS = 4
+
+# The client's cap, held separately from the figures that generate the curve
+# and never read by them.  Checking the crest against V3_WAVE_MAX would prove
+# nothing - raise that and the curve rises with it.  This is the number the
+# brief set, so the check has something fixed to fail against.
+V3_WAVE_LIMIT = 2.00
+V3_WAVE_BALUSTRADE = 0.12      # glass line, inboard of the slab edge
+V3_WAVE_REVEAL = 0.40          # recessed reveal in the soffit, same curve
+V3_WAVE_FASCIA = 0.15          # upstand band on the slab edge (elevation)
+V3_WAVE_AREA = (V3_WAVE_MIN + V3_WAVE_MAX) / 2.0 * (V3_X1 - V3_X0)
+
+
+def wave_projection(x):
+    """Projection of the south cantilever at plan x, metres from the wall."""
+    x0, x1 = V3_WAVE_SPAN
+    mean = (V3_WAVE_MIN + V3_WAVE_MAX) / 2.0
+    amp = (V3_WAVE_MAX - V3_WAVE_MIN) / 2.0
+    t = (x - x0) / (x1 - x0)
+    return mean - amp * math.cos(2.0 * math.pi * V3_WAVE_CRESTS * t)
+
+
+def wave_edge(x):
+    """Plan y of the cantilever's slab edge at x."""
+    return V3_Y0 - wave_projection(x)
+
+
+def wave_points(n_per_crest=18, offset=0.0):
+    """The slab edge, or a curve parallel to it, as a list of (x, y).
+
+    `offset` moves the curve inboard, which is how the balustrade, the
+    soffit reveal and the fascia band are drawn from the same geometry.
+    """
+    x0, x1 = V3_WAVE_SPAN
+    n = n_per_crest * V3_WAVE_CRESTS
+    return [(x0 + (x1 - x0) * i / n, wave_edge(x0 + (x1 - x0) * i / n) + offset)
+            for i in range(n + 1)]
+
+
+# ---------------------------------------------------------------------------
+# openings, revision P6 third floor
+# ---------------------------------------------------------------------------
+# East and north take ordinary windows: the neighbours on both sides are
+# 3.00 m high, so neither looks into this floor.  The west takes ventilation
+# openings only - louvred, for air and a little light, never a balcony.
+# Every range clears the 300 mm columns on V3_GRID_X / V3_GRID_Y.
+V3_WIN_S_LIV = [(13.00, 15.30), (15.60, 17.20)]    # living, to the balcony
+V3_WIN_S_S1 = [(17.80, 19.60), (20.00, 21.60)]     # suite 1 bedroom
+V3_WIN_E = [(4.20, 6.00), (6.40, 7.40),            # suite 1 bedroom
+            (8.70, 9.20),                          # suite 1 ensuite
+            (9.70, 10.70),                         # suite 2 ensuite
+            (11.40, 12.30), (12.90, 14.70),        # suite 2 bedroom
+            (15.40, 16.40)]                        # shared bath
+V3_WIN_N = [(13.10, 14.50), (14.90, 16.00),        # bedroom 3
+            (16.40, 17.20),                        # head of the hall
+            (18.00, 19.20)]                        # shared bath
+V3_VENT_W = [(4.00, 4.80), (6.50, 7.30),           # living area
+             (13.60, 14.40), (15.20, 16.00)]       # bedroom 3
 
 
 def area(x0, y0, x1, y1):

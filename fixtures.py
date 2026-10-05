@@ -336,6 +336,55 @@ def riser(sh, x0, y0, x1, y1):
     sh.line(x1, y0, x0, y1, w=LW_THIN, color=GREY)
 
 
+@layer("A-GLAZ")
+def vent(sh, a, b, lo, hi, axis):
+    """Louvred ventilation opening - the only kind the west wall takes.
+
+    Drawn as an ordinary window with three blades across it, so it is
+    unmistakably not a view window on the sheet, and so the opening is still
+    recorded by the same call `checks.py` watches.
+    """
+    sh.window(a, b, lo, hi, axis)
+    for i in (1, 2, 3):
+        t = a + (b - a) * i / 4.0
+        if axis == "h":
+            sh.line(t - 0.07, lo, t + 0.07, hi, w=LW_FIXTURE, color=GREY)
+        else:
+            sh.line(lo, t - 0.07, hi, t + 0.07, w=LW_FIXTURE, color=GREY)
+
+
+@layer("A-FLOR")
+def wave_balcony(sh, pts, wall_y, balustrade, reveal, label=None,
+                 level_txt=None, area=None, show_area=True, label_y=None):
+    """The south cantilever: a wavy slab edge drawn from sampled geometry.
+
+    `pts` is the slab edge as (x, y) pairs - one continuous cosine, so the
+    curve is emitted as a dense polyline rather than as arcs.  `poly` exists
+    in both the SVG and the DXF backend, so the same three calls give
+    identical geometry in both formats with no backend-specific code.
+
+    Three curves, all parallel because all three come from the same sampling:
+    the slab edge, the glass balustrade inboard of it, and the recessed
+    reveal in the soffit, which is what makes the wave read from below.
+    """
+    x0, x1 = pts[0][0], pts[-1][0]
+    sh.poly([(x0, wall_y)] + pts + [(x1, wall_y)], fill="#fbfbfb",
+            stroke="none", sw=0)
+    sh.poly(pts, close=False, sw=LW_SECONDARY, stroke=GREY)
+    sh.poly([(x, y + balustrade) for x, y in pts], close=False, sw=LW_CUT,
+            stroke=INK)
+    sh.poly([(x, y + reveal) for x, y in pts], close=False, sw=LW_HIDDEN,
+            stroke=LIGHT, dash="2.4 1.4")
+    for xv in (x0, x1):
+        sh.line(xv, pts[0][1] if xv == x0 else pts[-1][1], xv, wall_y,
+                w=LW_SECONDARY, color=GREY)
+    if label:
+        cx = (x0 + x1) / 2.0
+        sh.room(x0, wall_y - 1.0, x1 - x0, 1.0, label, area=area, size=2.0,
+                schedule=False, sub=level_txt, show_area=show_area,
+                at=(cx, label_y if label_y is not None else wall_y - 0.78))
+
+
 @layer("S-COLS")
 def column(sh, cx, cy, s=0.30):
     """RC column, drawn solid because it is cut by the section."""

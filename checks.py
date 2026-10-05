@@ -41,9 +41,10 @@ def _record():
     import fixtures as fx
     import plans
 
-    walls, leaves, cols = [], [], []
+    walls, leaves, cols, vents = [], [], [], []
     wall, door, window, column = (D.Sheet.wall, D.Sheet.door, D.Sheet.window,
                                   fx.column)
+    vent = fx.vent
 
     def _wall(self, x0, y0, x1, y1, openings=(), **kw):
         walls.append((x0, y0, x1, y1, list(openings)))
@@ -61,14 +62,20 @@ def _record():
         cols.append((cx, cy, s))
         return column(sh, cx, cy, s)
 
+    def _vent(sh, a, b, lo, hi, axis):
+        vents.append((a, b, lo, hi, axis))
+        return vent(sh, a, b, lo, hi, axis)
+
     D.Sheet.wall, D.Sheet.door, D.Sheet.window = _wall, _door, _window
     fx.column = plans.fx.column = _column
+    fx.vent = plans.fx.vent = _vent
 
     def restore():
         D.Sheet.wall, D.Sheet.door, D.Sheet.window = wall, door, window
         fx.column = plans.fx.column = column
+        fx.vent = plans.fx.vent = vent
 
-    return walls, leaves, cols, restore
+    return walls, leaves, cols, vents, restore
 
 
 def _near(a, b):
@@ -82,14 +89,17 @@ def _wall_span(x0, y0, x1, y1):
     return "v", (y0, y1), x0, x1
 
 
-def check(build, leaves_expected=True):
+def check(build, leaves_expected=True, west_vent_only=False):
     """Build one sheet and return a list of problems, worst first."""
-    walls, leaves, cols, restore = _record()
+    walls, leaves, cols, vents, restore = _record()
     try:
         build()
     finally:
         restore()
     problems = []
+
+    if west_vent_only:
+        problems += _west_is_vent_only(leaves, vents)
 
     for kind, a, b, lo, hi, axis in leaves:
         for x0, y0, x1, y1, openings in walls:
@@ -130,22 +140,79 @@ def check(build, leaves_expected=True):
     return problems
 
 
+def _west_is_vent_only(leaves, vents):
+    """The west wall takes louvred ventilation openings and nothing else.
+
+    The client is explicit: rooms may sit against the west wall on
+    ventilation windows, but nothing there is a view window and nothing
+    projects west.  A plain `window` on that wall draws identically to a
+    vent minus its blades, so the sheet gives no clue - this does.
+    """
+    import geometry as g
+
+    problems = []
+    for kind, a, b, lo, hi, axis in leaves:
+        if axis != "v" or not (_near(lo, g.V3_X0) and _near(hi, g.V3_X0 + g.WT)):
+            continue
+        if not any(_near(a, p) and _near(b, q) for p, q, _l, _h, _x in vents):
+            problems.append(
+                f"{kind} {a:.2f}-{b:.2f} in the WEST wall is not a vent - "
+                f"the west elevation takes ventilation openings only")
+    return problems
+
+
+def wave_cantilever():
+    """The south cantilever must not pass the projection the client set."""
+    import geometry as g
+
+    problems = []
+    pts = g.wave_points(n_per_crest=200)
+    worst = max(g.V3_Y0 - y for _x, y in pts)
+    if worst > g.V3_WAVE_LIMIT + 1e-9:
+        problems.append(
+            f"the wave balcony projects {worst:.3f} m, past the "
+            f"{g.V3_WAVE_LIMIT:.2f} m the client set")
+    # the balcony oversails our own forecourt, which is GARDEN_D_E deep;
+    # at least 1.00 m of it has to stay clear to the street
+    if worst > g.GARDEN_D_E - 1.00:
+        problems.append(
+            f"the wave balcony leaves only {g.GARDEN_D_E - worst:.2f} m of "
+            f"forecourt to the street")
+    inboard = min(g.V3_Y0 - y for _x, y in pts)
+    if inboard < 0.60:
+        problems.append(
+            f"the wave balcony narrows to {inboard:.2f} m - too shallow "
+            f"to stand on at the troughs")
+    for x, _y in pts:
+        if x < g.V3_X0 - TOL or x > g.V3_X1 + TOL:
+            problems.append(f"the wave balcony runs past the envelope at "
+                            f"x = {x:.2f}")
+            break
+    return problems
+
+
 def main():
     import plans
 
-    sheets = [(plans.sheet_site, "A-000", False),
-              (plans.sheet_ground, "A-100", True),
-              (plans.sheet_first, "A-101", True),
-              (plans.sheet_second, "A-102", True),
-              (plans.sheet_third, "A-103", True)]
+    sheets = [(plans.sheet_site, "A-000", False, False),
+              (plans.sheet_ground, "A-100", True, False),
+              (plans.sheet_first, "A-101", True, False),
+              (plans.sheet_second, "A-102", True, False),
+              (plans.sheet_third, "A-103", True, True)]
     total = 0
-    for build, number, leaves_expected in sheets:
-        problems = check(build, leaves_expected)
+    for build, number, leaves_expected, west in sheets:
+        problems = check(build, leaves_expected, west_vent_only=west)
         total += len(problems)
         state = "OK" if not problems else f"{len(problems)} PROBLEMS"
         print(f"{number:6s} {state}")
         for line in problems:
             print(f"       {line}")
+
+    problems = wave_cantilever()
+    total += len(problems)
+    print(f"{'wave':6s} {'OK' if not problems else f'{len(problems)} PROBLEMS'}")
+    for line in problems:
+        print(f"       {line}")
     return total
 
 
