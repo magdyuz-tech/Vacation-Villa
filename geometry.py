@@ -275,25 +275,32 @@ V3_GRID_X = [12.65, 17.46, 21.85]                  # spans 4.81, 4.39
 V3_GRID_Y = [3.65, 8.46, 12.56, 16.85]             # spans 4.81, 4.10, 4.29
 
 # --- west strip -----------------------------------------------------------
-# The living area, the stair and the hall are one continuous space: the only
-# wall across the west strip is bedroom 3's, at the north.  The 3.40 m
-# opening is what makes the living area open rather than a room with a door,
-# and the stair rises into it as a feature instead of a sealed box.
-V3_LIV_Y1 = 8.40               # north face of the open living area
-V3_LIV_OPEN = (13.40, 15.70)   # the 2.30 m the living area opens through
+# The whole west strip south of bedroom 3 is ONE room.  There is no wall
+# between the living area and the stair: the stair stands in the living
+# space as a feature, which is what "open living area" has to mean if it
+# means anything.  Bedroom 3's wall is the only wall across the strip.
+V3_LIV_Y1 = 12.42              # north face of the open living space
 
 # A tea point rather than a second kitchen: counter, sink, kettle and coffee
 # machine, in the living area's north-east corner against the spine, open to
 # the room through a cased opening so it is part of the living space.  It
 # costs the living area 2.3 m2 including its walls.
 V3_PANT_X0, V3_PANT_X1 = 15.95, V3_SPINE_X0      # 1.36 clear
-V3_PANT_Y0, V3_PANT_Y1 = 7.00, V3_LIV_Y1         # 1.40 clear
+V3_PANT_Y0, V3_PANT_Y1 = 7.30, 9.00              # 1.70 clear
 V3_PANT_OPEN = (16.20, 17.10)  # cased opening from the living area
-V3_HALL_X0 = 16.27             # notional west face of the hall run
+V3_HALL_X0 = 16.27             # west face of the short hall to the north
 V3_BED3_X1 = 16.15             # east face of bedroom 3, onto the hall
-V3_BED3_Y0 = 12.62             # south face of bedroom 3
-V3_STAIR = (13.60, 8.52, 16.15, 12.50)   # stair well, clear: 2.55 x 3.98
-V3_CUPB_X1 = 13.48             # fitted cupboard run against the west wall
+V3_BED3_Y0 = 12.54             # south face of bedroom 3
+
+# A private villa stair, not the apartment block's: 900 mm flights, 18 risers
+# at 183 mm with a 260 mm going, and a landing only as deep as a flight is
+# wide.  2.00 x 3.30 against the west wall, where no room wants to be.
+# The previous stair was 2.55 x 3.98 - 10.2 m2 of a 114.8 m2 floor.
+V3_STAIR = (12.80, 9.12, 14.80, 12.42)   # stair well, clear: 2.00 x 3.30
+V3_STAIR_RISE = 0.185          # target rise; 3.30 / 18 = 183 mm as drawn
+V3_STAIR_GOING = 0.26
+V3_STAIR_LANDING = 0.95
+V3_STAIR_WELL = 0.20
 
 # --- east strip, the two suites -------------------------------------------
 V3_S1_ENS_Y0 = 7.72            # suite 1: bedroom / ensuite

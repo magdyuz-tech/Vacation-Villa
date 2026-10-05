@@ -241,21 +241,25 @@ def steps(sh, x, y, w, d, n=3, axis="n"):
 
 
 @layer("A-FLOR-STRS")
-def stair(sh, core, direction="up", floor_to_floor=3.00, label=True):
+def stair(sh, core, direction="up", floor_to_floor=3.00, label=True,
+          rise_target=0.175, going=0.275, landing_d=1.30, well=0.25):
     """U-shaped (dog-leg) stair with a half landing, drawn inside `core`.
 
     core = (x0, y0, x1, y1) clear internal dimensions of the stair enclosure.
     Flights run north; the landing is at the north end.
+
+    The four geometry arguments default to the generous stair the apartment
+    sheets were drawn with.  A private villa stair is allowed to be much
+    tighter - 900 mm flights, a rise nearer 185 mm and a landing only as
+    deep as the flight is wide - and passing them makes a stair that fits a
+    house rather than a block of flats.
     """
     x0, y0, x1, y1 = core
-    well = 0.25
     flight_w = (x1 - x0 - well) / 2.0
-    risers = max(2, round(floor_to_floor / 0.175))   # ~175 mm target rise
+    risers = max(2, round(floor_to_floor / rise_target))
     rise = floor_to_floor / risers
-    going = 0.275
     treads = risers // 2                             # per flight
     run = treads * going
-    landing_d = 1.30
     start_y = y1 - landing_d - run                # bottom of the up flight
 
     # up flight (east side), walking north

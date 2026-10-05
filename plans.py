@@ -1110,15 +1110,15 @@ def _plan_third(sh):
     # --- the spine, and the walls either side of it ----------------------
     sh.wall(V3_SPINE_X0, v3_y0, V3_SPINE_X1, v3_y1,
             openings=[V3_DOOR_S1, V3_DOOR_S2, V3_DOOR_BATH])
-    # living area to the stair hall: one 3.40 m opening, no door
-    sh.wall(v3_x0, V3_LIV_Y1, V3_SPINE_X0, V3_LIV_Y1 + PT,
-            openings=[V3_LIV_OPEN])
-    # the pantry, in the corner the living area makes with the spine
+    # no wall between the living area and the stair - the stair stands in
+    # the living space.  The pantry is the only enclosure in the west strip
+    # apart from bedroom 3.
     sh.wall(V3_PANT_X0 - PT, V3_PANT_Y0 - PT, V3_PANT_X1, V3_PANT_Y0,
             openings=[V3_PANT_OPEN])
+    sh.wall(V3_PANT_X0 - PT, V3_PANT_Y1, V3_PANT_X1, V3_PANT_Y1 + PT)
     sh.wall(V3_PANT_X0 - PT, V3_PANT_Y0, V3_PANT_X0, V3_PANT_Y1)
-    # bedroom 3, closing the north end of the stair hall
-    sh.wall(v3_x0, V3_STAIR[3], V3_BED3_X1, V3_BED3_Y0)
+    # bedroom 3, the one wall across the strip
+    sh.wall(v3_x0, V3_LIV_Y1, V3_BED3_X1, V3_BED3_Y0)
     sh.wall(V3_BED3_X1, V3_BED3_Y0, V3_BED3_X1 + PT, v3_y1,
             openings=[V3_DOOR_BED3])
     # suite 1: bedroom / ensuite.  suite 2: ensuite / bedroom.  bath.
@@ -1151,8 +1151,7 @@ def _plan_third(sh):
     for a, b in V3_VENT_W:
         fx.vent(sh, a, b, V3_X0, V3_X0 + WT, "v")
 
-    # both of these are cased openings, not doorways: jambs, no leaf
-    sh.door(*V3_LIV_OPEN, V3_LIV_Y1, V3_LIV_Y1 + PT, "h", leaf=False)
+    # a cased opening, not a doorway: jambs, no leaf
     sh.door(*V3_PANT_OPEN, V3_PANT_Y0 - PT, V3_PANT_Y0, "h", leaf=False)
     sh.door(*V3_DOOR_S1, V3_SPINE_X0, V3_SPINE_X1, "v", hinge="lo",
             swing="right")
@@ -1168,17 +1167,18 @@ def _plan_third(sh):
             swing="down")
 
     # --- the stair, open to the living area ------------------------------
-    fx.stair(sh, V3_STAIR, direction="dn", floor_to_floor=FLOOR_TO_FLOOR)
+    fx.stair(sh, V3_STAIR, direction="dn", floor_to_floor=FLOOR_TO_FLOOR,
+             rise_target=V3_STAIR_RISE, going=V3_STAIR_GOING,
+             landing_d=V3_STAIR_LANDING, well=V3_STAIR_WELL)
     # balustrade on the open south and east sides of the well
     sh.line(V3_STAIR[0], V3_STAIR[1], V3_STAIR[2], V3_STAIR[1],
             w=LW_SECONDARY, color=INK)
     sh.line(V3_STAIR[2], V3_STAIR[1], V3_STAIR[2], V3_STAIR[3],
             w=LW_SECONDARY, color=INK)
-    sh.tag(16.21, 10.40, "OPEN STAIR — BALUSTRADE", size=1.6, color=GREY,
-           rot=-90)
-    # fitted cupboards against the west wall, beside the stair
-    fx.wardrobe(sh, v3_x0, V3_STAIR[1], V3_CUPB_X1 - v3_x0,
-                V3_STAIR[3] - V3_STAIR[1], axis="v")
+    sh.tag(V3_STAIR[2] + 0.22, 10.80, "OPEN STAIR — BALUSTRADE", size=1.6,
+           color=GREY, rot=-90)
+    # linen cupboards on the spine, where it is solid between the two doors
+    fx.wardrobe(sh, V3_SPINE_X0 - 0.60, 9.40, 0.60, 1.70, axis="v")
 
     # --- living area ------------------------------------------------------
     # the television goes on the spine, the one wall here with no opening in
@@ -1225,17 +1225,17 @@ def _plan_third(sh):
 
     # --- rooms ------------------------------------------------------------
     sh.room(v3_x0, v3_y0, V3_SPINE_X0 - v3_x0, V3_LIV_Y1 - v3_y0,
-            "Living Area", area=18.5, size=2.6,
-            sched_name="Living area", at=(13.95, 7.85))
+            "Living Area", area=29.4, size=2.6, sub="open — stair within",
+            sched_name="Living area", at=(14.15, 7.95))
     sh.room(V3_PANT_X0, V3_PANT_Y0, V3_PANT_X1 - V3_PANT_X0,
-            V3_PANT_Y1 - V3_PANT_Y0, "Pantry", area=1.9, size=1.7,
-            show_area=False, at=(16.63, 7.38))
-    sh.room(v3_x0, V3_STAIR[1], V3_BED3_X1 - v3_x0,
-            V3_STAIR[3] - V3_STAIR[1], "Stair Hall", area=13.3, size=2.0,
-            sched_name="Stair hall", show_area=False, at=(15.10, 11.90))
-    sh.room(V3_HALL_X0, V3_STAIR[1], V3_SPINE_X0 - V3_HALL_X0,
-            v3_y1 - V3_STAIR[1], "Hall", area=8.5, size=1.8,
-            show_area=False, at=(16.79, 14.90))
+            V3_PANT_Y1 - V3_PANT_Y0, "Pantry", area=2.3, size=1.7,
+            show_area=False, at=(16.63, 7.85))
+    sh.room(V3_STAIR[0], V3_STAIR[1], V3_STAIR[2] - V3_STAIR[0],
+            V3_STAIR[3] - V3_STAIR[1], "Stair", area=6.6, size=1.9,
+            show_area=False, at=(13.80, 12.15))
+    sh.room(V3_HALL_X0, V3_BED3_Y0, V3_SPINE_X0 - V3_HALL_X0,
+            v3_y1 - V3_BED3_Y0, "Hall", area=4.3, size=1.8,
+            show_area=False, at=(16.79, 14.60))
     sh.room(V3_SPINE_X1, v3_y0, v3_x1 - V3_SPINE_X1, V3_S1_ENS_Y0 - PT - v3_y0,
             "Suite 1", area=15.5, size=2.4, sub="bedroom",
             sched_name="Suite 1 bedroom", at=(19.75, 6.62))
@@ -1250,7 +1250,7 @@ def _plan_third(sh):
             V3_BATH_Y0 - PT - V3_S2_BED_Y0, "Suite 2", area=16.4, size=2.4,
             sub="bedroom", sched_name="Suite 2 bedroom", at=(19.75, 13.95))
     sh.room(v3_x0, V3_BED3_Y0, V3_BED3_X1 - v3_x0, v3_y1 - V3_BED3_Y0,
-            "Bedroom 3", area=13.7, size=2.4, at=(15.20, 16.20))
+            "Bedroom 3", area=13.9, size=2.4, at=(15.20, 16.20))
     sh.room(V3_SPINE_X1, V3_BATH_Y0, v3_x1 - V3_SPINE_X1,
             v3_y1 - V3_BATH_Y0, "Shared Bath", area=6.5, size=1.8,
             sched_name="Shared bath", show_area=False, at=(19.00, 15.40))
@@ -1302,28 +1302,27 @@ def sheet_third():
         ("Roof over, top of slab", f"+{ROOF_LEVEL:.2f}")])
     F.notes(sh, y + 6, [
         "Draft for comment. The building is set back 1.00 m from the west, "
-        "north and east boundaries to stand clear of all three "
-        "neighbours. The south is not set back: it faces the street "
-        "across our own forecourt.",
-        "Detaching costs 22% of the floor — 114.8 m² against 147.3 — and "
-        "removes the party wall, so the plate is planned as one room and "
-        "divided by a single structural spine.",
-        "The living area is open to the stair hall through a 2.30 m cased "
-        "opening, with the pantry — counter, sink, kettle and coffee "
-        "machine — open off its north-east corner. As one dwelling the "
-        "stair needs no enclosure, no fire lobby and no smoke vent, and "
-        "there is no lift.",
-        f"The south cantilever is reinforced concrete, one smooth wave "
-        f"across the whole {V3_X1 - V3_X0:.2f} m frontage, projecting "
+        "north and east boundaries to stand clear of all three neighbours; "
+        "the south faces the street across our own forecourt. Detaching "
+        "costs 22% of the floor — 114.8 m² against 147.3 — and removes the "
+        "party wall, so the plate is divided by one structural spine.",
+        "The west strip south of bedroom 3 is one room: no wall divides "
+        "the living area from the stair, which stands in it. The pantry — "
+        "counter, sink, kettle and coffee machine — is the only enclosure, "
+        "open through a cased opening.",
+        "The stair is a private villa stair: 900 mm flights, 18 risers at "
+        "183 × 260, landing 950 mm, in a 2.00 × 3.30 m well. As one "
+        "dwelling it needs no enclosure, no fire lobby and no smoke vent, "
+        "and there is no lift.",
+        f"The south cantilever is reinforced concrete: one smooth wave "
+        f"across the whole {V3_X1 - V3_X0:.2f} m frontage, "
         f"{V3_WAVE_MIN:.2f} m at each end and {V3_WAVE_MAX:.2f} m at the "
-        "centre — one continuous curve, 200 mm deep at the root tapering "
-        "to 110 mm. Nothing lands in the forecourt.",
+        "centre, 200 mm deep at the root tapering to 110 mm.",
         "East and north carry ordinary windows; both neighbours are "
         "3.00 m high. The west carries louvred ventilation openings only.",
-        "Suite 1 is entered from the living area, suite 2 from the hall — "
-        "giving all three a south or east aspect leaves no other route to "
-        "suite 1. Floors 0–2, the site plan and section A-A are still on "
-        "the old 11.50 × 14.50 footprint.",
+        "Both suites open off the living area; bedroom 3 and the shared "
+        "bath off the short hall. Floors 0–2, the site plan and section "
+        "A-A are still on the old 11.50 × 14.50 footprint.",
     ])
     F.compass_and_scale(sh, x=470.0, y=500.0)
     F.titleblock(sh)
