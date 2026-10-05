@@ -264,7 +264,8 @@ def stair_stacks():
     import plans
 
     seen = {}
-    for build, number in ((plans.sheet_second, "A-102"),
+    for build, number in ((plans.sheet_first, "A-101"),
+                          (plans.sheet_second, "A-102"),
                           (plans.sheet_third, "A-103")):
         walls, leaves, cols, vents, dims, restore = _record()
         stairs = []
@@ -300,7 +301,7 @@ def main():
 
     sheets = [(plans.sheet_site, "A-000", False, False),
               (plans.sheet_ground, "A-100", True, False),
-              (plans.sheet_first, "A-101", True, False),
+              (plans.sheet_first, "A-101", True, True),
               (plans.sheet_second, "A-102", True, True),
               (plans.sheet_third, "A-103", True, True)]
     total = 0

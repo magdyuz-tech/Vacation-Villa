@@ -461,5 +461,47 @@ V2_VENT_W = [(4.00, 4.80), (5.40, 6.20),       # suite 1 bedroom
              (13.60, 14.40), (15.20, 16.00)]   # bedroom 3
 
 
+# ---------------------------------------------------------------------------
+# detached villa, first floor (revision P6) - the master floor
+# ---------------------------------------------------------------------------
+# Sleeping rooms again, but deliberately NOT a repeat of the second floor.
+# This one is planned around a master suite that takes the whole south
+# frontage - bedroom west of the spine, dressing and ensuite east of it -
+# with one further suite and one bedroom to the north.  Three sleeping
+# rooms rather than four, and much the larger of them.
+#
+# Same envelope, same spine, same column grid, same stair well.  Several of
+# the wet rooms still land under their counterparts on the floor above, so
+# the drainage stacks where it can: the shared bath and suite 3's ensuite
+# both sit beneath the second floor's bath and lobby, and the master's
+# ensuite beneath suite 2's.
+V1_MASTER_Y1 = 9.00            # master suite / landing
+V1_DRESS_Y1 = 6.30             # master: dressing / ensuite
+V1_BATH_Y1 = 11.00             # shared bath / suite 3's ensuite
+V1_S3_ENS_Y1 = 12.70           # suite 3: ensuite / bedroom
+
+V1_DOOR_MASTER = (15.60, 16.50)      # landing into the master bedroom
+V1_DOOR_DRESS = (4.40, 5.30)         # bedroom into the dressing, via spine
+V1_DOOR_M_ENS = (7.00, 7.90)         # bedroom into the ensuite, via spine
+V1_DOOR_DRESS_ENS = (18.60, 19.50)   # dressing into the ensuite
+V1_DOOR_BATH = (9.40, 10.30)         # landing into the shared bath, via spine
+V1_DOOR_S3 = (13.40, 14.30)          # hall into suite 3, via spine
+V1_DOOR_S3_ENS = (17.80, 18.70)      # suite 3's bedroom into its ensuite
+
+V1_WIN_S = [(13.00, 15.30), (15.60, 17.20),    # master bedroom
+            (17.80, 19.60), (20.00, 21.60)]    # master dressing
+V1_WIN_E = [(4.20, 6.00),                      # master dressing
+            (6.80, 7.80),                      # master ensuite
+            (9.70, 10.70),                     # shared bath
+            (11.40, 12.30),                    # suite 3 ensuite
+            (13.00, 14.70), (15.00, 16.40)]    # suite 3 bedroom
+V1_WIN_N = [(13.10, 14.50), (14.90, 16.00),    # bedroom 2
+            (16.40, 17.20),                    # head of the hall
+            (18.00, 19.40), (19.90, 21.40)]    # suite 3 bedroom
+V1_VENT_W = [(4.00, 4.80), (5.40, 6.20),       # master bedroom
+             (7.60, 8.20),                     # master bedroom, north end
+             (13.60, 14.40), (15.20, 16.00)]   # bedroom 2
+
+
 def area(x0, y0, x1, y1):
     return (x1 - x0) * (y1 - y0)
