@@ -783,10 +783,12 @@ def _villa_bedroom_floor(sh):
     sh.wall(V3_X1 - WT, V3_Y0, V3_X1, V3_Y1, openings=V2_WIN_E)
 
     # --- the spine, structural and full depth, as on every floor ---------
-    # one opening only: with the hall gone, bedroom 4 is reached from the
-    # lobby rather than through the spine
+    # one opening, and it is an opening rather than a door: the lobby is
+    # open to the landing over its whole length, as on the first floor, so
+    # the two read as one space with the frame standing in it.  It runs
+    # between the columns at y 8.46 and 12.56, which stay.
     sh.wall(V3_SPINE_X0, v3_y0, V3_SPINE_X1, v3_y1,
-            openings=[V2_DOOR_LOBBY])
+            openings=[V2_SPINE_OPEN])
 
     # --- suite 1: bedroom south, ensuite and dressing behind it ----------
     sh.wall(v3_x0, V2_S1_BED_Y1, V3_SPINE_X0, V2_S1_BED_Y1 + PT,
@@ -844,8 +846,7 @@ def _villa_bedroom_floor(sh):
             hinge="hi", swing="up")
     sh.door(*V2_DOOR_S1_ENS, V2_S1_ENS_X1, V2_S1_ENS_X1 + PT, "v",
             hinge="lo", swing="left")
-    sh.door(*V2_DOOR_LOBBY, V3_SPINE_X0, V3_SPINE_X1, "v", hinge="lo",
-            swing="right")
+    sh.door(*V2_SPINE_OPEN, V3_SPINE_X0, V3_SPINE_X1, "v", leaf=False)
     sh.door(*V2_DOOR_S2, V2_S2_BED_Y1, V2_S2_BED_Y1 + PT, "h",
             hinge="lo", swing="down")
     sh.door(*V2_DOOR_S2_ENS, V2_S2_BED_Y1, V2_S2_BED_Y1 + PT, "h",
@@ -865,7 +866,10 @@ def _villa_bedroom_floor(sh):
             w=LW_SECONDARY, color=INK)
     sh.tag(V3_STAIR[2] + 0.22, 10.80, "OPEN STAIR — BALUSTRADE", size=1.6,
            color=GREY, rot=-90)
-    fx.wardrobe(sh, V3_SPINE_X0 - 0.50, 11.00, 0.50, 1.30, axis="v")
+    # the linen cupboard used to back onto the spine; the spine is open
+    # there now, so it would have stood free in the gap. It moves to the
+    # solid stretch of the landing's north wall, east of bedroom 3's door.
+    fx.wardrobe(sh, 16.61, 11.87, 0.65, 0.55, axis="h")
 
     # --- suite 1 ----------------------------------------------------------
     fx.bed(sh, 13.30, 4.80, 1.80, 2.10, head="n")
@@ -926,7 +930,7 @@ def _villa_bedroom_floor(sh):
             sched_name="Suite 2 ensuite", show_area=False, at=(19.80, 9.15))
     sh.room(V3_SPINE_X1, V2_S2_BED_Y1 + PT, V2_LOBBY_X1 - V3_SPINE_X1,
             V3_STAIR[3] - V2_S2_BED_Y1 - PT, "Lobby", area=4.8, size=1.7,
-            show_area=False, at=(18.25, 11.70))
+            sub="open", show_area=False, at=(18.25, 11.70))
     sh.room(V3_STAIR[0], V3_STAIR[1], V3_STAIR[2] - V3_STAIR[0],
             V3_STAIR[3] - V3_STAIR[1], "Stair", area=6.6, size=1.9,
             show_area=False, at=(13.80, 12.15))
@@ -958,7 +962,7 @@ def sheet_second():
     sh = Sheet("A-102", "Second Floor Plan — Detached Villa", "+6.60",
                "1:50 @ A1")
     # the villa revision, but still under discussion - no final-draft status
-    sh.rev = "P5"
+    sh.rev = "P6"
     F.border(sh)
 
     with sh.on("G-ANNO-BNDY"):
@@ -1019,13 +1023,11 @@ def sheet_second():
         "moves 1.30 m north. Every wet room and east window stacks, one "
         "drainage stack each, straight to the ground.",
         "Suite 1 takes the south-west, ensuite and dressing behind; suite 2 "
-        "the south-east, its ensuite off the bedroom. The spine faces suite "
-        "1 all along its south, so the lobby reaches the south-east corner "
-        "and the bath.",
-        "The hall between the two north bedrooms is now bedroom 3's, which "
-        "takes the whole north-west quarter at 18.8 m\u00b2. It is entered "
-        "from the landing and bedroom 4 from the lobby, so the spine carries "
-        "one opening on this floor instead of two.",
+        "the south-east, its ensuite off the bedroom.",
+        "The lobby has no door: the spine is opened its whole length between "
+        "the columns, so lobby and landing read as one space. It serves "
+        "suite 2, the shared bath and bedroom 4. Bedroom 3 has the old hall "
+        "\u2014 the whole north-west quarter, 18.8 m\u00b2.",
         f"The cantilever is carried here too \u2014 the same curve, "
         f"{V3_WAVE_W:.2f} m west to {V3_WAVE_E:.2f} m east, "
         f"{wave_area():.1f} m\u00b2 \u2014 so it now runs all three upper floors "
@@ -1072,9 +1074,12 @@ def _villa_living_floor(sh):
     sh.wall(V3_SPINE_X1, V3_STAIR[3], v3_x1, V3_BED3_Y0)
 
     # --- bedroom 2, the one wall across the west strip -------------------
+    # the hall beside it stops at V3_HALL_Y1; past that the bedroom turns
+    # the corner and runs through to the spine
     sh.wall(v3_x0, V1_LIV_Y1, V3_BED3_X1, V3_BED3_Y0)
-    sh.wall(V3_BED3_X1, V3_BED3_Y0, V3_BED3_X1 + PT, v3_y1,
+    sh.wall(V3_BED3_X1, V3_BED3_Y0, V3_BED3_X1 + PT, V3_HALL_Y1,
             openings=[V3_DOOR_BED3])
+    sh.wall(V3_BED3_X1, V3_HALL_Y1, V3_SPINE_X0, V3_HALL_Y1 + PT)
 
     for cx in V3_GRID_X:
         for cy in V3_GRID_Y:
@@ -1159,8 +1164,11 @@ def _villa_living_floor(sh):
     fx.shower(sh, 20.00, 11.25, 1.05, 1.05)
 
     # --- bedroom 2 --------------------------------------------------------
+    # the wardrobe used to back onto the hall partition; that partition now
+    # stops at V3_HALL_Y1, so it moves to the spine in the part of the room
+    # that was the dead end of the hall
     fx.bed(sh, 13.20, 12.66, 1.60, 2.00, head="s")
-    fx.wardrobe(sh, 15.60, 14.60, 0.55, 1.80, axis="v")
+    fx.wardrobe(sh, V3_SPINE_X0 - 0.55, 14.80, 0.55, 1.75, axis="v")
 
     # --- bedroom 3 --------------------------------------------------------
     fx.bed(sh, 19.10, 12.66, 1.80, 2.10, head="s")
@@ -1189,11 +1197,12 @@ def _villa_living_floor(sh):
     sh.room(V2_LOBBY_X1 + PT, V1_ENS_Y1 + PT, v3_x1 - V2_LOBBY_X1 - PT,
             V3_STAIR[3] - V1_ENS_Y1 - PT, "Shared Bath", area=5.4, size=1.8,
             sched_name="Shared bath", show_area=False, at=(20.05, 10.70))
+    # L-shaped: the strip west of the hall, plus the full width north of it
     sh.room(v3_x0, V3_BED3_Y0, V3_BED3_X1 - v3_x0, v3_y1 - V3_BED3_Y0,
-            "Bedroom 2", area=13.9, size=2.4, at=(15.20, 16.20))
+            "Bedroom 2", area=16.4, size=2.4, at=(14.60, 16.00))
     sh.room(V3_HALL_X0, V3_BED3_Y0, V3_SPINE_X0 - V3_HALL_X0,
-            v3_y1 - V3_BED3_Y0, "Hall", area=4.3, size=1.8,
-            show_area=False, at=(16.79, 15.60))
+            V3_HALL_Y1 - V3_BED3_Y0, "Hall", area=2.0, size=1.8,
+            show_area=False, at=(16.79, 12.95))
     sh.room(V3_SPINE_X1, V3_BED3_Y0, v3_x1 - V3_SPINE_X1, v3_y1 - V3_BED3_Y0,
             "Bedroom 3", area=17.0, size=2.4, at=(19.80, 16.30))
 
@@ -1202,7 +1211,7 @@ def sheet_first():
     D.set_scale(50, *PLAN_ORIGIN)
     sh = Sheet("A-101", "First Floor Plan — Detached Villa", "+3.30",
                "1:50 @ A1")
-    sh.rev, sh.status = "P5", F.STATUS_FINAL_DRAFT
+    sh.rev, sh.status = "P6", F.STATUS_FINAL_DRAFT
     F.border(sh)
 
     with sh.on("G-ANNO-BNDY"):
@@ -1253,15 +1262,14 @@ def sheet_first():
         "standing in it and the pantry open along the spine, opening "
         "through a sliding door onto the cantilever.",
         "The pantry is a counter against the solid stretch of spine, not "
-        "the walled room the third floor has. The lobby has no wall to the "
-        "living area either: the spine is opened 3.69 m between the columns "
-        "at y 8.46 and 12.56, so over that length it is a downstand beam "
+        "the walled room the third floor has. The lobby has no wall either: "
+        "the spine is opened 3.69 m between the columns, a downstand beam "
         "rather than a wall.",
         "The west strip is otherwise the third floor's and the east strip "
-        "the second's, so the wet rooms sit over their counterparts and the "
-        "stair lines through. Bedrooms 2 and 3 take the north off the hall; "
-        "east and north carry ordinary windows, the west louvred "
-        "ventilation only.",
+        "the second's, so the wet rooms stack and the stair lines through. "
+        "East and north carry ordinary windows, the west louvred "
+        "ventilation only. The hall to the north bedrooms stops at its last "
+        "door; the dead end beyond goes to bedroom 2, 16.4 m\u00b2.",
         "The master bedroom's north wall is 1.30 m further north than the "
         "suite below it, taking it to 19.6 m²; the shared bath gives up the "
         "same depth, at 5.4 m².",
@@ -1328,10 +1336,12 @@ def _plan_third(sh):
             openings=[V3_PANT_OPEN])
     sh.wall(V3_PANT_X0 - PT, V3_PANT_Y1, V3_PANT_X1, V3_PANT_Y1 + PT)
     sh.wall(V3_PANT_X0 - PT, V3_PANT_Y0, V3_PANT_X0, V3_PANT_Y1)
-    # bedroom 3, the one wall across the strip
+    # bedroom 3, the one wall across the strip; the hall beside it stops at
+    # V3_HALL_Y1 and the bedroom turns the corner behind it
     sh.wall(v3_x0, V3_LIV_Y1, V3_BED3_X1, V3_BED3_Y0)
-    sh.wall(V3_BED3_X1, V3_BED3_Y0, V3_BED3_X1 + PT, v3_y1,
+    sh.wall(V3_BED3_X1, V3_BED3_Y0, V3_BED3_X1 + PT, V3_HALL_Y1,
             openings=[V3_DOOR_BED3])
+    sh.wall(V3_BED3_X1, V3_HALL_Y1, V3_SPINE_X0, V3_HALL_Y1 + PT)
     # east strip, south to north: suite 1, shared bath, suite 2
     sh.wall(V3_SPINE_X1, V3_S1_ENS_Y0 - PT, v3_x1, V3_S1_ENS_Y0,
             openings=[(17.80, 18.70)])
@@ -1439,8 +1449,11 @@ def _plan_third(sh):
     fx.wardrobe(sh, 17.73, 14.50, 0.50, 1.90, axis="v")
 
     # --- bedroom 3 --------------------------------------------------------
+    # the wardrobe backed onto the hall partition, which now stops at
+    # V3_HALL_Y1; it moves to the spine, in the part of the room that was
+    # the dead end of the hall
     fx.bed(sh, 13.20, 12.66, 1.60, 2.00, head="s")
-    fx.wardrobe(sh, 15.60, 14.60, 0.55, 1.80, axis="v")
+    fx.wardrobe(sh, V3_SPINE_X0 - 0.55, 14.80, 0.55, 1.75, axis="v")
 
     # --- rooms ------------------------------------------------------------
     sh.room(v3_x0, v3_y0, V3_SPINE_X0 - v3_x0, V3_LIV_Y1 - v3_y0,
@@ -1450,8 +1463,8 @@ def _plan_third(sh):
             V3_STAIR[3] - V3_STAIR[1], "Stair", area=6.6, size=1.9,
             show_area=False, at=(13.80, 12.15))
     sh.room(V3_HALL_X0, V3_BED3_Y0, V3_SPINE_X0 - V3_HALL_X0,
-            v3_y1 - V3_BED3_Y0, "Hall", area=4.3, size=1.8,
-            show_area=False, at=(16.79, 14.60))
+            V3_HALL_Y1 - V3_BED3_Y0, "Hall", area=2.0, size=1.8,
+            show_area=False, at=(16.79, 12.95))
     sh.room(V3_SPINE_X1, v3_y0, v3_x1 - V3_SPINE_X1, V3_S1_ENS_Y0 - PT - v3_y0,
             "Suite 1", area=15.5, size=2.4, sub="bedroom",
             sched_name="Suite 1 bedroom", at=(19.75, 6.62))
@@ -1469,15 +1482,16 @@ def _plan_third(sh):
             v3_y1 - (V3_S2_ENS_Y1 + PT), "Suite 2", area=15.9, size=2.4,
             sub="bedroom", sched_name="Suite 2 bedroom",
             at=(19.65, 16.30))
+    # L-shaped: the strip west of the hall, plus the full width north of it
     sh.room(v3_x0, V3_BED3_Y0, V3_BED3_X1 - v3_x0, v3_y1 - V3_BED3_Y0,
-            "Bedroom 3", area=13.9, size=2.4, at=(15.20, 16.20))
+            "Bedroom 3", area=16.4, size=2.4, at=(14.60, 16.00))
 
 
 def sheet_third():
     D.set_scale(50, *PLAN_ORIGIN)
     sh = Sheet("A-103", "Third Floor Plan — Detached Villa", "+9.90",
                "1:50 @ A1")
-    sh.rev, sh.status = "P5", F.STATUS_FINAL_DRAFT
+    sh.rev, sh.status = "P6", F.STATUS_FINAL_DRAFT
     F.border(sh)
 
     # the three setback lines, so the 1.00 m gap is measurable on the sheet
@@ -1533,17 +1547,16 @@ def sheet_third():
         ("Balcony, external", f"{wave_area():.1f} m²"),
         ("Roof over, top of slab", f"+{ROOF_LEVEL:.2f}")])
     F.notes(sh, y + 6, [
-        "Final draft — layout agreed. The building is set back 1.00 m from "
-        "the west, "
-        "north and east boundaries to stand clear of all three neighbours; "
-        "the south faces the street across our own forecourt. Detaching "
-        "costs 22% of the floor — 114.8 m² against 147.3 — and removes the "
-        "party wall, so the plate is divided by one structural spine.",
+        "Final draft — layout agreed. The building is set back 1.00 m "
+        "from the west, north and east boundaries; the south faces the "
+        "street across our own forecourt. Detaching costs 22% of the floor "
+        "— 114.8 m² against 147.3 — and removes the party wall, so one "
+        "structural spine divides the plate.",
         "The west strip south of bedroom 3 is one room: no wall divides the "
-        "living area from the stair, which stands in it. The pantry is its "
+        "living area from the stair standing in it, and the pantry is its "
         "only enclosure. The stair is a private villa stair — 900 mm "
         "flights, 18R at 183 × 260, landing 950 mm — needing no enclosure, "
-        "no fire lobby and no smoke vent. There is no lift.",
+        "no smoke vent and no lift.",
         f"The south cantilever is reinforced concrete: one asymmetric "
         f"curve bowed outward, {V3_WAVE_W:.2f} m at the west end sweeping "
         f"away to {V3_WAVE_E:.2f} m at the east. Every point on the edge "
@@ -1551,8 +1564,9 @@ def sheet_third():
         "East and north carry ordinary windows; both neighbours are "
         "3.00 m high. The west carries louvred ventilation only.",
         "Suite 1 and the shared bath open off the living area; suite 2 and "
-        "bedroom 3 off the hall. The bath is in the middle of the strip, "
-        "the same distance from all three.",
+        "bedroom 3 off the hall, which stops once it has served those two "
+        "doors \u2014 the 2.08 m of dead end beyond goes to bedroom 3, which "
+        "turns the corner behind it at 16.4 m\u00b2.",
         "Suite 2 has no balcony: its bedroom takes the north wall and two "
         "windows instead. Floors 0–2, the site plan and section A-A are "
         "still on the old 11.50 × 14.50 footprint.",

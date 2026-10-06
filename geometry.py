@@ -291,6 +291,12 @@ V3_PANT_OPEN = (16.20, 17.10)  # cased opening from the living area
 V3_HALL_X0 = 16.27             # west face of the short hall to the north
 V3_BED3_X1 = 16.15             # east face of bedroom 3, onto the hall
 V3_BED3_Y0 = 12.54             # south face of bedroom 3
+# The hall stops as soon as it has served its two doors.  It ran the full
+# 4.16 m to the north wall, and everything past the far jamb of the last
+# door was a dead end a metre wide - so it ends here and the 2.08 m beyond
+# goes to the bedroom, which turns the corner behind it and picks up the
+# north window over the old head of the spur.
+V3_HALL_Y1 = 14.50             # north end of the hall; bedroom beyond
 
 # A private villa stair, not the apartment block's: 900 mm flights, 18 risers
 # at 183 mm with a 260 mm going, and a landing only as deep as a flight is
@@ -468,6 +474,14 @@ V2_DOOR_BED4_LOBBY = (17.75, 18.55)  # lobby into bedroom 4, its south wall
 # Both suites open onto the south cantilever - the same wave the first and
 # third floors carry, so the three now stack and the elevation reads as one
 # gesture repeated rather than a balcony missing from the middle storey.
+# The lobby has no door to the landing: the spine is simply opened over its
+# length, as on the first floor.  It cannot borrow the first floor's opening
+# though - that one starts at 8.72, where this floor still has 280 mm of
+# suite 1's dressing room, which would open the dressing room onto the
+# lobby.  It starts at the landing instead, and still clears the columns at
+# y 8.46 and 12.56.
+V2_SPINE_OPEN = (9.12, 12.30)
+
 V2_DOOR_BALC_1 = (13.00, 15.30)   # suite 1's bedroom onto it, sliding
 V2_DOOR_BALC_2 = (17.80, 19.60)   # suite 2's bedroom onto it, sliding
 V2_BALC_LEVEL = "+6.57"           # 30 mm below FFL, as on the other floors
