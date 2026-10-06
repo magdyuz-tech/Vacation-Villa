@@ -15,12 +15,12 @@ SHEETS = [
      "The plot, the garden corridor and the building footprint."),
     ("A-100", "Ground Floor Plan", "+0.00", "1:50",
      "Entrance, lounges, guest room and the central kitchen and laundry."),
-    ("A-101", "First Floor Plan", "+3.30", "1:50",
-     "Two one-bedroom apartments with balconies and kitchenettes."),
-    ("A-102", "Second Floor Plan", "+6.60", "1:50",
-     "Two one-bedroom apartments, identical to the floor below."),
-    ("A-103", "Third Floor & Roof Plan", "+9.90", "1:50",
-     "Two-bedroom apartment between a south and a north terrace."),
+    ("A-101", "First Floor Plan — Detached Villa", "+3.30", "1:50",
+     "Living area, master suite and two bedrooms, on the wave balcony."),
+    ("A-102", "Second Floor Plan — Detached Villa", "+6.60", "1:50",
+     "Two suites and two further bedrooms, on the same balcony."),
+    ("A-103", "Third Floor Plan — Detached Villa", "+9.90", "1:50",
+     "Living area, two suites and a bedroom, on the same balcony."),
     ("A-200", "Section A–A", "through the core", "1:50",
      "Cut through the glazing, lift shaft, stair and north rooms."),
     ("A-300", "Typical Apartment — Enlarged Plan", "+3.30 / +6.60", "1:25",
@@ -175,8 +175,9 @@ def build(drawings_dir, out_path):
 <body>
 <header>
   <h1>Four-Storey Vacation Home</h1>
-  <span class="sub">Preliminary drawing set · Rev P4 · ISO A1 ·
-  nine sheets</span>
+  <span class="sub">Nine sheets · ISO A1 · A-101 to A-103 are the
+  detached villa at P5; the rest are the superseded apartment scheme at P4
+  and have not been redrawn</span>
 </header>
 <nav>
   {''.join(tabs)}
