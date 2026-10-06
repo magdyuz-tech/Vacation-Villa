@@ -477,6 +477,15 @@ V2_VENT_W = [(4.00, 4.80), (5.40, 6.20),       # suite 1 bedroom
 # the constants it needs already exist: V3_PANT_* and V3_WIN_S_LIV from the
 # third floor, V2_LOBBY_X1 and the suite-2 doors from the second.
 V1_LIV_Y1 = 12.42              # north face of the open living space
+
+# The east strip is the first floor's own, no longer borrowed wholesale from
+# the second: the master bedroom's north wall moves 1.30 m north and the
+# shared bath gives up the same depth, with the ensuite keeping its 1.58 m
+# and simply shifting between them.  The lobby alongside loses 1.30 m of
+# length as a consequence - it runs from the bedroom wall to bedroom 3's.
+V1_MBED_Y1 = 8.60              # master bedroom / ensuite and lobby
+V1_ENS_Y1 = 10.30              # master ensuite / shared bath
+V1_DOOR_BATH = (10.90, 11.80)  # lobby into the shared bath
 # The pantry here is open - a counter run against the spine, inside the
 # living area, not the walled room the third floor has.  The spine is the
 # only wall in reach with nothing in it: the south is glazed to the
@@ -489,17 +498,17 @@ V1_PANTRY = (16.71, 6.60, V3_SPINE_X0, 8.55)   # 0.60 deep, 1.95 long
 # a downstand beam between columns - the columns stay, the infill goes.  The
 # opening starts clear of the column at 8.46 and of the pantry counter that
 # backs onto the solid stretch below it.
-V1_SPINE_OPEN = (8.61, 12.30)
+V1_SPINE_OPEN = (8.72, 12.30)
 V1_DOOR_BALC = (13.00, 15.30)  # living area onto the balcony, sliding
 V1_DOOR_BALC_M = (17.80, 19.60)   # master bedroom onto it, sliding
 V1_BALC_LEVEL = "+3.27"
 
 V1_WIN_S = [(13.00, 15.30), (15.60, 17.20),    # living area
             (17.80, 19.60), (20.00, 21.60)]    # master bedroom
-V1_WIN_E = [(4.20, 6.00), (6.40, 7.20),        # master bedroom
-            (7.60, 8.20),                      # master ensuite
-            (10.20, 11.60),                    # shared bath
-            (12.90, 14.70), (15.00, 16.40)]    # bedroom 3
+V1_WIN_E = [(4.20, 6.00), (6.40, 7.20), (7.60, 8.20),   # master bedroom
+            (8.80, 9.60),                               # master ensuite
+            (10.60, 11.90),                             # shared bath
+            (12.90, 14.70), (15.00, 16.40)]             # bedroom 3
 V1_WIN_N = [(13.10, 14.50), (14.90, 16.00),    # bedroom 2
             (16.40, 17.20),                    # head of the hall
             (18.00, 19.40), (19.90, 21.40)]    # bedroom 3
