@@ -643,45 +643,56 @@ V0_VENT_W = [(4.50, 5.30), (6.50, 7.30),       # reception hall
 # indoors.
 V4_X0, V4_X1 = V3_X0, V3_X1            # flush east and west, on the walls below
 V4_Y0 = 8.46 - WT / 2                  # 8.31, centred on the grid line
-V4_Y1 = V3_Y1                          # flush north
+V4_Y1 = 15.50                          # the apartment sits between two terraces
 v4_x0, v4_x1 = V4_X0 + WT, V4_X1 - WT  # 12.80 .. 21.70  (8.90 clear)
-v4_y0, v4_y1 = V4_Y0 + WT, V4_Y1 - WT  #  8.61 .. 16.70  (8.09 clear)
-V4_PLATE = (v4_x1 - v4_x0) * (v4_y1 - v4_y0)         # 72.0 m2
+v4_y0, v4_y1 = V4_Y0 + WT, V4_Y1 - WT  #  8.61 .. 15.20  (6.59 clear)
+V4_PLATE = (v4_x1 - v4_x0) * (v4_y1 - v4_y0)         # 58.6 m2
 
+# Why the apartment is the full width.  Two bedrooms have to sit north of
+# the stair, side by side, and the only line to divide them on is the spine
+# at x 17.31 - which leaves 4.51 m and 4.09 m.  Take 1.50 m off the east for
+# a covered walk and the second bedroom drops to 2.59 m wide, which is not a
+# bedroom.  So the walk goes, the apartment runs wall to wall, and the two
+# terraces are joined by the pergola passing over its roof instead.
+#
+# Why the north wall is at 15.50.  The stair ends at y 12.42 and cannot
+# move, so the bedrooms' depth and the north terrace come out of the same
+# 4.58 m.  Flush north gives 18.5 m2 bedrooms and no terrace; 15.50 gives
+# 11.8 m2 bedrooms and 14.2 m2 of terrace.  That is the trade the brief
+# asks for.
 V4_LIV_Y1 = V3_STAIR[3]        # 12.42, the stair-hall line, as on every floor
 V4_SERV_X0 = 18.88             # living | the kitchen and bath block
 V4_KIT_Y1 = 10.30              # kitchen | bath
+V4_BED_DIV = V3_SPINE_X0       # 17.31, the bedroom partition, on the spine
 
-# Both terrace doors sit east of the stair.  The stair stands against the
-# west wall from y 9.12, leaving only 0.51 m of floor between it and the
-# south wall, so a door at that end would open onto a slot rather than into
-# the room.  The strip behind the stair takes a window instead, which is all
-# it needs - it lights the flight.
-V4_DOOR_TERR = (15.00, 17.20)  # living onto the terrace, sliding
-V4_DOOR_TERR2 = (17.80, 18.80) # and a second, sliding
+V4_DOOR_MAIN = (15.00, 16.00)  # the apartment's own front door, to the south
+V4_DOOR_TERR = (17.80, 18.80)  # living onto the south terrace, sliding
+V4_DOOR_TERR_N = (13.40, 14.60)   # bedroom 1 onto the north terrace, sliding
 V4_OPEN_KIT = (8.90, 10.10)    # living into the kitchen, cased
-V4_DOOR_BATH = (11.00, 11.80)  # living into the bath
+V4_DOOR_BATH = (10.60, 11.40)  # living into the bath
 V4_DOOR_BED1 = (15.40, 16.30)  # living into bedroom 1
-V4_DOOR_BED2 = (17.75, 18.55)  # living into bedroom 2
+V4_DOOR_BED2 = (17.90, 18.70)  # living into bedroom 2
 
 V4_LEVEL = "+13.20"            # the penthouse floor, on the roof slab
 V4_TOP = 16.45                 # top of its own slab
 
-# The terrace runs from the penthouse's south wall out over the cantilever,
-# so the wave is carried to the top of the building and the gesture reads
-# over four levels rather than as three balconies.
-V4_PERGOLA = (V4_X0, 5.81, V4_X1, V4_Y0)      # 2.50 m deep, against the wall
-V4_PLANT = (V4_X0, 4.00, 13.70, V4_Y0)        # tanks and condensers, screened
+# The pergola is the thing that joins the two terraces: a band on each,
+# against the apartment, with its beams carried across the apartment's roof
+# between them.  The terraces are open to the sky everywhere else.
+V4_PERGOLA = (V4_X0, 5.81, V4_X1, V4_Y0)           # south, 2.50 m deep
+V4_PERGOLA_N = (V4_X0, V4_Y1, V4_X1, V3_Y1)        # north, 1.50 m deep
+V4_PLANT = (V4_X0, V4_Y1, 14.50, V3_Y1)            # tanks, in the north-west
 
-V4_WIN_S = [(13.00, 14.20),                     # the stair, lit only
-            V4_DOOR_TERR, V4_DOOR_TERR2,       # living, onto the terrace
+V4_WIN_S = [(13.00, 14.20),                    # the stair, lit only
+            V4_DOOR_MAIN, (16.40, 17.20),      # the front door, and living
+            V4_DOOR_TERR,                      # living onto the terrace
             (19.90, 21.60)]                    # kitchen
 V4_WIN_E = [(8.90, 10.10),                     # kitchen
             (10.80, 11.90),                    # bath
-            (13.00, 14.60), (14.90, 16.40)]    # bedroom 2
-V4_WIN_N = [(13.10, 14.60), (14.90, 16.40),    # bedroom 1
-            (18.00, 19.60), (19.90, 21.40)]    # bedroom 2
-V4_VENT_W = [(13.00, 13.80), (15.00, 15.80)]   # bedroom 1
+            (12.90, 14.40), (14.60, 15.10)]    # bedroom 2
+V4_WIN_N = [V4_DOOR_TERR_N, (15.00, 16.40),    # bedroom 1
+            (17.90, 19.50), (19.90, 21.40)]    # bedroom 2
+V4_VENT_W = [(13.00, 13.80), (14.20, 15.00)]   # bedroom 1
 
 
 def area(x0, y0, x1, y1):
