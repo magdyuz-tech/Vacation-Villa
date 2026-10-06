@@ -19,6 +19,7 @@ import sys
 import ezdxf
 
 import drafting as D
+import frame
 import plans
 from dxf_backend import DXFSheet, new_document
 
@@ -58,8 +59,11 @@ def export(out_dir):
     for builder, name, _suffix, _dx in LEVELS:
         doc = new_document()
         sh = _run(builder, doc)
-        doc.header["$PROJECTNAME"] = f"{sh.number} {sh.title}"
-        path = os.path.join(out_dir, name + ".dxf")
+        rev = getattr(sh, "rev", None) or frame.REV
+        doc.header["$PROJECTNAME"] = f"{sh.number} {sh.title} ({rev})"
+        # the revision rides in the file name here too, for the same reason
+        # it does on the SVG: a stale DXF in a folder is otherwise invisible
+        path = os.path.join(out_dir, f"{name}-{rev}.dxf")
         doc.saveas(path)
         written.append((path, len(doc.modelspace())))
 

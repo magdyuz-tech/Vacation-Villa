@@ -6,6 +6,7 @@ The SVGs are inlined, so the page opens offline with no external libraries,
 fonts or network calls, matching this project's output conventions.
 """
 
+import glob
 import os
 import re
 import sys
@@ -153,15 +154,33 @@ def inline(svg_text):
                   'width="841" height="594"', svg_text, count=1)
 
 
+def _sheet_file(drawings_dir, num):
+    """The sheet for this number, whatever revision it carries.
+
+    File names end in their revision letter, so the name is not known in
+    advance here; the highest revision on disk is the current issue.
+    """
+    found = sorted(glob.glob(os.path.join(drawings_dir, f"{num}-*.svg")))
+    if not found:
+        raise FileNotFoundError(f"{num}: no sheet in {drawings_dir}")
+    return found[-1]
+
+
+def _rev_of(path):
+    m = re.search(r"-([A-Z]\d+)\.svg$", os.path.basename(path))
+    return m.group(1) if m else ""
+
+
 def build(drawings_dir, out_path):
     parts, tabs = [], []
     for i, (num, title, level, scale, blurb) in enumerate(SHEETS):
-        slug = _slug(title)
-        path = os.path.join(drawings_dir, f"{num}-{slug}.svg")
+        path = _sheet_file(drawings_dir, num)
+        rev = _rev_of(path)
         with open(path, encoding="utf-8") as fh:
             svg = inline(fh.read())
         tabs.append(f'<button class="tab" aria-selected="false">'
-                    f'<b>{num}</b><span>{title}</span></button>')
+                    f'<b>{num}{"  " + rev if rev else ""}</b>'
+                    f'<span>{title}</span></button>')
         parts.append(f'<section class="sheet" aria-label="{num} {title}">'
                      f'<div class="paper">{svg}</div></section>')
     html = f"""<!DOCTYPE html>

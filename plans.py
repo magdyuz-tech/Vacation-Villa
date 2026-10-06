@@ -1924,6 +1924,19 @@ def slugify(title):
     return s.strip("-")
 
 
+def sheet_basename(sh):
+    """Number, title and revision - the file name every format shares.
+
+    The revision is part of the name on purpose.  Two issues of the same
+    sheet otherwise land on the same file name, so the superseded one is
+    silently overwritten in some folders and left sitting beside the
+    current one in others, with nothing but a timestamp to tell them
+    apart.  With the letter in the name a stale issue is obvious on disk
+    and in anybody's downloads folder.
+    """
+    return f"{sh.number}-{slugify(sh.title)}-{getattr(sh, 'rev', None) or F.REV}"
+
+
 def main():
     out = sys.argv[1] if len(sys.argv) > 1 else os.path.join(
         os.path.dirname(os.path.abspath(__file__)), "drawings")
@@ -1931,8 +1944,7 @@ def main():
     paths = []
     for builder in SHEETS:
         sh = builder()
-        slug = slugify(sh.title)
-        path = os.path.join(out, f"{sh.number}-{slug}.svg")
+        path = os.path.join(out, sheet_basename(sh) + ".svg")
         with open(path, "w", encoding="utf-8") as fh:
             fh.write(F.render(sh))
         print(f"{os.path.basename(path):42s} {len(sh.body):5d} entities")
