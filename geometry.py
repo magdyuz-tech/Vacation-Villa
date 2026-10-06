@@ -576,29 +576,36 @@ V1_VENT_W = [(4.00, 4.80), (6.50, 7.30),       # living area
 # The east strip takes dining and kitchen in the two south bands, adjacent
 # to each other as they have to be, and the guest suite in the quiet
 # north-east corner on the north and east windows.
-V0_HALL_Y1 = V3_STAIR[3]       # reception hall / the north service band
-V0_WC_X1 = 14.60               # guest WC and laundry | lobby
-V0_WC_Y1 = 14.50               # guest WC | laundry and store
-V0_LOBBY_X1 = 16.20            # lobby | store
-V0_STORE_X0 = 16.32            # west face of the store
+V0_HALL_Y1 = V3_STAIR[3]       # reception hall / the service block
+
+# The north-west was four small rooms - WC, laundry, lobby and store - and
+# the lobby never reached the spine, so the guest bedroom's door opened off
+# the store.  The lobby and the store are gone.  The services are one block
+# against the west wall and the reception hall takes the rest, turning the
+# corner behind the stair and running up to the north wall, so it is the
+# hall the guest bedroom opens off and there is no circulation room at all.
+V0_WC_X1 = 14.60               # the service block | the reception hall
+V0_WC_Y1 = 14.30               # guest WC | laundry and store
+
 V0_DIN_Y1 = 8.00               # dining / kitchen
 V0_KIT_Y1 = 11.60              # kitchen / guest ensuite
 V0_ENS_Y1 = 13.30              # guest ensuite / guest bedroom
 
 V0_DOOR_ENTRY = (14.60, 15.70)    # the front door, in the south wall
-V0_DOOR_LOBBY = (15.00, 15.90)    # reception hall into the north lobby
-V0_DOOR_WC = (13.00, 13.80)       # lobby into the guest WC
-V0_DOOR_LAUN = (15.00, 15.80)     # lobby into the laundry and store
-V0_DOOR_STORE = (14.00, 14.80)    # lobby into the store
-V0_DOOR_GUEST = (13.60, 14.50)    # lobby into the guest bedroom, through
+V0_DOOR_WC = (12.70, 13.50)       # hall into the guest WC
+V0_DOOR_LAUN = (14.90, 15.70)     # hall into the laundry and store
+V0_DOOR_GUEST = (13.60, 14.50)    # hall into the guest bedroom, through
                                   # the spine
 V0_DOOR_ENS = (18.60, 19.50)      # guest bedroom into its own ensuite
-V0_DOOR_KIT = (9.40, 10.30)       # reception hall into the kitchen
-V0_OPEN_DIN = (4.60, 7.20)        # reception hall into the dining, cased
-V0_OPEN_KIT = (18.60, 20.20)      # kitchen into the dining, cased
 
-# The forecourt is 500 mm below the finished floor, so the front door is
-# reached up three risers from it - see GARDEN_LEVEL and ENTRY_RISERS.
+# Hall, dining and kitchen are one open sequence: the spine is cased open
+# to both, and the kitchen's own wall to the dining is a 2.50 m opening
+# rather than a door.  The columns at y 8.46 and 12.56 stand clear of all
+# three and stay.
+V0_OPEN_DIN = (4.60, 7.20)        # reception hall into the dining
+V0_OPEN_KIT = (8.80, 10.40)       # reception hall into the kitchen
+V0_OPEN_SERVE = (18.30, 20.80)    # kitchen into the dining
+
 V0_LEVEL = "+0.00"
 
 V0_WIN_S = [(12.95, 14.20), V0_DOOR_ENTRY, (15.95, 17.20),  # reception hall

@@ -39,7 +39,9 @@ REVISIONS = [
     ("P4", "2026-09-29", "north and east opened up, light court removed"),
     ("P5", "2026-10-06", "detached villa: 1.00 m setbacks, wave cantilever"),
     ("P6", "2026-10-06", "lobby opened, north hall merged into the bedroom"),
-    ("P7", None, "second floor agreed; ground floor redrawn as the villa"),
+    ("P7", "2026-10-06",
+     "second floor agreed; ground floor redrawn as the villa"),
+    ("P8", None, "ground floor opened up; guest room off the hall"),
 ]
 STATUS = "Preliminary design issue — not for construction."
 STATUS_FINAL_DRAFT = ("Final draft — layout agreed with the client; "
