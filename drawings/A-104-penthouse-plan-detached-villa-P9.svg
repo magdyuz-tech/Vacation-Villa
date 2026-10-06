@@ -1,0 +1,473 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="841.0mm" height="594.0mm" viewBox="0 0 841.0 594.0">
+<title>A-104 Penthouse Plan — Detached Villa</title>
+<rect width="841.0" height="594.0" fill="#ffffff"/>
+<rect x="10.000" y="10.000" width="821.000" height="574.000" fill="none" stroke="#141414" stroke-width="0.7"/>
+<rect x="13.000" y="13.000" width="815.000" height="568.000" fill="none" stroke="#5d5d5d" stroke-width="0.25"/>
+<line x1="127.286" y1="10.000" x2="127.286" y2="13.000" stroke="#5d5d5d" stroke-width="0.25" stroke-linecap="butt"/>
+<line x1="127.286" y1="581.000" x2="127.286" y2="584.000" stroke="#5d5d5d" stroke-width="0.25" stroke-linecap="butt"/>
+<line x1="244.571" y1="10.000" x2="244.571" y2="13.000" stroke="#5d5d5d" stroke-width="0.25" stroke-linecap="butt"/>
+<line x1="244.571" y1="581.000" x2="244.571" y2="584.000" stroke="#5d5d5d" stroke-width="0.25" stroke-linecap="butt"/>
+<line x1="361.857" y1="10.000" x2="361.857" y2="13.000" stroke="#5d5d5d" stroke-width="0.25" stroke-linecap="butt"/>
+<line x1="361.857" y1="581.000" x2="361.857" y2="584.000" stroke="#5d5d5d" stroke-width="0.25" stroke-linecap="butt"/>
+<line x1="479.143" y1="10.000" x2="479.143" y2="13.000" stroke="#5d5d5d" stroke-width="0.25" stroke-linecap="butt"/>
+<line x1="479.143" y1="581.000" x2="479.143" y2="584.000" stroke="#5d5d5d" stroke-width="0.25" stroke-linecap="butt"/>
+<line x1="596.429" y1="10.000" x2="596.429" y2="13.000" stroke="#5d5d5d" stroke-width="0.25" stroke-linecap="butt"/>
+<line x1="596.429" y1="581.000" x2="596.429" y2="584.000" stroke="#5d5d5d" stroke-width="0.25" stroke-linecap="butt"/>
+<line x1="713.714" y1="10.000" x2="713.714" y2="13.000" stroke="#5d5d5d" stroke-width="0.25" stroke-linecap="butt"/>
+<line x1="713.714" y1="581.000" x2="713.714" y2="584.000" stroke="#5d5d5d" stroke-width="0.25" stroke-linecap="butt"/>
+<line x1="10.000" y1="153.500" x2="13.000" y2="153.500" stroke="#5d5d5d" stroke-width="0.25" stroke-linecap="butt"/>
+<line x1="828.000" y1="153.500" x2="831.000" y2="153.500" stroke="#5d5d5d" stroke-width="0.25" stroke-linecap="butt"/>
+<line x1="10.000" y1="297.000" x2="13.000" y2="297.000" stroke="#5d5d5d" stroke-width="0.25" stroke-linecap="butt"/>
+<line x1="828.000" y1="297.000" x2="831.000" y2="297.000" stroke="#5d5d5d" stroke-width="0.25" stroke-linecap="butt"/>
+<line x1="10.000" y1="440.500" x2="13.000" y2="440.500" stroke="#5d5d5d" stroke-width="0.25" stroke-linecap="butt"/>
+<line x1="828.000" y1="440.500" x2="831.000" y2="440.500" stroke="#5d5d5d" stroke-width="0.25" stroke-linecap="butt"/>
+<line x1="170.000" y1="380.000" x2="170.000" y2="90.000" stroke="#9a9a9a" stroke-width="0.13" stroke-linecap="butt" stroke-dasharray="4 2"/>
+<line x1="170.000" y1="90.000" x2="400.000" y2="90.000" stroke="#9a9a9a" stroke-width="0.13" stroke-linecap="butt" stroke-dasharray="4 2"/>
+<line x1="400.000" y1="380.000" x2="400.000" y2="90.000" stroke="#9a9a9a" stroke-width="0.13" stroke-linecap="butt" stroke-dasharray="4 2"/>
+<text x="179.000" y="210.000" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#5d5d5d" text-anchor="middle" font-weight="400" letter-spacing="0.0" style="" transform="rotate(-90 179.000 210.000)">1.00 m SETBACK</text>
+<text x="391.000" y="210.000" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#5d5d5d" text-anchor="middle" font-weight="400" letter-spacing="0.0" style="" transform="rotate(-90 391.000 210.000)">1.00 m SETBACK</text>
+<polygon points="190.000,380.000 190.000,420.000 192.639,419.998 195.278,419.992 197.917,419.983 200.556,419.969 203.194,419.952 205.833,419.931 208.472,419.905 211.111,419.877 213.750,419.844 216.389,419.807 219.028,419.767 221.667,419.722 224.306,419.674 226.944,419.622 229.583,419.566 232.222,419.506 234.861,419.443 237.500,419.375 240.139,419.304 242.778,419.228 245.417,419.149 248.056,419.066 250.694,418.980 253.333,418.889 255.972,418.794 258.611,418.696 261.250,418.594 263.889,418.488 266.528,418.378 269.167,418.264 271.806,418.146 274.444,418.025 277.083,417.899 279.722,417.770 282.361,417.637 285.000,417.500 287.639,417.359 290.278,417.215 292.917,417.066 295.556,416.914 298.194,416.757 300.833,416.597 303.472,416.433 306.111,416.265 308.750,416.094 311.389,415.918 314.028,415.739 316.667,415.556 319.306,415.368 321.944,415.177 324.583,414.983 327.222,414.784 329.861,414.581 332.500,414.375 335.139,414.165 337.778,413.951 340.417,413.733 343.056,413.511 345.694,413.285 348.333,413.056 350.972,412.822 353.611,412.585 356.250,412.344 358.889,412.099 361.528,411.850 364.167,411.597 366.806,411.341 369.444,411.080 372.083,410.816 374.722,410.548 377.361,410.276 380.000,410.000 380.000,380.000" fill="#fbfbfb" stroke="none" stroke-width="0"/>
+<polyline points="190.000,420.000 192.639,419.998 195.278,419.992 197.917,419.983 200.556,419.969 203.194,419.952 205.833,419.931 208.472,419.905 211.111,419.877 213.750,419.844 216.389,419.807 219.028,419.767 221.667,419.722 224.306,419.674 226.944,419.622 229.583,419.566 232.222,419.506 234.861,419.443 237.500,419.375 240.139,419.304 242.778,419.228 245.417,419.149 248.056,419.066 250.694,418.980 253.333,418.889 255.972,418.794 258.611,418.696 261.250,418.594 263.889,418.488 266.528,418.378 269.167,418.264 271.806,418.146 274.444,418.025 277.083,417.899 279.722,417.770 282.361,417.637 285.000,417.500 287.639,417.359 290.278,417.215 292.917,417.066 295.556,416.914 298.194,416.757 300.833,416.597 303.472,416.433 306.111,416.265 308.750,416.094 311.389,415.918 314.028,415.739 316.667,415.556 319.306,415.368 321.944,415.177 324.583,414.983 327.222,414.784 329.861,414.581 332.500,414.375 335.139,414.165 337.778,413.951 340.417,413.733 343.056,413.511 345.694,413.285 348.333,413.056 350.972,412.822 353.611,412.585 356.250,412.344 358.889,412.099 361.528,411.850 364.167,411.597 366.806,411.341 369.444,411.080 372.083,410.816 374.722,410.548 377.361,410.276 380.000,410.000" fill="none" stroke="#5d5d5d" stroke-width="0.35"/>
+<polyline points="190.000,417.600 192.639,417.598 195.278,417.592 197.917,417.583 200.556,417.569 203.194,417.552 205.833,417.531 208.472,417.505 211.111,417.477 213.750,417.444 216.389,417.407 219.028,417.367 221.667,417.322 224.306,417.274 226.944,417.222 229.583,417.166 232.222,417.106 234.861,417.043 237.500,416.975 240.139,416.904 242.778,416.828 245.417,416.749 248.056,416.666 250.694,416.580 253.333,416.489 255.972,416.394 258.611,416.296 261.250,416.194 263.889,416.088 266.528,415.978 269.167,415.864 271.806,415.746 274.444,415.625 277.083,415.499 279.722,415.370 282.361,415.237 285.000,415.100 287.639,414.959 290.278,414.815 292.917,414.666 295.556,414.514 298.194,414.357 300.833,414.197 303.472,414.033 306.111,413.865 308.750,413.694 311.389,413.518 314.028,413.339 316.667,413.156 319.306,412.968 321.944,412.777 324.583,412.583 327.222,412.384 329.861,412.181 332.500,411.975 335.139,411.765 337.778,411.551 340.417,411.333 343.056,411.111 345.694,410.885 348.333,410.656 350.972,410.422 353.611,410.185 356.250,409.944 358.889,409.699 361.528,409.450 364.167,409.197 366.806,408.941 369.444,408.680 372.083,408.416 374.722,408.148 377.361,407.876 380.000,407.600" fill="none" stroke="#141414" stroke-width="0.7"/>
+<polyline points="190.000,412.000 192.639,411.998 195.278,411.992 197.917,411.983 200.556,411.969 203.194,411.952 205.833,411.931 208.472,411.905 211.111,411.877 213.750,411.844 216.389,411.807 219.028,411.767 221.667,411.722 224.306,411.674 226.944,411.622 229.583,411.566 232.222,411.506 234.861,411.443 237.500,411.375 240.139,411.304 242.778,411.228 245.417,411.149 248.056,411.066 250.694,410.980 253.333,410.889 255.972,410.794 258.611,410.696 261.250,410.594 263.889,410.488 266.528,410.378 269.167,410.264 271.806,410.146 274.444,410.025 277.083,409.899 279.722,409.770 282.361,409.637 285.000,409.500 287.639,409.359 290.278,409.215 292.917,409.066 295.556,408.914 298.194,408.757 300.833,408.597 303.472,408.433 306.111,408.265 308.750,408.094 311.389,407.918 314.028,407.739 316.667,407.556 319.306,407.368 321.944,407.177 324.583,406.983 327.222,406.784 329.861,406.581 332.500,406.375 335.139,406.165 337.778,405.951 340.417,405.733 343.056,405.511 345.694,405.285 348.333,405.056 350.972,404.822 353.611,404.585 356.250,404.344 358.889,404.099 361.528,403.850 364.167,403.597 366.806,403.341 369.444,403.080 372.083,402.816 374.722,402.548 377.361,402.276 380.000,402.000" fill="none" stroke="#9a9a9a" stroke-width="0.18" stroke-dasharray="2.4 1.4"/>
+<line x1="190.000" y1="420.000" x2="190.000" y2="380.000" stroke="#5d5d5d" stroke-width="0.35" stroke-linecap="butt"/>
+<line x1="380.000" y1="410.000" x2="380.000" y2="380.000" stroke="#5d5d5d" stroke-width="0.35" stroke-linecap="butt"/>
+<rect x="190.000" y="283.800" width="5.000" height="96.200" fill="#6f6f6f" stroke="#6f6f6f" stroke-width="0.05"/>
+<rect x="375.000" y="283.800" width="5.000" height="96.200" fill="#6f6f6f" stroke="#6f6f6f" stroke-width="0.05"/>
+<rect x="190.000" y="283.800" width="190.000" height="50.000" fill="none" stroke="#5d5d5d" stroke-width="0.18" stroke-dasharray="5 3"/>
+<line x1="199.048" y1="333.800" x2="199.048" y2="283.800" stroke="#9a9a9a" stroke-width="0.13" stroke-linecap="butt"/>
+<line x1="208.095" y1="333.800" x2="208.095" y2="283.800" stroke="#9a9a9a" stroke-width="0.13" stroke-linecap="butt"/>
+<line x1="217.143" y1="333.800" x2="217.143" y2="283.800" stroke="#9a9a9a" stroke-width="0.13" stroke-linecap="butt"/>
+<line x1="226.190" y1="333.800" x2="226.190" y2="283.800" stroke="#9a9a9a" stroke-width="0.13" stroke-linecap="butt"/>
+<line x1="235.238" y1="333.800" x2="235.238" y2="283.800" stroke="#9a9a9a" stroke-width="0.13" stroke-linecap="butt"/>
+<line x1="244.286" y1="333.800" x2="244.286" y2="283.800" stroke="#9a9a9a" stroke-width="0.13" stroke-linecap="butt"/>
+<line x1="253.333" y1="333.800" x2="253.333" y2="283.800" stroke="#9a9a9a" stroke-width="0.13" stroke-linecap="butt"/>
+<line x1="262.381" y1="333.800" x2="262.381" y2="283.800" stroke="#9a9a9a" stroke-width="0.13" stroke-linecap="butt"/>
+<line x1="271.429" y1="333.800" x2="271.429" y2="283.800" stroke="#9a9a9a" stroke-width="0.13" stroke-linecap="butt"/>
+<line x1="280.476" y1="333.800" x2="280.476" y2="283.800" stroke="#9a9a9a" stroke-width="0.13" stroke-linecap="butt"/>
+<line x1="289.524" y1="333.800" x2="289.524" y2="283.800" stroke="#9a9a9a" stroke-width="0.13" stroke-linecap="butt"/>
+<line x1="298.571" y1="333.800" x2="298.571" y2="283.800" stroke="#9a9a9a" stroke-width="0.13" stroke-linecap="butt"/>
+<line x1="307.619" y1="333.800" x2="307.619" y2="283.800" stroke="#9a9a9a" stroke-width="0.13" stroke-linecap="butt"/>
+<line x1="316.667" y1="333.800" x2="316.667" y2="283.800" stroke="#9a9a9a" stroke-width="0.13" stroke-linecap="butt"/>
+<line x1="325.714" y1="333.800" x2="325.714" y2="283.800" stroke="#9a9a9a" stroke-width="0.13" stroke-linecap="butt"/>
+<line x1="334.762" y1="333.800" x2="334.762" y2="283.800" stroke="#9a9a9a" stroke-width="0.13" stroke-linecap="butt"/>
+<line x1="343.810" y1="333.800" x2="343.810" y2="283.800" stroke="#9a9a9a" stroke-width="0.13" stroke-linecap="butt"/>
+<line x1="352.857" y1="333.800" x2="352.857" y2="283.800" stroke="#9a9a9a" stroke-width="0.13" stroke-linecap="butt"/>
+<line x1="361.905" y1="333.800" x2="361.905" y2="283.800" stroke="#9a9a9a" stroke-width="0.13" stroke-linecap="butt"/>
+<line x1="370.952" y1="333.800" x2="370.952" y2="283.800" stroke="#9a9a9a" stroke-width="0.13" stroke-linecap="butt"/>
+<rect x="191.200" y="332.000" width="3.600" height="3.600" fill="#141414" stroke="#141414" stroke-width="0.2"/>
+<rect x="287.400" y="332.000" width="3.600" height="3.600" fill="#141414" stroke="#141414" stroke-width="0.2"/>
+<rect x="375.200" y="332.000" width="3.600" height="3.600" fill="#141414" stroke="#141414" stroke-width="0.2"/>
+<text x="285.000" y="294.800" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#5d5d5d" text-anchor="middle" font-weight="400" letter-spacing="0.0" style="">PERGOLA OVER — 2.50 m DEEP, POSTS ON THE COLUMN LINES</text>
+<rect x="190.000" y="283.800" width="24.000" height="86.200" fill="none" stroke="#5d5d5d" stroke-width="0.35" stroke-dasharray="3 2"/>
+<text x="202.000" y="326.900" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#5d5d5d" text-anchor="middle" font-weight="400" letter-spacing="0.0" style="" transform="rotate(-90 202.000 326.900)">TANKS &amp; CONDENSERS</text>
+<text x="285.000" y="358.000" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="middle" font-weight="400" letter-spacing="0.0" style="">ROOF TERRACE — 63.1 m²</text>
+<polygon points="336.00,371.00 334.40,368.60 337.60,368.60" fill="none" stroke="#141414" stroke-width="0.13"/>
+<text x="338.400" y="370.400" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="start" font-weight="400" letter-spacing="0.0" style="">TERRACE +13.20</text>
+<rect x="190.000" y="277.800" width="10.000" height="6.000" fill="#141414" stroke="#141414" stroke-width="0.05"/>
+<rect x="224.000" y="277.800" width="16.000" height="6.000" fill="#141414" stroke="#141414" stroke-width="0.05"/>
+<rect x="284.000" y="277.800" width="12.000" height="6.000" fill="#141414" stroke="#141414" stroke-width="0.05"/>
+<rect x="316.000" y="277.800" width="22.000" height="6.000" fill="#141414" stroke="#141414" stroke-width="0.05"/>
+<rect x="372.000" y="277.800" width="8.000" height="6.000" fill="#141414" stroke="#141414" stroke-width="0.05"/>
+<rect x="190.000" y="190.000" width="6.000" height="93.800" fill="#141414" stroke="#141414" stroke-width="0.05"/>
+<rect x="190.000" y="150.000" width="6.000" height="24.000" fill="#141414" stroke="#141414" stroke-width="0.05"/>
+<rect x="190.000" y="110.000" width="6.000" height="24.000" fill="#141414" stroke="#141414" stroke-width="0.05"/>
+<rect x="190.000" y="110.000" width="12.000" height="6.000" fill="#141414" stroke="#141414" stroke-width="0.05"/>
+<rect x="232.000" y="110.000" width="6.000" height="6.000" fill="#141414" stroke="#141414" stroke-width="0.05"/>
+<rect x="268.000" y="110.000" width="32.000" height="6.000" fill="#141414" stroke="#141414" stroke-width="0.05"/>
+<rect x="332.000" y="110.000" width="6.000" height="6.000" fill="#141414" stroke="#141414" stroke-width="0.05"/>
+<rect x="368.000" y="110.000" width="12.000" height="6.000" fill="#141414" stroke="#141414" stroke-width="0.05"/>
+<rect x="374.000" y="272.000" width="6.000" height="11.800" fill="#141414" stroke="#141414" stroke-width="0.05"/>
+<rect x="374.000" y="234.000" width="6.000" height="14.000" fill="#141414" stroke="#141414" stroke-width="0.05"/>
+<rect x="374.000" y="190.000" width="6.000" height="22.000" fill="#141414" stroke="#141414" stroke-width="0.05"/>
+<rect x="374.000" y="152.000" width="6.000" height="6.000" fill="#141414" stroke="#141414" stroke-width="0.05"/>
+<rect x="374.000" y="110.000" width="6.000" height="12.000" fill="#141414" stroke="#141414" stroke-width="0.05"/>
+<rect x="317.600" y="272.000" width="2.400" height="5.800" fill="#141414" stroke="#141414" stroke-width="0.05"/>
+<rect x="317.600" y="230.000" width="2.400" height="18.000" fill="#141414" stroke="#141414" stroke-width="0.05"/>
+<rect x="317.600" y="201.600" width="2.400" height="12.400" fill="#141414" stroke="#141414" stroke-width="0.05"/>
+<rect x="320.000" y="241.600" width="54.000" height="2.400" fill="#141414" stroke="#141414" stroke-width="0.05"/>
+<rect x="196.000" y="199.200" width="52.000" height="2.400" fill="#141414" stroke="#141414" stroke-width="0.05"/>
+<rect x="266.000" y="199.200" width="29.000" height="2.400" fill="#141414" stroke="#141414" stroke-width="0.05"/>
+<rect x="311.000" y="199.200" width="63.000" height="2.400" fill="#141414" stroke="#141414" stroke-width="0.05"/>
+<rect x="286.200" y="116.000" width="6.000" height="83.200" fill="#141414" stroke="#141414" stroke-width="0.05"/>
+<rect x="190.000" y="277.800" width="6.000" height="6.000" fill="#2a2a2a" stroke="#2a2a2a" stroke-width="0.05"/>
+<rect x="190.000" y="195.800" width="6.000" height="6.000" fill="#2a2a2a" stroke="#2a2a2a" stroke-width="0.05"/>
+<rect x="190.000" y="110.000" width="6.000" height="6.000" fill="#2a2a2a" stroke="#2a2a2a" stroke-width="0.05"/>
+<rect x="286.200" y="277.800" width="6.000" height="6.000" fill="#2a2a2a" stroke="#2a2a2a" stroke-width="0.05"/>
+<rect x="286.200" y="195.800" width="6.000" height="6.000" fill="#2a2a2a" stroke="#2a2a2a" stroke-width="0.05"/>
+<rect x="286.200" y="110.000" width="6.000" height="6.000" fill="#2a2a2a" stroke="#2a2a2a" stroke-width="0.05"/>
+<rect x="374.000" y="277.800" width="6.000" height="6.000" fill="#2a2a2a" stroke="#2a2a2a" stroke-width="0.05"/>
+<rect x="374.000" y="195.800" width="6.000" height="6.000" fill="#2a2a2a" stroke="#2a2a2a" stroke-width="0.05"/>
+<rect x="374.000" y="110.000" width="6.000" height="6.000" fill="#2a2a2a" stroke="#2a2a2a" stroke-width="0.05"/>
+<line x1="200.000" y1="283.800" x2="200.000" y2="277.800" stroke="#141414" stroke-width="0.7" stroke-linecap="butt"/>
+<line x1="224.000" y1="283.800" x2="224.000" y2="277.800" stroke="#141414" stroke-width="0.7" stroke-linecap="butt"/>
+<line x1="200.000" y1="282.480" x2="224.000" y2="282.480" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
+<line x1="200.000" y1="279.120" x2="224.000" y2="279.120" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
+<line x1="200.000" y1="280.800" x2="224.000" y2="280.800" stroke="#141414" stroke-width="0.2" stroke-linecap="butt"/>
+<line x1="240.000" y1="283.800" x2="240.000" y2="277.800" stroke="#141414" stroke-width="0.7" stroke-linecap="butt"/>
+<line x1="284.000" y1="283.800" x2="284.000" y2="277.800" stroke="#141414" stroke-width="0.7" stroke-linecap="butt"/>
+<line x1="240.000" y1="282.480" x2="284.000" y2="282.480" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
+<line x1="240.000" y1="279.120" x2="284.000" y2="279.120" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
+<line x1="240.000" y1="280.800" x2="284.000" y2="280.800" stroke="#141414" stroke-width="0.2" stroke-linecap="butt"/>
+<line x1="240.000" y1="282.240" x2="263.600" y2="282.240" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
+<line x1="260.400" y1="279.360" x2="284.000" y2="279.360" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
+<line x1="296.000" y1="283.800" x2="296.000" y2="277.800" stroke="#141414" stroke-width="0.7" stroke-linecap="butt"/>
+<line x1="316.000" y1="283.800" x2="316.000" y2="277.800" stroke="#141414" stroke-width="0.7" stroke-linecap="butt"/>
+<line x1="296.000" y1="282.480" x2="316.000" y2="282.480" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
+<line x1="296.000" y1="279.120" x2="316.000" y2="279.120" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
+<line x1="296.000" y1="280.800" x2="316.000" y2="280.800" stroke="#141414" stroke-width="0.2" stroke-linecap="butt"/>
+<line x1="296.000" y1="282.240" x2="307.600" y2="282.240" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
+<line x1="304.400" y1="279.360" x2="316.000" y2="279.360" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
+<line x1="338.000" y1="283.800" x2="338.000" y2="277.800" stroke="#141414" stroke-width="0.7" stroke-linecap="butt"/>
+<line x1="372.000" y1="283.800" x2="372.000" y2="277.800" stroke="#141414" stroke-width="0.7" stroke-linecap="butt"/>
+<line x1="338.000" y1="282.480" x2="372.000" y2="282.480" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
+<line x1="338.000" y1="279.120" x2="372.000" y2="279.120" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
+<line x1="338.000" y1="280.800" x2="372.000" y2="280.800" stroke="#141414" stroke-width="0.2" stroke-linecap="butt"/>
+<line x1="202.000" y1="116.000" x2="202.000" y2="110.000" stroke="#141414" stroke-width="0.7" stroke-linecap="butt"/>
+<line x1="232.000" y1="116.000" x2="232.000" y2="110.000" stroke="#141414" stroke-width="0.7" stroke-linecap="butt"/>
+<line x1="202.000" y1="114.680" x2="232.000" y2="114.680" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
+<line x1="202.000" y1="111.320" x2="232.000" y2="111.320" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
+<line x1="202.000" y1="113.000" x2="232.000" y2="113.000" stroke="#141414" stroke-width="0.2" stroke-linecap="butt"/>
+<line x1="238.000" y1="116.000" x2="238.000" y2="110.000" stroke="#141414" stroke-width="0.7" stroke-linecap="butt"/>
+<line x1="268.000" y1="116.000" x2="268.000" y2="110.000" stroke="#141414" stroke-width="0.7" stroke-linecap="butt"/>
+<line x1="238.000" y1="114.680" x2="268.000" y2="114.680" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
+<line x1="238.000" y1="111.320" x2="268.000" y2="111.320" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
+<line x1="238.000" y1="113.000" x2="268.000" y2="113.000" stroke="#141414" stroke-width="0.2" stroke-linecap="butt"/>
+<line x1="300.000" y1="116.000" x2="300.000" y2="110.000" stroke="#141414" stroke-width="0.7" stroke-linecap="butt"/>
+<line x1="332.000" y1="116.000" x2="332.000" y2="110.000" stroke="#141414" stroke-width="0.7" stroke-linecap="butt"/>
+<line x1="300.000" y1="114.680" x2="332.000" y2="114.680" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
+<line x1="300.000" y1="111.320" x2="332.000" y2="111.320" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
+<line x1="300.000" y1="113.000" x2="332.000" y2="113.000" stroke="#141414" stroke-width="0.2" stroke-linecap="butt"/>
+<line x1="338.000" y1="116.000" x2="338.000" y2="110.000" stroke="#141414" stroke-width="0.7" stroke-linecap="butt"/>
+<line x1="368.000" y1="116.000" x2="368.000" y2="110.000" stroke="#141414" stroke-width="0.7" stroke-linecap="butt"/>
+<line x1="338.000" y1="114.680" x2="368.000" y2="114.680" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
+<line x1="338.000" y1="111.320" x2="368.000" y2="111.320" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
+<line x1="338.000" y1="113.000" x2="368.000" y2="113.000" stroke="#141414" stroke-width="0.2" stroke-linecap="butt"/>
+<line x1="374.000" y1="272.000" x2="380.000" y2="272.000" stroke="#141414" stroke-width="0.7" stroke-linecap="butt"/>
+<line x1="374.000" y1="248.000" x2="380.000" y2="248.000" stroke="#141414" stroke-width="0.7" stroke-linecap="butt"/>
+<line x1="375.320" y1="272.000" x2="375.320" y2="248.000" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
+<line x1="378.680" y1="272.000" x2="378.680" y2="248.000" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
+<line x1="377.000" y1="272.000" x2="377.000" y2="248.000" stroke="#141414" stroke-width="0.2" stroke-linecap="butt"/>
+<line x1="374.000" y1="234.000" x2="380.000" y2="234.000" stroke="#141414" stroke-width="0.7" stroke-linecap="butt"/>
+<line x1="374.000" y1="212.000" x2="380.000" y2="212.000" stroke="#141414" stroke-width="0.7" stroke-linecap="butt"/>
+<line x1="375.320" y1="234.000" x2="375.320" y2="212.000" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
+<line x1="378.680" y1="234.000" x2="378.680" y2="212.000" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
+<line x1="377.000" y1="234.000" x2="377.000" y2="212.000" stroke="#141414" stroke-width="0.2" stroke-linecap="butt"/>
+<line x1="374.000" y1="190.000" x2="380.000" y2="190.000" stroke="#141414" stroke-width="0.7" stroke-linecap="butt"/>
+<line x1="374.000" y1="158.000" x2="380.000" y2="158.000" stroke="#141414" stroke-width="0.7" stroke-linecap="butt"/>
+<line x1="375.320" y1="190.000" x2="375.320" y2="158.000" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
+<line x1="378.680" y1="190.000" x2="378.680" y2="158.000" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
+<line x1="377.000" y1="190.000" x2="377.000" y2="158.000" stroke="#141414" stroke-width="0.2" stroke-linecap="butt"/>
+<line x1="374.000" y1="152.000" x2="380.000" y2="152.000" stroke="#141414" stroke-width="0.7" stroke-linecap="butt"/>
+<line x1="374.000" y1="122.000" x2="380.000" y2="122.000" stroke="#141414" stroke-width="0.7" stroke-linecap="butt"/>
+<line x1="375.320" y1="152.000" x2="375.320" y2="122.000" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
+<line x1="378.680" y1="152.000" x2="378.680" y2="122.000" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
+<line x1="377.000" y1="152.000" x2="377.000" y2="122.000" stroke="#141414" stroke-width="0.2" stroke-linecap="butt"/>
+<line x1="190.000" y1="190.000" x2="196.000" y2="190.000" stroke="#141414" stroke-width="0.7" stroke-linecap="butt"/>
+<line x1="190.000" y1="174.000" x2="196.000" y2="174.000" stroke="#141414" stroke-width="0.7" stroke-linecap="butt"/>
+<line x1="191.320" y1="190.000" x2="191.320" y2="174.000" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
+<line x1="194.680" y1="190.000" x2="194.680" y2="174.000" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
+<line x1="193.000" y1="190.000" x2="193.000" y2="174.000" stroke="#141414" stroke-width="0.2" stroke-linecap="butt"/>
+<line x1="190.000" y1="187.400" x2="196.000" y2="184.600" stroke="#5d5d5d" stroke-width="0.2" stroke-linecap="butt"/>
+<line x1="190.000" y1="183.400" x2="196.000" y2="180.600" stroke="#5d5d5d" stroke-width="0.2" stroke-linecap="butt"/>
+<line x1="190.000" y1="179.400" x2="196.000" y2="176.600" stroke="#5d5d5d" stroke-width="0.2" stroke-linecap="butt"/>
+<line x1="190.000" y1="150.000" x2="196.000" y2="150.000" stroke="#141414" stroke-width="0.7" stroke-linecap="butt"/>
+<line x1="190.000" y1="134.000" x2="196.000" y2="134.000" stroke="#141414" stroke-width="0.7" stroke-linecap="butt"/>
+<line x1="191.320" y1="150.000" x2="191.320" y2="134.000" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
+<line x1="194.680" y1="150.000" x2="194.680" y2="134.000" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
+<line x1="193.000" y1="150.000" x2="193.000" y2="134.000" stroke="#141414" stroke-width="0.2" stroke-linecap="butt"/>
+<line x1="190.000" y1="147.400" x2="196.000" y2="144.600" stroke="#5d5d5d" stroke-width="0.2" stroke-linecap="butt"/>
+<line x1="190.000" y1="143.400" x2="196.000" y2="140.600" stroke="#5d5d5d" stroke-width="0.2" stroke-linecap="butt"/>
+<line x1="190.000" y1="139.400" x2="196.000" y2="136.600" stroke="#5d5d5d" stroke-width="0.2" stroke-linecap="butt"/>
+<line x1="317.600" y1="272.000" x2="320.000" y2="272.000" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
+<line x1="317.600" y1="248.000" x2="320.000" y2="248.000" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
+<line x1="317.600" y1="230.000" x2="320.000" y2="230.000" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
+<line x1="317.600" y1="214.000" x2="320.000" y2="214.000" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
+<line x1="318.800" y1="230.000" x2="334.800" y2="230.000" stroke="#141414" stroke-width="0.2" stroke-linecap="butt"/>
+<path d="M 334.800 230.000 A 16.000 16.000 0 0 0 318.800 214.000" fill="none" stroke="#5d5d5d" stroke-width="0.13"/>
+<line x1="248.000" y1="201.600" x2="248.000" y2="199.200" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
+<line x1="266.000" y1="201.600" x2="266.000" y2="199.200" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
+<line x1="248.000" y1="200.400" x2="248.000" y2="182.400" stroke="#141414" stroke-width="0.2" stroke-linecap="butt"/>
+<path d="M 248.000 182.400 A 18.000 18.000 0 0 1 266.000 200.400" fill="none" stroke="#5d5d5d" stroke-width="0.13"/>
+<line x1="295.000" y1="201.600" x2="295.000" y2="199.200" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
+<line x1="311.000" y1="201.600" x2="311.000" y2="199.200" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
+<line x1="295.000" y1="200.400" x2="295.000" y2="184.400" stroke="#141414" stroke-width="0.2" stroke-linecap="butt"/>
+<path d="M 295.000 184.400 A 16.000 16.000 0 0 1 311.000 200.400" fill="none" stroke="#5d5d5d" stroke-width="0.13"/>
+<line x1="218.000" y1="267.400" x2="236.000" y2="267.400" stroke="#5d5d5d" stroke-width="0.2" stroke-linecap="butt"/>
+<line x1="218.000" y1="262.200" x2="236.000" y2="262.200" stroke="#5d5d5d" stroke-width="0.2" stroke-linecap="butt"/>
+<line x1="218.000" y1="257.000" x2="236.000" y2="257.000" stroke="#5d5d5d" stroke-width="0.2" stroke-linecap="butt"/>
+<line x1="218.000" y1="251.800" x2="236.000" y2="251.800" stroke="#5d5d5d" stroke-width="0.2" stroke-linecap="butt"/>
+<line x1="218.000" y1="246.600" x2="236.000" y2="246.600" stroke="#5d5d5d" stroke-width="0.2" stroke-linecap="butt"/>
+<line x1="218.000" y1="241.400" x2="236.000" y2="241.400" stroke="#5d5d5d" stroke-width="0.2" stroke-linecap="butt"/>
+<line x1="218.000" y1="236.200" x2="236.000" y2="236.200" stroke="#5d5d5d" stroke-width="0.2" stroke-linecap="butt"/>
+<line x1="218.000" y1="231.000" x2="236.000" y2="231.000" stroke="#5d5d5d" stroke-width="0.2" stroke-linecap="butt"/>
+<line x1="218.000" y1="225.800" x2="236.000" y2="225.800" stroke="#5d5d5d" stroke-width="0.2" stroke-linecap="butt"/>
+<line x1="218.000" y1="220.600" x2="236.000" y2="220.600" stroke="#5d5d5d" stroke-width="0.2" stroke-linecap="butt"/>
+<line x1="196.000" y1="220.600" x2="236.000" y2="220.600" stroke="#5d5d5d" stroke-width="0.2" stroke-linecap="butt"/>
+<line x1="196.000" y1="220.600" x2="214.000" y2="220.600" stroke="#5d5d5d" stroke-width="0.2" stroke-linecap="butt"/>
+<line x1="196.000" y1="225.800" x2="214.000" y2="225.800" stroke="#5d5d5d" stroke-width="0.2" stroke-linecap="butt"/>
+<line x1="196.000" y1="231.000" x2="214.000" y2="231.000" stroke="#5d5d5d" stroke-width="0.2" stroke-linecap="butt"/>
+<line x1="196.000" y1="236.200" x2="214.000" y2="236.200" stroke="#5d5d5d" stroke-width="0.2" stroke-linecap="butt"/>
+<line x1="196.000" y1="241.400" x2="214.000" y2="241.400" stroke="#5d5d5d" stroke-width="0.2" stroke-linecap="butt"/>
+<line x1="196.000" y1="246.600" x2="214.000" y2="246.600" stroke="#5d5d5d" stroke-width="0.2" stroke-linecap="butt"/>
+<line x1="196.000" y1="251.800" x2="214.000" y2="251.800" stroke="#5d5d5d" stroke-width="0.2" stroke-linecap="butt"/>
+<line x1="196.000" y1="257.000" x2="214.000" y2="257.000" stroke="#5d5d5d" stroke-width="0.2" stroke-linecap="butt"/>
+<line x1="196.000" y1="262.200" x2="214.000" y2="262.200" stroke="#5d5d5d" stroke-width="0.2" stroke-linecap="butt"/>
+<line x1="196.000" y1="267.400" x2="214.000" y2="267.400" stroke="#5d5d5d" stroke-width="0.2" stroke-linecap="butt"/>
+<line x1="218.000" y1="267.400" x2="218.000" y2="220.600" stroke="#5d5d5d" stroke-width="0.35" stroke-linecap="butt"/>
+<line x1="214.000" y1="267.400" x2="214.000" y2="220.600" stroke="#5d5d5d" stroke-width="0.35" stroke-linecap="butt"/>
+<rect x="214.000" y="220.600" width="4.000" height="46.800" fill="none" stroke="#9a9a9a" stroke-width="0.13"/>
+<line x1="205.000" y1="227.600" x2="205.000" y2="261.400" stroke="#141414" stroke-width="0.2" stroke-linecap="butt"/>
+<polygon points="205.000,264.600 203.200,259.400 206.800,259.400" fill="#141414" stroke="#141414" stroke-width="0.13"/>
+<text x="205.000" y="263.000" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#5d5d5d" text-anchor="middle" font-weight="400" letter-spacing="0.0" style="">DN</text>
+<text x="216.000" y="244.000" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#9a9a9a" text-anchor="middle" font-weight="400" letter-spacing="0.0" style="" transform="rotate(-90 216.000 244.000)">18R @ 183 × 260</text>
+<line x1="196.000" y1="267.600" x2="236.000" y2="267.600" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
+<line x1="236.000" y1="267.600" x2="236.000" y2="201.600" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
+<text x="240.400" y="234.000" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#5d5d5d" text-anchor="middle" font-weight="400" letter-spacing="0.0" style="" transform="rotate(-90 240.400 234.000)">OPEN STAIR — BALUSTRADE</text>
+<rect x="240.000" y="206.000" width="44.000" height="18.000" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>
+<rect x="240.000" y="206.000" width="44.000" height="4.400" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>
+<rect x="251.000" y="236.000" width="22.000" height="14.000" fill="none" stroke="#5d5d5d" stroke-width="0.2" rx="3.5999999999999996"/>
+<rect x="278.000" y="258.000" width="26.000" height="16.000" fill="none" stroke="#5d5d5d" stroke-width="0.2" rx="4.0"/>
+<rect x="267.200" y="265.200" width="8.800" height="9.600" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>
+<rect x="267.200" y="257.200" width="8.800" height="9.600" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>
+<rect x="314.400" y="226.000" width="3.200" height="28.000" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>
+<rect x="326.000" y="265.800" width="48.000" height="12.000" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>
+<rect x="362.000" y="244.000" width="12.000" height="21.800" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>
+<rect x="346.000" y="267.400" width="10.000" height="9.000" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>
+<rect x="347.200" y="268.800" width="3.200" height="6.200" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>
+<rect x="351.600" y="268.800" width="3.200" height="6.200" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>
+<rect x="361.600" y="248.600" width="12.000" height="10.400" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>
+<circle cx="364.600" cy="252.000" r="1.300" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>
+<circle cx="364.600" cy="256.000" r="1.300" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>
+<circle cx="368.200" cy="252.000" r="1.300" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>
+<circle cx="368.200" cy="256.000" r="1.300" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>
+<rect x="320.000" y="206.200" width="3.200" height="7.600" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>
+<ellipse cx="328.800" cy="210.000" rx="5.600" ry="3.400" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>
+<rect x="346.500" y="233.200" width="11.000" height="8.400" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>
+<circle cx="352.000" cy="237.400" r="1.100" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>
+<rect x="354.000" y="201.600" width="20.000" height="20.000" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>
+<line x1="354.000" y1="221.600" x2="374.000" y2="201.600" stroke="#9a9a9a" stroke-width="0.13" stroke-linecap="butt"/>
+<line x1="374.000" y1="221.600" x2="354.000" y2="201.600" stroke="#9a9a9a" stroke-width="0.13" stroke-linecap="butt"/>
+<circle cx="364.000" cy="211.600" r="1.200" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>
+<rect x="228.000" y="118.000" width="36.000" height="42.000" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>
+<rect x="229.600" y="120.400" width="15.200" height="7.200" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>
+<rect x="247.200" y="120.400" width="15.200" height="7.200" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>
+<line x1="228.000" y1="130.400" x2="264.000" y2="130.400" stroke="#9a9a9a" stroke-width="0.13" stroke-linecap="butt"/>
+<rect x="218.000" y="118.000" width="9.000" height="9.000" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>
+<rect x="265.000" y="118.000" width="9.000" height="9.000" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>
+<rect x="275.200" y="152.000" width="11.000" height="40.000" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>
+<line x1="275.200" y1="178.667" x2="286.200" y2="178.667" stroke="#9a9a9a" stroke-width="0.13" stroke-linecap="butt"/>
+<line x1="275.200" y1="165.333" x2="286.200" y2="165.333" stroke="#9a9a9a" stroke-width="0.13" stroke-linecap="butt"/>
+<rect x="322.000" y="118.000" width="36.000" height="42.000" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>
+<rect x="323.600" y="120.400" width="15.200" height="7.200" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>
+<rect x="341.200" y="120.400" width="15.200" height="7.200" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>
+<line x1="322.000" y1="130.400" x2="358.000" y2="130.400" stroke="#9a9a9a" stroke-width="0.13" stroke-linecap="butt"/>
+<rect x="312.000" y="118.000" width="9.000" height="9.000" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>
+<rect x="359.000" y="118.000" width="9.000" height="9.000" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>
+<rect x="292.200" y="140.000" width="11.000" height="40.000" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>
+<line x1="292.200" y1="166.667" x2="303.200" y2="166.667" stroke="#9a9a9a" stroke-width="0.13" stroke-linecap="butt"/>
+<line x1="292.200" y1="153.333" x2="303.200" y2="153.333" stroke="#9a9a9a" stroke-width="0.13" stroke-linecap="butt"/>
+<text x="294.000" y="227.470" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="middle" font-weight="700" letter-spacing="0.18" style="">LIVING &amp; DINING</text>
+<text x="294.000" y="233.312" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#5d5d5d" text-anchor="middle" font-weight="400" letter-spacing="0.0" style="">16.6 m²</text>
+<text x="294.000" y="239.154" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#5d5d5d" text-anchor="middle" font-weight="400" letter-spacing="0.0" style="">open — stair within</text>
+<text x="216.000" y="208.312" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="middle" font-weight="700" letter-spacing="0.18" style="">STAIR</text>
+<text x="340.000" y="257.312" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="middle" font-weight="700" letter-spacing="0.18" style="">KITCHEN</text>
+<text x="340.000" y="230.312" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="middle" font-weight="700" letter-spacing="0.18" style="">BATH</text>
+<text x="238.000" y="182.391" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="middle" font-weight="700" letter-spacing="0.18" style="">BEDROOM 1</text>
+<text x="238.000" y="188.233" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#5d5d5d" text-anchor="middle" font-weight="400" letter-spacing="0.0" style="">18.8 m²</text>
+<text x="339.000" y="182.391" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="middle" font-weight="700" letter-spacing="0.18" style="">BEDROOM 2</text>
+<text x="339.000" y="188.233" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#5d5d5d" text-anchor="middle" font-weight="400" letter-spacing="0.0" style="">17.0 m²</text>
+<line x1="190.000" y1="431.000" x2="380.000" y2="431.000" stroke="#141414" stroke-width="0.13" stroke-linecap="butt"/>
+<line x1="188.900" y1="432.100" x2="191.100" y2="429.900" stroke="#141414" stroke-width="0.13" stroke-linecap="butt"/>
+<line x1="190.000" y1="380.000" x2="190.000" y2="433.000" stroke="#9a9a9a" stroke-width="0.13" stroke-linecap="butt"/>
+<line x1="378.900" y1="432.100" x2="381.100" y2="429.900" stroke="#141414" stroke-width="0.13" stroke-linecap="butt"/>
+<line x1="380.000" y1="380.000" x2="380.000" y2="433.000" stroke="#9a9a9a" stroke-width="0.13" stroke-linecap="butt"/>
+<text x="285.000" y="429.700" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="middle" font-weight="400" letter-spacing="0.0" style="">9.50</text>
+<line x1="190.000" y1="456.000" x2="289.200" y2="456.000" stroke="#141414" stroke-width="0.13" stroke-linecap="butt"/>
+<line x1="188.900" y1="457.100" x2="191.100" y2="454.900" stroke="#141414" stroke-width="0.13" stroke-linecap="butt"/>
+<line x1="288.100" y1="457.100" x2="290.300" y2="454.900" stroke="#141414" stroke-width="0.13" stroke-linecap="butt"/>
+<text x="239.600" y="454.700" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="middle" font-weight="400" letter-spacing="0.0" style="">4.96</text>
+<line x1="289.200" y1="456.000" x2="380.000" y2="456.000" stroke="#141414" stroke-width="0.13" stroke-linecap="butt"/>
+<line x1="288.100" y1="457.100" x2="290.300" y2="454.900" stroke="#141414" stroke-width="0.13" stroke-linecap="butt"/>
+<line x1="378.900" y1="457.100" x2="381.100" y2="454.900" stroke="#141414" stroke-width="0.13" stroke-linecap="butt"/>
+<text x="334.600" y="454.700" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="middle" font-weight="400" letter-spacing="0.0" style="">4.54</text>
+<line x1="154.000" y1="380.000" x2="154.000" y2="110.000" stroke="#141414" stroke-width="0.13" stroke-linecap="butt"/>
+<line x1="152.900" y1="381.100" x2="155.100" y2="378.900" stroke="#141414" stroke-width="0.13" stroke-linecap="butt"/>
+<line x1="190.000" y1="380.000" x2="152.000" y2="380.000" stroke="#9a9a9a" stroke-width="0.13" stroke-linecap="butt"/>
+<line x1="152.900" y1="111.100" x2="155.100" y2="108.900" stroke="#141414" stroke-width="0.13" stroke-linecap="butt"/>
+<line x1="190.000" y1="110.000" x2="152.000" y2="110.000" stroke="#9a9a9a" stroke-width="0.13" stroke-linecap="butt"/>
+<text x="152.700" y="245.000" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="middle" font-weight="400" letter-spacing="0.0" style="" transform="rotate(-90 152.700 245.000)">13.50</text>
+<line x1="167.000" y1="380.000" x2="167.000" y2="283.800" stroke="#141414" stroke-width="0.13" stroke-linecap="butt"/>
+<line x1="165.900" y1="381.100" x2="168.100" y2="378.900" stroke="#141414" stroke-width="0.13" stroke-linecap="butt"/>
+<line x1="165.900" y1="284.900" x2="168.100" y2="282.700" stroke="#141414" stroke-width="0.13" stroke-linecap="butt"/>
+<text x="165.700" y="331.900" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="middle" font-weight="400" letter-spacing="0.0" style="" transform="rotate(-90 165.700 331.900)">4.81</text>
+<line x1="167.000" y1="283.800" x2="167.000" y2="110.000" stroke="#141414" stroke-width="0.13" stroke-linecap="butt"/>
+<line x1="165.900" y1="284.900" x2="168.100" y2="282.700" stroke="#141414" stroke-width="0.13" stroke-linecap="butt"/>
+<line x1="165.900" y1="111.100" x2="168.100" y2="108.900" stroke="#141414" stroke-width="0.13" stroke-linecap="butt"/>
+<text x="165.700" y="196.900" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="middle" font-weight="400" letter-spacing="0.0" style="" transform="rotate(-90 165.700 196.900)">8.69</text>
+<line x1="405.000" y1="283.800" x2="405.000" y2="244.000" stroke="#141414" stroke-width="0.13" stroke-linecap="butt"/>
+<line x1="403.900" y1="284.900" x2="406.100" y2="282.700" stroke="#141414" stroke-width="0.13" stroke-linecap="butt"/>
+<line x1="403.900" y1="245.100" x2="406.100" y2="242.900" stroke="#141414" stroke-width="0.13" stroke-linecap="butt"/>
+<text x="403.700" y="263.900" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="middle" font-weight="400" letter-spacing="0.0" style="" transform="rotate(-90 403.700 263.900)">1.99</text>
+<line x1="405.000" y1="244.000" x2="405.000" y2="201.600" stroke="#141414" stroke-width="0.13" stroke-linecap="butt"/>
+<line x1="403.900" y1="245.100" x2="406.100" y2="242.900" stroke="#141414" stroke-width="0.13" stroke-linecap="butt"/>
+<line x1="403.900" y1="202.700" x2="406.100" y2="200.500" stroke="#141414" stroke-width="0.13" stroke-linecap="butt"/>
+<text x="403.700" y="222.800" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="middle" font-weight="400" letter-spacing="0.0" style="" transform="rotate(-90 403.700 222.800)">2.12</text>
+<line x1="405.000" y1="201.600" x2="405.000" y2="110.000" stroke="#141414" stroke-width="0.13" stroke-linecap="butt"/>
+<line x1="403.900" y1="202.700" x2="406.100" y2="200.500" stroke="#141414" stroke-width="0.13" stroke-linecap="butt"/>
+<line x1="403.900" y1="111.100" x2="406.100" y2="108.900" stroke="#141414" stroke-width="0.13" stroke-linecap="butt"/>
+<text x="403.700" y="155.800" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="middle" font-weight="400" letter-spacing="0.0" style="" transform="rotate(-90 403.700 155.800)">4.58</text>
+<line x1="182.000" y1="420.000" x2="182.000" y2="380.000" stroke="#141414" stroke-width="0.13" stroke-linecap="butt"/>
+<line x1="180.900" y1="421.100" x2="183.100" y2="418.900" stroke="#141414" stroke-width="0.13" stroke-linecap="butt"/>
+<line x1="180.900" y1="381.100" x2="183.100" y2="378.900" stroke="#141414" stroke-width="0.13" stroke-linecap="butt"/>
+<text x="180.700" y="400.000" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="middle" font-weight="400" letter-spacing="0.0" style="" transform="rotate(-90 180.700 400.000)">2.00</text>
+<line x1="389.000" y1="410.000" x2="389.000" y2="380.000" stroke="#141414" stroke-width="0.13" stroke-linecap="butt"/>
+<line x1="387.900" y1="411.100" x2="390.100" y2="408.900" stroke="#141414" stroke-width="0.13" stroke-linecap="butt"/>
+<line x1="387.900" y1="381.100" x2="390.100" y2="378.900" stroke="#141414" stroke-width="0.13" stroke-linecap="butt"/>
+<text x="387.700" y="395.000" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="middle" font-weight="400" letter-spacing="0.0" style="" transform="rotate(-90 387.700 395.000)">1.50</text>
+<text x="420.000" y="170.000" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="middle" font-weight="400" letter-spacing="0.0" style="" transform="rotate(-90 420.000 170.000)">OPEN ASPECT — WINDOWS TO EAST</text>
+<text x="332.000" y="101.000" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="middle" font-weight="400" letter-spacing="0.0" style="">OPEN ASPECT — WINDOWS TO NORTH</text>
+<text x="285.000" y="445.000" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="middle" font-weight="400" letter-spacing="0.0" style="">CANTILEVER CARRIED TO THE TOP — 2.00 m WEST → 1.50 m EAST</text>
+<polygon points="239.00,273.00 237.40,270.60 240.60,270.60" fill="none" stroke="#141414" stroke-width="0.13"/>
+<text x="241.400" y="272.400" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="start" font-weight="400" letter-spacing="0.0" style="">FFL +13.20</text>
+<text x="580.000" y="30.000" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="6.6" fill="#141414" text-anchor="start" font-weight="700" letter-spacing="0.6" style="">PENTHOUSE PLAN — DETACHED VILLA</text>
+<text x="580.000" y="40.000" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#5d5d5d" text-anchor="start" font-weight="400" letter-spacing="0.35" style="">LEVEL +13.20   ·   1:50 @ A1   ·   METRES</text>
+<line x1="580.000" y1="46.000" x2="831.000" y2="46.000" stroke="#141414" stroke-width="0.5" stroke-linecap="butt"/>
+<text x="580.000" y="52.000" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="start" font-weight="700" letter-spacing="0.45" style="">KEY</text>
+<line x1="580.000" y1="54.200" x2="831.000" y2="54.200" stroke="#5d5d5d" stroke-width="0.25" stroke-linecap="butt"/>
+<rect x="581.000" y="63.000" width="24.000" height="2.400" fill="#141414" stroke="#141414" stroke-width="0.05"/>
+<text x="610.000" y="65.400" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="start" font-weight="400" letter-spacing="0.0" style="">Masonry wall cut by section — 200 mm</text>
+<text x="610.000" y="70.800" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="start" font-weight="400" letter-spacing="0.0" style="">partition, 300 mm external / party</text>
+<rect x="581.000" y="75.200" width="24.000" height="1.200" fill="#141414" stroke="#141414" stroke-width="0.05"/>
+<text x="610.000" y="76.900" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="start" font-weight="400" letter-spacing="0.0" style="">Internal stud or block partition, 120 mm</text>
+<rect x="581.000" y="86.400" width="24.000" height="1.800" fill="#6f6f6f" stroke="#141414" stroke-width="0.1"/>
+<text x="610.000" y="88.400" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="start" font-weight="400" letter-spacing="0.0" style="">Terrace parapet, 250 mm × 1100 mm high</text>
+<rect x="581.000" y="98.200" width="7.000" height="1.200" fill="#141414" stroke="#141414" stroke-width="0.05"/>
+<rect x="598.000" y="98.200" width="7.000" height="1.200" fill="#141414" stroke="#141414" stroke-width="0.05"/>
+<line x1="588.000" y1="98.800" x2="588.000" y2="89.300" stroke="#141414" stroke-width="0.2" stroke-linecap="butt"/>
+<path d="M 588.0 89.3 A 10 10 0 0 1 598.0 98.8" fill="none" stroke="#5d5d5d" stroke-width="0.13"/>
+<text x="610.000" y="99.900" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="start" font-weight="400" letter-spacing="0.0" style="">Single leaf door, swing shown to opening side</text>
+<rect x="581.000" y="109.100" width="5.000" height="2.200" fill="#141414" stroke="#141414" stroke-width="0.05"/>
+<rect x="600.000" y="109.100" width="5.000" height="2.200" fill="#141414" stroke="#141414" stroke-width="0.05"/>
+<line x1="586.000" y1="109.650" x2="600.000" y2="109.650" stroke="#5d5d5d" stroke-width="0.2" stroke-linecap="butt"/>
+<line x1="586.000" y1="110.200" x2="600.000" y2="110.200" stroke="#141414" stroke-width="0.2" stroke-linecap="butt"/>
+<line x1="586.000" y1="110.750" x2="600.000" y2="110.750" stroke="#5d5d5d" stroke-width="0.2" stroke-linecap="butt"/>
+<text x="610.000" y="111.400" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="start" font-weight="400" letter-spacing="0.0" style="">Glazed opening — arched head where noted</text>
+<line x1="581.000" y1="121.800" x2="605.000" y2="121.800" stroke="#5d5d5d" stroke-width="0.18" stroke-linecap="butt"/>
+<line x1="581.0" y1="121.8" x2="605.0" y2="121.8" stroke="#5d5d5d" stroke-width="0.18" stroke-dasharray="2.2 1.4"/>
+<text x="610.000" y="122.900" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="start" font-weight="400" letter-spacing="0.0" style="">Element above the cut plane (pergola, slab</text>
+<text x="610.000" y="128.300" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="start" font-weight="400" letter-spacing="0.0" style="">over)</text>
+<rect x="581.000" y="129.800" width="24.000" height="6.600" fill="none" stroke="#5d5d5d" stroke-width="0.35" stroke-dasharray="2.5 1.5"/>
+<line x1="581.000" y1="136.400" x2="587.600" y2="129.800" stroke="#c9c9c9" stroke-width="0.13" stroke-linecap="butt"/>
+<line x1="586.200" y1="136.400" x2="592.800" y2="129.800" stroke="#c9c9c9" stroke-width="0.13" stroke-linecap="butt"/>
+<line x1="591.400" y1="136.400" x2="598.000" y2="129.800" stroke="#c9c9c9" stroke-width="0.13" stroke-linecap="butt"/>
+<line x1="596.600" y1="136.400" x2="603.200" y2="129.800" stroke="#c9c9c9" stroke-width="0.13" stroke-linecap="butt"/>
+<line x1="601.800" y1="136.400" x2="608.400" y2="129.800" stroke="#c9c9c9" stroke-width="0.13" stroke-linecap="butt"/>
+<text x="610.000" y="134.400" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="start" font-weight="400" letter-spacing="0.0" style="">Void / open to sky</text>
+<polygon points="585.0,145.7 582.6,142.3 587.4,142.3" fill="none" stroke="#141414" stroke-width="0.13"/>
+<text x="590.000" y="145.500" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="start" font-weight="400" letter-spacing="0.0" style="">+0.00</text>
+<text x="610.000" y="145.900" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="start" font-weight="400" letter-spacing="0.0" style="">Finished floor level datum</text>
+<text x="580.000" y="164.000" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="start" font-weight="700" letter-spacing="0.45" style="">AREA SCHEDULE</text>
+<line x1="580.000" y1="166.200" x2="831.000" y2="166.200" stroke="#5d5d5d" stroke-width="0.25" stroke-linecap="butt"/>
+<text x="581.000" y="175.000" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="start" font-weight="400" letter-spacing="0.0" style="">LIVING AND DINING</text>
+<text x="818.000" y="175.000" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="end" font-weight="400" letter-spacing="0.0" style="">  16.6 m²</text>
+<line x1="581.000" y1="176.400" x2="818.000" y2="176.400" stroke="#e2e2e2" stroke-width="0.12" stroke-linecap="butt"/>
+<text x="581.000" y="182.400" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="start" font-weight="400" letter-spacing="0.0" style="">STAIR</text>
+<text x="818.000" y="182.400" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="end" font-weight="400" letter-spacing="0.0" style="">   6.6 m²</text>
+<line x1="581.000" y1="183.800" x2="818.000" y2="183.800" stroke="#e2e2e2" stroke-width="0.12" stroke-linecap="butt"/>
+<text x="581.000" y="189.800" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="start" font-weight="400" letter-spacing="0.0" style="">KITCHEN</text>
+<text x="818.000" y="189.800" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="end" font-weight="400" letter-spacing="0.0" style="">   4.6 m²</text>
+<line x1="581.000" y1="191.200" x2="818.000" y2="191.200" stroke="#e2e2e2" stroke-width="0.12" stroke-linecap="butt"/>
+<text x="581.000" y="197.200" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="start" font-weight="400" letter-spacing="0.0" style="">BATH</text>
+<text x="818.000" y="197.200" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="end" font-weight="400" letter-spacing="0.0" style="">   5.4 m²</text>
+<line x1="581.000" y1="198.600" x2="818.000" y2="198.600" stroke="#e2e2e2" stroke-width="0.12" stroke-linecap="butt"/>
+<text x="581.000" y="204.600" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="start" font-weight="400" letter-spacing="0.0" style="">BEDROOM 1</text>
+<text x="818.000" y="204.600" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="end" font-weight="400" letter-spacing="0.0" style="">  18.8 m²</text>
+<line x1="581.000" y1="206.000" x2="818.000" y2="206.000" stroke="#e2e2e2" stroke-width="0.12" stroke-linecap="butt"/>
+<text x="581.000" y="212.000" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="start" font-weight="400" letter-spacing="0.0" style="">BEDROOM 2</text>
+<text x="818.000" y="212.000" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="end" font-weight="400" letter-spacing="0.0" style="">  17.0 m²</text>
+<line x1="581.000" y1="213.400" x2="818.000" y2="213.400" stroke="#e2e2e2" stroke-width="0.12" stroke-linecap="butt"/>
+<line x1="580.000" y1="217.200" x2="818.000" y2="217.200" stroke="#141414" stroke-width="0.4" stroke-linecap="butt"/>
+<text x="581.000" y="221.800" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="start" font-weight="700" letter-spacing="0.0" style="">TOTAL</text>
+<text x="818.000" y="221.800" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="end" font-weight="700" letter-spacing="0.0" style="">  69.0 m²</text>
+<text x="581.000" y="230.300" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#5d5d5d" text-anchor="start" font-weight="400" letter-spacing="0.0" style="">GROSS INTERNAL AREA, PENTHOUSE</text>
+<text x="818.000" y="230.300" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#5d5d5d" text-anchor="end" font-weight="400" letter-spacing="0.0" style="">72.0 m²</text>
+<text x="581.000" y="237.700" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#5d5d5d" text-anchor="start" font-weight="400" letter-spacing="0.0" style="">ROOF TERRACE</text>
+<text x="818.000" y="237.700" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#5d5d5d" text-anchor="end" font-weight="400" letter-spacing="0.0" style="">63.1 m²</text>
+<text x="581.000" y="245.100" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#5d5d5d" text-anchor="start" font-weight="400" letter-spacing="0.0" style="">TOP OF PENTHOUSE SLAB</text>
+<text x="818.000" y="245.100" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#5d5d5d" text-anchor="end" font-weight="400" letter-spacing="0.0" style="">+16.45</text>
+<text x="581.000" y="252.500" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#5d5d5d" text-anchor="start" font-weight="400" letter-spacing="0.0" style="">FLOOR BELOW</text>
+<text x="818.000" y="252.500" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#5d5d5d" text-anchor="end" font-weight="400" letter-spacing="0.0" style="">+9.90</text>
+<text x="580.000" y="265.900" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="start" font-weight="700" letter-spacing="0.45" style="">GENERAL NOTES</text>
+<line x1="580.000" y1="268.100" x2="831.000" y2="268.100" stroke="#5d5d5d" stroke-width="0.25" stroke-linecap="butt"/>
+<text x="581.000" y="276.900" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="start" font-weight="400" letter-spacing="0.0" style="">1.  Draft for comment. A two-bedroom apartment on the roof:</text>
+<text x="581.000" y="282.800" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="start" font-weight="400" letter-spacing="0.0" style="">     two bedrooms, a small kitchen, a bath and a living room</text>
+<text x="581.000" y="288.700" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="start" font-weight="400" letter-spacing="0.0" style="">     opening onto the terrace — 72.0 m² indoors against 63.1 m²</text>
+<text x="581.000" y="294.600" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="start" font-weight="400" letter-spacing="0.0" style="">     of terrace.</text>
+<text x="581.000" y="303.500" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="start" font-weight="400" letter-spacing="0.0" style="">2.  The south wall sits on the column grid at y 8.46. The</text>
+<text x="581.000" y="309.400" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="start" font-weight="400" letter-spacing="0.0" style="">     third floor under it is an open living area, so a 300 mm</text>
+<text x="581.000" y="315.300" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="start" font-weight="400" letter-spacing="0.0" style="">     wall anywhere else would be a line load mid-span; on the</text>
+<text x="581.000" y="321.200" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="start" font-weight="400" letter-spacing="0.0" style="">     grid it bears onto the beam between the columns at x</text>
+<text x="581.000" y="327.100" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="start" font-weight="400" letter-spacing="0.0" style="">     12.65, 17.46 and 21.85. East, west and north it sits on</text>
+<text x="581.000" y="333.000" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="start" font-weight="400" letter-spacing="0.0" style="">     the external walls below.</text>
+<text x="581.000" y="341.900" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="start" font-weight="400" letter-spacing="0.0" style="">3.  That costs the living room its depth — 3.81 m rather than</text>
+<text x="581.000" y="347.800" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="start" font-weight="400" letter-spacing="0.0" style="">     the 5 m it would like. It is the right trade: the terrace</text>
+<text x="581.000" y="353.700" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="start" font-weight="400" letter-spacing="0.0" style="">     is the living space up here.</text>
+<text x="581.000" y="362.600" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="start" font-weight="400" letter-spacing="0.0" style="">4.  The terrace runs from that wall out over the cantilever,</text>
+<text x="581.000" y="368.500" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="start" font-weight="400" letter-spacing="0.0" style="">     so the wave is carried to the top and reads as one gesture</text>
+<text x="581.000" y="374.400" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="start" font-weight="400" letter-spacing="0.0" style="">     over four levels rather than three balconies under a flat</text>
+<text x="581.000" y="380.300" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="start" font-weight="400" letter-spacing="0.0" style="">     roof. A 2.50 m pergola shades the glazing, on posts over</text>
+<text x="581.000" y="386.200" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="start" font-weight="400" letter-spacing="0.0" style="">     the column lines.</text>
+<text x="581.000" y="395.100" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="start" font-weight="400" letter-spacing="0.0" style="">5.  Tanks and condensers sit behind a 1.80 m screen at the</text>
+<text x="581.000" y="401.000" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="start" font-weight="400" letter-spacing="0.0" style="">     blind west edge. Bedroom 1 at 18.8 m² has room for an</text>
+<text x="581.000" y="406.900" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="start" font-weight="400" letter-spacing="0.0" style="">     ensuite if wanted.</text>
+<text x="581.000" y="415.800" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="start" font-weight="400" letter-spacing="0.0" style="">6.  The site plan, section A—A and the A-300 enlargements are</text>
+<text x="581.000" y="421.700" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="start" font-weight="400" letter-spacing="0.0" style="">     still on the old 11.50 × 14.50 footprint.</text>
+<circle cx="470.0" cy="490.0" r="10.0" fill="none" stroke="#5d5d5d" stroke-width="0.13"/>
+<polygon points="470.0,478.0 465.8,496.2 470.0,491.8 " fill="#141414" stroke="#141414" stroke-width="0.2"/>
+<polygon points="470.0,478.0 474.2,496.2 470.0,491.8 " fill="none" stroke="#141414" stroke-width="0.35"/>
+<text x="470.000" y="506.200" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="middle" font-weight="700" letter-spacing="0.0" style="">N</text>
+<rect x="60.000" y="514.000" width="20.000" height="2.000" fill="#141414" stroke="#141414" stroke-width="0.13"/>
+<rect x="80.000" y="514.000" width="20.000" height="2.000" fill="#ffffff" stroke="#141414" stroke-width="0.13"/>
+<rect x="100.000" y="514.000" width="20.000" height="2.000" fill="#141414" stroke="#141414" stroke-width="0.13"/>
+<rect x="120.000" y="514.000" width="20.000" height="2.000" fill="#ffffff" stroke="#141414" stroke-width="0.13"/>
+<rect x="140.000" y="514.000" width="20.000" height="2.000" fill="#141414" stroke="#141414" stroke-width="0.13"/>
+<rect x="160.000" y="514.000" width="20.000" height="2.000" fill="#ffffff" stroke="#141414" stroke-width="0.13"/>
+<rect x="180.000" y="514.000" width="20.000" height="2.000" fill="#141414" stroke="#141414" stroke-width="0.13"/>
+<rect x="200.000" y="514.000" width="20.000" height="2.000" fill="#ffffff" stroke="#141414" stroke-width="0.13"/>
+<rect x="220.000" y="514.000" width="20.000" height="2.000" fill="#141414" stroke="#141414" stroke-width="0.13"/>
+<rect x="240.000" y="514.000" width="20.000" height="2.000" fill="#ffffff" stroke="#141414" stroke-width="0.13"/>
+<text x="60.000" y="519.200" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="middle" font-weight="400" letter-spacing="0.0" style="">0</text>
+<text x="100.000" y="519.200" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="middle" font-weight="400" letter-spacing="0.0" style="">2</text>
+<text x="140.000" y="519.200" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="middle" font-weight="400" letter-spacing="0.0" style="">4</text>
+<text x="180.000" y="519.200" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="middle" font-weight="400" letter-spacing="0.0" style="">6</text>
+<text x="220.000" y="519.200" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="middle" font-weight="400" letter-spacing="0.0" style="">8</text>
+<text x="260.000" y="519.200" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="middle" font-weight="400" letter-spacing="0.0" style="">10</text>
+<text x="264.000" y="519.200" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="start" font-weight="400" letter-spacing="0.0" style="">m</text>
+<text x="60.000" y="512.400" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#5d5d5d" text-anchor="start" font-weight="400" letter-spacing="0.3" style="">GRAPHIC SCALE 1:50</text>
+<rect x="580.000" y="461.000" width="251.000" height="113.000" fill="none" stroke="#141414" stroke-width="0.6"/>
+<line x1="580.000" y1="477.000" x2="831.000" y2="477.000" stroke="#5d5d5d" stroke-width="0.3" stroke-linecap="butt"/>
+<line x1="580.000" y1="503.000" x2="831.000" y2="503.000" stroke="#5d5d5d" stroke-width="0.3" stroke-linecap="butt"/>
+<line x1="580.000" y1="521.000" x2="831.000" y2="521.000" stroke="#5d5d5d" stroke-width="0.3" stroke-linecap="butt"/>
+<text x="583.000" y="472.000" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="5.2" fill="#141414" text-anchor="start" font-weight="700" letter-spacing="0.5" style="">FOUR-STOREY VACATION HOME</text>
+<text x="828.000" y="472.000" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#5d5d5d" text-anchor="end" font-weight="400" letter-spacing="0.3" style="">PRIVATE CLIENT</text>
+<text x="583.000" y="485.000" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#5d5d5d" text-anchor="start" font-weight="400" letter-spacing="0.4" style="">DRAWING</text>
+<text x="583.000" y="497.000" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="5.6" fill="#141414" text-anchor="start" font-weight="700" letter-spacing="0.4" style="">PENTHOUSE PLAN — DETACHED VILLA</text>
+<text x="583.000" y="511.000" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#5d5d5d" text-anchor="start" font-weight="400" letter-spacing="0.4" style="">DRAWING No</text>
+<text x="583.000" y="518.000" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="start" font-weight="700" letter-spacing="0.0" style="">A-104</text>
+<text x="646.000" y="511.000" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#5d5d5d" text-anchor="start" font-weight="400" letter-spacing="0.4" style="">REVISION</text>
+<text x="646.000" y="518.000" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="start" font-weight="700" letter-spacing="0.0" style="">P9</text>
+<text x="696.000" y="511.000" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#5d5d5d" text-anchor="start" font-weight="400" letter-spacing="0.4" style="">SCALE</text>
+<text x="696.000" y="518.000" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="start" font-weight="700" letter-spacing="0.0" style="">1:50 @ A1</text>
+<text x="766.000" y="511.000" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#5d5d5d" text-anchor="start" font-weight="400" letter-spacing="0.4" style="">DATE</text>
+<text x="766.000" y="518.000" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="start" font-weight="700" letter-spacing="0.0" style="">2026-10-06</text>
+<text x="583.000" y="530.000" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#5d5d5d" text-anchor="start" font-weight="400" letter-spacing="0.0" style="">Preliminary design issue — not for construction.</text>
+<text x="583.000" y="537.000" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#5d5d5d" text-anchor="start" font-weight="400" letter-spacing="0.0" style="">Do not scale; work to figured dimensions only.</text>
+<line x1="580.000" y1="543.000" x2="831.000" y2="543.000" stroke="#5d5d5d" stroke-width="0.3" stroke-linecap="butt"/>
+<text x="583.000" y="550.000" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#5d5d5d" text-anchor="start" font-weight="400" letter-spacing="0.4" style="">REVISIONS</text>
+<text x="624.000" y="550.000" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="start" font-weight="400" letter-spacing="0.0" style="">P6   2026-10-06   lobby opened, north hall merged into the bedroom</text>
+<text x="624.000" y="557.000" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="start" font-weight="400" letter-spacing="0.0" style="">P7   2026-10-06   second floor agreed; ground floor redrawn as the villa</text>
+<text x="624.000" y="564.000" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="start" font-weight="400" letter-spacing="0.0" style="">P8   2026-10-06   ground floor opened up; guest room off the hall</text>
+<text x="624.000" y="571.000" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="start" font-weight="400" letter-spacing="0.0" style="">P9   2026-10-06   penthouse added: two-bedroom roof apartment</text>
+</svg>

@@ -22,6 +22,8 @@ SHEETS = [
      "Two suites and two further bedrooms, on the same balcony."),
     ("A-103", "Third Floor Plan — Detached Villa", "+9.90", "1:50",
      "Living area, two suites and a bedroom, on the same balcony."),
+    ("A-104", "Penthouse Plan — Detached Villa", "+13.20", "1:50",
+     "Two-bedroom roof apartment, terrace and pergola."),
     ("A-200", "Section A–A", "through the core", "1:50",
      "Cut through the glazing, lift shaft, stair and north rooms."),
     ("A-300", "Typical Apartment — Enlarged Plan", "+3.30 / +6.60", "1:25",
@@ -194,8 +196,8 @@ def build(drawings_dir, out_path):
 <body>
 <header>
   <h1>Four-Storey Vacation Home</h1>
-  <span class="sub">Nine sheets · ISO A1 · A-100 to A-103 are the
-  detached villa, all four agreed as final drafts; the rest are the
+  <span class="sub">Ten sheets · ISO A1 · A-100 to A-103 are the
+  detached villa, with the penthouse at A-104; the rest are the
   superseded apartment scheme and have not been redrawn</span>
 </header>
 <nav>

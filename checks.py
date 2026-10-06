@@ -267,7 +267,8 @@ def stair_stacks():
     for build, number in ((plans.sheet_ground, "A-100"),
                           (plans.sheet_first, "A-101"),
                           (plans.sheet_second, "A-102"),
-                          (plans.sheet_third, "A-103")):
+                          (plans.sheet_third, "A-103"),
+                          (plans.sheet_penthouse, "A-104")):
         walls, leaves, cols, vents, dims, restore = _record()
         stairs = []
         import fixtures as fx
@@ -624,7 +625,8 @@ def main():
               (plans.sheet_ground, "A-100", True, True),
               (plans.sheet_first, "A-101", True, True),
               (plans.sheet_second, "A-102", True, True),
-              (plans.sheet_third, "A-103", True, True)]
+              (plans.sheet_third, "A-103", True, True),
+              (plans.sheet_penthouse, "A-104", True, True)]
     total = 0
     for build, number, leaves_expected, west in sheets:
         problems = check(build, leaves_expected, west_vent_only=west)

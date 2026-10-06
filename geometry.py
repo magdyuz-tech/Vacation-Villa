@@ -623,5 +623,66 @@ V0_VENT_W = [(4.50, 5.30), (6.50, 7.30),       # reception hall
              (15.00, 15.80)]                   # laundry and store
 
 
+# ---------------------------------------------------------------------------
+# detached villa, penthouse (revision P9) - a two-bedroom roof apartment
+# ---------------------------------------------------------------------------
+# A self-contained flat on the roof: two bedrooms, a small kitchen, a bath
+# and a living room that opens onto the terrace.
+#
+# Its south wall sits ON the column grid at y 8.46, not wherever the plan
+# would have liked it.  A penthouse wall has no wall under it - the third
+# floor below is an open living area - so a 300 mm wall put anywhere else
+# would be a line load in the middle of a slab span.  On the grid it bears
+# straight onto the beam between the columns at x 12.65, 17.46 and 21.85,
+# and nothing transfers.  East, west and north it sits on the external walls
+# below for the same reason.
+#
+# The cost of that discipline is the depth of the south band: 3.81 m rather
+# than the 5 m the living room would like.  It is the right trade, because
+# the terrace is the living space up here - 63 m2 of it, against 72 m2
+# indoors.
+V4_X0, V4_X1 = V3_X0, V3_X1            # flush east and west, on the walls below
+V4_Y0 = 8.46 - WT / 2                  # 8.31, centred on the grid line
+V4_Y1 = V3_Y1                          # flush north
+v4_x0, v4_x1 = V4_X0 + WT, V4_X1 - WT  # 12.80 .. 21.70  (8.90 clear)
+v4_y0, v4_y1 = V4_Y0 + WT, V4_Y1 - WT  #  8.61 .. 16.70  (8.09 clear)
+V4_PLATE = (v4_x1 - v4_x0) * (v4_y1 - v4_y0)         # 72.0 m2
+
+V4_LIV_Y1 = V3_STAIR[3]        # 12.42, the stair-hall line, as on every floor
+V4_SERV_X0 = 18.88             # living | the kitchen and bath block
+V4_KIT_Y1 = 10.30              # kitchen | bath
+
+# Both terrace doors sit east of the stair.  The stair stands against the
+# west wall from y 9.12, leaving only 0.51 m of floor between it and the
+# south wall, so a door at that end would open onto a slot rather than into
+# the room.  The strip behind the stair takes a window instead, which is all
+# it needs - it lights the flight.
+V4_DOOR_TERR = (15.00, 17.20)  # living onto the terrace, sliding
+V4_DOOR_TERR2 = (17.80, 18.80) # and a second, sliding
+V4_OPEN_KIT = (8.90, 10.10)    # living into the kitchen, cased
+V4_DOOR_BATH = (11.00, 11.80)  # living into the bath
+V4_DOOR_BED1 = (15.40, 16.30)  # living into bedroom 1
+V4_DOOR_BED2 = (17.75, 18.55)  # living into bedroom 2
+
+V4_LEVEL = "+13.20"            # the penthouse floor, on the roof slab
+V4_TOP = 16.45                 # top of its own slab
+
+# The terrace runs from the penthouse's south wall out over the cantilever,
+# so the wave is carried to the top of the building and the gesture reads
+# over four levels rather than as three balconies.
+V4_PERGOLA = (V4_X0, 5.81, V4_X1, V4_Y0)      # 2.50 m deep, against the wall
+V4_PLANT = (V4_X0, 4.00, 13.70, V4_Y0)        # tanks and condensers, screened
+
+V4_WIN_S = [(13.00, 14.20),                     # the stair, lit only
+            V4_DOOR_TERR, V4_DOOR_TERR2,       # living, onto the terrace
+            (19.90, 21.60)]                    # kitchen
+V4_WIN_E = [(8.90, 10.10),                     # kitchen
+            (10.80, 11.90),                    # bath
+            (13.00, 14.60), (14.90, 16.40)]    # bedroom 2
+V4_WIN_N = [(13.10, 14.60), (14.90, 16.40),    # bedroom 1
+            (18.00, 19.60), (19.90, 21.40)]    # bedroom 2
+V4_VENT_W = [(13.00, 13.80), (15.00, 15.80)]   # bedroom 1
+
+
 def area(x0, y0, x1, y1):
     return (x1 - x0) * (y1 - y0)

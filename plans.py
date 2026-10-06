@@ -1578,7 +1578,7 @@ def _plan_third(sh):
             swing="down")
 
     # --- the stair, open to the living area ------------------------------
-    fx.stair(sh, V3_STAIR, direction="dn", floor_to_floor=FLOOR_TO_FLOOR,
+    fx.stair(sh, V3_STAIR, direction="both", floor_to_floor=FLOOR_TO_FLOOR,
              rise_target=V3_STAIR_RISE, going=V3_STAIR_GOING,
              landing_d=V3_STAIR_LANDING, well=V3_STAIR_WELL)
     # balustrade on the open south and east sides of the well
@@ -1678,7 +1678,8 @@ def sheet_third():
     D.set_scale(50, *PLAN_ORIGIN)
     sh = Sheet("A-103", "Third Floor Plan — Detached Villa", "+9.90",
                "1:50 @ A1")
-    sh.rev, sh.status = "P6", F.STATUS_FINAL_DRAFT
+    # P9: the stair no longer stops here, it carries on to the penthouse
+    sh.rev, sh.status = "P9", F.STATUS_FINAL_DRAFT
     F.border(sh)
 
     # the three setback lines, so the 1.00 m gap is measurable on the sheet
@@ -1802,6 +1803,220 @@ def _stair_section(sh, ffl):
     sh.line(start, ffl, ST_Y1 - 1.30, half, w=LW_THIN, color=LIGHT)
     sh.tag((start + ST_Y1) / 2.0, ffl + 1.95,
            f"{risers}R @ {rise * 1000:.0f}", size=1.6, color=LIGHT)
+
+
+def _villa_penthouse(sh):
+    """Detached villa, penthouse (P9): a two-bedroom roof apartment.
+
+    Two bedrooms, a small kitchen, a bath and a living room that opens onto
+    the terrace.  The south wall sits on the column grid at y 8.46, because
+    the third floor under it is an open living area and a 300 mm wall put
+    anywhere else would be a line load in the middle of a slab span.  East,
+    west and north it sits on the external walls below.
+
+    The terrace runs from that wall out over the cantilever, so the wave is
+    carried to the top of the building: one gesture over four levels rather
+    than three balconies with a flat roof above them.
+    """
+    # --- the roof terrace, and the wave carried up to it ------------------
+    fx.wave_balcony(sh, wave_points(), V3_Y0, V3_WAVE_BALUSTRADE,
+                    V3_WAVE_REVEAL, label=None, area=None, show_area=False)
+    parapet(sh, V3_X0, V3_Y0, V3_X0 + PARAPET, V4_Y0)
+    parapet(sh, V3_X1 - PARAPET, V3_Y0, V3_X1, V4_Y0)
+
+    # pergola over the terrace, against the penthouse wall
+    gx0, gy0, gx1, gy1 = V4_PERGOLA
+    with sh.on("A-FLOR-OVER"):
+        sh.rect(gx0, gy0, gx1 - gx0, gy1 - gy0, sw=LW_HIDDEN, stroke=GREY,
+                dash="5 3")
+        n = int((gx1 - gx0) / 0.45)
+        for i in range(1, n):
+            x = gx0 + i * (gx1 - gx0) / n
+            sh.line(x, gy0, x, gy1, w=LW_THIN, color=LIGHT)
+    for px_ in V3_GRID_X:
+        sh.rect(px_ - 0.09, gy0 - 0.09, 0.18, 0.18, fill=INK, stroke=INK,
+                sw=LW_FIXTURE)
+    sh.tag((gx0 + gx1) / 2.0, gy1 - 0.55, "PERGOLA OVER — 2.50 m DEEP, "
+           "POSTS ON THE COLUMN LINES", size=1.8, color=GREY)
+
+    # the plant enclosure, against the blind west edge
+    qx0, qy0, qx1, qy1 = V4_PLANT
+    sh.rect(qx0, qy0, qx1 - qx0, qy1 - qy0, sw=LW_SECONDARY, stroke=GREY,
+            dash="3 2")
+    sh.tag((qx0 + qx1) / 2.0, (qy0 + qy1) / 2.0, "TANKS & CONDENSERS",
+           size=1.6, color=GREY, rot=-90)
+    sh.tag(17.25, 4.60, "ROOF TERRACE — 63.1 m²", size=2.4, color=INK)
+    sh.level_tag(19.80, 3.95, "TERRACE " + V4_LEVEL)
+
+    # --- shell -------------------------------------------------------------
+    sh.wall(V4_X0, V4_Y0, V4_X1, V4_Y0 + WT, openings=V4_WIN_S)
+    sh.wall(V4_X0, V4_Y0, V4_X0 + WT, V4_Y1, openings=V4_VENT_W)
+    sh.wall(V4_X0, V4_Y1 - WT, V4_X1, V4_Y1, openings=V4_WIN_N)
+    sh.wall(V4_X1 - WT, V4_Y0, V4_X1, V4_Y1, openings=V4_WIN_E)
+
+    # --- the kitchen and bath block, and the band across to the bedrooms ---
+    sh.wall(V4_SERV_X0, v4_y0, V4_SERV_X0 + PT, V4_LIV_Y1,
+            openings=[V4_OPEN_KIT, V4_DOOR_BATH])
+    sh.wall(V4_SERV_X0 + PT, V4_KIT_Y1, v4_x1, V4_KIT_Y1 + PT)
+    sh.wall(v4_x0, V4_LIV_Y1, v4_x1, V3_BED3_Y0,
+            openings=[V4_DOOR_BED1, V4_DOOR_BED2])
+    # the spine divides the two bedrooms and lands on the spine below
+    sh.wall(V3_SPINE_X0, V3_BED3_Y0, V3_SPINE_X1, v4_y1)
+
+    for cx in V3_GRID_X:
+        for cy in V3_GRID_Y:
+            if V4_Y0 - 0.20 <= cy <= V4_Y1:
+                fx.column(sh, cx, cy, COL)
+
+    # --- openings -----------------------------------------------------------
+    for a, b in V4_WIN_S:
+        if (a, b) in (V4_DOOR_TERR, V4_DOOR_TERR2):
+            fx.slider(sh, a, b, V4_Y0, V4_Y0 + WT, "h")
+        else:
+            sh.window(a, b, V4_Y0, V4_Y0 + WT, "h")
+    for a, b in V4_WIN_N:
+        sh.window(a, b, V4_Y1 - WT, V4_Y1, "h")
+    for a, b in V4_WIN_E:
+        sh.window(a, b, V4_X1 - WT, V4_X1, "v")
+    for a, b in V4_VENT_W:
+        fx.vent(sh, a, b, V4_X0, V4_X0 + WT, "v")
+
+    sh.door(*V4_OPEN_KIT, V4_SERV_X0, V4_SERV_X0 + PT, "v", leaf=False)
+    sh.door(*V4_DOOR_BATH, V4_SERV_X0, V4_SERV_X0 + PT, "v", hinge="lo",
+            swing="right")
+    sh.door(*V4_DOOR_BED1, V4_LIV_Y1, V3_BED3_Y0, "h", hinge="lo", swing="up")
+    sh.door(*V4_DOOR_BED2, V4_LIV_Y1, V3_BED3_Y0, "h", hinge="lo", swing="up")
+
+    # --- the stair, arriving in the living room --------------------------
+    fx.stair(sh, V3_STAIR, direction="dn", floor_to_floor=FLOOR_TO_FLOOR,
+             rise_target=V3_STAIR_RISE, going=V3_STAIR_GOING,
+             landing_d=V3_STAIR_LANDING, well=V3_STAIR_WELL)
+    sh.line(V3_STAIR[0], V3_STAIR[1], V3_STAIR[2], V3_STAIR[1],
+            w=LW_SECONDARY, color=INK)
+    sh.line(V3_STAIR[2], V3_STAIR[1], V3_STAIR[2], V3_STAIR[3],
+            w=LW_SECONDARY, color=INK)
+    sh.tag(V3_STAIR[2] + 0.22, 10.80, "OPEN STAIR — BALUSTRADE", size=1.6,
+           color=GREY, rot=-90)
+
+    # --- living ------------------------------------------------------------
+    fx.sofa(sh, 15.00, 11.30, 2.20, 0.90, facing="s")
+    fx.table(sh, 15.55, 10.00, 1.10, 0.70, rx=0.18)
+    fx.table(sh, 16.90, 8.80, 1.30, 0.80, seats_w=2)
+    fx.tv(sh, V4_SERV_X0 - 0.16, 9.80, w=1.40, axis="v")
+
+    # --- kitchen: an L of fitted units, clear of the cased opening -------
+    # nothing stands on the west side: the opening to the living room takes
+    # that wall from y 8.90 to 10.10, which is most of it
+    fx.counter(sh, 19.30, v4_y0, v4_x1 - 19.30, 0.60)
+    fx.counter(sh, v4_x1 - 0.60, v4_y0 + 0.60, 0.60, V4_KIT_Y1 - v4_y0 - 0.60)
+    fx.sink(sh, 20.30, v4_y0 + 0.07, w=0.50, d=0.45)
+    fx.hob(sh, 21.08, 9.55)
+
+    # --- bath ---------------------------------------------------------------
+    fx.wc(sh, V4_SERV_X0 + PT, 12.00, facing="e")
+    fx.basin(sh, 20.60, V4_KIT_Y1 + PT, w=0.55, d=0.42, facing="n")
+    fx.shower(sh, 20.70, 11.42, 1.00, 1.00)
+
+    # --- bedroom 1 ----------------------------------------------------------
+    fx.bed(sh, 14.40, 14.50, 1.80, 2.10, head="n")
+    for bx in (13.90, 16.25):
+        sh.rect(bx, 16.15, 0.45, 0.45, sw=LW_FIXTURE, stroke=GREY)
+    fx.wardrobe(sh, V3_SPINE_X0 - 0.55, 12.90, 0.55, 2.00, axis="v")
+
+    # --- bedroom 2 ----------------------------------------------------------
+    fx.bed(sh, 19.10, 14.50, 1.80, 2.10, head="n")
+    for bx in (18.60, 20.95):
+        sh.rect(bx, 16.15, 0.45, 0.45, sw=LW_FIXTURE, stroke=GREY)
+    fx.wardrobe(sh, V3_SPINE_X1, 13.50, 0.55, 2.00, axis="v")
+
+    # --- rooms ---------------------------------------------------------------
+    sh.room(v4_x0, v4_y0, V4_SERV_X0 - v4_x0, V4_LIV_Y1 - v4_y0,
+            "Living & Dining", area=16.6, size=2.4, sub="open — stair within",
+            sched_name="Living and dining", at=(17.70, 10.90))
+    sh.room(V3_STAIR[0], V3_STAIR[1], V3_STAIR[2] - V3_STAIR[0],
+            V3_STAIR[3] - V3_STAIR[1], "Stair", area=6.6, size=1.9,
+            show_area=False, at=(13.80, 12.15))
+    sh.room(V4_SERV_X0 + PT, v4_y0, v4_x1 - V4_SERV_X0 - PT,
+            V4_KIT_Y1 - v4_y0, "Kitchen", area=4.6, size=1.7,
+            show_area=False, at=(20.00, 9.70))
+    sh.room(V4_SERV_X0 + PT, V4_KIT_Y1 + PT, v4_x1 - V4_SERV_X0 - PT,
+            V4_LIV_Y1 - V4_KIT_Y1 - PT, "Bath", area=5.4, size=1.8,
+            show_area=False, at=(20.00, 11.05))
+    sh.room(v4_x0, V3_BED3_Y0, V3_SPINE_X0 - v4_x0, v4_y1 - V3_BED3_Y0,
+            "Bedroom 1", area=18.8, size=2.4, at=(14.90, 13.30))
+    sh.room(V3_SPINE_X1, V3_BED3_Y0, v4_x1 - V3_SPINE_X1, v4_y1 - V3_BED3_Y0,
+            "Bedroom 2", area=17.0, size=2.4, at=(19.95, 13.30))
+
+
+def sheet_penthouse():
+    D.set_scale(50, *PLAN_ORIGIN)
+    sh = Sheet("A-104", "Penthouse Plan — Detached Villa", V4_LEVEL,
+               "1:50 @ A1")
+    sh.rev = "P9"
+    F.border(sh)
+
+    with sh.on("G-ANNO-BNDY"):
+        for a, b, c, d in ((A_X0, A_Y0, A_X0, A_Y1), (A_X0, A_Y1, B_X1, A_Y1),
+                           (B_X1, A_Y0, B_X1, A_Y1)):
+            sh.line(a, b, c, d, w=LW_THIN, color=LIGHT, dash="4 2")
+    sh.tag(11.95, 12.00, "1.00 m SETBACK", size=1.8, color=GREY, rot=-90)
+    sh.tag(22.55, 12.00, "1.00 m SETBACK", size=1.8, color=GREY, rot=-90)
+
+    _villa_penthouse(sh)
+
+    sh.dim_h(V3_X0, V3_X1, 0.95, ext_from=V3_Y0)
+    sh.dim_h(V3_X0, V3_GRID_X[1], -0.30)
+    sh.dim_h(V3_GRID_X[1], V3_X1, -0.30)
+    sh.dim_v(V3_Y0, V3_Y1, 10.70, ext_from=V3_X0)
+    sh.dim_v(V3_Y0, V4_Y0, 11.35)
+    sh.dim_v(V4_Y0, V3_Y1, 11.35)
+    sh.dim_v(V4_Y0, V4_KIT_Y1, 23.25)
+    sh.dim_v(V4_KIT_Y1, V4_LIV_Y1, 23.25)
+    sh.dim_v(V4_LIV_Y1, V3_Y1, 23.25)
+    sh.dim_v(V3_Y0 - V3_WAVE_W, V3_Y0, 12.10)
+    sh.dim_v(V3_Y0 - V3_WAVE_E, V3_Y0, 22.45)
+
+    sh.tag(24.00, 14.00, "OPEN ASPECT — WINDOWS TO EAST", size=2.0,
+           color=INK, rot=-90)
+    sh.tag(19.60, 17.45, "OPEN ASPECT — WINDOWS TO NORTH", size=2.0,
+           color=INK)
+    sh.tag(17.25, 0.25, f"CANTILEVER CARRIED TO THE TOP — "
+           f"{V3_WAVE_W:.2f} m WEST → {V3_WAVE_E:.2f} m EAST",
+           size=2.0, color=INK)
+
+    sh.level_tag(14.95, 8.85, "FFL " + V4_LEVEL)
+
+    F.heading(sh)
+    y = F.legend(sh, 52)
+    y = F.schedule(sh, y + 8, extra=[
+        ("Gross internal area, penthouse", f"{V4_PLATE:.1f} m²"),
+        ("Roof terrace", "63.1 m²"),
+        ("Top of penthouse slab", f"+{V4_TOP:.2f}"),
+        ("Floor below", "+9.90")])
+    F.notes(sh, y + 6, [
+        "Draft for comment. A two-bedroom apartment on the roof: two "
+        "bedrooms, a small kitchen, a bath and a living room opening onto "
+        "the terrace — 72.0 m² indoors against 63.1 m² of terrace.",
+        "The south wall sits on the column grid at y 8.46. The third floor "
+        "under it is an open living area, so a 300 mm wall anywhere else "
+        "would be a line load mid-span; on the grid it bears onto the beam "
+        "between the columns at x 12.65, 17.46 and 21.85. East, west and "
+        "north it sits on the external walls below.",
+        "That costs the living room its depth — 3.81 m rather than the 5 m "
+        "it would like. It is the right trade: the terrace is the living "
+        "space up here.",
+        "The terrace runs from that wall out over the cantilever, so the "
+        "wave is carried to the top and reads as one gesture over four "
+        "levels rather than three balconies under a flat roof. A 2.50 m "
+        "pergola shades the glazing, on posts over the column lines.",
+        "Tanks and condensers sit behind a 1.80 m screen at the blind west "
+        "edge. Bedroom 1 at 18.8 m² has room for an ensuite if wanted.",
+        "The site plan, section A—A and the A-300 enlargements are still "
+        "on the old 11.50 × 14.50 footprint.",
+    ])
+    F.compass_and_scale(sh, x=470.0, y=500.0)
+    F.titleblock(sh)
+    return sh
 
 
 def sheet_section():
@@ -2110,7 +2325,8 @@ def sheet_service():
 
 
 # ===========================================================================
-SHEETS = (sheet_site, sheet_ground, sheet_first, sheet_second, sheet_third,
+SHEETS = (sheet_site, sheet_ground, sheet_first, sheet_second,
+          sheet_third, sheet_penthouse,
           sheet_section, sheet_unit_typical, sheet_unit_third, sheet_service)
 
 
