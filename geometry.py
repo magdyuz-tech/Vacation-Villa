@@ -455,6 +455,16 @@ V2_DOOR_S2_ENS = (20.20, 21.10)  # bedroom into its own ensuite
 V2_DOOR_BATH = (10.90, 11.80)  # lobby into the shared bath
 V2_DOOR_BED4 = (13.40, 14.30)  # spur into bedroom 4, through the spine
 
+# The hall between bedrooms 3 and 4 is given to bedroom 3, which takes the
+# whole north-west quarter - 18.8 m2 against 13.9.  Nothing is lost: the
+# hall was a 1.04 m spur off the landing serving one door at each end, and
+# both doors can be moved to walls that already face circulation.  Bedroom 3
+# is now entered from the landing through its own south wall, and bedroom 4
+# from the lobby, which already serves suite 2 and the shared bath.  The
+# spine therefore carries one opening on this floor instead of two.
+V2_DOOR_BED3 = (15.70, 16.60)        # landing into bedroom 3, south wall
+V2_DOOR_BED4_LOBBY = (17.75, 18.55)  # lobby into bedroom 4, its south wall
+
 # Both suites open onto the south cantilever - the same wave the first and
 # third floors carry, so the three now stack and the elevation reads as one
 # gesture repeated rather than a balcony missing from the middle storey.

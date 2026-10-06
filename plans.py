@@ -760,6 +760,13 @@ def _villa_bedroom_floor(sh):
     the landing directly - so a small inner lobby off the landing serves
     suite 2 and the bath.
 
+    There is no hall between the two north bedrooms: bedroom 3 has it, and
+    takes the whole north-west quarter.  The spur it replaced served one
+    door at each end and both had somewhere better to go - bedroom 3 is
+    entered from the landing through its own south wall, bedroom 4 from the
+    lobby, which already serves suite 2 and the bath.  So the spine carries
+    one opening on this floor rather than two.
+
     The east strip is set out on the first floor's lines: shared bath 5.4 m2
     and lobby 4.8 m2, the sizes they are below, with suite 2's bedroom wall
     1.30 m further north to take up the slack.  Every wet-room divider and
@@ -776,8 +783,10 @@ def _villa_bedroom_floor(sh):
     sh.wall(V3_X1 - WT, V3_Y0, V3_X1, V3_Y1, openings=V2_WIN_E)
 
     # --- the spine, structural and full depth, as on every floor ---------
+    # one opening only: with the hall gone, bedroom 4 is reached from the
+    # lobby rather than through the spine
     sh.wall(V3_SPINE_X0, v3_y0, V3_SPINE_X1, v3_y1,
-            openings=[V2_DOOR_LOBBY, V2_DOOR_BED4])
+            openings=[V2_DOOR_LOBBY])
 
     # --- suite 1: bedroom south, ensuite and dressing behind it ----------
     sh.wall(v3_x0, V2_S1_BED_Y1, V3_SPINE_X0, V2_S1_BED_Y1 + PT,
@@ -797,12 +806,14 @@ def _villa_bedroom_floor(sh):
     sh.wall(V2_LOBBY_X1, V2_S2_BED_Y1 + PT, V2_LOBBY_X1 + PT, V3_STAIR[3],
             openings=[V2_DOOR_BATH])
     sh.wall(V2_LOBBY_X1 + PT, V2_ENS2_Y1, v3_x1, V2_ENS2_Y1 + PT)
-    sh.wall(V3_SPINE_X1, V3_STAIR[3], v3_x1, V3_BED3_Y0)
+    sh.wall(V3_SPINE_X1, V3_STAIR[3], v3_x1, V3_BED3_Y0,
+            openings=[V2_DOOR_BED4_LOBBY])
 
-    # --- bedroom 3, closing the north end of the stair hall --------------
-    sh.wall(v3_x0, V3_STAIR[3], V3_BED3_X1, V3_BED3_Y0)
-    sh.wall(V3_BED3_X1, V3_BED3_Y0, V3_BED3_X1 + PT, v3_y1,
-            openings=[V3_DOOR_BED3])
+    # --- bedroom 3, the whole north-west quarter -------------------------
+    # one wall closes the landing, and bedroom 3 is entered through it; the
+    # partition that made the hall a separate room has gone
+    sh.wall(v3_x0, V3_STAIR[3], V3_SPINE_X0, V3_BED3_Y0,
+            openings=[V2_DOOR_BED3])
 
     for cx in V3_GRID_X:
         for cy in V3_GRID_Y:
@@ -841,10 +852,10 @@ def _villa_bedroom_floor(sh):
             hinge="hi", swing="up")
     sh.door(*V2_DOOR_BATH, V2_LOBBY_X1, V2_LOBBY_X1 + PT, "v", hinge="lo",
             swing="right")
-    sh.door(*V2_DOOR_BED4, V3_SPINE_X0, V3_SPINE_X1, "v", hinge="lo",
-            swing="right")
-    sh.door(*V3_DOOR_BED3, V3_BED3_X1, V3_BED3_X1 + PT, "v", hinge="lo",
-            swing="left")
+    sh.door(*V2_DOOR_BED3, V3_STAIR[3], V3_BED3_Y0, "h", hinge="lo",
+            swing="up")
+    sh.door(*V2_DOOR_BED4_LOBBY, V3_STAIR[3], V3_BED3_Y0, "h", hinge="lo",
+            swing="up")
 
     # --- the stair, in the same well as the floor above -------------------
     fx.stair(sh, V3_STAIR, direction="both", floor_to_floor=FLOOR_TO_FLOOR,
@@ -885,9 +896,11 @@ def _villa_bedroom_floor(sh):
     fx.basin(sh, v3_x1, 11.90, w=0.55, d=0.42, facing="w")
     fx.shower(sh, 20.00, 11.25, 1.05, 1.05)
 
-    # --- bedroom 3 --------------------------------------------------------
-    fx.bed(sh, 13.20, 12.66, 1.60, 2.00, head="s")
-    fx.wardrobe(sh, 15.60, 14.60, 0.55, 1.80, axis="v")
+    # --- bedroom 3: a double now that it has the hall's width -------------
+    fx.bed(sh, 13.30, 12.66, 1.80, 2.10, head="s")
+    for bx in (12.85, 15.10):
+        sh.rect(bx, 12.66, 0.45, 0.45, sw=LW_FIXTURE, stroke=GREY)
+    fx.wardrobe(sh, V3_SPINE_X0 - 0.55, 13.10, 0.55, 2.00, axis="v")
 
     # --- bedroom 4 --------------------------------------------------------
     fx.bed(sh, 19.10, 12.66, 1.80, 2.10, head="s")
@@ -923,11 +936,8 @@ def _villa_bedroom_floor(sh):
     sh.room(V2_LOBBY_X1 + PT, V2_ENS2_Y1 + PT, v3_x1 - V2_LOBBY_X1 - PT,
             V3_STAIR[3] - V2_ENS2_Y1 - PT, "Shared Bath", area=5.4, size=1.8,
             sched_name="Shared bath", show_area=False, at=(20.05, 10.70))
-    sh.room(v3_x0, V3_BED3_Y0, V3_BED3_X1 - v3_x0, v3_y1 - V3_BED3_Y0,
-            "Bedroom 3", area=13.9, size=2.4, at=(15.20, 16.20))
-    sh.room(V3_HALL_X0, V3_BED3_Y0, V3_SPINE_X0 - V3_HALL_X0,
-            v3_y1 - V3_BED3_Y0, "Hall", area=4.3, size=1.8,
-            show_area=False, at=(16.79, 15.60))
+    sh.room(v3_x0, V3_BED3_Y0, V3_SPINE_X0 - v3_x0, v3_y1 - V3_BED3_Y0,
+            "Bedroom 3", area=18.8, size=2.4, at=(15.30, 16.20))
     sh.room(V3_SPINE_X1, V3_BED3_Y0, v3_x1 - V3_SPINE_X1, v3_y1 - V3_BED3_Y0,
             "Bedroom 4", area=17.0, size=2.4, at=(19.80, 16.30))
 
@@ -1002,24 +1012,25 @@ def sheet_second():
         ("Floor above / below", "+9.90 / +3.30")])
     F.notes(sh, y + 6, [
         "Draft for comment. A bedroom floor: two suites and two further "
-        "bedrooms, on the detached envelope.",
+        "bedrooms, on the detached envelope. The ground floor and the site "
+        "plan are still on the old 11.50 \u00d7 14.50 footprint.",
         "The east strip is the first floor's, line for line \u2014 shared bath "
-        "5.4 m\u00b2 and lobby 4.8 m\u00b2, with suite 2's bedroom wall 1.30 m "
-        "further north to take up the slack, 19.6 m\u00b2. Every wet room and "
-        "east window stacks, so each is one drainage stack to the ground.",
+        "5.4 m\u00b2, lobby 4.8 m\u00b2, suite 2's bedroom 19.6 m\u00b2 as its wall "
+        "moves 1.30 m north. Every wet room and east window stacks, one "
+        "drainage stack each, straight to the ground.",
         "Suite 1 takes the south-west, ensuite and dressing behind; suite 2 "
         "the south-east, its ensuite off the bedroom. The spine faces suite "
-        "1 along its whole southern length, so the lobby off the landing is "
-        "what reaches the south-east corner and the shared bath.",
-        "Bedrooms 3 and 4 take the north off the hall; bedroom 4 is the "
-        "larger at 17.0 m\u00b2, the corner room with two aspects.",
+        "1 all along its south, so the lobby reaches the south-east corner "
+        "and the bath.",
+        "The hall between the two north bedrooms is now bedroom 3's, which "
+        "takes the whole north-west quarter at 18.8 m\u00b2. It is entered "
+        "from the landing and bedroom 4 from the lobby, so the spine carries "
+        "one opening on this floor instead of two.",
         f"The cantilever is carried here too \u2014 the same curve, "
         f"{V3_WAVE_W:.2f} m west to {V3_WAVE_E:.2f} m east, "
         f"{wave_area():.1f} m\u00b2 \u2014 so it now runs all three upper floors "
         "and the slabs stack. Both suites open onto it; a screen between "
         "the two is worth considering.",
-        "The ground floor and the site plan are still on the old "
-        "11.50 \u00d7 14.50 footprint.",
     ])
     F.compass_and_scale(sh, x=470.0, y=500.0)
     F.titleblock(sh)
