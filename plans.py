@@ -928,6 +928,8 @@ def sheet_second():
     D.set_scale(50, *PLAN_ORIGIN)
     sh = Sheet("A-102", "Second Floor Plan — Detached Villa", "+6.60",
                "1:50 @ A1")
+    # the villa revision, but still under discussion - no final-draft status
+    sh.rev = "P5"
     F.border(sh)
 
     with sh.on("G-ANNO-BNDY"):
@@ -1159,6 +1161,7 @@ def sheet_first():
     D.set_scale(50, *PLAN_ORIGIN)
     sh = Sheet("A-101", "First Floor Plan — Detached Villa", "+3.30",
                "1:50 @ A1")
+    sh.rev, sh.status = "P5", F.STATUS_FINAL_DRAFT
     F.border(sh)
 
     with sh.on("G-ANNO-BNDY"):
@@ -1204,30 +1207,28 @@ def sheet_first():
         ("Bedrooms", "3 — the master, bedrooms 2 and 3"),
         ("Floor above / below", "+6.60 / +0.00")])
     F.notes(sh, y + 6, [
-        "Draft for comment. The living floor — a living area and three "
-        "sleeping rooms. The living area is 32.3 m² with the stair "
-        "standing in it and the pantry open along the spine, and it opens "
+        "Final draft — layout agreed. The living floor: a living area and "
+        "three sleeping rooms. The living area is 32.3 m² with the stair "
+        "standing in it and the pantry open along the spine, opening "
         "through a sliding door onto the cantilever.",
-        "The pantry is a counter run against the solid stretch of spine, "
-        "not the walled room the third floor has. The lobby has no wall to "
-        "the living area either: the spine is opened 3.69 m between the "
-        "columns at y 8.46 and 12.56, so over that length it is a "
-        "downstand beam rather than a wall — the frame stays, the infill "
-        "goes.",
+        "The pantry is a counter against the solid stretch of spine, not "
+        "the walled room the third floor has. The lobby has no wall to the "
+        "living area either: the spine is opened 3.69 m between the columns "
+        "at y 8.46 and 12.56, so over that length it is a downstand beam "
+        "rather than a wall.",
         "The west strip is otherwise the third floor's and the east strip "
-        "the second's, so the ensuite, lobby and shared bath sit over "
-        "their counterparts and the stair lines through.",
+        "the second's, so the wet rooms sit over their counterparts and the "
+        "stair lines through. Bedrooms 2 and 3 take the north off the hall; "
+        "east and north carry ordinary windows, the west louvred "
+        "ventilation only.",
         "The master bedroom's north wall is 1.30 m further north than the "
-        "suite below it, taking it to 19.6 m². The shared bath gives up "
-        "the same depth, at 5.4 m²; the ensuite keeps its 1.58 m and "
-        "shifts between them.",
-        "Bedrooms 2 and 3 take the north off the hall. East and north "
-        "carry ordinary windows, the west louvred ventilation only.",
-        "The south cantilever is the third floor's, repeated: the same "
+        "suite below it, taking it to 19.6 m²; the shared bath gives up the "
+        "same depth, at 5.4 m².",
+        "The south cantilever repeats the third floor's: the same "
         f"asymmetric curve, {V3_WAVE_W:.2f} m west sweeping to "
-        f"{V3_WAVE_E:.2f} m east, {wave_area():.1f} m², with a sliding "
-        "door from the living area and another from the master bedroom. "
-        "The second floor has none, so the two do not yet stack.",
+        f"{V3_WAVE_E:.2f} m east, {wave_area():.1f} m², with sliding doors "
+        "from the living area and the master bedroom. The second floor has "
+        "none, so the two do not yet stack.",
     ])
     F.compass_and_scale(sh, x=470.0, y=500.0)
     F.titleblock(sh)
@@ -1435,6 +1436,7 @@ def sheet_third():
     D.set_scale(50, *PLAN_ORIGIN)
     sh = Sheet("A-103", "Third Floor Plan — Detached Villa", "+9.90",
                "1:50 @ A1")
+    sh.rev, sh.status = "P5", F.STATUS_FINAL_DRAFT
     F.border(sh)
 
     # the three setback lines, so the 1.00 m gap is measurable on the sheet
@@ -1490,7 +1492,8 @@ def sheet_third():
         ("Balcony, external", f"{wave_area():.1f} m²"),
         ("Roof over, top of slab", f"+{ROOF_LEVEL:.2f}")])
     F.notes(sh, y + 6, [
-        "Draft for comment. The building is set back 1.00 m from the west, "
+        "Final draft — layout agreed. The building is set back 1.00 m from "
+        "the west, "
         "north and east boundaries to stand clear of all three neighbours; "
         "the south faces the street across our own forecourt. Detaching "
         "costs 22% of the floor — 114.8 m² against 147.3 — and removes the "

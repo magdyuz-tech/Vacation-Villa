@@ -296,6 +296,53 @@ def stair_stacks():
     return problems
 
 
+def issue_status():
+    """Each sheet's revision letter and status line must be defensible.
+
+    The revision used to be one module-level constant stamped on every
+    sheet, so marking one floor as agreed would have marked the whole set -
+    including the sheets still on the old apartment envelope.  It is now a
+    property of the sheet, which means it can also drift: a sheet can claim
+    a letter that was never issued, or carry "final draft" while sitting on
+    a superseded revision.  Neither is visible on the drawing without
+    reading the title block of all nine.
+
+    ACCEPTED records which floors the client has actually signed off.  It is
+    written down rather than inferred so that a later edit which quietly
+    drops the status - or promotes a floor nobody agreed to - fails here.
+    """
+    import frame as F
+    import plans
+
+    ACCEPTED = {"A-101", "A-103"}
+    letters = [r for r, _w, _t in F.REVISIONS]
+    current = letters[-1]
+
+    problems = []
+    for build in plans.SHEETS:
+        sh = build()
+        rev = getattr(sh, "rev", None) or F.REV
+        status = getattr(sh, "status", None) or F.STATUS
+        final = status == F.STATUS_FINAL_DRAFT
+        if rev not in letters:
+            problems.append(
+                f"{sh.number} is stamped {rev}, which is not in the "
+                f"revision record")
+        if final and rev != current:
+            problems.append(
+                f"{sh.number} is marked final draft at {rev}, but the set "
+                f"is at {current} - a signed-off sheet cannot be behind")
+        if final and sh.number not in ACCEPTED:
+            problems.append(
+                f"{sh.number} is marked final draft, but the client has "
+                f"only agreed {', '.join(sorted(ACCEPTED))}")
+        if sh.number in ACCEPTED and not final:
+            problems.append(
+                f"{sh.number} was agreed with the client but no longer "
+                f"carries the final-draft status")
+    return problems
+
+
 def main():
     import plans
 
@@ -313,7 +360,8 @@ def main():
         for line in problems:
             print(f"       {line}")
 
-    for name, fn in (("stair", stair_stacks), ("wave", wave_cantilever)):
+    for name, fn in (("stair", stair_stacks), ("wave", wave_cantilever),
+                     ("issue", issue_status)):
         problems = fn()
         total += len(problems)
         state = "OK" if not problems else f"{len(problems)} PROBLEMS"

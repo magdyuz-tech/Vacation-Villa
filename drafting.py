@@ -84,6 +84,12 @@ class Sheet:
         self.title = title
         self.level = level
         self.scale_note = scale_note
+        # A revision belongs to a sheet, not to the set: one floor can be
+        # signed off while the next is still being argued about.  Left None,
+        # the title block falls back to the set's current revision and its
+        # default status line.
+        self.rev = None
+        self.status = None
         self.body = []
         self.schedule = []          # (room name, area m2)
         self.clips = []             # (id, x, y, w, h) in sheet millimetres

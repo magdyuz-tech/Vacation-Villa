@@ -23,15 +23,19 @@ def titleblock_top():
     return TITLEBLOCK_Y - max(0, len(REVISIONS) - 3) * REV_PITCH
 PROJECT = "FOUR-STOREY VACATION HOME"
 CLIENT = "PRIVATE CLIENT"
-REV = "P4"
+REV = "P4"                # the set's current revision - a sheet may be behind
 # Revision record, newest last.  A revision letter is only useful if it
 # says what changed, so the title block prints this.
 REVISIONS = [
     ("P1", "2026-09-18", "first issue"),
     ("P2", "2026-09-24", "east windows, taller floors, garden on A-100"),
     ("P3", "2026-09-29", "four storeys, apartments, straight north boundary"),
-    ("P4", None, "north and east opened up, light court removed"),
+    ("P4", "2026-09-29", "north and east opened up, light court removed"),
+    ("P5", None, "detached villa: 1.00 m setbacks, wave cantilever"),
 ]
+STATUS = "Preliminary design issue — not for construction."
+STATUS_FINAL_DRAFT = ("Final draft — layout agreed with the client; "
+                      "not for construction.")
 # The issue date, stamped at build time. Set SHEET_DATE to pin it when a
 # reproducible build matters.
 DATE = os.environ.get("SHEET_DATE") or _dt.date.today().isoformat()
@@ -224,8 +228,9 @@ def titleblock(sh, y0=None):
                color=GREY, ls=0.4)
     sh.text_mm(PANEL_X + 3, y0 + 36, sh.title.upper(), size=5.6,
                anchor="start", weight=700, ls=0.4)
+    rev = getattr(sh, "rev", None) or REV
     cols = [(PANEL_X + 3, "DRAWING No", sh.number),
-            (PANEL_X + 66, "REVISION", REV),
+            (PANEL_X + 66, "REVISION", rev),
             (PANEL_X + 116, "SCALE", sh.scale_note),
             (PANEL_X + 186, "DATE", DATE)]
     for x, k, v in cols:
@@ -233,7 +238,7 @@ def titleblock(sh, y0=None):
                    ls=0.4)
         sh.text_mm(x, y0 + 57, v, size=3.4, anchor="start", weight=700)
     sh.text_mm(PANEL_X + 3, y0 + 69,
-               "Preliminary design issue — not for construction.",
+               getattr(sh, "status", None) or STATUS,
                size=2.1, anchor="start", color=GREY)
     sh.text_mm(PANEL_X + 3, y0 + 76,
                "Do not scale; work to figured dimensions only.",
@@ -241,9 +246,14 @@ def titleblock(sh, y0=None):
     sh.line_mm(PANEL_X, y0 + 82, PANEL_R, y0 + 82, w=0.3, color=GREY)
     sh.text_mm(PANEL_X + 3, y0 + 89, "REVISIONS", size=2.0, anchor="start",
                color=GREY, ls=0.4)
-    for i, (rev, when, what) in enumerate(REVISIONS):
+    # Only the revisions this sheet has actually been through: a sheet left
+    # at P4 has not seen P5, and listing it would claim an issue that never
+    # happened on this drawing.
+    letters = [r for r, _w, _t in REVISIONS]
+    upto = letters.index(rev) + 1 if rev in letters else len(REVISIONS)
+    for i, (r, when, what) in enumerate(REVISIONS[:upto]):
         sh.text_mm(PANEL_X + 44, y0 + 89 + i * REV_PITCH,
-                   f"{rev}   {when or DATE}   {what}", size=2.1,
+                   f"{r}   {when or DATE}   {what}", size=2.1,
                    anchor="start")
 
 
