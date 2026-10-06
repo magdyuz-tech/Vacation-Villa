@@ -427,10 +427,20 @@ V3_VENT_W = [(4.00, 4.80), (6.50, 7.30),           # living area
 # suite 2 and the shared bath between them.  It is the price of stacking the
 # stair, and it is cheaper than the alternatives.
 V2_S1_BED_Y1 = 6.90            # suite 1: bedroom / ensuite + dressing
-V2_S1_Y1 = 9.00                # suite 1 / landing, and suite 2 / lobby
+V2_S1_Y1 = 9.00                # suite 1 / landing
 V2_S1_ENS_X1 = 15.00           # suite 1: ensuite | dressing
-V2_S2_BED_Y1 = 7.30            # suite 2: bedroom / lobby + ensuite
 V2_LOBBY_X1 = 18.90            # lobby | suite 2's ensuite and the shared bath
+
+# The east strip now stacks on the first floor's, line for line: the shared
+# bath and the lobby are the sizes they are below (5.4 and 4.8 m2), which
+# means suite 2's bedroom wall moves 1.30 m north to pick up the slack.  The
+# two floors therefore share every wet-room divider and every east window,
+# so the drainage drops straight and the east elevation has one set of
+# openings rather than two.  These repeat V1_MBED_Y1 and V1_ENS_Y1 rather
+# than aliasing them - the constants are defined further down the file - and
+# checks.py fails the build if the two floors ever stop agreeing.
+V2_S2_BED_Y1 = 8.60            # suite 2: bedroom / lobby + ensuite
+V2_ENS2_Y1 = 10.30             # suite 2's ensuite / the shared bath
 
 # doors, named for the wall they sit in
 V2_DOOR_S1 = (15.60, 16.50)    # landing into suite 1's dressing
@@ -442,18 +452,27 @@ V2_DOOR_LOBBY = (9.40, 10.30)  # landing into the lobby, through the spine
 # second lobby in between
 V2_DOOR_S2 = (17.90, 18.70)    # lobby into suite 2's bedroom
 V2_DOOR_S2_ENS = (20.20, 21.10)  # bedroom into its own ensuite
-V2_DOOR_BATH = (10.20, 11.10)  # lobby into the shared bath
+V2_DOOR_BATH = (10.90, 11.80)  # lobby into the shared bath
 V2_DOOR_BED4 = (13.40, 14.30)  # spur into bedroom 4, through the spine
+
+# Both suites open onto the south cantilever - the same wave the first and
+# third floors carry, so the three now stack and the elevation reads as one
+# gesture repeated rather than a balcony missing from the middle storey.
+V2_DOOR_BALC_1 = (13.00, 15.30)   # suite 1's bedroom onto it, sliding
+V2_DOOR_BALC_2 = (17.80, 19.60)   # suite 2's bedroom onto it, sliding
+V2_BALC_LEVEL = "+6.57"           # 30 mm below FFL, as on the other floors
 
 # Openings.  The south and east ranges repeat the third floor's wherever a
 # room allows it, so the two storeys line up in elevation; where they cannot,
 # the elevations still have to be drawn and reconciled.
 V2_WIN_S = [(13.00, 15.30), (15.60, 17.20),    # suite 1 bedroom
             (17.80, 19.60), (20.00, 21.60)]    # suite 2 bedroom
-V2_WIN_E = [(4.20, 6.00), (6.40, 7.20),        # suite 2 bedroom
-            (7.60, 8.20),                      # suite 2 ensuite
-            (10.20, 11.60),                    # shared bath
-            (12.90, 14.70), (15.00, 16.40)]    # bedroom 4
+# the east range is the first floor's exactly, because the rooms behind it
+# are now the same rooms at the same depths
+V2_WIN_E = [(4.20, 6.00), (6.40, 7.20), (7.60, 8.20),   # suite 2 bedroom
+            (8.80, 9.60),                               # suite 2 ensuite
+            (10.60, 11.90),                             # shared bath
+            (12.90, 14.70), (15.00, 16.40)]             # bedroom 4
 V2_WIN_N = [(13.10, 14.50), (14.90, 16.00),    # bedroom 3
             (16.40, 17.20),                    # head of the spur
             (18.00, 19.40), (19.90, 21.40)]    # bedroom 4

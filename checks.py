@@ -296,6 +296,191 @@ def stair_stacks():
     return problems
 
 
+def fittings_clear(build, number):
+    """No two sanitary fittings may occupy the same floor.
+
+    A basin drawn over a shower tray reads as a basin in a wet room at a
+    glance - the tray's diagonals run under it and nothing about the sheet
+    says the two are in the same square metre.  That is exactly how the
+    master ensuite came to have its basin standing inside the shower on two
+    floors at once, through a layout copied from one to the other.
+
+    The boxes below repeat what fixtures.py draws.  They are written out
+    rather than measured off the SVG because the symbols are drawn as
+    several primitives and only the fitting itself knows its extent.
+    """
+    import fixtures as fx
+    import plans
+
+    rec = []
+    real = {n: getattr(fx, n) for n in ("shower", "wc", "basin", "bathtub")}
+
+    def shower(sh, x, y, w=0.95, d=0.95):
+        rec.append(("shower", x, y, x + w, y + d))
+        return real["shower"](sh, x, y, w, d)
+
+    def bathtub(sh, x, y, w=1.70, d=0.75):
+        rec.append(("bath", x, y, x + w, y + d))
+        return real["bathtub"](sh, x, y, w, d)
+
+    def wc(sh, x, y, facing="n"):
+        w, d = 0.38, 0.56
+        if facing in ("n", "s"):
+            s = 1 if facing == "n" else -1
+            lo, hi = sorted((y, y + s * (0.16 + d)))
+            rec.append(("WC", x - w / 2, lo, x + w / 2, hi))
+        else:
+            s = 1 if facing == "e" else -1
+            lo, hi = sorted((x, x + s * (0.16 + d)))
+            rec.append(("WC", lo, y - w / 2, hi, y + w / 2))
+        return real["wc"](sh, x, y, facing)
+
+    def basin(sh, x, y, w=0.60, d=0.48, facing="n"):
+        if facing in ("n", "s"):
+            y0 = y if facing == "n" else y - d
+            rec.append(("basin", x - w / 2, y0, x + w / 2, y0 + d))
+        else:
+            x0 = x if facing == "e" else x - d
+            rec.append(("basin", x0, y - w / 2, x0 + d, y + w / 2))
+        return real["basin"](sh, x, y, w, d, facing)
+
+    patched = {"shower": shower, "wc": wc, "basin": basin, "bathtub": bathtub}
+    for name, fn in patched.items():
+        setattr(fx, name, fn)
+        setattr(plans.fx, name, fn)
+    try:
+        build()
+    finally:
+        for name, fn in real.items():
+            setattr(fx, name, fn)
+            setattr(plans.fx, name, fn)
+
+    problems = []
+    for i, (k1, a0, b0, a1, b1) in enumerate(rec):
+        for k2, c0, d0, c1, d1 in rec[i + 1:]:
+            ox = min(a1, c1) - max(a0, c0)
+            oy = min(b1, d1) - max(b0, d0)
+            if ox > 0.01 and oy > 0.01:
+                problems.append(
+                    f"{number}: the {k1} at ({a0:.2f}, {b0:.2f}) and the "
+                    f"{k2} at ({c0:.2f}, {d0:.2f}) overlap by "
+                    f"{ox:.2f} × {oy:.2f} m - one is drawn inside the other")
+    return problems
+
+
+def _east_strip(build):
+    """(divider lines, east-wall openings) for one villa floor.
+
+    The east strip is everything beyond the spine: suite 2 / master bedroom,
+    an ensuite, the shared bath and the lobby beside them.  Its dividers are
+    the horizontal walls east of the spine, and its windows are the openings
+    in the east wall.
+    """
+    import geometry as g
+
+    walls, leaves, cols, vents, dims, restore = _record()
+    try:
+        build()
+    finally:
+        restore()
+
+    dividers, windows = set(), set()
+    for x0, y0, x1, y1, openings, _fill in walls:
+        ax, (s, _e), lo, hi = _wall_span(x0, y0, x1, y1)
+        if ax == "h" and s >= g.V3_SPINE_X1 - TOL and x1 <= g.V3_X1 + TOL:
+            dividers.add(round(lo, 2))
+        if ax == "v" and _near(lo, g.V3_X1 - g.WT) and _near(hi, g.V3_X1):
+            windows |= {(round(p, 2), round(q, 2)) for p, q in openings}
+    return dividers, windows
+
+
+def east_strip_stacks():
+    """A-101 and A-102 divide their east strip on exactly the same lines.
+
+    The client asked for the second floor's shared bath and lobby to be the
+    sizes they are on the first.  Making them so put every wet room on this
+    floor directly over its twin below, which is what lets each one drop a
+    single drainage stack to the ground instead of chasing pipe sideways
+    through a ceiling - and it means the east elevation has one set of
+    openings rather than two sets 200 mm apart.
+
+    Both floors are drawn by their own function from their own constants, so
+    nothing but this check stops one of them moving a wall and quietly
+    breaking both.  The third floor divides the strip differently on purpose
+    and is not compared.
+    """
+    import plans
+
+    d1, w1 = _east_strip(plans.sheet_first)
+    d2, w2 = _east_strip(plans.sheet_second)
+
+    problems = []
+    for name, a, b in (("divider", d1, d2), ("east window", w1, w2)):
+        for extra in sorted(a - b):
+            problems.append(
+                f"A-101 has an east-strip {name} at {extra} that A-102 does "
+                f"not - the two floors no longer stack")
+        for extra in sorted(b - a):
+            problems.append(
+                f"A-102 has an east-strip {name} at {extra} that A-101 does "
+                f"not - the two floors no longer stack")
+    return problems
+
+
+def balconies_stack():
+    """Every upper floor carries the cantilever, and can be walked onto.
+
+    The second floor had no balcony at all while the first and third did, so
+    the slabs did not stack and the south elevation had a gap in the middle.
+    Checking the curve's shape would prove nothing - all three floors sample
+    the same function - but whether a floor draws one at all, and whether
+    there is a way out onto it, is drawn per sheet and worth testing.
+    """
+    import fixtures as fx
+    import geometry as g
+    import plans
+
+    problems = []
+    for build, number in ((plans.sheet_first, "A-101"),
+                          (plans.sheet_second, "A-102"),
+                          (plans.sheet_third, "A-103")):
+        drawn, sliders = [], []
+        real_b, real_s = fx.wave_balcony, fx.slider
+
+        def _balc(sh, pts, *a, **kw):
+            drawn.append(len(pts))
+            return real_b(sh, pts, *a, **kw)
+
+        def _slide(sh, a, b, lo, hi, axis):
+            sliders.append((a, b, lo, hi, axis))
+            return real_s(sh, a, b, lo, hi, axis)
+
+        fx.wave_balcony = plans.fx.wave_balcony = _balc
+        fx.slider = plans.fx.slider = _slide
+        try:
+            build()
+        finally:
+            fx.wave_balcony = plans.fx.wave_balcony = real_b
+            fx.slider = plans.fx.slider = real_s
+
+        if len(drawn) != 1:
+            problems.append(f"{number} draws {len(drawn)} wave balconies, "
+                            f"expected 1 - the cantilevers do not stack")
+            continue
+        onto = [s for s in sliders
+                if s[4] == "h" and _near(s[2], g.V3_Y0)
+                and _near(s[3], g.V3_Y0 + g.WT)]
+        if not onto:
+            problems.append(f"{number} carries a balcony with no sliding "
+                            f"door onto it")
+        for a, b, _lo, _hi, _ax in onto:
+            if a < g.V3_X0 - TOL or b > g.V3_X1 + TOL:
+                problems.append(
+                    f"{number}'s balcony door {a:.2f}-{b:.2f} runs past the "
+                    f"cantilever's span")
+    return problems
+
+
 def issue_status():
     """Each sheet's revision letter and status line must be defensible.
 
@@ -354,6 +539,7 @@ def main():
     total = 0
     for build, number, leaves_expected, west in sheets:
         problems = check(build, leaves_expected, west_vent_only=west)
+        problems += fittings_clear(build, number)
         total += len(problems)
         state = "OK" if not problems else f"{len(problems)} PROBLEMS"
         print(f"{number:6s} {state}")
@@ -361,6 +547,7 @@ def main():
             print(f"       {line}")
 
     for name, fn in (("stair", stair_stacks), ("wave", wave_cantilever),
+                     ("balc", balconies_stack), ("east", east_strip_stacks),
                      ("issue", issue_status)):
         problems = fn()
         total += len(problems)
