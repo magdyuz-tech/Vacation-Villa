@@ -12,15 +12,21 @@ PANEL_X = 580.0
 PANEL_R = 831.0
 TITLEBLOCK_Y = 468.0      # top edge of the title block with three revisions
 REV_PITCH = 7.0           # spacing of the revision rows, in sheet mm
+REV_ROWS = 4              # revisions printed; older ones drop off the top
 
 
 def titleblock_top():
     """Top edge of the title block, in sheet mm.
 
-    The block grows upward as revision rows are added, so a new issue can
-    never push the last row out through the bottom of the frame.
+    The block grows upward as revision rows are added so a new issue can
+    never push the last row out through the bottom of the frame - but only
+    up to REV_ROWS.  Letting it grow for ever meant every revision took
+    another 7 mm from the general notes, and by P6 the notes on three
+    sheets had been cut to make room for history nobody reads on a
+    preliminary drawing.  The title block now shows the most recent
+    revisions and the full record lives in the revision schedule.
     """
-    return TITLEBLOCK_Y - max(0, len(REVISIONS) - 3) * REV_PITCH
+    return TITLEBLOCK_Y - max(0, min(len(REVISIONS), REV_ROWS) - 3) * REV_PITCH
 PROJECT = "FOUR-STOREY VACATION HOME"
 CLIENT = "PRIVATE CLIENT"
 REV = "P4"                # the set's current revision - a sheet may be behind
@@ -32,7 +38,8 @@ REVISIONS = [
     ("P3", "2026-09-29", "four storeys, apartments, straight north boundary"),
     ("P4", "2026-09-29", "north and east opened up, light court removed"),
     ("P5", "2026-10-06", "detached villa: 1.00 m setbacks, wave cantilever"),
-    ("P6", None, "lobby opened, north hall merged into the bedroom"),
+    ("P6", "2026-10-06", "lobby opened, north hall merged into the bedroom"),
+    ("P7", None, "second floor agreed; ground floor redrawn as the villa"),
 ]
 STATUS = "Preliminary design issue — not for construction."
 STATUS_FINAL_DRAFT = ("Final draft — layout agreed with the client; "
@@ -252,7 +259,7 @@ def titleblock(sh, y0=None):
     # happened on this drawing.
     letters = [r for r, _w, _t in REVISIONS]
     upto = letters.index(rev) + 1 if rev in letters else len(REVISIONS)
-    for i, (r, when, what) in enumerate(REVISIONS[:upto]):
+    for i, (r, when, what) in enumerate(REVISIONS[:upto][-REV_ROWS:]):
         sh.text_mm(PANEL_X + 44, y0 + 89 + i * REV_PITCH,
                    f"{r}   {when or DATE}   {what}", size=2.1,
                    anchor="start")

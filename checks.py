@@ -264,7 +264,8 @@ def stair_stacks():
     import plans
 
     seen = {}
-    for build, number in ((plans.sheet_first, "A-101"),
+    for build, number in ((plans.sheet_ground, "A-100"),
+                          (plans.sheet_first, "A-101"),
                           (plans.sheet_second, "A-102"),
                           (plans.sheet_third, "A-103")):
         walls, leaves, cols, vents, dims, restore = _record()
@@ -368,16 +369,6 @@ def fittings_clear(build, number):
     return problems
 
 
-# Joinery standing across glazing on the superseded ground floor.  Recorded
-# rather than fixed: A-100 is still the old apartment scheme and is waiting
-# to be redrawn to the detached envelope, furniture and all.
-_KNOWN_A100 = [
-    "wardrobe at (22.12, 11.30) across the window at 11.40-12.40",
-    "counter at (22.05, 13.30) across the opening at 15.00-16.80",
-    "counter at (18.15, 13.30) across the opening at 15.40-16.40",
-]
-
-
 def joinery_backs_onto_solid(build, number):
     """A cupboard pushed against a wall must not stand in an opening in it.
 
@@ -388,13 +379,14 @@ def joinery_backs_onto_solid(build, number):
     second when the same opening was made to replace the lobby door.  Both
     read as perfectly ordinary joinery on the sheet.
 
-    It runs on the villa floors only.  A-100 is the superseded apartment
-    ground floor, still drawn to the old envelope, and it carries three
-    faults of exactly this kind - a wardrobe and two counters standing
-    across glazing.  They are real, but that whole sheet is waiting to be
-    redrawn, and failing every build until then would stop the work rather
-    than help it.  They are listed in `_KNOWN_A100` so they cannot be
-    forgotten.
+    Height matters, so the two kinds of joinery are judged differently.  A
+    wardrobe is full height and may not cross any opening at all.  A counter
+    is 900 mm high and passes happily under a window sill - a sink under a
+    window is the right place for it - but it must not cross a door or a
+    cased opening, which go to the floor.
+
+    It runs on every sheet that carries rooms.  The site plan is a massing
+    diagram with no joinery in it and is skipped.
     """
     import fixtures as fx
     import plans
@@ -439,12 +431,20 @@ def joinery_backs_onto_solid(build, number):
             if not against or a < s - TOL or b > e + TOL:
                 continue
             for p, q in openings:
-                if min(b, q) - max(a, p) > TOL:
-                    problems.append(
-                        f"{number}: the {kind} at ({x0:.2f}, {y0:.2f}) backs "
-                        f"onto the {ax} wall at {lo:.2f}-{hi:.2f}, but that "
-                        f"wall is open from {p:.2f} to {q:.2f} - the "
-                        f"cupboard stands in the gap")
+                if min(b, q) - max(a, p) <= TOL:
+                    continue
+                glazed = any(k == "window" and _near(la, p) and _near(lb, q)
+                             and _near(llo, lo) and _near(lhi, hi)
+                             and lax == ax
+                             for k, la, lb, llo, lhi, lax in leaves)
+                if kind == "counter" and glazed:
+                    continue            # 900 mm high, it passes under a sill
+                what = "window" if glazed else "doorway"
+                problems.append(
+                    f"{number}: the {kind} at ({x0:.2f}, {y0:.2f}) backs "
+                    f"onto the {ax} wall at {lo:.2f}-{hi:.2f}, but there is "
+                    f"a {what} from {p:.2f} to {q:.2f} - it stands in the "
+                    f"opening")
     return problems
 
 
@@ -579,9 +579,10 @@ def issue_status():
     import frame as F
     import plans
 
-    ACCEPTED = {"A-101", "A-103"}
+    ACCEPTED = {"A-101", "A-102", "A-103"}
     letters = [r for r, _w, _t in F.REVISIONS]
     current = letters[-1]
+    in_use = set()
 
     problems = []
     for build in plans.SHEETS:
@@ -593,10 +594,9 @@ def issue_status():
             problems.append(
                 f"{sh.number} is stamped {rev}, which is not in the "
                 f"revision record")
-        if final and rev != current:
+        if letters.index(rev) > letters.index(current):
             problems.append(
-                f"{sh.number} is marked final draft at {rev}, but the set "
-                f"is at {current} - a signed-off sheet cannot be behind")
+                f"{sh.number} claims {rev}, later than the set's {current}")
         if final and sh.number not in ACCEPTED:
             problems.append(
                 f"{sh.number} is marked final draft, but the client has "
@@ -605,6 +605,15 @@ def issue_status():
             problems.append(
                 f"{sh.number} was agreed with the client but no longer "
                 f"carries the final-draft status")
+        in_use.add(rev)
+    # a sheet that has not changed legitimately stays at an older letter, so
+    # "final draft" no longer has to mean "current".  What must hold is that
+    # the newest letter in the record is actually on a sheet - otherwise a
+    # revision has been written down that nobody issued.
+    if current not in in_use:
+        problems.append(
+            f"the record's newest revision {current} is not carried by any "
+            f"sheet - it was added but never issued")
     return problems
 
 
@@ -612,7 +621,7 @@ def main():
     import plans
 
     sheets = [(plans.sheet_site, "A-000", False, False),
-              (plans.sheet_ground, "A-100", True, False),
+              (plans.sheet_ground, "A-100", True, True),
               (plans.sheet_first, "A-101", True, True),
               (plans.sheet_second, "A-102", True, True),
               (plans.sheet_third, "A-103", True, True)]
@@ -620,7 +629,7 @@ def main():
     for build, number, leaves_expected, west in sheets:
         problems = check(build, leaves_expected, west_vent_only=west)
         problems += fittings_clear(build, number)
-        if number not in ("A-000", "A-100"):
+        if number != "A-000":
             problems += joinery_backs_onto_solid(build, number)
         total += len(problems)
         state = "OK" if not problems else f"{len(problems)} PROBLEMS"

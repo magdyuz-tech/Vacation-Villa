@@ -559,5 +559,62 @@ V1_VENT_W = [(4.00, 4.80), (6.50, 7.30),       # living area
              (13.60, 14.40), (15.20, 16.00)]   # bedroom 2
 
 
+# ---------------------------------------------------------------------------
+# detached villa, ground floor (revision P7) - arrival, hosting, guest suite
+# ---------------------------------------------------------------------------
+# The floor you receive people on.  The family living is upstairs, where the
+# balconies are, so this one is given to arrival, eating and a guest suite
+# for anyone who cannot manage the stair.
+#
+# The west strip repeats the first and third floors exactly: one open room
+# from the south wall to the stair hall line, with the stair standing in it.
+# Upstairs that room is the living area; here it is the reception hall, and
+# the front door is in its south wall, under the cantilever - the balcony
+# projects about 1.75 m at that point, so the entrance is covered without a
+# porch being added to the elevation.
+#
+# The east strip takes dining and kitchen in the two south bands, adjacent
+# to each other as they have to be, and the guest suite in the quiet
+# north-east corner on the north and east windows.
+V0_HALL_Y1 = V3_STAIR[3]       # reception hall / the north service band
+V0_WC_X1 = 14.60               # guest WC and laundry | lobby
+V0_WC_Y1 = 14.50               # guest WC | laundry and store
+V0_LOBBY_X1 = 16.20            # lobby | store
+V0_STORE_X0 = 16.32            # west face of the store
+V0_DIN_Y1 = 8.00               # dining / kitchen
+V0_KIT_Y1 = 11.60              # kitchen / guest ensuite
+V0_ENS_Y1 = 13.30              # guest ensuite / guest bedroom
+
+V0_DOOR_ENTRY = (14.60, 15.70)    # the front door, in the south wall
+V0_DOOR_LOBBY = (15.00, 15.90)    # reception hall into the north lobby
+V0_DOOR_WC = (13.00, 13.80)       # lobby into the guest WC
+V0_DOOR_LAUN = (15.00, 15.80)     # lobby into the laundry and store
+V0_DOOR_STORE = (14.00, 14.80)    # lobby into the store
+V0_DOOR_GUEST = (13.60, 14.50)    # lobby into the guest bedroom, through
+                                  # the spine
+V0_DOOR_ENS = (18.60, 19.50)      # guest bedroom into its own ensuite
+V0_DOOR_KIT = (9.40, 10.30)       # reception hall into the kitchen
+V0_OPEN_DIN = (4.60, 7.20)        # reception hall into the dining, cased
+V0_OPEN_KIT = (18.60, 20.20)      # kitchen into the dining, cased
+
+# The forecourt is 500 mm below the finished floor, so the front door is
+# reached up three risers from it - see GARDEN_LEVEL and ENTRY_RISERS.
+V0_LEVEL = "+0.00"
+
+V0_WIN_S = [(12.95, 14.20), V0_DOOR_ENTRY, (15.95, 17.20),  # reception hall
+            (17.80, 19.60), (20.00, 21.60)]                 # dining
+V0_WIN_E = [(4.20, 6.00), (6.40, 7.60),        # dining
+            (8.80, 10.00), (10.40, 11.40),     # kitchen
+            (11.85, 12.35),                    # guest ensuite
+            (13.60, 15.00), (15.30, 16.50)]    # guest bedroom
+V0_WIN_N = [(13.10, 14.30),                    # laundry and store
+            (14.90, 16.00),                    # lobby
+            (16.40, 17.20),                    # store
+            (18.00, 19.40), (19.90, 21.40)]    # guest bedroom
+V0_VENT_W = [(4.50, 5.30), (6.50, 7.30),       # reception hall
+             (13.00, 13.80),                   # guest WC
+             (15.00, 15.80)]                   # laundry and store
+
+
 def area(x0, y0, x1, y1):
     return (x1 - x0) * (y1 - y0)
