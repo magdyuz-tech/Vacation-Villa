@@ -55,7 +55,7 @@ if __name__ == "__main__":
 # A-410 to A-421 are exterior schemes B and C, which the client did not
 # choose.  All of them stay in the repository and still build; they are
 # simply not part of the issue.
-SET_ORDER = ["ARC-000",
+SET_ORDER = ["ARC-001", "ARC-002", "ARC-000",
              "A-000", "A-100", "A-101", "A-102", "A-103", "A-104",
              "ARC-106",
              "A-200", "ARC-301", "A-400", "A-401", "A-402", "A-430",

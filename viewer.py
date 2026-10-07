@@ -12,6 +12,10 @@ import re
 import sys
 
 SHEETS = [
+    ("ARC-001", "Cover Sheet & Drawing Index", "the whole set", "NTS",
+     "Project data and every sheet the project can draw."),
+    ("ARC-002", "General Notes, Symbols & Compliance", "the whole set",
+     "NTS", "Drafting conventions and the compliance matrix, open."),
     ("A-000", "Site Plan", "+0.00", "1:75",
      "The plot, the garden corridor and the building footprint."),
     ("A-100", "Ground Floor Plan — Detached Villa", "+0.00", "1:50",

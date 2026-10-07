@@ -209,9 +209,13 @@ def _package_b():
             note="This register. Status on it is derived at build time "
                  "from the sheet builders and the files on disk."),
         Row("ARC-001", "Cover sheet, project data and drawing index", "B",
-            "D", depends=("ARC-000",), source=("EL_LEVELS",)),
+            "D", sheet="ARC-001", depends=("ARC-000",),
+            source=("EL_LEVELS", "PLOT"),
+            note="The index is built from the sheet builders, not typed "
+                 "beside them; only the cover's own row is written down, "
+                 "and a check proves it matches the sheet."),
         Row("ARC-002", "General notes, symbols and code compliance matrix",
-            "B", "L",
+            "B", "L", sheet="ARC-002",
             note="Notes and symbols are ours. The matrix is set against "
                  "ECP 201 and ECP 203, the Egyptian codes the site is "
                  "governed by, and signed off by the architect of record."),

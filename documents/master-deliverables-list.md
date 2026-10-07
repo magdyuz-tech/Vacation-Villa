@@ -41,11 +41,11 @@ Structural slabs: +0.00, +3.30, +6.60, +9.90, +13.20, +16.45 — six slabs to fi
 | --- | --- | --- | --- | --- | --- |
 | 0 — Information required from others | 3 | 1 | 0 | 1 | 1 |
 | A — Presentation and estimation | 8 | 1 | 0 | 1 | 6 |
-| B — Architecture | 21 | 18 | 0 | 0 | 3 |
+| B — Architecture | 21 | 20 | 0 | 0 | 1 |
 | C — Structure | 12 | 0 | 0 | 10 | 2 |
 | D — Building services | 33 | 0 | 0 | 3 | 30 |
 | E — Quantities and cost control | 4 | 0 | 0 | 3 | 1 |
-| **Total** | **81** | **20** | **0** | **18** | **43** |
+| **Total** | **81** | **22** | **0** | **18** | **41** |
 
 ## Package 0 — Information required from others
 
@@ -86,8 +86,8 @@ Structural slabs: +0.00, +3.30, +6.60, +9.90, +13.20, +16.45 — six slabs to fi
 | Code | Deliverable | Discipline | Scale | Format | Class | Status | Waits on | Resolves to |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | ARC-000 | Master deliverables list and document register | Architecture | - | A1 sheet + Markdown | D | issued | — | ARC-000 |
-| ARC-001 | Cover sheet, project data and drawing index | Architecture | - | A1 sheet | D | not started | ARC-000 | — |
-| ARC-002 | General notes, symbols and code compliance matrix | Architecture | - | A1 sheet | L | not started | — | — |
+| ARC-001 | Cover sheet, project data and drawing index | Architecture | - | A1 sheet | D | issued | ARC-000 | ARC-001 |
+| ARC-002 | General notes, symbols and code compliance matrix | Architecture | - | A1 sheet | L | issued | — | ARC-002 |
 | ARC-100 | Context and master site plan | Architecture | 1:75 | A1 sheet | D | issued | SUR-001 | A-000 |
 | ARC-101 | Ground floor plan, +0.00 | Architecture | 1:50 | A1 sheet | D | issued | — | A-100 |
 | ARC-102 | First floor plan, +3.30 | Architecture | 1:50 | A1 sheet | D | issued | — | A-101 |
@@ -108,6 +108,7 @@ Structural slabs: +0.00, +3.30, +6.60, +9.90, +13.20, +16.45 — six slabs to fi
 | ARC-700 | External works and landscape | Architecture | 1:75 | A1 sheet | D | issued | ARC-100 | ARC-700 |
 
 - **ARC-000** — This register. Status on it is derived at build time from the sheet builders and the files on disk.
+- **ARC-001** — The index is built from the sheet builders, not typed beside them; only the cover's own row is written down, and a check proves it matches the sheet.
 - **ARC-002** — Notes and symbols are ours. The matrix is set against ECP 201 and ECP 203, the Egyptian codes the site is governed by, and signed off by the architect of record.
 - **ARC-100** — Issued with the boundary marked indicative.
 - **ARC-106** — Outlines, parapets, plant deck and levels are exact; the falls and outlet positions are architectural intent and PL-200 sets the real ones.

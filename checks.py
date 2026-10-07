@@ -809,6 +809,47 @@ def schedule_matches_the_openings():
     return problems
 
 
+def index_is_honest():
+    """ARC-001 lists itself once, and lists what it is.
+
+    Every other row of the index is built, so it cannot be wrong.  The
+    cover's own row cannot be built - a sheet cannot build itself to find
+    out its own name - so it is held in `plans.IX_SELF`, and the sheet
+    takes its number, title, level, scale and revision from that same
+    constant.  The first rule below therefore cannot fail by drift: the
+    two sides are one value.  It is kept as a cheap guard against someone
+    putting literals back into the Sheet() call, and is honest about
+    proving nothing more than that.
+
+    The rule that does bite is the second.  `sheet_index` skips the cover
+    by identity, and anything that rebinds that name - a patch, a
+    decorator, a second entry in SHEETS - stops it matching, and ARC-001
+    is then listed twice or, worse, recurses.  The duplicate fails here;
+    the recursion fails in sheet_index's own guard.  Both were injected
+    and both fired.
+    """
+    import plans
+
+    sh = plans.sheet_cover()
+    built = (sh.number, sh.title, sh.level, sh.scale_note,
+             getattr(sh, "rev", None) or F_REV())
+    problems = []
+    if tuple(plans.IX_SELF) != built:
+        problems.append(
+            f"ARC-001 lists itself as {tuple(plans.IX_SELF)} and builds "
+            f"as {built}")
+    numbers = [n for n, *_r in plans.sheet_index(skip=plans.sheet_cover)]
+    if plans.IX_SELF[0] in numbers:
+        problems.append(
+            f"{plans.IX_SELF[0]} appears twice in the drawing index")
+    return problems
+
+
+def F_REV():
+    import frame
+    return frame.REV
+
+
 def deliverables_register():
     """The Master Deliverables List must describe the building that exists.
 
@@ -973,6 +1014,7 @@ def main():
                      ("envel", elevation_envelope),
                      ("issue", issue_status),
                      ("sched", schedule_matches_the_openings),
+                     ("index", index_is_honest),
                      ("mdl", deliverables_register)):
         problems = fn()
         total += len(problems)

@@ -2944,6 +2944,272 @@ def sheet_elev_b_sides():
 
 
 # ===========================================================================
+# ARC-001 / ARC-002  COVER, INDEX, GENERAL NOTES
+# ===========================================================================
+IX_COL_X = (18.0, 300.0)
+IX_TOP, IX_PITCH, IX_PER_COL = 62.0, 11.0, 44
+IX_NUM, IX_TITLE, IX_LEVEL, IX_SCALE, IX_REV = 0.0, 36.0, 140.0, 214.0, 252.0
+
+
+# The cover's own row, which is the one row of the index that cannot be
+# built - a sheet cannot build itself to find out its own name.  Held here
+# rather than written inline so checks.py can compare it against the sheet
+# it claims to describe.
+IX_SELF = ("ARC-001", "Cover Sheet & Drawing Index", "the whole set",
+           "NTS", "P19")
+
+_INDEXING = False
+
+
+def sheet_index(skip=None):
+    """Every sheet in the set: number, title, level, scale, revision.
+
+    Built rather than listed.  An index typed out beside the drawings is
+    wrong within a revision or two, and it is the one document a reader
+    uses to decide a drawing does not exist.  `skip` is the builder
+    asking, because a sheet cannot build itself to find out its own name.
+
+    The guard matters: `skip` is matched by identity, so anything that
+    rebinds a builder's name - a test, a patch - stops it matching and
+    the index starts building the sheet that is building the index.  That
+    used to be an infinite recursion with a thousand-line traceback.  It
+    is now one sentence.
+    """
+    global _INDEXING
+    if _INDEXING:
+        raise RuntimeError(
+            "sheet_index re-entered: a sheet is building the index while "
+            "the index is building it. Pass skip=<that builder>, and "
+            "check nothing has rebound its name.")
+    _INDEXING = True
+    try:
+        rows = []
+        for build in SHEETS:
+            if build is skip:
+                continue
+            sh = build()
+            rows.append((sh.number, sh.title, sh.level, sh.scale_note,
+                         getattr(sh, "rev", None) or F.REV))
+        return rows
+    finally:
+        _INDEXING = False
+
+
+def _index_row(sh, x, y, row, issued):
+    number, title, level, scale, rev = row
+    ink = INK if number in issued else LIGHT
+    sh.text_mm(x + IX_NUM, y, number, size=2.3, anchor="start", weight=700,
+               color=ink)
+    sh.text_mm(x + IX_TITLE, y, title, size=2.2, anchor="start", color=ink)
+    sh.text_mm(x + IX_LEVEL, y, level, size=2.0, anchor="start", color=GREY)
+    sh.text_mm(x + IX_SCALE, y, scale.replace(" @ A1", ""), size=2.0,
+               anchor="start", color=GREY)
+    sh.text_mm(x + IX_REV, y, rev, size=2.2, anchor="end", weight=700,
+               color=ink)
+    sh.line_mm(x, y + 1.8, x + IX_REV, y + 1.8, w=0.12, color="#e2e2e2")
+
+
+def sheet_cover():
+    """ARC-001: the cover sheet, project data and the drawing index."""
+    import export_share
+
+    # the cover cannot build itself to find its own name, so it is the one
+    # row written down - and ARC-001 missing from its own index would be
+    # the first thing a reader noticed
+    rows = [IX_SELF] + sheet_index(skip=sheet_cover)
+    issued = set(export_share.SET_ORDER)
+    order = {n: i for i, n in enumerate(export_share.SET_ORDER)}
+    rows.sort(key=lambda r: (order.get(r[0], 10_000), r[0]))
+
+    sh = Sheet(IX_SELF[0], IX_SELF[1], IX_SELF[2], IX_SELF[3])
+    sh.rev = IX_SELF[4]
+    F.border(sh)
+
+    sh.text_mm(IX_COL_X[0], 26, F.PROJECT, size=6.6, anchor="start",
+               weight=700, ls=0.6)
+    sh.text_mm(IX_COL_X[0], 35, f"{F.LOCATION}   ·   {F.CLIENT}", size=2.6,
+               anchor="start", color=GREY, ls=0.35)
+    sh.line_mm(IX_COL_X[0], 40, IX_COL_X[1] + IX_REV, 40, w=0.5, color=INK)
+
+    for col in (0, 1):
+        part = rows[col * IX_PER_COL:(col + 1) * IX_PER_COL]
+        if not part:
+            continue
+        x = IX_COL_X[col]
+        for off, txt, anc in ((IX_NUM, "SHEET", "start"),
+                              (IX_TITLE, "TITLE", "start"),
+                              (IX_LEVEL, "LEVEL", "start"),
+                              (IX_SCALE, "SCALE", "start"),
+                              (IX_REV, "REV", "end")):
+            sh.text_mm(x + off, 50, txt, size=2.0, anchor=anc, color=GREY,
+                       ls=0.4)
+        sh.line_mm(x, 52.0, x + IX_REV, 52.0, w=0.25, color=GREY)
+        for i, row in enumerate(part):
+            _index_row(sh, x, IX_TOP + i * IX_PITCH, row, issued)
+    if len(rows) > 2 * IX_PER_COL:
+        raise ValueError(
+            f"ARC-001: {len(rows)} sheets and the index holds "
+            f"{2 * IX_PER_COL}")
+    sh.text_mm(IX_COL_X[0], 566,
+               "SHEETS IN GREY ARE BUILT BUT NOT PART OF THE ISSUE",
+               size=2.0, anchor="start", color=LIGHT, ls=0.4)
+
+    outside, _measured = ew_unallocated()
+    gia = (V3_X1 - V3_X0) * (V3_Y1 - V3_Y0)
+    F.heading(sh, sub="PROJECT DATA   ·   DRAWING INDEX   ·   "
+                      f"REVISION {F.REVISIONS[-1][0]}")
+    y = F.datum_panel(sh, 52, "PROJECT DATA", [
+        ("Plot", f"{plot_area():.1f} m²"),
+        ("Footprint", f"{gia:.1f} m²"),
+        ("Site coverage", f"{100 * gia / plot_area():.1f} %"),
+        ("Levels", f"{len(EL_LEVELS)}"),
+        ("Floor to floor", f"{FLOOR_TO_FLOOR:.2f} m"),
+        ("Top of building", f"+{EL_TOP:.2f}"),
+        ("External works", f"{outside:.1f} m²"),
+        ("Sheets in the issue", f"{len(issued)}"),
+        ("Sheets built", f"{len(rows)}"),
+        ("Codes", "ECP 201 / ECP 203")])
+    F.notes(sh, y + 6, [
+        "The index is built, not listed: every row is a sheet this "
+        "project can actually draw, with the title and revision that "
+        "sheet carries. An index typed beside the drawings goes wrong "
+        "within a revision or two, and it is the one document a reader "
+        "trusts when deciding a drawing does not exist.",
+        "Rows in grey are built but outside the issue: the A-300 "
+        "enlargements, which are of apartments the villa no longer has, "
+        "and the scheme B and C elevations, which the client did not "
+        "choose.",
+        "The prefix is part of the number. A-402 is the street elevation "
+        "and ARC-402 the second floor's ceiling plan.",
+        "Deliverables beyond the drawings — the structural, services and "
+        "quantities packages — are registered on ARC-000 with their "
+        "status.",
+        "Not for construction. Issued for the owner's record, costing and "
+        "construction information.",
+    ])
+    F.titleblock(sh)
+    return sh
+
+
+# What ARC-002 hands the code check: our figure for each item a domestic
+# building is normally tested against, with the required value left open.
+# The figures are ours and exact.  The requirement, the clause and the
+# verdict are not: they belong to ECP 201 and ECP 203 and to whoever signs
+# the compliance statement, and a column of invented limits would be worse
+# than an empty one.
+def _compliance_rows():
+    sx0, sy0, sx1, sy1 = V3_STAIR
+    risers = round(FLOOR_TO_FLOOR / V3_STAIR_RISE)
+    return [
+        ("Site coverage",
+         f"{100 * (V3_X1 - V3_X0) * (V3_Y1 - V3_Y0) / plot_area():.1f} %"),
+        ("Setback, west / north / east", f"{SETBACK:.2f} m each"),
+        ("Height, top of building", f"+{EL_TOP:.2f}"),
+        ("Storeys", f"{len(EL_LEVELS)}"),
+        ("Floor to floor", f"{FLOOR_TO_FLOOR:.2f} m"),
+        ("Clear height", f"{CLEAR_HEIGHT:.2f} m"),
+        ("Stair, private", f"{risers}R at "
+                           f"{1000 * FLOOR_TO_FLOOR / risers:.0f} × "
+                           f"{V3_STAIR_GOING * 1000:.0f}"),
+        # the flight, not the well: the well is 2.00 m and holds two
+        # flights either side of a 0.20 m gap
+        ("Stair, flight width",
+         f"{(sx1 - sx0 - V3_STAIR_WELL) / 2:.2f} m"),
+        ("Stair, well", f"{sx1 - sx0:.2f} × {sy1 - sy0:.2f} m"),
+        ("Balustrade and parapet", "1.10 m"),
+        ("Window sill", f"{EL_SILL:.2f} m above floor"),
+        ("Balcony projection", f"{V3_WAVE_DEEP:.2f} m maximum"),
+        ("Overlooking, east", f"single storey {SETBACK:.2f} m away"),
+        ("Overlooking, west", f"{NBR_W_STOREYS} storeys, blind"),
+        ("Overlooking, north", f"{NBR_N_STOREYS} storey"),
+    ]
+
+
+def sheet_general_notes():
+    """ARC-002: general notes, symbols and the code compliance matrix."""
+    sh = Sheet("ARC-002", "General Notes, Symbols & Compliance",
+               "the whole set", "NTS")
+    sh.rev = "P19"
+    sh.status = ("Layout for the architect of record — the compliance "
+                 "matrix is completed and signed against ECP 201 and "
+                 "ECP 203.")
+    F.border(sh)
+
+    sh.text_mm(18, 26, "GENERAL NOTES & COMPLIANCE MATRIX", size=6.0,
+               anchor="start", weight=700, ls=0.6)
+    sh.text_mm(18, 35, f"{F.LOCATION}   ·   " + "   ·   ".join(F.CODES),
+               size=2.6, anchor="start", color=GREY, ls=0.35)
+    sh.line_mm(18, 40, 570, 40, w=0.5, color=INK)
+
+    notes = [
+        "Figured dimensions govern. Do not scale from these drawings.",
+        "Dimensions are in millimetres unless a metre value is shown with "
+        "two decimals. Levels are in metres to the project datum, which "
+        "is the ground floor finished floor level, +0.00.",
+        "Dimensions to structural faces unless noted. Opening sizes are "
+        "structural; frame and tolerance allowances are the supplier's.",
+        "Every discrepancy between drawings is to be referred before any "
+        "work is set out or any material ordered.",
+        "Boundaries, levels and the neighbours' heights are as described "
+        "by the client and await a measured survey, SUR-001.",
+        "Foundations, framing and every member size are the structural "
+        "engineer's and are not set on any architectural sheet. The "
+        "STR series is issued as layout for that design.",
+        "Services layouts are coordination only. Cable, duct and pipe "
+        "sizes, loads and capacities are the services engineer's.",
+        "Materials, finishes, waterproofing build-ups and performance "
+        "specifications are not set by these drawings.",
+        "Not for construction.",
+    ]
+    y = 52.0
+    for i, t in enumerate(notes, 1):
+        for j, line in enumerate(F._wrap(t, 62)):
+            sh.text_mm(18, y, (f"{i}.  " if j == 0 else "     ") + line,
+                       size=2.2, anchor="start")
+            y += 6.0
+        y += 2.6
+
+    y += 6.0
+    sh.text_mm(18, y, "CODE COMPLIANCE MATRIX", size=3.0, anchor="start",
+               weight=700, ls=0.45)
+    sh.line_mm(18, y + 2.2, 570, y + 2.2, w=0.25, color=GREY)
+    y += 10.0
+    for off, txt, anc in ((0.0, "ITEM", "start"), (210.0, "AS DRAWN", "end"),
+                          (300.0, "REQUIRED", "start"),
+                          (420.0, "CLAUSE", "start"),
+                          (520.0, "COMPLIES", "start")):
+        sh.text_mm(18 + off, y, txt, size=2.0, anchor=anc, color=GREY,
+                   ls=0.4)
+    sh.line_mm(18, y + 2.0, 570, y + 2.0, w=0.25, color=GREY)
+    y += 9.0
+    for item, ours in _compliance_rows():
+        sh.text_mm(18, y, item, size=2.2, anchor="start")
+        sh.text_mm(228, y, ours, size=2.2, anchor="end", weight=700)
+        for xx in (318, 438, 538):
+            sh.line_mm(xx, y + 1.0, xx + 90 if xx < 500 else xx + 20,
+                       y + 1.0, w=0.2, color="#c8c8c8")
+        sh.line_mm(18, y + 2.4, 570, y + 2.4, w=0.12, color="#e2e2e2")
+        y += 9.6
+    if y > 566:
+        raise ValueError(f"ARC-002: the notes and matrix run to y={y:.0f}")
+
+    F.heading(sh, sub="GENERAL NOTES   ·   SYMBOLS   ·   COMPLIANCE")
+    y = F.legend(sh, 52)
+    F.notes(sh, y + 6, [
+        "The matrix carries our figure for every item a house is normally "
+        "tested against, measured from the geometry and exact.",
+        "The required value, the clause and the verdict are left open on "
+        "purpose. They belong to ECP 201 and ECP 203 and to whoever signs "
+        "the compliance statement; a column of limits invented here would "
+        "be worse than an empty one, because it would be believed.",
+        "The symbols panel is the same key every sheet in the set "
+        "carries, so a reader who has this sheet can read any of them.",
+    ])
+    F.titleblock(sh)
+    return sh
+
+
+# ===========================================================================
 # ARC-400 ... ARC-404  REFLECTED CEILING PLANS
 # ===========================================================================
 # One per level, and each is the floor plan itself with everything that is
@@ -3800,7 +4066,8 @@ def sheet_register():
     return sh
 
 
-SHEETS = (sheet_register, sheet_openings, sheet_roof,
+SHEETS = (sheet_cover, sheet_general_notes,
+          sheet_register, sheet_openings, sheet_roof,
           sheet_section_b, sheet_external_works,
           *_rcp_builders(),
           sheet_site, sheet_ground, sheet_first, sheet_second,
