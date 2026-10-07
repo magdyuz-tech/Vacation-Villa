@@ -194,29 +194,29 @@
 <rect x="398.667" y="343.333" width="20.000" height="12.667" fill="none" stroke="#5d5d5d" stroke-width="0.35"/>
 <rect x="366.000" y="371.333" width="19.333" height="14.000" fill="none" stroke="#5d5d5d" stroke-width="0.35" stroke-dasharray="2.0 1.2"/>
 <text x="375.733" y="379.333" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#5d5d5d" text-anchor="middle" font-weight="400" letter-spacing="0.0" style="">BINS</text>
-<rect x="303.333" y="339.333" width="9.333" height="4.000" fill="#141414" stroke="#141414" stroke-width="0.05"/>
-<rect x="335.333" y="339.333" width="2.667" height="4.000" fill="#141414" stroke="#141414" stroke-width="0.05"/>
-<rect x="352.667" y="339.333" width="11.333" height="4.000" fill="#141414" stroke="#141414" stroke-width="0.05"/>
-<rect x="378.667" y="339.333" width="9.333" height="4.000" fill="#141414" stroke="#141414" stroke-width="0.05"/>
+<rect x="303.333" y="339.333" width="8.000" height="4.000" fill="#141414" stroke="#141414" stroke-width="0.05"/>
+<rect x="327.333" y="339.333" width="5.333" height="4.000" fill="#141414" stroke="#141414" stroke-width="0.05"/>
+<rect x="351.333" y="339.333" width="8.000" height="4.000" fill="#141414" stroke="#141414" stroke-width="0.05"/>
+<rect x="383.333" y="339.333" width="4.667" height="4.000" fill="#141414" stroke="#141414" stroke-width="0.05"/>
 <rect x="303.333" y="337.333" width="4.000" height="6.000" fill="#141414" stroke="#141414" stroke-width="0.05"/>
 <rect x="303.333" y="150.000" width="4.000" height="175.333" fill="#141414" stroke="#141414" stroke-width="0.05"/>
 <rect x="303.333" y="150.000" width="6.667" height="4.000" fill="#141414" stroke="#141414" stroke-width="0.05"/>
 <rect x="331.333" y="150.000" width="32.000" height="4.000" fill="#141414" stroke="#141414" stroke-width="0.05"/>
 <rect x="382.000" y="150.000" width="6.000" height="4.000" fill="#141414" stroke="#141414" stroke-width="0.05"/>
-<rect x="388.000" y="334.000" width="4.000" height="9.333" fill="#141414" stroke="#141414" stroke-width="0.05"/>
-<rect x="388.000" y="315.333" width="4.000" height="5.333" fill="#141414" stroke="#141414" stroke-width="0.05"/>
-<rect x="388.000" y="150.000" width="4.000" height="152.000" fill="#141414" stroke="#141414" stroke-width="0.05"/>
-<rect x="392.000" y="339.333" width="7.333" height="4.000" fill="#141414" stroke="#141414" stroke-width="0.05"/>
-<rect x="420.667" y="339.333" width="9.333" height="4.000" fill="#141414" stroke="#141414" stroke-width="0.05"/>
-<rect x="448.667" y="339.333" width="8.000" height="4.000" fill="#141414" stroke="#141414" stroke-width="0.05"/>
+<rect x="388.000" y="328.667" width="4.000" height="14.667" fill="#141414" stroke="#141414" stroke-width="0.05"/>
+<rect x="388.000" y="184.667" width="4.000" height="128.000" fill="#141414" stroke="#141414" stroke-width="0.05"/>
+<rect x="388.000" y="150.000" width="4.000" height="21.333" fill="#141414" stroke="#141414" stroke-width="0.05"/>
+<rect x="392.000" y="339.333" width="4.000" height="4.000" fill="#141414" stroke="#141414" stroke-width="0.05"/>
+<rect x="408.000" y="339.333" width="3.333" height="4.000" fill="#141414" stroke="#141414" stroke-width="0.05"/>
+<rect x="428.667" y="339.333" width="5.333" height="4.000" fill="#141414" stroke="#141414" stroke-width="0.05"/>
+<rect x="450.000" y="339.333" width="6.667" height="4.000" fill="#141414" stroke="#141414" stroke-width="0.05"/>
 <rect x="452.667" y="328.667" width="4.000" height="14.667" fill="#141414" stroke="#141414" stroke-width="0.05"/>
 <rect x="452.667" y="288.667" width="4.000" height="16.000" fill="#141414" stroke="#141414" stroke-width="0.05"/>
-<rect x="452.667" y="265.333" width="4.000" height="8.667" fill="#141414" stroke="#141414" stroke-width="0.05"/>
-<rect x="452.667" y="244.667" width="4.000" height="10.000" fill="#141414" stroke="#141414" stroke-width="0.05"/>
-<rect x="452.667" y="190.000" width="4.000" height="41.333" fill="#141414" stroke="#141414" stroke-width="0.05"/>
+<rect x="452.667" y="238.000" width="4.000" height="32.000" fill="#141414" stroke="#141414" stroke-width="0.05"/>
+<rect x="452.667" y="190.000" width="4.000" height="34.667" fill="#141414" stroke="#141414" stroke-width="0.05"/>
 <rect x="452.667" y="150.000" width="4.000" height="16.000" fill="#141414" stroke="#141414" stroke-width="0.05"/>
 <rect x="392.000" y="150.000" width="8.667" height="4.000" fill="#141414" stroke="#141414" stroke-width="0.05"/>
-<rect x="422.000" y="150.000" width="8.000" height="4.000" fill="#141414" stroke="#141414" stroke-width="0.05"/>
+<rect x="416.667" y="150.000" width="13.333" height="4.000" fill="#141414" stroke="#141414" stroke-width="0.05"/>
 <rect x="450.000" y="150.000" width="6.667" height="4.000" fill="#141414" stroke="#141414" stroke-width="0.05"/>
 <rect x="307.333" y="154.000" width="80.667" height="185.333" fill="#f1f1f1" stroke="none" stroke-width="0"/>
 <rect x="392.000" y="154.000" width="60.667" height="185.333" fill="#f1f1f1" stroke="none" stroke-width="0"/>
@@ -413,7 +413,7 @@
 <text x="696.000" y="511.000" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#5d5d5d" text-anchor="start" font-weight="400" letter-spacing="0.4" style="">SCALE</text>
 <text x="696.000" y="518.000" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="start" font-weight="700" letter-spacing="0.0" style="">1:75 @ A1</text>
 <text x="766.000" y="511.000" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#5d5d5d" text-anchor="start" font-weight="400" letter-spacing="0.4" style="">DATE</text>
-<text x="766.000" y="518.000" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="start" font-weight="700" letter-spacing="0.0" style="">2026-09-29</text>
+<text x="766.000" y="518.000" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="start" font-weight="700" letter-spacing="0.0" style="">2026-10-07</text>
 <text x="583.000" y="530.000" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#5d5d5d" text-anchor="start" font-weight="400" letter-spacing="0.0" style="">Preliminary design issue — not for construction.</text>
 <text x="583.000" y="537.000" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#5d5d5d" text-anchor="start" font-weight="400" letter-spacing="0.0" style="">Do not scale; work to figured dimensions only.</text>
 <line x1="580.000" y1="543.000" x2="831.000" y2="543.000" stroke="#5d5d5d" stroke-width="0.3" stroke-linecap="butt"/>

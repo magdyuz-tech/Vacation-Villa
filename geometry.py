@@ -624,75 +624,99 @@ V0_VENT_W = [(4.50, 5.30), (6.50, 7.30),       # reception hall
 
 
 # ---------------------------------------------------------------------------
-# detached villa, penthouse (revision P9) - a two-bedroom roof apartment
+# detached villa, penthouse (revision P11) - a flat between two terraces
 # ---------------------------------------------------------------------------
-# A self-contained flat on the roof: two bedrooms, a small kitchen, a bath
-# and a living room that opens onto the terrace.
+# The CORRIDOR is the fixed thing here, and everything else is what is left
+# once it has been taken.  The client asked for the north and south open
+# areas to be joined from OUTSIDE the apartment, down the west side, at a
+# minimum of 2.00 m clear - so that is set out first and the flat fits
+# around it.
 #
-# Its south wall sits ON the column grid at y 8.46, not wherever the plan
-# would have liked it.  A penthouse wall has no wall under it - the third
-# floor below is an open living area - so a 300 mm wall put anywhere else
-# would be a line load in the middle of a slab span.  On the grid it bears
-# straight onto the beam between the columns at x 12.65, 17.46 and 21.85,
-# and nothing transfers.  East, west and north it sits on the external walls
-# below for the same reason.
+# It cannot pass west of the stair: the stair well is 2.00 m wide and hard
+# against the west wall with 0.30 m to the parapet, and the half landing is
+# at +11.55 against a floor at +13.20, so the well stays open and cannot be
+# built over.  The corridor therefore runs EAST of the stair, from the
+# stair's east edge to the flat's west wall.
 #
-# The cost of that discipline is the depth of the south band: 3.81 m rather
-# than the 5 m the living room would like.  It is the right trade, because
-# the terrace is the living space up here - 63 m2 of it, against 72 m2
-# indoors.
-V4_X0, V4_X1 = V3_X0, V3_X1            # flush east and west, on the walls below
-V4_Y0 = 8.46 - WT / 2                  # 8.31, centred on the grid line
-V4_Y1 = 15.50                          # the apartment sits between two terraces
-v4_x0, v4_x1 = V4_X0 + WT, V4_X1 - WT  # 12.80 .. 21.70  (8.90 clear)
-v4_y0, v4_y1 = V4_Y0 + WT, V4_Y1 - WT  #  8.61 .. 15.20  (6.59 clear)
-V4_PLATE = (v4_x1 - v4_x0) * (v4_y1 - v4_y0)         # 58.6 m2
-
-# Why the apartment is the full width.  Two bedrooms have to sit north of
-# the stair, side by side, and the only line to divide them on is the spine
-# at x 17.31 - which leaves 4.51 m and 4.09 m.  Take 1.50 m off the east for
-# a covered walk and the second bedroom drops to 2.59 m wide, which is not a
-# bedroom.  So the walk goes, the apartment runs wall to wall, and the two
-# terraces are joined by the pergola passing over its roof instead.
+# Where that west wall lands is a structural question, not a planning one.
+# A 300 mm wall needs a beam under it, and the only line on this side of
+# the roof with one is the column line at x 17.46 - the spine, which is a
+# 300 mm wall on every floor below and has columns at y 3.65, 8.46, 12.56
+# and 16.85.  Putting the flat's west wall anywhere between the stair and
+# the spine would need a beam spanning the full 9.6 m depth with nothing to
+# land on at either end.  So the wall goes on the spine, and the corridor
+# comes out 2.51 m clear - wider than the 2.00 m asked for, because the
+# 0.51 m left over is worth more as corridor than as a void behind a wall.
 #
-# Why the north wall is at 15.50.  The stair ends at y 12.42 and cannot
-# move, so the bedrooms' depth and the north terrace come out of the same
-# 4.58 m.  Flush north gives 18.5 m2 bedrooms and no terrace; 15.50 gives
-# 11.8 m2 bedrooms and 14.2 m2 of terrace.  That is the trade the brief
-# asks for.
-V4_LIV_Y1 = V3_STAIR[3]        # 12.42, the stair-hall line, as on every floor
-V4_SERV_X0 = 18.88             # living | the kitchen and bath block
-V4_KIT_Y1 = 10.30              # kitchen | bath
-V4_BED_DIV = V3_SPINE_X0       # 17.31, the bedroom partition, on the spine
+# What that costs: the stair strip plus a 2.51 m corridor take 4.81 m of
+# the 9.50 m width, leaving the flat 4.09 m clear.  Two bedrooms cannot sit
+# side by side in 4.09 m, and stacking them would need 12.06 m of the
+# 13.50 m depth and leave 1.44 m for both terraces.  The second bedroom is
+# what pays for the corridor, so this is a ONE-bedroom flat.
+#
+# The flat's long walls both swallow a column line: west on x 17.46, east
+# on x 21.85, each taking the columns at y 8.46 and 12.56 inside the wall
+# itself.  The short walls at y 5.85 and 15.19 sit on secondary beams cast
+# in the roof slab, spanning the 4.39 m between those two lines - ordinary
+# framing, not a transfer.
+V4_CORR_X0 = V3_STAIR[2]               # 14.80, the stair's east edge
+V4_CORR_X1 = V3_SPINE_X0               # 17.31; 2.51 m clear, min asked 2.00
+V4_CORR_W = V4_CORR_X1 - V4_CORR_X0
+V4_X0, V4_X1 = V3_SPINE_X0, V3_X1      # 17.31 .. 22.00, flush east
+V4_Y0, V4_Y1 = 5.70, 15.34
+v4_x0, v4_x1 = V4_X0 + WT, V4_X1 - WT  # 17.61 .. 21.70  (4.09 clear)
+v4_y0, v4_y1 = V4_Y0 + WT, V4_Y1 - WT  #  6.00 .. 15.04  (9.04 clear)
+V4_PLATE = (v4_x1 - v4_x0) * (v4_y1 - v4_y0)
 
-V4_DOOR_MAIN = (15.00, 16.00)  # the apartment's own front door, to the south
-V4_DOOR_TERR = (17.80, 18.80)  # living onto the south terrace, sliding
-V4_DOOR_TERR_N = (13.40, 14.60)   # bedroom 1 onto the north terrace, sliding
-V4_OPEN_KIT = (8.90, 10.10)    # living into the kitchen, cased
-V4_DOOR_BATH = (10.60, 11.40)  # living into the bath
-V4_DOOR_BED1 = (15.40, 16.30)  # living into bedroom 1
-V4_DOOR_BED2 = (17.90, 18.70)  # living into bedroom 2
+V4_LIV_Y1 = 9.60               # living | the hall-and-bath band
+V4_BATH_Y1 = 11.60             # the band | bedroom
+V4_HALL_X1 = 18.71             # hall | bath; 1.10 m of hall
 
-V4_LEVEL = "+13.20"            # the penthouse floor, on the roof slab
-V4_TOP = 16.45                 # top of its own slab
+# Openings.  The two long walls carry the columns at y 8.46 and 12.56, so
+# every opening in them clears y 8.31-8.61 and 12.41-12.71.
+V4_DOOR_MAIN = (6.30, 7.10)    # the front door, off the corridor
+V4_DOOR_HALL = (17.75, 18.65)  # living into the hall, cased
+V4_DOOR_BATH = (10.55, 11.35)  # hall into the bath
+V4_DOOR_BED = (17.80, 18.60)   # hall into the bedroom
+V4_DOOR_TERR = (17.90, 19.70)  # living onto the south terrace, sliding
+V4_DOOR_TERR_N = (17.70, 19.20)   # bedroom onto the north terrace, sliding
 
-# The pergola is the thing that joins the two terraces: a band on each,
-# against the apartment, with its beams carried across the apartment's roof
-# between them.  The terraces are open to the sky everywhere else.
-V4_PERGOLA = (V4_X0, 5.81, V4_X1, V4_Y0)           # south, 2.50 m deep
-V4_PERGOLA_N = (V4_X0, V4_Y1, V4_X1, V3_Y1)        # north, 1.50 m deep
-V4_PLANT = (V4_X0, V4_Y1, 14.50, V3_Y1)            # tanks, in the north-west
+V4_LEVEL = "+13.20"
+V4_TOP = 16.45
 
-V4_WIN_S = [(13.00, 14.20),                    # the stair, lit only
-            V4_DOOR_MAIN, (16.40, 17.20),      # the front door, and living
-            V4_DOOR_TERR,                      # living onto the terrace
-            (19.90, 21.60)]                    # kitchen
-V4_WIN_E = [(8.90, 10.10),                     # kitchen
-            (10.80, 11.90),                    # bath
-            (12.90, 14.40), (14.60, 15.10)]    # bedroom 2
-V4_WIN_N = [V4_DOOR_TERR_N, (15.00, 16.40),    # bedroom 1
-            (17.90, 19.50), (19.90, 21.40)]    # bedroom 2
-V4_VENT_W = [(13.00, 13.80), (14.20, 15.00)]   # bedroom 1
+# The pergola runs over the corridor for its whole length, so the thing
+# that joins the two terraces is also the thing that shades the walk
+# between them, and the two open areas read as one place.
+V4_PERGOLA = (V4_CORR_X0, V3_Y0, V4_CORR_X1, V3_Y1 - PARAPET)
+# and a band off each slider, so the shade reaches onto both terraces and
+# the three run as one structure: shade where you sit, open sky beyond
+V4_PERGOLA_S = (V4_CORR_X1, V3_Y0, 19.80, V4_Y0)
+V4_PERGOLA_N = (V4_CORR_X1, V4_Y1, 19.40, V3_Y1 - PARAPET)
+V4_CANOPY = (V3_STAIR[0], V3_STAIR[1] - 0.30, V3_STAIR[2], V3_STAIR[3])
+V4_PLANT = (V3_X0 + PARAPET, 15.34, 14.80, V3_Y1 - PARAPET)   # tanks, NW
+
+# The flat's west wall faces our own roof - 2.51 m of corridor, then the
+# terrace - not the boundary, so it takes ordinary windows.  The west rule
+# in checks.py is about the building's own west wall at x 12.50, which up
+# here is a parapet with nothing in it.
+V4_WIN_W = [(7.60, 8.20),                      # living
+            (12.90, 13.70), (14.00, 14.80)]    # bedroom
+V4_WIN_S = [V4_DOOR_TERR, (20.20, 21.50)]      # living
+V4_WIN_E = [(6.40, 7.80), (8.80, 9.40),        # living
+            (9.80, 10.50),                     # bath
+            (12.90, 14.20), (14.40, 15.00)]    # bedroom
+V4_WIN_N = [V4_DOOR_TERR_N]                    # bedroom
+
+# The open roof, measured inside the parapets, and split the way it reads:
+# two terraces joined by the corridor that runs between them.
+V4_ROOF_X0, V4_ROOF_X1 = V3_X0 + PARAPET, V3_X1 - PARAPET    # 12.75 .. 21.75
+V4_ROOF_Y1 = V3_Y1 - PARAPET                                 # 16.75
+V4_CORR_AREA = V4_CORR_W * (V4_ROOF_Y1 - V3_Y0)
+V4_TERR_S = ((V4_ROOF_X1 - V4_ROOF_X0 - V4_CORR_W) * (V4_Y0 - V3_Y0)
+             + (V4_CORR_X0 - V4_ROOF_X0) * (V3_STAIR[1] - V4_Y0)
+             + wave_area())
+V4_TERR_N = ((V4_ROOF_X1 - V4_CORR_X1) * (V4_ROOF_Y1 - V4_Y1)
+             + (V4_CORR_X0 - V4_ROOF_X0) * (V4_Y1 - V3_STAIR[3]))
 
 
 def area(x0, y0, x1, y1):

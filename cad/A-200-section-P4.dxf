@@ -489,7 +489,7 @@ $SKPOLY
   9
 $TDCREATE
  40
-2461313.5189351854
+2461321.1847453704
   9
 $TDUCREATE
  40
@@ -497,7 +497,7 @@ $TDUCREATE
   9
 $TDUPDATE
  40
-2461313.5189351854
+2461321.1847453704
   9
 $TDUUPDATE
  40
@@ -929,11 +929,11 @@ $PSTYLEMODE
   9
 $FINGERPRINTGUID
   2
-{0BB18176-F5B9-4425-AA6C-41BE5BF54D73}
+{E3F05C17-E7CC-4435-8D9D-89A072E9C971}
   9
 $VERSIONGUID
   2
-{036D6DFA-EC49-4011-8372-6245494211B7}
+{90FC14AC-04E7-440D-9F09-87B6DAD25642}
   9
 $EXTNAMES
 290
@@ -989,7 +989,7 @@ $DIMASSOC
   9
 $PROJECTNAME
   1
-A-200 Section A–A
+A-200 Section A–A (P4)
   9
 $CAMERADISPLAY
 290
@@ -7121,7 +7121,7 @@ AcDbMText
  71
 5
   1
-0.50
+None
   7
 OpenSansCondensed-Light
  50
@@ -7607,7 +7607,7 @@ AcDbMText
  71
 5
   1
-14.50
+None
   7
 OpenSansCondensed-Light
   0
@@ -7847,7 +7847,7 @@ AcDbMText
  71
 5
   1
-1.20
+None
   7
 OpenSansCondensed-Light
   0
@@ -8087,7 +8087,7 @@ AcDbMText
  71
 5
   1
-2.98
+None
   7
 OpenSansCondensed-Light
   0
@@ -8327,7 +8327,7 @@ AcDbMText
  71
 5
   1
-4.00
+None
   7
 OpenSansCondensed-Light
   0
@@ -18537,7 +18537,7 @@ ARCH
  71
 5
   1
-0.50
+None
 100
 AcDbAlignedDimension
  13
@@ -18669,7 +18669,7 @@ ARCH
  71
 5
   1
-14.50
+None
 100
 AcDbAlignedDimension
  13
@@ -18735,7 +18735,7 @@ ARCH
  71
 5
   1
-1.20
+None
 100
 AcDbAlignedDimension
  13
@@ -18801,7 +18801,7 @@ ARCH
  71
 5
   1
-2.98
+None
 100
 AcDbAlignedDimension
  13
@@ -18867,7 +18867,7 @@ ARCH
  71
 5
   1
-4.00
+None
 100
 AcDbAlignedDimension
  13
@@ -20001,7 +20001,7 @@ DictionaryVariables
 280
 0
   1
-1.4.4 @ 2026-09-29T12:27:16.145693+00:00
+1.4.4 @ 2026-10-07T04:26:02.524062+00:00
   0
 VISUALSTYLE
   5
@@ -20713,7 +20713,7 @@ DictionaryVariables
 280
 0
   1
-1.4.4 @ 2026-09-29T12:27:16.174100+00:00
+1.4.4 @ 2026-10-07T04:26:02.546195+00:00
   0
 ENDSEC
   0
