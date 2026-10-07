@@ -17,6 +17,7 @@ import sys
 import drafting as D
 from drafting import (Sheet, INK, GREY, LIGHT, LW_CUT, LW_SECONDARY,
                       LW_FIXTURE, LW_THIN, LW_HIDDEN)
+import axonometric as ax
 import elevations as el
 import fixtures as fx
 import frame as F
@@ -2758,6 +2759,71 @@ EL_CTX_ORIGIN = ((60.0, 262.0),    # 1:100, scheme A on the upper half
                  (60.0, 522.0))   #        scheme B beneath it
 
 
+AX_ORIGIN = ((78.8, 275.2), (256.8, 275.2), (434.8, 275.2))   # 1:250
+AX_SCHEMES = (("A", "Wave", "serpentine"), ("C", "Facet", "facet"),
+              ("B", "Arcade", "bow"))
+
+
+def sheet_axonometric():
+    """A-430: the three balcony options in 3D, projected from the geometry.
+
+    Not a render.  Every line here is a transform of the same constants
+    the plans are drawn from, so the view cannot invent a balcony, a
+    garden or a neighbour - which is exactly what an image generator did
+    three times before this sheet existed.
+    """
+    sh = None
+    for i, (letter, name, profile) in enumerate(AX_SCHEMES):
+        D.set_scale(250, *AX_ORIGIN[i])
+        if sh is None:
+            sh = Sheet("A-430", "Axonometric — Three Balcony Options",
+                       "from the south-west", "1:250 @ A1")
+            sh.rev = "P16"
+            F.border(sh)
+        ax.view(sh, el.SCHEME[letter]["render"], profile)
+        u, v = ax.P(V3_X0, V3_Y0, 0.0)
+        sh.tag(u - 1.20, v - 3.60, f"SCHEME {letter} — {name.upper()}",
+               size=2.4, color=INK)
+        sh.tag(u - 1.20, v - 5.30,
+               f"{wave_area(profile):.1f} m² of balcony a floor",
+               size=2.0, color=GREY)
+
+    F.heading(sh)
+    y = F.legend(sh, 52)
+    y = F.datum_panel(sh, y + 8, "THE FOUR CURVES", [
+        ("Agreed, drawn today", f"{wave_area():.1f} m² a floor"),
+        ("A — serpentine", f"{wave_area('serpentine'):.1f} m² a floor"),
+        ("C — facet", f"{wave_area('facet'):.1f} m² a floor"),
+        ("B — bowed centre bay", f"{wave_area('bow'):.1f} m² a floor"),
+        ("Deepest allowed", f"{V3_WAVE_LIMIT:.2f} m"),
+        ("Shallowest usable", "0.60 m"),
+        ("West neighbour", f"{NBR_W_STOREYS} storeys, blind"),
+        ("East neighbour", f"{NBR_E_STOREYS} storey, clay brick")])
+    F.notes(sh, y + 6, [
+        "Preliminary. Isometric from the south-west, which is the one "
+        "corner that shows the street frontage, the blind west wall, the "
+        "roof pergola and the entrance garden at once.",
+        "This is a projection, not a render: every line is a transform of "
+        "the constants the plans are drawn from, so it cannot show a "
+        "balcony, a garden or a neighbour that the drawings do not have.",
+        f"All three sit on the real plot. The villa is hard against the "
+        f"east boundary with a {SETBACK:.2f} m side passage and the "
+        f"{V3_X0 - SETBACK:.2f} m entrance garden on the west, the "
+        f"three-storey blind neighbour standing back behind it and the "
+        f"single-storey clay-brick one a metre to the east.",
+        "A and C wear the same skin, so the only difference between them "
+        "is the curve — which is why they stand side by side here. B "
+        "differs in ornament as well.",
+        "The balconies stop at the corner on all three: the 1.00 m "
+        "setbacks forbid anything projecting west, north or east.",
+        "Faces are painted back to front rather than depth-sorted, so a "
+        "detail may overlap where two surfaces nearly touch. The measured "
+        "elevations A-400 to A-421 govern.",
+    ])
+    F.titleblock(sh)
+    return sh
+
+
 def sheet_street_context():
     """A-402: the villa between its two real neighbours, both schemes.
 
@@ -2853,7 +2919,7 @@ SHEETS = (sheet_site, sheet_ground, sheet_first, sheet_second,
           sheet_elev_a, sheet_elev_a_sides,
           sheet_elev_b, sheet_elev_b_sides,
           sheet_elev_c, sheet_elev_c_sides,
-          sheet_street_context,
+          sheet_street_context, sheet_axonometric,
           sheet_unit_typical, sheet_unit_third, sheet_service)
 
 

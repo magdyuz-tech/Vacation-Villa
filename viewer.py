@@ -43,6 +43,8 @@ SHEETS = [
      "The three remaining faces of the faceted scheme."),
     ("A-402", "Street Elevation in Context", "both schemes, as surveyed",
      "1:100", "The villa between its two surveyed neighbours."),
+    ("A-430", "Axonometric — Three Balcony Options", "from the south-west",
+     "1:250", "The three curves in 3D, projected from the geometry."),
     ("A-300", "Typical Apartment — Enlarged Plan", "+3.30 / +6.60", "1:25",
      "Entry, wet rooms and kitchenettes of both apartments."),
     ("A-301", "Third Floor Apartment — Enlarged Plan", "+9.90", "1:25",

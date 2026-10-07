@@ -39,6 +39,7 @@ LEVELS = [
     (plans.sheet_elev_c,       "A-420-elev-south-scheme-c", "-ELC", 360.0),
     (plans.sheet_elev_c_sides, "A-421-elev-sides-scheme-c", "-ELC", 390.0),
     (plans.sheet_street_context, "A-402-street-context", "-CTX", 435.0),
+    (plans.sheet_axonometric, "A-430-axonometric", "-AXO", 480.0),
 ]
 
 # enlargements are the same geometry at a larger plotted scale, so they add
