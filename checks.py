@@ -580,7 +580,7 @@ def issue_status():
     import frame as F
     import plans
 
-    ACCEPTED = {"A-101", "A-102", "A-103"}
+    ACCEPTED = {"A-000", "A-100", "A-101", "A-102", "A-103", "A-104"}
     letters = [r for r, _w, _t in F.REVISIONS]
     current = letters[-1]
     in_use = set()

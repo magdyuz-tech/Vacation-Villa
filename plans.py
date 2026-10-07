@@ -332,77 +332,166 @@ def garden(sh):
     sh.tag(16.93, 0.80, "BINS", size=1.8, color=GREY)
 
 
+def villa_neighbours(sh):
+    """Detached: a neighbour on the west, north and east, 1.00 m clear."""
+    _hatch(sh, 0.0, 5.0, 11.5, 14.55)
+    sh.tag(5.70, 12.10, "NEIGHBOURING PLOT", size=2.8, color=LIGHT)
+    _hatch(sh, 11.5, 18.0, 11.5, 1.55)
+    sh.tag(17.25, 18.75, "NEIGHBOURING PLOT", size=2.3, color=LIGHT)
+    _hatch(sh, 23.0, 0.0, 2.05, 19.55)
+    sh.tag(24.05, 9.50, "NEIGHBOURING PLOT", size=2.3, color=LIGHT, rot=-90)
+
+
+def villa_garden(sh):
+    """Entrance garden west of the villa, forecourt in front of it.
+
+    The three setbacks are our own land, so each becomes a 1.00 m paved
+    side passage rather than a dead strip.  The forecourt is 3.50 m deep
+    and the cantilever oversails up to 2.00 m of it, which is what makes
+    the front door covered without a porch on the elevation.
+    """
+    # the 1.00 m side passages, on three sides
+    for px, py, pw, pd in ((V3_X0 - SETBACK, V3_Y0, SETBACK,
+                            V3_Y1 + SETBACK - V3_Y0),
+                           (V3_X0, V3_Y1, V3_X1 - V3_X0, SETBACK),
+                           (V3_X1, V3_Y0, SETBACK,
+                            V3_Y1 + SETBACK - V3_Y0)):
+        fx.paving(sh, px, py, pw, pd, pitch=1.0)
+        sh.rect(px, py, pw, pd, sw=LW_THIN, stroke=GREY)
+
+    # the west garden: gate, walk under a pergola, lawn, barbecue
+    walk_y0, walk_y1 = 1.55, 3.35
+    fx.paving(sh, 0.30, walk_y0, 15.80, walk_y1 - walk_y0, pitch=0.9)
+    sh.rect(0.30, walk_y0, 15.80, walk_y1 - walk_y0, sw=LW_SECONDARY,
+            stroke=GREY)
+    fx.grass(sh, 0.30, 0.35, 9.30, 1.05)
+    fx.grass(sh, 0.30, 3.50, 11.05, 1.35)
+    for tx in (2.3, 4.8, 7.3):
+        fx.tree(sh, tx, 4.20, 0.72)
+    for tx in (1.7, 3.6):
+        fx.tree(sh, tx, 0.90, 0.60)
+    fx.pergola(sh, 5.10, 1.25, 4.00, 2.35, pitch=0.5)
+    sh.tag(7.10, 3.78, "TIMBER PERGOLA OVER WALKWAY", size=2.0, color=GREY)
+
+    fx.paving(sh, 9.90, 0.35, 3.20, 1.05, pitch=0.75, color="#dadada")
+    sh.rect(9.90, 0.35, 3.20, 1.05, sw=LW_SECONDARY, stroke=GREY)
+    fx.counter(sh, 10.15, 0.48, 2.10, 0.60)
+    sh.tag(11.50, 1.18, "BARBECUE", size=2.0, color=GREY)
+
+    sh.arc(0.30, 1.40, 2.40, 0, 78, sw=LW_THIN, color=GREY)
+    sh.line(0.30, 1.40, 2.70, 1.40, w=LW_FIXTURE, color=INK)
+    sh.tag(1.90, 5.35, "MAIN GATE", size=2.2, color=INK)
+
+    # the forecourt east of the door, under the cantilever
+    fx.paving(sh, 16.50, 0.35, 6.20, 2.95, pitch=0.9, color="#dadada")
+    sh.rect(16.50, 0.35, 6.20, 2.95, sw=LW_SECONDARY, stroke=GREY)
+    fx.table(sh, 18.40, 1.40, 1.50, 0.85, seats_n=3, seats_s=3)
+    sh.tag(21.75, 1.80, "OUTDOOR DINING", size=2.0, color=GREY, rot=-90)
+
+    # three risers up to the front door, under the cantilever
+    fx.steps(sh, V0_DOOR_ENTRY[0] - 0.20, 2.55, 1.50, 0.95, n=ENTRY_RISERS)
+    sh.rect(22.10, 4.20, 0.80, 1.40, sw=LW_SECONDARY, stroke=GREY,
+            dash="2.0 1.2")
+    sh.tag(22.50, 4.90, "BINS", size=1.6, color=GREY, rot=-90)
+
+
 # ===========================================================================
 # A-000  SITE PLAN
 # ===========================================================================
 def sheet_site():
     D.set_scale(75, *SITE_ORIGIN)
-    sh = Sheet("A-000", "Site Plan", "+0.00", "1:75 @ A1")
+    sh = Sheet("A-000", "Site Plan — Detached Villa", "+0.00", "1:75 @ A1")
+    sh.rev, sh.status = "P13", F.STATUS_FINAL_DRAFT
     F.border(sh)
-    neighbours(sh)
+    villa_neighbours(sh)
     street(sh)
-    garden(sh)
+    # the cantilever is drawn before the garden, not after: its tone is a
+    # slab seen from above and would otherwise bury the forecourt under it
+    fx.wave_balcony(sh, wave_points(), V3_Y0, V3_WAVE_BALUSTRADE,
+                    V3_WAVE_REVEAL, label=None, area=None, show_area=False)
+    villa_garden(sh)
 
-    shell(sh, 0)
-    sh.rect(a_x0, a_y0, a_x1 - a_x0, a_y1 - a_y0, fill="#f1f1f1",
+    # the villa: its ground-floor shell and the frame
+    sh.rect(V3_X0, V3_Y0, V3_X1 - V3_X0, V3_Y1 - V3_Y0, fill="#f1f1f1",
             stroke="none", sw=0)
-    sh.rect(b_x0, b_y0, b_x1 - b_x0, b_y1 - b_y0, fill="#f1f1f1",
-            stroke="none", sw=0)
-    columns(sh)
-    sh.room(a_x0, 7.0, 3.9, 4.0, "Block A — front", area=None,
-            sub="6.50 × 14.50 m", size=2.9,
-            schedule=False, show_area=False, at=(13.60, 8.60))
-    sh.room(b_x0, 7.0, 4.55, 4.0, "Block B — rear", area=None,
-            sub="5.00 × 14.50 m", size=2.9,
-            schedule=False, show_area=False, at=(20.42, 8.60))
-    sh.level_tag(12.9, 4.30, "FFL +0.00")
-    sh.level_tag(2.2, 2.00, "GARDEN −0.50")
+    sh.wall(V3_X0, V3_Y0, V3_X1, V3_Y0 + WT, openings=V0_WIN_S)
+    sh.wall(V3_X0, V3_Y0, V3_X0 + WT, V3_Y1, openings=V0_VENT_W)
+    sh.wall(V3_X0, V3_Y1 - WT, V3_X1, V3_Y1, openings=V0_WIN_N)
+    sh.wall(V3_X1 - WT, V3_Y0, V3_X1, V3_Y1, openings=V0_WIN_E)
+    # the structural spine, which is what the two middle columns stand in
+    sh.line(V3_GRID_X[1], V3_Y0, V3_GRID_X[1], V3_Y1, w=LW_THIN,
+            color=LIGHT, dash="5 3")
+    sh.tag(18.15, 5.20, "STRUCTURAL SPINE", size=1.7, color=GREY, rot=-90)
+    for cx in V3_GRID_X:
+        for cy in V3_GRID_Y:
+            fx.column(sh, cx, cy, COL)
+
+    sh.room(V3_X0, 8.0, V3_X1 - V3_X0, 3.0, "Detached Villa", area=None,
+            sub="9.50 × 13.50 m — four storeys and a penthouse", size=3.0,
+            schedule=False, show_area=False, at=(17.25, 9.60))
+    sh.level_tag(19.30, 6.20, "FFL +0.00")
+    sh.level_tag(6.20, 1.95, "GARDEN −0.50")
+
+    for tx, ty, rot in ((12.00, 10.50, -90), (22.50, 11.50, -90)):
+        sh.tag(tx, ty, "1.00 m SETBACK", size=1.9, color=GREY, rot=rot)
+    sh.tag(17.25, 17.50, "1.00 m SETBACK", size=1.9, color=GREY)
 
     boundary(sh)
-    sh.tag(6.5, 2.45, "ENTRANCE GARDEN CORRIDOR", size=2.3, color=INK)
+    sh.tag(5.60, 2.55, "ENTRANCE GARDEN", size=2.3, color=INK)
+    sh.tag(14.60, 0.72, "CANTILEVER OVER", size=2.0, color=INK)
 
     sh.dim_h(0, 23.0, -4.8, ext_from=0.0)
-    sh.dim_h(0, 11.5, -6.6)
-    sh.dim_h(11.5, 18.0, -6.6)
-    sh.dim_h(18.0, 23.0, -6.6)
+    sh.dim_h(0, V3_X0 - SETBACK, -6.6)
+    sh.dim_h(V3_X0 - SETBACK, V3_X0, -6.6)
+    sh.dim_h(V3_X0, V3_X1, -6.6)
+    sh.dim_h(V3_X1, V3_X1 + SETBACK, -6.6)
     sh.dim_v(0, 5.0, -1.8, ext_from=0.0)
     sh.dim_v(0, 18.0, -3.6)
-    sh.dim_v(3.5, 18.0, 24.5, ext_from=23.0)
-    sh.dim_v(0, 3.5, 24.5)
+    sh.dim_v(0, V3_Y0, 25.9, ext_from=23.0)
+    sh.dim_v(V3_Y0, V3_Y1, 25.9)
+    sh.dim_v(V3_Y1, 18.0, 25.9)
 
     F.heading(sh)
     y = F.legend(sh, 52)
-    sh.schedule = [("Garden corridor, west  11.50 × 5.00", 57.50),
-                   ("Garden corridor, front  11.50 × 3.50", 40.25),
-                   ("Block A footprint  6.50 × 14.50", 94.25),
-                   ("Block B footprint  5.00 × 14.50", 72.50)]
+    sh.schedule = [("Plot, south band  23.00 × 5.00", 115.00),
+                   ("Plot, east part  11.50 × 13.00", 149.50)]
     y = F.schedule(sh, y + 8, extra=[
-        ("Built footprint", "166.8 m²"),
-        ("Site coverage", "63.0 %"),
-        ("Gross internal area, four storeys",
-         f"{sum(GIA.values()):.1f} m²")])
+        ("Villa footprint  9.50 × 13.50 m",
+         f"{(V3_X1 - V3_X0) * (V3_Y1 - V3_Y0):.1f} m²"),
+        ("Site coverage", f"{128.25 / 264.5 * 100:.1f} %"),
+        ("Entrance garden, west", "57.5 m²"),
+        ("Forecourt, in front", "40.3 m²"),
+        ("Setbacks, three sides", "38.5 m²"),
+        ("Gross internal area, five storeys",
+         f"{4 * V3_PLATE + V4_PLATE:.1f} m²")])
     F.notes(sh, y + 6, [
+        "Final draft — layout agreed. The villa is detached: set back "
+        "1.00 m from the west, north and east boundaries, the three sides "
+        "a neighbour stands on. The south is not set back — it faces the "
+        "street across our own forecourt.",
+        f"Footprint 9.50 × 13.50 m = "
+        f"{(V3_X1 - V3_X0) * (V3_Y1 - V3_Y0):.1f} m² on a 264.5 m² plot, "
+        f"{128.25 / 264.5 * 100:.1f} % "
+        "coverage against 63.0 % for the attached scheme at P4. Detaching "
+        "costs 22 % of each floor and buys an open aspect on all four "
+        "sides and no party wall.",
+        "The setbacks are our own land, so each is a 1.00 m paved side "
+        "passage rather than a dead strip, reached from the forecourt on "
+        "the east and from the entrance garden on the west.",
+        f"The cantilever oversails the forecourt by {V3_WAVE_W:.2f} m at "
+        f"the west end and {V3_WAVE_E:.2f} m at the east, leaving at "
+        f"least {GARDEN_D_E - V3_WAVE_W:.2f} m clear to the street, and "
+        "covers the front door and its three risers. Nothing projects "
+        "over a boundary, but the overhang is subject to the local "
+        "projection rule; confirm before construction.",
         "The client's survey sketch recorded a 0.50 m step in the north "
         "boundary and a 5.50 m offset between the two blocks' north walls; "
         "the two cannot both be true. Resolved in favour of a straight "
-        "boundary at 18.00, with both blocks running north to meet it. To "
-        "be confirmed by measured survey before any work starts on site.",
-        "The south wall of both blocks stands 1.50 m further into the "
-        "garden than the previous issue, giving each block a 14.50 m depth. "
-        "The garden corridor is 5.00 m deep west of the building and "
-        "3.50 m deep in front of it.",
-        "Upper floor balconies cantilever a further 1.20 m south of that "
-        "wall. Nothing projects over a boundary, but the overhang is "
-        "subject to the local projection rule; confirm before construction.",
-        "Only the west boundary is built against, so the west wall is "
-        "blind except where it faces the plot's own garden. The north and "
-        "east boundaries are open on the client's confirmation and are "
-        "windowed on every floor; the light court shown in P3 has gone.",
-        "The ground floor sits 0.50 m above the garden, reached by three "
-        "risers at 167 mm at the entrance and at the patio doors.",
-        "Structure is an RC frame on the grid shown, columns set out on "
-        "wall centrelines so none stands in a room; flat slab where spans "
-        "and layout make it the simpler solution.",
+        "boundary at 18.00. To be confirmed by measured survey before any "
+        "work starts on site.",
+        "Structure is an RC frame on the grid shown, 300 mm columns on "
+        "wall centrelines so none stands in a room. Section A—A and the "
+        "A-300 enlargements are still on the old 11.50 × 14.50 footprint.",
     ])
     F.compass_and_scale(sh, x=502.0, y=452.0)
     F.titleblock(sh)
@@ -697,7 +786,7 @@ def sheet_ground():
     D.set_scale(50, *PLAN_ORIGIN)
     sh = Sheet("A-100", "Ground Floor Plan \u2014 Detached Villa", "+0.00",
                "1:50 @ A1")
-    sh.rev = "P8"
+    sh.rev, sh.status = "P12", F.STATUS_FINAL_DRAFT
     F.border(sh)
 
     with sh.on("G-ANNO-BNDY"):
@@ -739,10 +828,10 @@ def sheet_ground():
         ("Bedrooms", "1 \u2014 the guest suite; 8 above"),
         ("Floor above", "+3.30")])
     F.notes(sh, y + 6, [
-        "Draft for comment. The floor you receive people on: the family "
-        "living is upstairs where the balconies are, so this one takes "
-        "arrival, eating and a guest suite for anyone who cannot manage "
-        "the stair.",
+        "Final draft — layout agreed. The floor you receive people on: the "
+        "family living is upstairs where the balconies are, so this one "
+        "takes arrival, eating and a guest suite for anyone who cannot "
+        "manage the stair.",
         "Hall, dining and kitchen are one open sequence. The spine is "
         "cased open to both at 2.60 and 1.60 m, and the kitchen serves the "
         "dining through a 2.50 m opening rather than a door. Only the "
@@ -755,12 +844,16 @@ def sheet_ground():
         "the only part of this floor that is walled off. East and north "
         "carry ordinary windows, the west louvred ventilation only.",
         "The front door is in the hall's south wall, under the cantilever, "
-        "which projects about 1.75 m there \u2014 so the entrance is covered "
+        "which projects about 1.75 m there — so the entrance is covered "
         "without a porch being added to the elevation. Three risers up "
-        "from the forecourt at —0.50.",
-        "The site plan and section A—A are still on the old "
+        "from the forecourt at −0.50.",
+        "Bedrooms are numbered 1 to 11 through the house, south to "
+        "north and west before east on each floor; the ground "
+        "floor's room is the guest bedroom and carries no number.",
+        "Section A—A and the A-300 enlargements are still on the old "
         "11.50 × 14.50 footprint.",
     ])
+
     F.compass_and_scale(sh, x=470.0, y=500.0)
     F.titleblock(sh)
     return sh
@@ -1101,20 +1194,23 @@ def _villa_bedroom_floor(sh):
 
     # --- rooms ------------------------------------------------------------
     sh.room(v3_x0, v3_y0, V3_SPINE_X0 - v3_x0, V2_S1_BED_Y1 - v3_y0,
-            "Suite 1", area=14.0, size=2.4, sub="bedroom",
-            sched_name="Suite 1 bedroom", at=(15.90, 5.30))
+            "Bedroom 4", area=14.0, size=2.4, sub="suite",
+            sched_name="Bedroom 4 — suite", at=(15.90, 5.30))
     sh.room(v3_x0, V2_S1_BED_Y1 + PT, V2_S1_ENS_X1 - v3_x0,
-            V2_S1_Y1 - V2_S1_BED_Y1 - PT, "Ensuite 1", area=4.4, size=1.7,
-            sched_name="Suite 1 ensuite", show_area=False, at=(14.45, 7.70))
+            V2_S1_Y1 - V2_S1_BED_Y1 - PT, "Ensuite 4", area=4.4, size=1.7,
+            sched_name="Bedroom 4 ensuite", show_area=False,
+            at=(14.45, 7.70))
     sh.room(V2_S1_ENS_X1 + PT, V2_S1_BED_Y1 + PT, V3_SPINE_X0 - V2_S1_ENS_X1,
-            V2_S1_Y1 - V2_S1_BED_Y1 - PT, "Dressing 1", area=4.3, size=1.7,
-            sched_name="Suite 1 dressing", show_area=False, at=(16.00, 8.02))
+            V2_S1_Y1 - V2_S1_BED_Y1 - PT, "Dressing 4", area=4.3, size=1.7,
+            sched_name="Bedroom 4 dressing", show_area=False,
+            at=(16.00, 8.02))
     sh.room(V3_SPINE_X1, v3_y0, v3_x1 - V3_SPINE_X1, V2_S2_BED_Y1 - v3_y0,
-            "Suite 2", area=19.6, size=2.4, sub="bedroom",
-            sched_name="Suite 2 bedroom", at=(19.95, 4.35))
+            "Bedroom 5", area=19.6, size=2.4, sub="suite",
+            sched_name="Bedroom 5 — suite", at=(19.95, 4.35))
     sh.room(V2_LOBBY_X1 + PT, V2_S2_BED_Y1 + PT, v3_x1 - V2_LOBBY_X1 - PT,
-            V2_ENS2_Y1 - V2_S2_BED_Y1 - PT, "Ensuite 2", area=4.2, size=1.7,
-            sched_name="Suite 2 ensuite", show_area=False, at=(19.80, 9.15))
+            V2_ENS2_Y1 - V2_S2_BED_Y1 - PT, "Ensuite 5", area=4.2, size=1.7,
+            sched_name="Bedroom 5 ensuite", show_area=False,
+            at=(19.80, 9.15))
     sh.room(V3_SPINE_X1, V2_S2_BED_Y1 + PT, V2_LOBBY_X1 - V3_SPINE_X1,
             V3_STAIR[3] - V2_S2_BED_Y1 - PT, "Lobby", area=4.8, size=1.7,
             sub="open", show_area=False, at=(18.25, 11.70))
@@ -1128,9 +1224,9 @@ def _villa_bedroom_floor(sh):
             V3_STAIR[3] - V2_ENS2_Y1 - PT, "Shared Bath", area=5.4, size=1.8,
             sched_name="Shared bath", show_area=False, at=(20.05, 10.70))
     sh.room(v3_x0, V3_BED3_Y0, V3_SPINE_X0 - v3_x0, v3_y1 - V3_BED3_Y0,
-            "Bedroom 3", area=18.8, size=2.4, at=(15.30, 16.20))
+            "Bedroom 6", area=18.8, size=2.4, at=(15.30, 16.20))
     sh.room(V3_SPINE_X1, V3_BED3_Y0, v3_x1 - V3_SPINE_X1, v3_y1 - V3_BED3_Y0,
-            "Bedroom 4", area=17.0, size=2.4, at=(19.80, 16.30))
+            "Bedroom 7", area=17.0, size=2.4, at=(19.80, 16.30))
 
 
 def sheet_second():
@@ -1148,7 +1244,7 @@ def sheet_second():
     D.set_scale(50, *PLAN_ORIGIN)
     sh = Sheet("A-102", "Second Floor Plan — Detached Villa", "+6.60",
                "1:50 @ A1")
-    sh.rev, sh.status = "P7", F.STATUS_FINAL_DRAFT
+    sh.rev, sh.status = "P12", F.STATUS_FINAL_DRAFT
     F.border(sh)
 
     with sh.on("G-ANNO-BNDY"):
@@ -1201,26 +1297,28 @@ def sheet_second():
         ("Bedrooms", "4 — two of them suites"),
         ("Floor above / below", "+9.90 / +3.30")])
     F.notes(sh, y + 6, [
-        "Final draft — layout agreed. A bedroom floor: two suites and two "
-        "further "
-        "bedrooms, on the detached envelope. The ground floor and the site "
-        "plan are still on the old 11.50 \u00d7 14.50 footprint.",
-        "The east strip is the first floor's, line for line \u2014 shared bath "
-        "5.4 m\u00b2, lobby 4.8 m\u00b2, suite 2's bedroom 19.6 m\u00b2 as its wall "
-        "moves 1.30 m north. Every wet room and east window stacks, one "
-        "drainage stack each, straight to the ground.",
-        "Suite 1 takes the south-west, ensuite and dressing behind; suite 2 "
-        "the south-east, its ensuite off the bedroom.",
-        "The lobby has no door: the spine is opened its whole length between "
-        "the columns, so lobby and landing read as one space. It serves "
-        "suite 2, the shared bath and bedroom 4. Bedroom 3 has the old hall "
-        "\u2014 the whole north-west quarter, 18.8 m\u00b2.",
-        f"The cantilever is carried here too \u2014 the same curve, "
+        "Final draft — layout agreed. A bedroom floor: bedrooms 4 to 7, "
+        "two of them suites, on the detached envelope.",
+        "Bedrooms are numbered 1 to 11 through the house, south to "
+        "north and west before east on each floor; the ground "
+        "floor's room is the guest bedroom and carries no number.",
+        "Bedroom 4 takes the south-west with its ensuite and dressing "
+        "behind; bedroom 5 the south-east, its ensuite off the bedroom.",
+        "The east strip is the first floor's, line for line — shared bath "
+        "5.4 m², lobby 4.8 m², bedroom 5 at 19.6 m² as its wall moves "
+        "1.30 m north. Every wet room and east window stacks, one drainage "
+        "stack each, straight to the ground.",
+        "The lobby has no door: the spine is opened its whole length "
+        "between the columns, so lobby and landing read as one space. It "
+        "serves bedroom 5, the shared bath and bedroom 7. Bedroom 6 has "
+        "the old hall — the whole north-west quarter, 18.8 m².",
+        f"The cantilever is carried here too — the same curve, "
         f"{V3_WAVE_W:.2f} m west to {V3_WAVE_E:.2f} m east, "
-        f"{wave_area():.1f} m\u00b2 \u2014 so it now runs all three upper floors "
-        "and the slabs stack. Both suites open onto it; a screen between "
-        "the two is worth considering.",
+        f"{wave_area():.1f} m² — so it runs all three upper floors and the "
+        "slabs stack. Both suites open onto it; a screen between the two "
+        "is worth considering.",
     ])
+
     F.compass_and_scale(sh, x=470.0, y=500.0)
     F.titleblock(sh)
     return sh
@@ -1372,11 +1470,11 @@ def _villa_living_floor(sh):
             V3_STAIR[3] - V3_STAIR[1], "Stair", area=6.6, size=1.9,
             show_area=False, at=(13.80, 12.15))
     sh.room(V3_SPINE_X1, v3_y0, v3_x1 - V3_SPINE_X1, V1_MBED_Y1 - v3_y0,
-            "Master Bedroom", area=19.6, size=2.4, sub="master suite",
-            sched_name="Master bedroom", at=(19.95, 4.35))
+            "Bedroom 1", area=19.6, size=2.4, sub="master suite",
+            sched_name="Bedroom 1 — master", at=(19.95, 4.35))
     sh.room(V2_LOBBY_X1 + PT, V1_MBED_Y1 + PT, v3_x1 - V2_LOBBY_X1 - PT,
-            V1_ENS_Y1 - V1_MBED_Y1 - PT, "Ensuite", area=4.2,
-            size=1.7, sched_name="Master ensuite", show_area=False,
+            V1_ENS_Y1 - V1_MBED_Y1 - PT, "Ensuite 1", area=4.2,
+            size=1.7, sched_name="Bedroom 1 ensuite", show_area=False,
             at=(19.60, 8.88))
     sh.room(V3_SPINE_X1, V1_MBED_Y1 + PT, V2_LOBBY_X1 - V3_SPINE_X1,
             V3_STAIR[3] - V1_MBED_Y1 - PT, "Lobby", area=4.8, size=1.7,
@@ -1398,7 +1496,7 @@ def sheet_first():
     D.set_scale(50, *PLAN_ORIGIN)
     sh = Sheet("A-101", "First Floor Plan — Detached Villa", "+3.30",
                "1:50 @ A1")
-    sh.rev, sh.status = "P6", F.STATUS_FINAL_DRAFT
+    sh.rev, sh.status = "P12", F.STATUS_FINAL_DRAFT
     F.border(sh)
 
     with sh.on("G-ANNO-BNDY"):
@@ -1445,27 +1543,30 @@ def sheet_first():
         ("Floor above / below", "+6.60 / +0.00")])
     F.notes(sh, y + 6, [
         "Final draft — layout agreed. The living floor: a living area and "
-        "three sleeping rooms. The living area is 32.3 m² with the stair "
+        "bedrooms 1 to 3. The living area is 32.3 m² with the stair "
         "standing in it and the pantry open along the spine, opening "
         "through a sliding door onto the cantilever.",
+        "Bedrooms are numbered 1 to 11 through the house, south to "
+        "north and west before east on each floor; the ground "
+        "floor's room is the guest bedroom and carries no number.",
+        "Bedroom 1 is the master at 19.6 m²: its north wall sits 1.30 m "
+        "further north than the suite below it, and the shared bath gives "
+        "up the same depth at 5.4 m².",
         "The pantry is a counter against the solid stretch of spine, not "
-        "the walled room the third floor has. The lobby has no wall either: "
-        "the spine is opened 3.69 m between the columns, a downstand beam "
-        "rather than a wall.",
+        "the walled room the third floor has. The lobby has no wall "
+        "either: the spine is opened 3.69 m between the columns, a "
+        "downstand beam rather than a wall.",
         "The west strip is otherwise the third floor's and the east strip "
         "the second's, so the wet rooms stack and the stair lines through. "
         "East and north carry ordinary windows, the west louvred "
-        "ventilation only. The hall to the north bedrooms stops at its last "
-        "door; the dead end beyond goes to bedroom 2, 16.4 m\u00b2.",
-        "The master bedroom's north wall is 1.30 m further north than the "
-        "suite below it, taking it to 19.6 m²; the shared bath gives up the "
-        "same depth, at 5.4 m².",
-        "The south cantilever repeats the third floor's: the same "
-        f"asymmetric curve, {V3_WAVE_W:.2f} m west sweeping to "
-        f"{V3_WAVE_E:.2f} m east, {wave_area():.1f} m², with sliding doors "
-        "from the living area and the master bedroom. The second floor has "
-        "none, so the two do not yet stack.",
+        "ventilation only. The hall to the north bedrooms stops at its "
+        "last door; the dead end beyond goes to bedroom 2, 16.4 m².",
+        f"The cantilever runs on all three upper floors and the penthouse "
+        f"— the same curve, {V3_WAVE_W:.2f} m west sweeping to "
+        f"{V3_WAVE_E:.2f} m east, {wave_area():.1f} m² — with sliding "
+        "doors from the living area and bedroom 1.",
     ])
+
     F.compass_and_scale(sh, x=470.0, y=500.0)
     F.titleblock(sh)
     return sh
@@ -1653,25 +1754,26 @@ def _plan_third(sh):
             V3_HALL_Y1 - V3_BED3_Y0, "Hall", area=2.0, size=1.8,
             show_area=False, at=(16.79, 12.95))
     sh.room(V3_SPINE_X1, v3_y0, v3_x1 - V3_SPINE_X1, V3_S1_ENS_Y0 - PT - v3_y0,
-            "Suite 1", area=15.5, size=2.4, sub="bedroom",
-            sched_name="Suite 1 bedroom", at=(19.75, 6.62))
+            "Bedroom 8", area=15.5, size=2.4, sub="suite",
+            sched_name="Bedroom 8 — suite", at=(19.75, 6.62))
     sh.room(V3_SPINE_X1, V3_S1_ENS_Y0, v3_x1 - V3_SPINE_X1,
-            V3_S1_Y1 - V3_S1_ENS_Y0, "Ensuite 1", area=6.5, size=1.8,
-            sched_name="Suite 1 ensuite", show_area=False, at=(19.35, 8.00))
+            V3_S1_Y1 - V3_S1_ENS_Y0, "Ensuite 8", area=6.5, size=1.8,
+            sched_name="Bedroom 8 ensuite", show_area=False,
+            at=(19.35, 8.00))
     sh.room(V3_SPINE_X1, V3_S1_Y1 + PT, v3_x1 - V3_SPINE_X1,
             V3_BATH_Y1 - (V3_S1_Y1 + PT), "Shared Bath", area=6.5, size=1.8,
             sched_name="Shared bath", show_area=False, at=(19.45, 9.62))
     sh.room(V3_SPINE_X1, V3_BATH_Y1 + PT, v3_x1 - V3_SPINE_X1,
-            V3_S2_ENS_Y1 - (V3_BATH_Y1 + PT), "Ensuite 2", area=6.5,
-            size=1.8, sched_name="Suite 2 ensuite", show_area=False,
+            V3_S2_ENS_Y1 - (V3_BATH_Y1 + PT), "Ensuite 10", area=6.5,
+            size=1.8, sched_name="Bedroom 10 ensuite", show_area=False,
             at=(19.50, 12.40))
     sh.room(V3_SPINE_X1, V3_S2_ENS_Y1 + PT, v3_x1 - V3_SPINE_X1,
-            v3_y1 - (V3_S2_ENS_Y1 + PT), "Suite 2", area=15.9, size=2.4,
-            sub="bedroom", sched_name="Suite 2 bedroom",
+            v3_y1 - (V3_S2_ENS_Y1 + PT), "Bedroom 10", area=15.9, size=2.4,
+            sub="suite", sched_name="Bedroom 10 — suite",
             at=(19.65, 16.30))
     # L-shaped: the strip west of the hall, plus the full width north of it
     sh.room(v3_x0, V3_BED3_Y0, V3_BED3_X1 - v3_x0, v3_y1 - V3_BED3_Y0,
-            "Bedroom 3", area=16.4, size=2.4, at=(14.60, 16.00))
+            "Bedroom 9", area=16.4, size=2.4, at=(14.60, 16.00))
 
 
 def sheet_third():
@@ -1679,7 +1781,7 @@ def sheet_third():
     sh = Sheet("A-103", "Third Floor Plan — Detached Villa", "+9.90",
                "1:50 @ A1")
     # P9: the stair no longer stops here, it carries on to the penthouse
-    sh.rev, sh.status = "P9", F.STATUS_FINAL_DRAFT
+    sh.rev, sh.status = "P12", F.STATUS_FINAL_DRAFT
     F.border(sh)
 
     # the three setback lines, so the 1.00 m gap is measurable on the sheet
@@ -1740,9 +1842,12 @@ def sheet_third():
         "street across our own forecourt. Detaching costs 22% of the floor "
         "— 114.8 m² against 147.3 — and removes the party wall, so one "
         "structural spine divides the plate.",
-        "The west strip south of bedroom 3 is one room: no wall divides the "
-        "living area from the stair standing in it, and the pantry is its "
-        "only enclosure. The stair is a private villa stair — 900 mm "
+        "Bedrooms are numbered 1 to 11 through the house, south to "
+        "north and west before east on each floor; the ground "
+        "floor's room is the guest bedroom and carries no number.",
+        "The west strip south of bedroom 9 is one room: no wall divides "
+        "the living area from the stair standing in it, and the pantry is "
+        "its only enclosure. The stair is a private villa stair — 900 mm "
         "flights, 18R at 183 × 260, landing 950 mm — needing no enclosure, "
         "no smoke vent and no lift.",
         f"The south cantilever is reinforced concrete: one asymmetric "
@@ -1751,14 +1856,13 @@ def sheet_third():
         "stands outside the line joining the two ends.",
         "East and north carry ordinary windows; both neighbours are "
         "3.00 m high. The west carries louvred ventilation only.",
-        "Suite 1 and the shared bath open off the living area; suite 2 and "
-        "bedroom 3 off the hall, which stops once it has served those two "
-        "doors \u2014 the 2.08 m of dead end beyond goes to bedroom 3, which "
-        "turns the corner behind it at 16.4 m\u00b2.",
-        "Suite 2 has no balcony: its bedroom takes the north wall and two "
-        "windows instead. Floors 0–2, the site plan and section A-A are "
-        "still on the old 11.50 × 14.50 footprint.",
+        "Bedroom 8 and the shared bath open off the living area; bedrooms "
+        "9 and 10 off the hall, which stops once it has served those two "
+        "doors — the 2.08 m of dead end beyond goes to bedroom 9, which "
+        "turns the corner behind it at 16.4 m². Bedroom 10 has no balcony: "
+        "it takes the north wall and two windows instead.",
     ])
+
     F.compass_and_scale(sh, x=470.0, y=500.0)
     F.titleblock(sh)
     return sh
@@ -1949,7 +2053,7 @@ def _villa_penthouse(sh):
             V4_BATH_Y1 - V4_LIV_Y1 - PT, "Bath", area=5.4, size=1.9,
             show_area=False, at=(19.72, 11.12))
     sh.room(v4_x0, V4_BATH_Y1 + PT, v4_x1 - v4_x0,
-            v4_y1 - V4_BATH_Y1 - PT, "Bedroom", area=13.6, size=2.3,
+            v4_y1 - V4_BATH_Y1 - PT, "Bedroom 11", area=13.6, size=2.3,
             at=(18.50, 13.80))
     sh.room(V3_STAIR[0], V3_STAIR[1], V3_STAIR[2] - V3_STAIR[0],
             V3_STAIR[3] - V3_STAIR[1], "Stair", area=6.6, size=1.9,
@@ -1961,7 +2065,7 @@ def sheet_penthouse():
     D.set_scale(50, *PLAN_ORIGIN)
     sh = Sheet("A-104", "Penthouse Plan — Detached Villa", V4_LEVEL,
                "1:50 @ A1")
-    sh.rev = "P11"
+    sh.rev, sh.status = "P12", F.STATUS_FINAL_DRAFT
     F.border(sh)
 
     with sh.on("G-ANNO-BNDY"):
@@ -2007,33 +2111,32 @@ def sheet_penthouse():
         ("Top of penthouse slab", f"+{V4_TOP:.2f}"),
         ("Floor below", "+9.90")])
     F.notes(sh, y + 6, [
-        f"Draft for comment. The two open areas are joined outside the "
-        f"flat, down the west side, by a corridor {V4_CORR_W:.2f} m clear "
-        f"against the 2.00 m asked for, with the pergola running over its "
-        f"whole length. The front door is off it.",
-        f"The living room runs south to the building's face, so it opens "
-        f"straight onto the cantilever the way every floor below does. "
-        f"That wall is the best-founded in the flat: y 3.65 is a grid "
-        f"line, so it sits on the columns at x 17.46 and 21.85 and over "
-        f"the external wall below.",
+        "Bedrooms are numbered 1 to 11 through the house, south to north "
+        "and west before east on each floor; the ground floor's room is "
+        "the guest bedroom and carries no number. This is bedroom 11.",
+        f"Final draft — layout agreed. The two open areas are joined "
+        f"outside the flat, down the west, by a corridor {V4_CORR_W:.2f} m "
+        f"clear against the 2.00 m asked for, pergola over its whole "
+        f"length. The front door is off it.",
         f"{V4_PLATE:.1f} m² indoors; {V4_BALCONY:.1f} m² of balcony on the "
-        f"cantilever, {V4_TERR_S - V4_BALCONY:.1f} m² of terrace beside "
-        f"the stair, {V4_TERR_N:.1f} m² north and {V4_CORR_AREA:.1f} m² of "
-        f"corridor. All four run into one another.",
-        "The corridor passes east of the stair, not west: the well is "
-        "2.00 m wide and hard against the west parapet, and its half "
-        "landing is 1.65 m below this floor, so it stays open. Its east "
-        "side is the flat's west wall, on the spine at x 17.46 - the one "
-        "line on this side of the roof with a beam under it.",
+        f"cantilever, {V4_TERR_S - V4_BALCONY:.1f} m² of terrace by the "
+        f"stair, {V4_TERR_N:.1f} m² north and {V4_CORR_AREA:.1f} m² of "
+        f"corridor — all four run into one another.",
+        "The corridor passes east of the stair: the well is 2.00 m wide "
+        "and hard against the west parapet, its half landing 1.65 m below "
+        "this floor, so it stays open. Its east side is the flat's west "
+        "wall, on the spine at x 17.46 — the one line on this side of the "
+        "roof with a beam under it.",
         "That leaves the flat 4.09 m clear, which will not take two "
-        "bedrooms side by side: stacking them needs 12.06 m of the "
-        "13.50 m depth and leaves 1.44 m for both terraces. The second "
-        "bedroom is what pays for the corridor.",
-        "Nothing is built over the cantilever - it carries its parapet "
-        "and no more. At +16.45 the penthouse is a fourth storey for most "
-        "planning codes. The site plan, section A—A and the A-300 "
-        "enlargements are still on the old 11.50 × 14.50 footprint.",
+        "bedrooms side by side: stacking them needs 12.06 m of the 13.50 m "
+        "depth and leaves 1.44 m for both terraces. The second bedroom is "
+        "what pays for the corridor.",
+        "The living room runs south to the building's face, so it opens "
+        "straight onto the cantilever; y 3.65 is a grid line, so that wall "
+        "sits on the columns and over the wall below. At +16.45 the "
+        "penthouse is a fourth storey for most planning codes.",
     ])
+
     F.compass_and_scale(sh, x=470.0, y=500.0)
     F.titleblock(sh)
     return sh

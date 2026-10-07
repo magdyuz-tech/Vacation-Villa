@@ -45,7 +45,11 @@ REVISIONS = [
     ("P9", "2026-10-06", "penthouse added: two-bedroom roof apartment"),
     ("P10", "2026-10-07",
      "penthouse between two terraces, pergola joining them"),
-    ("P11", None, "penthouse: 2.51 m corridor outside the flat, west side"),
+    ("P11", "2026-10-07",
+     "penthouse: 2.51 m corridor outside the flat; living room to the face"),
+    ("P12", "2026-10-07",
+     "bedrooms numbered 1-11; all five floors issued as final draft"),
+    ("P13", None, "site plan redrawn for the detached villa"),
 ]
 STATUS = "Preliminary design issue — not for construction."
 STATUS_FINAL_DRAFT = ("Final draft — layout agreed with the client; "
