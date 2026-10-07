@@ -663,9 +663,16 @@ V4_CORR_X0 = V3_STAIR[2]               # 14.80, the stair's east edge
 V4_CORR_X1 = V3_SPINE_X0               # 17.31; 2.51 m clear, min asked 2.00
 V4_CORR_W = V4_CORR_X1 - V4_CORR_X0
 V4_X0, V4_X1 = V3_SPINE_X0, V3_X1      # 17.31 .. 22.00, flush east
-V4_Y0, V4_Y1 = 5.70, 15.34
+# The living room runs south to the building's face, where the cantilever
+# starts, so it opens straight onto the wave balcony the way every floor
+# below does.  That wall is the best-founded in the flat: y 3.65 is a grid
+# line, so it sits on the columns at x 17.46 and 21.85 AND directly over
+# the external wall below.  The 2.20 m band of flat roof it replaces was
+# terrace standing between a living room and a balcony, which is one
+# outdoor space too many on the same side.
+V4_Y0, V4_Y1 = V3_Y0, 15.34            #  3.50 .. 15.34
 v4_x0, v4_x1 = V4_X0 + WT, V4_X1 - WT  # 17.61 .. 21.70  (4.09 clear)
-v4_y0, v4_y1 = V4_Y0 + WT, V4_Y1 - WT  #  6.00 .. 15.04  (9.04 clear)
+v4_y0, v4_y1 = V4_Y0 + WT, V4_Y1 - WT  #  3.80 .. 15.04 (11.24 clear)
 V4_PLATE = (v4_x1 - v4_x0) * (v4_y1 - v4_y0)
 
 V4_LIV_Y1 = 9.60               # living | the hall-and-bath band
@@ -678,7 +685,7 @@ V4_DOOR_MAIN = (6.30, 7.10)    # the front door, off the corridor
 V4_DOOR_HALL = (17.75, 18.65)  # living into the hall, cased
 V4_DOOR_BATH = (10.55, 11.35)  # hall into the bath
 V4_DOOR_BED = (17.80, 18.60)   # hall into the bedroom
-V4_DOOR_TERR = (17.90, 19.70)  # living onto the south terrace, sliding
+V4_DOOR_TERR = (17.90, 20.10)  # living onto the wave balcony, sliding
 V4_DOOR_TERR_N = (17.70, 19.20)   # bedroom onto the north terrace, sliding
 
 V4_LEVEL = "+13.20"
@@ -688,9 +695,9 @@ V4_TOP = 16.45
 # that joins the two terraces is also the thing that shades the walk
 # between them, and the two open areas read as one place.
 V4_PERGOLA = (V4_CORR_X0, V3_Y0, V4_CORR_X1, V3_Y1 - PARAPET)
-# and a band off each slider, so the shade reaches onto both terraces and
-# the three run as one structure: shade where you sit, open sky beyond
-V4_PERGOLA_S = (V4_CORR_X1, V3_Y0, 19.80, V4_Y0)
+# and a band off the bedroom's slider, so the shade reaches onto the north
+# terrace and the two run as one structure.  Nothing is built over the
+# cantilever: it carries its own parapet and no more.
 V4_PERGOLA_N = (V4_CORR_X1, V4_Y1, 19.40, V3_Y1 - PARAPET)
 V4_CANOPY = (V3_STAIR[0], V3_STAIR[1] - 0.30, V3_STAIR[2], V3_STAIR[3])
 V4_PLANT = (V3_X0 + PARAPET, 15.34, 14.80, V3_Y1 - PARAPET)   # tanks, NW
@@ -699,10 +706,11 @@ V4_PLANT = (V3_X0 + PARAPET, 15.34, 14.80, V3_Y1 - PARAPET)   # tanks, NW
 # terrace - not the boundary, so it takes ordinary windows.  The west rule
 # in checks.py is about the building's own west wall at x 12.50, which up
 # here is a parapet with nothing in it.
-V4_WIN_W = [(7.60, 8.20),                      # living
+V4_WIN_W = [(4.20, 5.60), (7.60, 8.20),        # living
             (12.90, 13.70), (14.00, 14.80)]    # bedroom
-V4_WIN_S = [V4_DOOR_TERR, (20.20, 21.50)]      # living
-V4_WIN_E = [(6.40, 7.80), (8.80, 9.40),        # living
+V4_WIN_S = [V4_DOOR_TERR, (20.50, 21.55)]      # living
+V4_WIN_E = [(4.10, 5.70), (6.00, 7.70),        # living
+            (8.80, 9.40),                      # living
             (9.80, 10.50),                     # bath
             (12.90, 14.20), (14.40, 15.00)]    # bedroom
 V4_WIN_N = [V4_DOOR_TERR_N]                    # bedroom
@@ -712,9 +720,10 @@ V4_WIN_N = [V4_DOOR_TERR_N]                    # bedroom
 V4_ROOF_X0, V4_ROOF_X1 = V3_X0 + PARAPET, V3_X1 - PARAPET    # 12.75 .. 21.75
 V4_ROOF_Y1 = V3_Y1 - PARAPET                                 # 16.75
 V4_CORR_AREA = V4_CORR_W * (V4_ROOF_Y1 - V3_Y0)
-V4_TERR_S = ((V4_ROOF_X1 - V4_ROOF_X0 - V4_CORR_W) * (V4_Y0 - V3_Y0)
-             + (V4_CORR_X0 - V4_ROOF_X0) * (V3_STAIR[1] - V4_Y0)
-             + wave_area())
+# south of the flat there is now the cantilever itself and the strip west
+# of the corridor beside the stair, which run into one another at y 3.50
+V4_BALCONY = wave_area()
+V4_TERR_S = V4_BALCONY + (V4_CORR_X0 - V4_ROOF_X0) * (V3_STAIR[1] - V3_Y0)
 V4_TERR_N = ((V4_ROOF_X1 - V4_CORR_X1) * (V4_ROOF_Y1 - V4_Y1)
              + (V4_CORR_X0 - V4_ROOF_X0) * (V4_Y1 - V3_STAIR[3]))
 
