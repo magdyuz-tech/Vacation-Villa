@@ -41,11 +41,11 @@ Structural slabs: +0.00, +3.30, +6.60, +9.90, +13.20, +16.45 — six slabs to fi
 | --- | --- | --- | --- | --- | --- |
 | 0 — Information required from others | 3 | 1 | 0 | 1 | 1 |
 | A — Presentation and estimation | 8 | 1 | 0 | 1 | 6 |
-| B — Architecture | 21 | 10 | 0 | 0 | 11 |
+| B — Architecture | 21 | 11 | 0 | 0 | 10 |
 | C — Structure | 12 | 0 | 0 | 10 | 2 |
 | D — Building services | 33 | 0 | 0 | 3 | 30 |
 | E — Quantities and cost control | 4 | 0 | 0 | 4 | 0 |
-| **Total** | **81** | **12** | **0** | **19** | **50** |
+| **Total** | **81** | **13** | **0** | **19** | **49** |
 
 ## Package 0 — Information required from others
 
@@ -94,7 +94,7 @@ Structural slabs: +0.00, +3.30, +6.60, +9.90, +13.20, +16.45 — six slabs to fi
 | ARC-103 | Second floor plan, +6.60 | Architecture | 1:50 | A1 sheet | D | issued | — | A-102 |
 | ARC-104 | Third floor plan, +9.90 | Architecture | 1:50 | A1 sheet | D | issued | — | A-103 |
 | ARC-105 | Penthouse floor plan, +13.20 | Architecture | 1:50 | A1 sheet | D | issued | — | A-104 |
-| ARC-106 | Roof plan over the penthouse, +16.45 | Architecture | 1:50 | A1 sheet | D | not started | — | — |
+| ARC-106 | Roof plan over the penthouse, +16.45 | Architecture | 1:50 | A1 sheet | D | issued | — | ARC-106 |
 | ARC-200 | Facade elevations - all four faces, scheme A | Architecture | 1:50 / 1:75 | A1 sheet | D | issued | CLI-001 | A-400, A-401, A-402 |
 | ARC-300 | Longitudinal section A-A | Architecture | 1:50 | A1 sheet | D | issued | — | A-200 |
 | ARC-301 | Transverse section B-B | Architecture | 1:50 | A1 sheet | D | not started | ARC-300 | — |
@@ -110,7 +110,7 @@ Structural slabs: +0.00, +3.30, +6.60, +9.90, +13.20, +16.45 — six slabs to fi
 - **ARC-000** — This register. Status on it is derived at build time from the sheet builders and the files on disk.
 - **ARC-002** — Notes and symbols are ours. The matrix is set against ECP 201 and ECP 203, the Egyptian codes the site is governed by, and signed off by the architect of record.
 - **ARC-100** — Issued with the boundary marked indicative.
-- **ARC-106** — Falls, outlets, parapets, water tanks and the plant deck. Drawn nowhere in the set today.
+- **ARC-106** — Outlines, parapets, plant deck and levels are exact; the falls and outlet positions are architectural intent and PL-200 sets the real ones.
 - **ARC-200** — South, the three other faces, and the street elevation in context. Schemes B and C still build and stay in the repository as the record of what was offered, but they are stamped not selected and left out of the issue.
 - **ARC-301** — Cut east-west through the stair and the wave cantilever, which section A-A runs parallel to and cannot show.
 - **ARC-400** — Soffit levels, bulkheads and ceiling layout. Fittings are indicative; the EL-200 series governs.

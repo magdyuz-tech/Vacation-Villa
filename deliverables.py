@@ -227,9 +227,11 @@ def _package_b():
     rows += [
         Row(f"ARC-{101 + len(G.EL_LEVELS)}",
             f"Roof plan over the penthouse, {slabs()[-1]}", "B", "D",
-            scale="1:50", source=("V4_TOP", "V4_PLANT", "PARAPET"),
-            note="Falls, outlets, parapets, water tanks and the plant "
-                 "deck. Drawn nowhere in the set today."),
+            scale="1:50", sheet="ARC-106",
+            source=("V4_TOP", "V4_PLANT", "PARAPET"),
+            note="Outlines, parapets, plant deck and levels are exact; "
+                 "the falls and outlet positions are architectural intent "
+                 "and PL-200 sets the real ones."),
         Row("ARC-200", f"Facade elevations - all four faces, scheme "
             f"{G.SCHEME}", "B", "D", scale="1:50 / 1:75",
             sheet=("A-400", "A-401", "A-402"),

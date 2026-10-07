@@ -24,6 +24,8 @@ SHEETS = [
      "Living area, two suites and a bedroom, on the same balcony."),
     ("A-104", "Penthouse Plan — Detached Villa", "+13.20", "1:50",
      "Two-bedroom roof apartment, terrace and pergola."),
+    ("ARC-106", "Roof Plan", "+16.45 / +13.20", "1:50",
+     "Every surface that sheds water, with its level and its falls."),
     ("A-200", "Section A–A", "through the core", "1:50",
      "Cut through the glazing, lift shaft, stair and north rooms."),
     ("A-400", "South Elevation — Scheme A “Wave”", "street frontage",

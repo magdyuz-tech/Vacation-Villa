@@ -57,6 +57,7 @@ if __name__ == "__main__":
 # simply not part of the issue.
 SET_ORDER = ["ARC-000",
              "A-000", "A-100", "A-101", "A-102", "A-103", "A-104",
+             "ARC-106",
              "A-200", "A-400", "A-401", "A-402", "A-430",
              "ARC-500"]
 

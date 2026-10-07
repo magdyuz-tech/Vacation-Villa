@@ -11,6 +11,7 @@ plans.py - generates the drawing set for the four-storey vacation home.
 Run:  python3 plans.py [output_dir]
 """
 
+import math
 import os
 import sys
 
@@ -2946,6 +2947,188 @@ def sheet_elev_b_sides():
 
 
 # ===========================================================================
+# ARC-106  ROOF PLAN
+# ===========================================================================
+# The one plan the set never had.  Everything above +13.20 was drawn on
+# A-104 as the penthouse's floor; nothing drew the surfaces that actually
+# shed water - the roof over the penthouse at +16.45, the two terraces and
+# the balcony at +13.20, the tank deck - or said which way any of them
+# fall.
+#
+# What is derived here and what is not, is the whole of it.  The outlines,
+# the parapets, the upstands, the tank deck and the levels come straight
+# out of geometry.py and are exact.  The falls and the outlet positions do
+# not: they are the architectural intent, drawn so the drainage package has
+# something to coordinate against, and PL-200 and PL-300 set the real
+# positions, the pipe sizes and the overflow provision.  They are tagged
+# INDICATIVE on the sheet for that reason.
+RF_FALL = "1:60"               # the intent; confirm against the spec
+RF_UPSTAND = 0.15              # waterproofing turned up at every upstand
+
+
+def _rf_outlet(sh, x, y, label=True):
+    """A rainwater outlet - indicative position, see PL-200."""
+    sh.circle(x, y, 0.18, fill="#ffffff", stroke=INK, sw=LW_SECONDARY)
+    sh.circle(x, y, 0.09, fill=INK, stroke=INK, sw=LW_FIXTURE)
+    if label:
+        # under the outlet, not beside it: beside it lands on the fall
+        # arrow that points at it
+        sh.tag(x, y - 0.62, "RWO", size=1.6, color=GREY)
+
+
+def _rf_fall(sh, x0, y0, x1, y1):
+    """A fall arrow: from the high point toward the outlet."""
+    sh.line(x0, y0, x1, y1, w=LW_THIN, color=GREY, dash="3 2")
+    dx, dy = x1 - x0, y1 - y0
+    n = math.hypot(dx, dy) or 1.0
+    ux, uy = dx / n, dy / n
+    px, py = -uy, ux
+    sh.poly([(x1, y1), (x1 - 0.34 * ux + 0.16 * px, y1 - 0.34 * uy + 0.16 * py),
+             (x1 - 0.34 * ux - 0.16 * px, y1 - 0.34 * uy - 0.16 * py)],
+            fill=GREY, stroke=GREY, sw=LW_FIXTURE)
+    # three-quarters of the way along rather than halfway, which on the
+    # long roof arrows is where the area label sits
+    sh.tag(x0 + 0.72 * dx - 0.34 * px, y0 + 0.72 * dy - 0.34 * py,
+           RF_FALL, size=1.6, color=GREY)
+
+
+def _roof_area(sh, box, name, level, at, area=None, tint="#f4f6f7",
+               rot=None):
+    """One surface that sheds water: its outline, its name, its level."""
+    x0, y0, x1, y1 = box
+    sh.rect(x0, y0, x1 - x0, y1 - y0, fill=tint, stroke=GREY,
+            sw=LW_SECONDARY)
+    ax_, ay = at
+    sh.tag(ax_, ay, name.upper(), size=2.0, color=INK, rot=rot)
+    off = (0.0, -0.62) if rot is None else (-0.62, 0.0)
+    sh.tag(ax_ + off[0], ay + off[1],
+           f"{area if area is not None else (x1 - x0) * (y1 - y0):.1f} m²"
+           f"  ·  {level}", size=1.7, color=GREY, rot=rot)
+
+
+def sheet_roof():
+    """ARC-106: the roof over the penthouse, and every surface below it.
+
+    A roof plan that showed only the top slab would leave the terraces,
+    the balcony and the plant deck undrained, which is where a flat roof
+    actually fails.  All of them are here, each with its level, its falls
+    and an outlet.
+    """
+    D.set_scale(50, *PLAN_ORIGIN)
+    sh = Sheet("ARC-106", "Roof Plan", f"+{V4_TOP:.2f} / {V4_LEVEL}",
+               "1:50 @ A1")
+    sh.rev = "P19"
+    F.border(sh)
+
+    with sh.on("G-ANNO-BNDY"):
+        for a, b, c, d in ((A_X0, A_Y0, A_X0, A_Y1), (A_X0, A_Y1, B_X1, A_Y1),
+                           (B_X1, A_Y0, B_X1, A_Y1)):
+            sh.line(a, b, c, d, w=LW_THIN, color=LIGHT, dash="4 2")
+
+    sx0, sy0, sx1, sy1 = V3_STAIR
+    west = (V3_X0 + PARAPET, V4_Y0, V4_CORR_X0, V4_PLANT[1])
+    west_area = ((west[2] - west[0]) * (west[3] - west[1])
+                 - (sx1 - sx0) * (sy1 - sy0))
+    _roof_area(sh, west, "West terrace", V4_LEVEL, (13.78, 6.30),
+               area=west_area)
+    _roof_area(sh, (V4_CORR_X0, V4_Y0, V4_CORR_X1, V4_ROOF_Y1),
+               "Open corridor", V4_LEVEL, (16.60, 8.00), rot=-90)
+    _roof_area(sh, (V4_CORR_X1, V4_Y1, V4_ROOF_X1, V4_ROOF_Y1),
+               "North terrace", V4_LEVEL, (19.60, 16.30))
+    _roof_area(sh, (V4_X0 + PARAPET, V4_Y0 + PARAPET, V4_X1 - PARAPET,
+                    V4_Y1 - PARAPET), "Penthouse roof",
+               f"+{V4_TOP:.2f}", (19.65, 10.20), tint="#e7ebee")
+
+    # the stair well, open to the sky under its canopy, is not a surface
+    sh.rect(sx0, sy0, sx1 - sx0, sy1 - sy0, fill="#ffffff", stroke=GREY,
+            sw=LW_SECONDARY, dash="4 2")
+    sh.tag((sx0 + sx1) / 2.0, (sy0 + sy1) / 2.0 + 0.30, "STAIR WELL",
+           size=1.8, color=GREY)
+    sh.tag((sx0 + sx1) / 2.0, (sy0 + sy1) / 2.0 - 0.45, "CANOPY OVER",
+           size=1.6, color=GREY)
+
+    # falls, and an outlet at the foot of each
+    for x0, y0, x1, y1, ox, oy in (
+            (14.50, 4.65, 13.45, 4.65, 13.05, 4.65),      # west terrace
+            (17.05, 4.65, 15.70, 4.65, 15.25, 4.65),      # corridor
+            (18.10, 16.30, 20.95, 16.30, 21.40, 16.30),   # north terrace
+            (18.40, 13.60, 18.40, 5.45, 18.40, 4.85),     # roof, west half
+            (20.90, 13.60, 20.90, 5.45, 20.90, 4.85)):    # roof, east half
+        _rf_fall(sh, x0, y0, x1, y1)
+        _rf_outlet(sh, ox, oy)
+
+    # the wave cantilever, which sheds over its own edge
+    fx.wave_balcony(sh, wave_points(), V3_Y0, V3_WAVE_BALUSTRADE,
+                    V3_WAVE_REVEAL, label=None, area=None, show_area=False)
+
+    parapet(sh, V3_X0, V3_Y0, V3_X0 + PARAPET, V3_Y1)
+    parapet(sh, V3_X0, V3_Y1 - PARAPET, V3_X1, V3_Y1)
+    parapet(sh, V3_X1 - PARAPET, V4_Y1, V3_X1, V3_Y1)
+
+    qx0, qy0, qx1, qy1 = V4_PLANT
+    sh.rect(qx0, qy0, qx1 - qx0, qy1 - qy0, fill="#e0e4e7", stroke=INK,
+            sw=LW_SECONDARY)
+    sh.tag((qx0 + qx1) / 2.0, 16.25, "PLANT DECK", size=1.8, color=INK)
+    sh.tag((qx0 + qx1) / 2.0, 15.68, "WATER TANKS", size=1.6, color=GREY)
+
+    px0, py0, px1, py1 = V4_PERGOLA
+    with sh.on("A-FLOR-OVER"):
+        sh.rect(px0, py0, px1 - px0, py1 - py0, sw=LW_HIDDEN, stroke=GREY,
+                dash="5 3")
+    sh.tag(15.25, 12.40, "PERGOLA OVER — OPEN, NOT A ROOF", size=1.7,
+           color=GREY, rot=-90)
+
+    # the penthouse walls under the roof, so the top slab reads in context
+    with sh.on("A-WALL-BELW"):
+        for a, b, c, d in ((V4_X0, V4_Y0, V4_X1, V4_Y0 + WT),
+                           (V4_X0, V4_Y0, V4_X0 + WT, V4_Y1),
+                           (V4_X0, V4_Y1 - WT, V4_X1, V4_Y1),
+                           (V4_X1 - WT, V4_Y0, V4_X1, V4_Y1)):
+            sh.rect(a, b, c - a, d - b, fill="#cdd2d6", stroke=GREY,
+                    sw=LW_HIDDEN)
+
+    sh.dim_h(V3_X0, V3_X1, 1.05, ext_from=V3_Y0)
+    sh.dim_v(V4_Y0, V4_Y1, 23.05)
+    sh.dim_v(V4_Y1, V3_Y1, 23.05)
+    sh.tag(17.25, 0.35,
+           f"BALCONY {V4_LEVEL} — {V4_BALCONY:.1f} m², FALLS TO THE EDGE",
+           size=1.9, color=INK)
+
+    F.heading(sh)
+    y = F.legend(sh, 52)
+    y = F.datum_panel(sh, y + 8, "THE ROOF", [
+        ("Roof over penthouse", f"+{V4_TOP:.2f}"),
+        ("Terraces and balcony", V4_LEVEL),
+        ("Parapet", f"{PARAPET * 1000:.0f} mm × 1100 high"),
+        ("Waterproofing upstand", f"{RF_UPSTAND * 1000:.0f} mm minimum"),
+        ("Falls", f"{RF_FALL}, indicative"),
+        ("Outlets", "5, indicative — see PL-200"),
+        ("Balcony", f"{V4_BALCONY:.1f} m², falls to the edge"),
+        ("Plant deck", "water tanks, north-west")])
+    F.notes(sh, y + 6, [
+        "The surfaces that shed water, which no other sheet draws: the "
+        "roof over the penthouse at +16.45, the terraces and the open "
+        "corridor at +13.20, the balcony, and the plant deck.",
+        "Outlines, parapets, the plant deck and the levels are measured "
+        "from the geometry and are exact. The falls and the outlet "
+        "positions are architectural intent, drawn so the drainage "
+        "package has something to coordinate against.",
+        "PL-200 and PL-300 set the outlet positions, the pipe sizes, the "
+        "downpipe routes and the overflow provision. Nothing here is a "
+        "drainage design.",
+        f"Waterproofing turned up {RF_UPSTAND * 1000:.0f} mm minimum at "
+        f"every parapet, upstand and threshold and dressed into the "
+        f"outlet. Membrane and insulation build-up to the specification.",
+        "The pergola over the corridor is open and is not a roof: the "
+        "corridor under it is an external surface and drains as one. The "
+        "stair well is open to the sky under its canopy.",
+    ])
+    F.compass_and_scale(sh, x=470.0, y=500.0)
+    F.titleblock(sh)
+    return sh
+
+
+# ===========================================================================
 # ARC-500  DOOR AND WINDOW SCHEDULE
 # ===========================================================================
 # Measured, not compiled.  Every opening in this building is already a pair
@@ -3155,7 +3338,7 @@ def sheet_register():
     return sh
 
 
-SHEETS = (sheet_register, sheet_openings,
+SHEETS = (sheet_register, sheet_openings, sheet_roof,
           sheet_site, sheet_ground, sheet_first, sheet_second,
           sheet_third, sheet_penthouse, sheet_section,
           sheet_elev_a, sheet_elev_a_sides,
