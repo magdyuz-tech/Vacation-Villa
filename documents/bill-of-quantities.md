@@ -37,7 +37,7 @@ all. **Nothing in this document is priced.**
 | Class | Description | Unit | Quantity | Note |
 | --- | --- | --- | ---: | --- |
 | D | External and party wall, 300 mm — masonry — material to be specified | m² | 600.63 | 806.0 m² gross, openings deducted. |
-| D | Internal partition, 100 mm — red brick | m² | 326.76 | 326.8 m² gross, openings deducted. |
+| D | Internal partition, 100 mm — red brick | m² | 281.40 | 326.8 m² gross, openings deducted. |
 | D | Parapet, 250 mm — masonry — material to be specified | m² | 27.13 | 27.1 m² gross, openings deducted. |
 
 ## Openings
@@ -54,7 +54,7 @@ all. **Nothing in this document is priced.**
 | --- | --- | --- | ---: | --- |
 | D | Floor finish, net internal | m² | 473.70 | Every room the plans schedule. Finish type is specification. |
 | D | Ceiling finish, net internal | m² | 473.70 | Equal to the floor area; bulkheads add to it once their depth is set. See the ARC-400 series. |
-| D | Internal plaster | m² | 1,254.15 | The inside face of the external walls plus both faces of the partitions. Wet-room tiling comes out of it once the specification says which rooms are tiled and how high. |
+| D | Internal plaster | m² | 1,163.43 | The inside face of the external walls plus both faces of the partitions. Wet-room tiling comes out of it once the specification says which rooms are tiled and how high. |
 | D | External render | m² | 600.63 | The outside face. Slab edges, the nosing and the cove are additional and are detailed on ARC-600. |
 
 ## Roof

@@ -20,14 +20,14 @@ What follows is therefore the estimate with every quantity filled in and every r
 | --- | --- | --- | ---: | ---: | --- | ---: |
 | Frame | Columns, 300 × 300 mm | nr | 52.00 | | | |
 | Masonry | External and party wall, 300 mm — masonry — material to be specified | m² | 600.63 | | | |
-| Masonry | Internal partition, 100 mm — red brick | m² | 326.76 | | | |
+| Masonry | Internal partition, 100 mm — red brick | m² | 281.40 | | | |
 | Masonry | Parapet, 250 mm — masonry — material to be specified | m² | 27.13 | | | |
 | Openings | Doors, 6 types | nr | 9.00 | | | |
 | Openings | Windows, 16 types | nr | 69.00 | | | |
 | Openings | Louvres, 2 types | nr | 17.00 | | | |
 | Finishes | Floor finish, net internal | m² | 473.70 | | | |
 | Finishes | Ceiling finish, net internal | m² | 473.70 | | | |
-| Finishes | Internal plaster | m² | 1,254.15 | | | |
+| Finishes | Internal plaster | m² | 1,163.43 | | | |
 | Finishes | External render | m² | 600.63 | | | |
 | Roof | Waterproofing — west terrace | m² | 17.67 | | | |
 | Roof | Waterproofing — open corridor | m² | 33.26 | | | |

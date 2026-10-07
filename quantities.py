@@ -41,6 +41,7 @@ import geometry as G
 WALL_H = None           # set from CLEAR_HEIGHT at import, below
 WALL_H = G.CLEAR_HEIGHT  # blockwork runs slab top to slab soffit
 INT_DOOR_H = 2.10        # internal door head, as the section draws it
+PARAPET_T = 0.25         # the terrace parapet, which stands 1.10 m not 3.00
 
 
 class Item:
@@ -173,18 +174,24 @@ def takeoff():
 
     for t, label in ((G.WT, label_for(G.WT, "External and party wall")),
                      (G.PT, label_for(G.PT, "Internal partition")),
-                     (0.25, label_for(0.25, "Parapet"))):
-        # a parapet stands 1.10 m, everything else runs floor to soffit
-        height = 1.10 if t == 0.25 else WALL_H
+                     (PARAPET_T, label_for(PARAPET_T, "Parapet"))):
+        # a parapet stands 1.10 m, everything else runs floor to soffit.
+        # The branches compare against the constants, not against 0.30 and
+        # 0.12: they used to be literals, and when PT moved to 0.10 the
+        # partitions stopped matching their own branch and fell through to
+        # the parapet's, which deducts no openings at all. The bill then
+        # carried 326.76 m² of partition where the answer was 281.40 -
+        # gross, with every door still in it.
+        height = 1.10 if t == PARAPET_T else WALL_H
         gross = net = 0.0
         for level in w:
             run, op_run = w[level].get(t, (0.0, 0.0))
             gross += run * height
-            if t == 0.30:
+            if t == G.WT:
                 ext_run, ext_area = fac.get(level, (0.0, 0.0))
                 internal = max(op_run - ext_run, 0.0)
                 net += run * height - ext_area - internal * INT_DOOR_H
-            elif t == 0.12:
+            elif t == G.PT:
                 net += run * height - op_run * INT_DOOR_H
             else:
                 net += run * height
