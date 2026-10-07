@@ -55,7 +55,7 @@ Structural slabs: +0.00, +3.30, +6.60, +9.90, +13.20, +16.45 — six slabs to fi
 | GEO-001 | Soil investigation and foundation recommendation | Geotechnical | - | Report | X | blocked | SUR-001 | — |
 | CLI-001 | Exterior scheme selection - A, B or C | Client decision | - | Written instruction | X | not started | ARC-200 | — |
 
-- **SUR-001** — Boundaries on A-000 are indicative until this is in hand. The north neighbour has not been surveyed at all.
+- **SUR-001** — Boundaries on A-000 are indicative until this is in hand, as are the three neighbours' heights and positions - they are recorded as the client describes them, which is enough to design against and not enough to build to.
 - **GEO-001** — Central Nile Delta ground is well characterised as a region, and that is enough to assume a foundation type for layout. It is not enough to size one: allowable bearing pressure, the water table and sulphate content are plot figures, and this row stays open until they arrive with a source - boreholes, or figures the engineer will sign.
 - **CLI-001** — Three skins are live on one agreed building. Finishes, details and the finishes quantities all wait on this.
 
@@ -234,7 +234,7 @@ Structural slabs: +0.00, +3.30, +6.60, +9.90, +13.20, +16.45 — six slabs to fi
 
 1. A measured topographic and boundary survey (SUR-001) is not in hand; boundaries on A-000 are issued marked indicative.
 2. The ground is central Nile Delta, which is well characterised as a region — enough to assume a foundation type and lay the structure out, not enough to size it. Allowable bearing pressure, the water table and sulphate content are plot figures, and GEO-001 stays open until they arrive with a source. No soil value is written on any sheet here.
-3. The north neighbour has not been surveyed. The north wall carries windows on every level, so the overlooking check on that face is open.
+3. The north neighbour is a single storey, confirmed by the client. The north wall carries windows on all five levels; only the ground floor looks at anything, and from +3.30 up they clear its roof. Its exact height and position still come with SUR-001.
 4. Three exterior schemes are live on one agreed building. The scheme selection (CLI-001) gates the details, the finishes and the finishes quantities.
 5. Sheets A-300, A-301 and A-302 are enlargements of apartment units that no longer exist. They are already left out of the bound set and should be formally withdrawn rather than reissued.
 6. Rates are class X throughout. No rate appears in any document here without a named source, and QS-004 is issued with its rate column open.

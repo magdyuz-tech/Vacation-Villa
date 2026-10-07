@@ -2859,7 +2859,7 @@ def sheet_street_context():
         ("Side passage, east", f"{SETBACK:.2f} m"),
         ("West neighbour", f"{NBR_W_STOREYS} storeys, blind"),
         ("East neighbour", f"{NBR_E_STOREYS} storey, clay brick"),
-        ("North neighbour", "not surveyed"),
+        ("North neighbour", f"{NBR_N_STOREYS} storey"),
         ("Our top of building", f"+{EL_TOP:.2f}"),
         ("We stand over the east",
          f"{EL_TOP - NBR_E_STOREYS * NBR_STOREY_H:.2f} m")])
@@ -2881,9 +2881,11 @@ def sheet_street_context():
         f"line because it stands back behind the garden. Nothing of ours "
         f"opens that way in any case — the west wall takes louvred "
         f"ventilation only.",
-        "The north neighbour has not been surveyed and is not drawn. The "
-        "north wall carries windows on every floor, so its height deserves "
-        "the same question the east has been given.",
+        f"North: a single storey as well, confirmed by the client and not "
+        f"drawn on this south-facing view. The north wall carries windows "
+        f"on all five levels; only the ground floor looks at anything, and "
+        f"from +{FLOOR_TO_FLOOR:.2f} up they clear its roof as the east "
+        f"windows clear the east neighbour's.",
         "The garden wall height is indicative and awaits the client's "
         "choice. Boundaries to be confirmed by measured survey.",
     ])

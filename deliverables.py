@@ -141,8 +141,11 @@ def _package_0():
     return [
         Row("SUR-001", "Measured topographic and boundary survey", "0", "X",
             discipline="Survey", scale="1:200", fmt="Report + DWG",
-            note="Boundaries on A-000 are indicative until this is in hand. "
-                 "The north neighbour has not been surveyed at all."),
+            note="Boundaries on A-000 are indicative until this is in "
+                 "hand, as are the three neighbours' heights and "
+                 "positions - they are recorded as the client describes "
+                 "them, which is enough to design against and not enough "
+                 "to build to."),
         Row("GEO-001", "Soil investigation and foundation recommendation",
             "0", "X", discipline="Geotechnical", fmt="Report",
             depends=("SUR-001",),

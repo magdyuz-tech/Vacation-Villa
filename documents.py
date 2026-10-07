@@ -45,9 +45,10 @@ OPEN_ITEMS = [
     "table and sulphate content are plot figures, and GEO-001 stays open "
     "until they arrive with a source. No soil value is written on any "
     "sheet here.",
-    "The north neighbour has not been surveyed. The north wall carries "
-    "windows on every level, so the overlooking check on that face is "
-    "open.",
+    "The north neighbour is a single storey, confirmed by the client. The "
+    "north wall carries windows on all five levels; only the ground floor "
+    "looks at anything, and from +3.30 up they clear its roof. Its exact "
+    "height and position still come with SUR-001.",
     "Three exterior schemes are live on one agreed building. The scheme "
     "selection (CLI-001) gates the details, the finishes and the finishes "
     "quantities.",

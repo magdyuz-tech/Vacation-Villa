@@ -261,9 +261,15 @@ TER_N_Y0, TER_N_Y1 = 15.00, 17.70      # north terrace, block B, 2.70 m deep
 # looks over its roof.  The west house is three storeys and blind toward
 # our entrance garden.  Had those two been the other way round, the east
 # elevation would have needed rethinking rather than redrawing.
+#
+# The north house is a single storey too, which the client confirmed after
+# the rest was drawn.  It settles the one face that was still open: the
+# north wall carries windows on all five levels, and only the ground floor
+# now looks at anything.  From +3.30 up they clear its roof, as the east
+# windows clear the east neighbour's.
 NBR_W_STOREYS = 3              # west: three storeys, blind to our garden
 NBR_E_STOREYS = 1              # east: single storey, clay brick
-NBR_N_STOREYS = None           # north: not surveyed yet, assumed low
+NBR_N_STOREYS = 1              # north: single storey, confirmed by the client
 NBR_STOREY_H = 3.00            # an existing storey, for the overlooking check
 GARDEN_WALL_H = 1.20           # street wall to the entrance garden, INDICATIVE
 NBR_E_X1 = 27.60               # how far east the context elevation runs
