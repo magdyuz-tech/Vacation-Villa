@@ -58,7 +58,18 @@ B_X0, B_X1 = 18.00, 23.00      # rear block, 5.00 wide
 B_Y0, B_Y1 = 3.50, 18.00       # 14.50 deep
 
 WT = 0.30                      # external / party wall thickness
-PT = 0.12                      # internal partition thickness
+PT = 0.10                      # internal partition: a half-brick on edge
+
+# What each wall is made of, named rather than assumed.  The bill of
+# materials called all three "blockwork" before the client specified the
+# partitions, which was an assumption nobody had written down - the kind
+# this project is otherwise careful not to make.  Only the partition is
+# specified; the other two say so.
+WALL_MATERIAL = {
+    WT: "masonry — material to be specified",
+    PT: "red brick",
+    0.25: "masonry — material to be specified",   # the terrace parapet
+}
 PARAPET = 0.25                 # terrace parapet thickness (1.10 m high)
 
 # internal faces
@@ -311,7 +322,14 @@ V3_PANT_Y0, V3_PANT_Y1 = 7.30, 9.00              # 1.70 clear
 V3_PANT_OPEN = (16.20, 17.10)  # cased opening from the living area
 V3_HALL_X0 = 16.27             # west face of the short hall to the north
 V3_BED3_X1 = 16.15             # east face of bedroom 3, onto the hall
-V3_BED3_Y0 = 12.54             # south face of bedroom 3
+# South face of bedroom 3.  It sits one partition north of the stair well,
+# and it used to be the literal 12.54 - which was 0.12 clear of the stair
+# at 12.42 only because PT happened to be 0.12.  When the client specified
+# a 100 mm partition, six walls went on being drawn 120 mm thick and
+# dropped out of the bill of quantities entirely, because the bill sums
+# the thicknesses it knows about.  Tied to PT so that cannot recur, and
+# checks.py now refuses any wall whose thickness is not a declared one.
+V3_BED3_Y0 = 12.42 + PT
 # The hall stops as soon as it has served its two doors.  It ran the full
 # 4.16 m to the north wall, and everything past the far jamb of the last
 # door was a dead end a metre wide - so it ends here and the 2.08 m beyond

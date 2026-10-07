@@ -173,7 +173,7 @@ plot                                                     264.50 m²
 built footprint                                          166.75 m²   coverage 63 %
 ```
 
-External and party walls are 300 mm, internal partitions 120 mm, terrace
+External and party walls are 300 mm, internal partitions 100 mm red brick, terrace
 parapets 250 mm × 1100 mm high.
 
 Clear ceiling height is **3.00 m**, the client's minimum. A 0.30 m

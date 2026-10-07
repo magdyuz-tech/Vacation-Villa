@@ -13,16 +13,16 @@ all. **Nothing in this document is priced.**
 
 | Class | Material | Unit | Quantity | Note |
 | --- | --- | --- | ---: | --- |
-| D | Blockwork, 300 mm | m² | 600.63 | Block size, strength and mortar are specification. |
-| D | Blockwork, 120 mm | m² | 281.04 |  |
-| D | Blockwork, 250 mm parapet | m² | 27.13 |  |
+| D | Masonry, 300 mm | m² | 600.63 | Masonry — material to be specified. Unit size, strength and mortar are specification. |
+| D | Red brick, 100 mm | m² | 326.76 | Material specified by the client; a half-brick partition. Brick size, strength and mortar are still specification. |
+| D | Masonry, 250 mm parapet | m² | 27.13 | Masonry — material to be specified. |
 | D | Concrete, columns | m³ | 15.44 | 300 mm square × the storey height, measured. Grade is the engineer's. |
 | L | Concrete, slabs | m³ | — | Area is measured; the thickness is the engineer's. |
 | X | Reinforcement | t | — | The engineer's, entirely. |
 | D | Glazing | m² | 127.87 | Structural opening area. Glass build-up is specification. |
 | D | Door leaves and frames | m² | 38.31 |  |
 | D | Louvres | m² | 6.70 |  |
-| D | Internal plaster | m² | 1,162.71 |  |
+| D | Internal plaster | m² | 1,254.15 |  |
 | D | External render | m² | 600.63 |  |
 | D | Floor finish | m² | 473.70 | One figure; the split between finishes is specification. |
 | D | Waterproofing membrane | m² | 120.38 |  |

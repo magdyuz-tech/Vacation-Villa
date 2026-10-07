@@ -165,9 +165,15 @@ def takeoff():
                       f"concrete. Reinforcement is the engineer's."))
 
     # --- masonry ----------------------------------------------------------
-    for t, label in ((0.30, "External and party wall, 300 mm"),
-                     (0.12, "Internal partition, 120 mm"),
-                     (0.25, "Parapet, 250 mm")):
+    # the labels carry the thickness and the material from geometry, so a
+    # wall that changes thickness or gets specified cannot leave a stale
+    # figure in the bill
+    def label_for(t, what):
+        return f"{what}, {t * 1000:.0f} mm — {G.WALL_MATERIAL[t]}"
+
+    for t, label in ((G.WT, label_for(G.WT, "External and party wall")),
+                     (G.PT, label_for(G.PT, "Internal partition")),
+                     (0.25, label_for(0.25, "Parapet"))):
         # a parapet stands 1.10 m, everything else runs floor to soffit
         height = 1.10 if t == 0.25 else WALL_H
         gross = net = 0.0

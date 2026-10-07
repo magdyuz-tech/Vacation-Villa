@@ -7,6 +7,7 @@ import os
 from drafting import (Sheet, esc, SHEET_W, SHEET_H, INK, GREY, LIGHT, FONT,
                       LW_CUT, LW_SECONDARY, LW_FIXTURE, LW_THIN, LW_HIDDEN, S)
 import fixtures as fx
+import geometry as G
 
 PANEL_X = 580.0
 PANEL_R = 831.0
@@ -70,8 +71,10 @@ REVISIONS = [
      "ARC-000 deliverables list; title corrected to five storeys"),
     ("P18", "2026-10-07",
      "scheme A adopted: serpentine balcony on every plan; site named"),
-    ("P19", None,
+    ("P19", "2026-10-07",
      "serpentine waist deepened 0.75 to 1.35 m; 15.7 m² of balcony a floor"),
+    ("P20", None,
+     "internal partitions 100 mm red brick, specified by the client"),
 ]
 STATUS = "Preliminary design issue — not for construction."
 STATUS_FINAL_DRAFT = ("Final draft — layout agreed with the client; "
@@ -121,7 +124,8 @@ def legend(sh, y0=52):
     rows = [
         ("wall", "Masonry wall cut by section — 200 mm partition,"
                  " 300 mm external / party"),
-        ("partition", "Internal stud or block partition, 120 mm"),
+        ("partition", f"Internal partition, {G.PT * 1000:.0f} mm "
+                      f"{G.WALL_MATERIAL[G.PT]}"),
         ("parapet", "Terrace parapet, 250 mm × 1100 mm high"),
         ("door", "Single leaf door, swing shown to opening side"),
         ("window", "Glazed opening — arched head where noted"),

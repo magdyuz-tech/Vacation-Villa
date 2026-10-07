@@ -182,6 +182,16 @@ DECISIONS = [
      "0.75 m at the waist, 12.8 m² a floor. A-000 and A-100 to A-104 "
      "re-issued at P18; schemes B and C stamped not selected and dropped "
      "from the issue."),
+    ("2026-10-07", "Internal partitions",
+     "100 mm red brick, where the drawings had a 120 mm partition of "
+     "unstated material.",
+     "geometry.PT / geometry.WALL_MATERIAL",
+     "Every partition is redrawn 20 mm thinner and the bill names the "
+     "material. It also found a fault: six walls, 21.29 m of them, were "
+     "set out between two hard-coded coordinates whose gap was 120 mm "
+     "only because PT was, so they went on being drawn 120 mm and left "
+     "the bill of quantities silently. Those walls now follow PT, and a "
+     "check refuses any wall whose thickness is not a declared one."),
     ("2026-10-07", "Balcony waist",
      "The serpentine's waist deepened from 0.75 m to 1.35 m, holding the "
      "deep ends at 1.95 m under the 2.00 m cap.",
@@ -340,10 +350,14 @@ def materials_markdown():
 
     _lifts, _h, col_vol = Q.columns()
     rows = [
-        ("Blockwork, 300 mm", "m²", q("External and"), "D",
-         "Block size, strength and mortar are specification."),
-        ("Blockwork, 120 mm", "m²", q("Internal part"), "D", ""),
-        ("Blockwork, 250 mm parapet", "m²", q("Parapet"), "D", ""),
+        (f"Masonry, {G.WT * 1000:.0f} mm", "m²", q("External and"), "D",
+         f"{G.WALL_MATERIAL[G.WT].capitalize()}. Unit size, strength and "
+         f"mortar are specification."),
+        (f"Red brick, {G.PT * 1000:.0f} mm", "m²", q("Internal part"), "D",
+         "Material specified by the client; a half-brick partition. "
+         "Brick size, strength and mortar are still specification."),
+        ("Masonry, 250 mm parapet", "m²", q("Parapet"), "D",
+         f"{G.WALL_MATERIAL[0.25].capitalize()}."),
         ("Concrete, columns", "m³", col_vol, "D",
          f"{G.COL * 1000:.0f} mm square × the storey height, measured. "
          f"Grade is the engineer's."),
@@ -383,8 +397,11 @@ def materials_markdown():
 # not specifications: naming a block strength or a membrane here would be
 # inventing the one thing this document exists to ask for.
 SPEC_TOPICS = [
-    ("Masonry", "Block type, strength and density; mortar; movement "
-                "joints; wall ties; lintels over every opening."),
+    ("Masonry", "The 100 mm partitions are red brick, specified by the "
+                "client. Still to be specified: brick size and strength, "
+                "the material of the 300 mm external and party walls and "
+                "of the parapet, mortar, movement joints, wall ties and "
+                "lintels over every opening."),
     ("Concrete", "Grade, cover, aggregate and finish — all to the "
                  "structural engineer's specification, not this one."),
     ("Openings", "Frame material and finish, glazing build-up and "

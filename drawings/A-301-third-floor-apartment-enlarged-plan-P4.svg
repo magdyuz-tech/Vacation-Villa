@@ -51,20 +51,20 @@
 <rect x="260.400" y="286.000" width="12.000" height="108.000" fill="#141414" stroke="#141414" stroke-width="0.05"/>
 <rect x="260.400" y="154.000" width="12.000" height="96.000" fill="#141414" stroke="#141414" stroke-width="0.05"/>
 <rect x="260.400" y="22.000" width="12.000" height="96.000" fill="#141414" stroke="#141414" stroke-width="0.05"/>
-<rect x="201.200" y="398.000" width="14.800" height="4.800" fill="#141414" stroke="#141414" stroke-width="0.05"/>
-<rect x="252.000" y="398.000" width="8.400" height="4.800" fill="#141414" stroke="#141414" stroke-width="0.05"/>
-<rect x="201.200" y="325.200" width="59.200" height="4.800" fill="#141414" stroke="#141414" stroke-width="0.05"/>
-<rect x="201.200" y="330.000" width="4.800" height="68.000" fill="#141414" stroke="#141414" stroke-width="0.05"/>
-<rect x="80.000" y="188.400" width="134.000" height="4.800" fill="#141414" stroke="#141414" stroke-width="0.05"/>
-<rect x="214.000" y="162.000" width="4.800" height="26.400" fill="#141414" stroke="#141414" stroke-width="0.05"/>
-<rect x="214.000" y="110.000" width="4.800" height="16.000" fill="#141414" stroke="#141414" stroke-width="0.05"/>
-<rect x="214.000" y="105.200" width="46.400" height="4.800" fill="#141414" stroke="#141414" stroke-width="0.05"/>
-<rect x="272.400" y="381.200" width="7.600" height="4.800" fill="#141414" stroke="#141414" stroke-width="0.05"/>
-<rect x="316.000" y="381.200" width="120.000" height="4.800" fill="#141414" stroke="#141414" stroke-width="0.05"/>
-<rect x="272.400" y="313.200" width="163.600" height="4.800" fill="#141414" stroke="#141414" stroke-width="0.05"/>
-<rect x="272.400" y="245.200" width="163.600" height="4.800" fill="#141414" stroke="#141414" stroke-width="0.05"/>
-<rect x="272.400" y="177.200" width="7.600" height="4.800" fill="#141414" stroke="#141414" stroke-width="0.05"/>
-<rect x="316.000" y="177.200" width="120.000" height="4.800" fill="#141414" stroke="#141414" stroke-width="0.05"/>
+<rect x="202.000" y="398.000" width="14.000" height="4.000" fill="#141414" stroke="#141414" stroke-width="0.05"/>
+<rect x="252.000" y="398.000" width="8.400" height="4.000" fill="#141414" stroke="#141414" stroke-width="0.05"/>
+<rect x="202.000" y="326.000" width="58.400" height="4.000" fill="#141414" stroke="#141414" stroke-width="0.05"/>
+<rect x="202.000" y="330.000" width="4.000" height="68.000" fill="#141414" stroke="#141414" stroke-width="0.05"/>
+<rect x="80.000" y="189.200" width="134.000" height="4.000" fill="#141414" stroke="#141414" stroke-width="0.05"/>
+<rect x="214.000" y="162.000" width="4.000" height="27.200" fill="#141414" stroke="#141414" stroke-width="0.05"/>
+<rect x="214.000" y="110.000" width="4.000" height="16.000" fill="#141414" stroke="#141414" stroke-width="0.05"/>
+<rect x="214.000" y="106.000" width="46.400" height="4.000" fill="#141414" stroke="#141414" stroke-width="0.05"/>
+<rect x="272.400" y="381.200" width="7.600" height="4.000" fill="#141414" stroke="#141414" stroke-width="0.05"/>
+<rect x="316.000" y="381.200" width="120.000" height="4.000" fill="#141414" stroke="#141414" stroke-width="0.05"/>
+<rect x="272.400" y="314.000" width="163.600" height="4.000" fill="#141414" stroke="#141414" stroke-width="0.05"/>
+<rect x="272.400" y="246.000" width="163.600" height="4.000" fill="#141414" stroke="#141414" stroke-width="0.05"/>
+<rect x="272.400" y="178.000" width="7.600" height="4.000" fill="#141414" stroke="#141414" stroke-width="0.05"/>
+<rect x="316.000" y="178.000" width="120.000" height="4.000" fill="#141414" stroke="#141414" stroke-width="0.05"/>
 <rect x="68.000" y="538.000" width="12.000" height="12.000" fill="#2a2a2a" stroke="#2a2a2a" stroke-width="0.05"/>
 <rect x="68.000" y="345.600" width="12.000" height="12.000" fill="#2a2a2a" stroke="#2a2a2a" stroke-width="0.05"/>
 <rect x="68.000" y="181.600" width="12.000" height="12.000" fill="#2a2a2a" stroke="#2a2a2a" stroke-width="0.05"/>
@@ -194,8 +194,8 @@
 <line x1="68.000" y1="76.800" x2="80.000" y2="71.200" stroke="#5d5d5d" stroke-width="0.2" stroke-linecap="butt"/>
 <line x1="68.000" y1="68.800" x2="80.000" y2="63.200" stroke="#5d5d5d" stroke-width="0.2" stroke-linecap="butt"/>
 <line x1="68.000" y1="60.800" x2="80.000" y2="55.200" stroke="#5d5d5d" stroke-width="0.2" stroke-linecap="butt"/>
-<line x1="216.000" y1="402.800" x2="216.000" y2="398.000" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
-<line x1="252.000" y1="402.800" x2="252.000" y2="398.000" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
+<line x1="216.000" y1="402.000" x2="216.000" y2="398.000" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
+<line x1="252.000" y1="402.000" x2="252.000" y2="398.000" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
 <line x1="260.400" y1="430.000" x2="272.400" y2="430.000" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
 <line x1="260.400" y1="394.000" x2="272.400" y2="394.000" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
 <line x1="266.400" y1="430.000" x2="302.400" y2="430.000" stroke="#141414" stroke-width="0.2" stroke-linecap="butt"/>
@@ -208,18 +208,18 @@
 <line x1="260.400" y1="250.000" x2="272.400" y2="250.000" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
 <line x1="266.400" y1="250.000" x2="302.400" y2="250.000" stroke="#141414" stroke-width="0.2" stroke-linecap="butt"/>
 <path d="M 302.400 250.000 A 36.000 36.000 0 0 1 266.400 286.000" fill="none" stroke="#5d5d5d" stroke-width="0.13"/>
-<line x1="214.000" y1="162.000" x2="218.800" y2="162.000" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
-<line x1="214.000" y1="126.000" x2="218.800" y2="126.000" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
-<line x1="216.400" y1="162.000" x2="180.400" y2="162.000" stroke="#141414" stroke-width="0.2" stroke-linecap="butt"/>
-<path d="M 180.400 162.000 A 36.000 36.000 0 0 1 216.400 126.000" fill="none" stroke="#5d5d5d" stroke-width="0.13"/>
-<line x1="280.000" y1="386.000" x2="280.000" y2="381.200" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
-<line x1="316.000" y1="386.000" x2="316.000" y2="381.200" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
-<line x1="280.000" y1="383.600" x2="280.000" y2="347.600" stroke="#141414" stroke-width="0.2" stroke-linecap="butt"/>
-<path d="M 280.000 347.600 A 36.000 36.000 0 0 1 316.000 383.600" fill="none" stroke="#5d5d5d" stroke-width="0.13"/>
-<line x1="280.000" y1="182.000" x2="280.000" y2="177.200" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
-<line x1="316.000" y1="182.000" x2="316.000" y2="177.200" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
-<line x1="280.000" y1="179.600" x2="280.000" y2="215.600" stroke="#141414" stroke-width="0.2" stroke-linecap="butt"/>
-<path d="M 280.000 215.600 A 36.000 36.000 0 0 0 316.000 179.600" fill="none" stroke="#5d5d5d" stroke-width="0.13"/>
+<line x1="214.000" y1="162.000" x2="218.000" y2="162.000" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
+<line x1="214.000" y1="126.000" x2="218.000" y2="126.000" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
+<line x1="216.000" y1="162.000" x2="180.000" y2="162.000" stroke="#141414" stroke-width="0.2" stroke-linecap="butt"/>
+<path d="M 180.000 162.000 A 36.000 36.000 0 0 1 216.000 126.000" fill="none" stroke="#5d5d5d" stroke-width="0.13"/>
+<line x1="280.000" y1="385.200" x2="280.000" y2="381.200" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
+<line x1="316.000" y1="385.200" x2="316.000" y2="381.200" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
+<line x1="280.000" y1="383.200" x2="280.000" y2="347.200" stroke="#141414" stroke-width="0.2" stroke-linecap="butt"/>
+<path d="M 280.000 347.200 A 36.000 36.000 0 0 1 316.000 383.200" fill="none" stroke="#5d5d5d" stroke-width="0.13"/>
+<line x1="280.000" y1="182.000" x2="280.000" y2="178.000" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
+<line x1="316.000" y1="182.000" x2="316.000" y2="178.000" stroke="#141414" stroke-width="0.35" stroke-linecap="butt"/>
+<line x1="280.000" y1="180.000" x2="280.000" y2="216.000" stroke="#141414" stroke-width="0.2" stroke-linecap="butt"/>
+<path d="M 280.000 216.000 A 36.000 36.000 0 0 0 316.000 180.000" fill="none" stroke="#5d5d5d" stroke-width="0.13"/>
 <line x1="124.000" y1="324.800" x2="160.000" y2="324.800" stroke="#5d5d5d" stroke-width="0.2" stroke-linecap="butt"/>
 <line x1="124.000" y1="314.400" x2="160.000" y2="314.400" stroke="#5d5d5d" stroke-width="0.2" stroke-linecap="butt"/>
 <line x1="124.000" y1="304.000" x2="160.000" y2="304.000" stroke="#5d5d5d" stroke-width="0.2" stroke-linecap="butt"/>
@@ -290,22 +290,22 @@
 <line x1="386.000" y1="360.000" x2="428.000" y2="318.000" stroke="#9a9a9a" stroke-width="0.13" stroke-linecap="butt"/>
 <line x1="428.000" y1="360.000" x2="386.000" y2="318.000" stroke="#9a9a9a" stroke-width="0.13" stroke-linecap="butt"/>
 <circle cx="407.000" cy="339.000" r="2.400" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>
-<rect x="287.000" y="295.200" width="26.000" height="18.000" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>
-<circle cx="300.000" cy="304.200" r="2.200" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>
-<rect x="340.400" y="306.800" width="15.200" height="6.400" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>
-<ellipse cx="348.000" cy="295.600" rx="6.800" ry="11.200" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>
-<rect x="386.000" y="271.200" width="42.000" height="42.000" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>
-<line x1="386.000" y1="313.200" x2="428.000" y2="271.200" stroke="#9a9a9a" stroke-width="0.13" stroke-linecap="butt"/>
-<line x1="428.000" y1="313.200" x2="386.000" y2="271.200" stroke="#9a9a9a" stroke-width="0.13" stroke-linecap="butt"/>
-<circle cx="407.000" cy="292.200" r="2.400" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>
-<rect x="287.000" y="227.200" width="26.000" height="18.000" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>
-<circle cx="300.000" cy="236.200" r="2.200" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>
-<rect x="340.400" y="238.800" width="15.200" height="6.400" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>
-<ellipse cx="348.000" cy="227.600" rx="6.800" ry="11.200" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>
-<rect x="386.000" y="203.200" width="42.000" height="42.000" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>
-<line x1="386.000" y1="245.200" x2="428.000" y2="203.200" stroke="#9a9a9a" stroke-width="0.13" stroke-linecap="butt"/>
-<line x1="428.000" y1="245.200" x2="386.000" y2="203.200" stroke="#9a9a9a" stroke-width="0.13" stroke-linecap="butt"/>
-<circle cx="407.000" cy="224.200" r="2.400" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>
+<rect x="287.000" y="296.000" width="26.000" height="18.000" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>
+<circle cx="300.000" cy="305.000" r="2.200" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>
+<rect x="340.400" y="307.600" width="15.200" height="6.400" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>
+<ellipse cx="348.000" cy="296.400" rx="6.800" ry="11.200" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>
+<rect x="386.000" y="272.000" width="42.000" height="42.000" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>
+<line x1="386.000" y1="314.000" x2="428.000" y2="272.000" stroke="#9a9a9a" stroke-width="0.13" stroke-linecap="butt"/>
+<line x1="428.000" y1="314.000" x2="386.000" y2="272.000" stroke="#9a9a9a" stroke-width="0.13" stroke-linecap="butt"/>
+<circle cx="407.000" cy="293.000" r="2.400" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>
+<rect x="287.000" y="228.000" width="26.000" height="18.000" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>
+<circle cx="300.000" cy="237.000" r="2.200" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>
+<rect x="340.400" y="239.600" width="15.200" height="6.400" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>
+<ellipse cx="348.000" cy="228.400" rx="6.800" ry="11.200" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>
+<rect x="386.000" y="204.000" width="42.000" height="42.000" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>
+<line x1="386.000" y1="246.000" x2="428.000" y2="204.000" stroke="#9a9a9a" stroke-width="0.13" stroke-linecap="butt"/>
+<line x1="428.000" y1="246.000" x2="386.000" y2="204.000" stroke="#9a9a9a" stroke-width="0.13" stroke-linecap="butt"/>
+<circle cx="407.000" cy="225.000" r="2.400" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>
 <rect x="332.000" y="88.400" width="72.000" height="84.000" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>
 <rect x="335.200" y="158.000" width="30.400" height="14.400" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>
 <rect x="370.400" y="158.000" width="30.400" height="14.400" fill="none" stroke="#5d5d5d" stroke-width="0.2"/>
@@ -379,7 +379,7 @@
 <text x="610.000" y="65.400" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="start" font-weight="400" letter-spacing="0.0" style="">Masonry wall cut by section — 200 mm</text>
 <text x="610.000" y="70.800" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="start" font-weight="400" letter-spacing="0.0" style="">partition, 300 mm external / party</text>
 <rect x="581.000" y="75.200" width="24.000" height="1.200" fill="#141414" stroke="#141414" stroke-width="0.05"/>
-<text x="610.000" y="76.900" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="start" font-weight="400" letter-spacing="0.0" style="">Internal stud or block partition, 120 mm</text>
+<text x="610.000" y="76.900" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="start" font-weight="400" letter-spacing="0.0" style="">Internal partition, 100 mm red brick</text>
 <rect x="581.000" y="86.400" width="24.000" height="1.800" fill="#6f6f6f" stroke="#141414" stroke-width="0.1"/>
 <text x="610.000" y="88.400" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="start" font-weight="400" letter-spacing="0.0" style="">Terrace parapet, 250 mm × 1100 mm high</text>
 <rect x="581.000" y="98.200" width="7.000" height="1.200" fill="#141414" stroke="#141414" stroke-width="0.05"/>

@@ -850,6 +850,50 @@ def F_REV():
     return frame.REV
 
 
+def every_wall_has_a_material():
+    """No wall may be a thickness nobody declared.
+
+    This rule exists because of a specific failure.  The client specified
+    a 100 mm red brick partition where the drawings had 120 mm, and PT
+    changed - but six walls were set out between two hard-coded
+    coordinates whose gap had been 120 mm only because PT was.  They went
+    on being drawn 120 mm thick, and because the bill of quantities sums
+    the thicknesses it knows about, 21.29 m of wall silently left the
+    bill.  Nothing looked wrong on any drawing.
+
+    So: every wall thickness must be one of the declared ones in
+    geometry.WALL_MATERIAL, which is also what the bill measures and what
+    names the material.  A wall that is not a declared thickness is a wall
+    nobody is buying.
+    """
+    import geometry as G
+    import plans
+
+    problems = []
+    declared = {round(t, 3) for t in G.WALL_MATERIAL}
+    for build, number in ((plans.sheet_ground, "A-100"),
+                          (plans.sheet_first, "A-101"),
+                          (plans.sheet_second, "A-102"),
+                          (plans.sheet_third, "A-103"),
+                          (plans.sheet_penthouse, "A-104")):
+        walls, *_rest, restore = _record()
+        try:
+            build()
+        finally:
+            restore()
+        seen = {}
+        for x0, y0, x1, y1, _op, _fill in walls:
+            t = round(min(x1 - x0, y1 - y0), 3)
+            if t not in declared:
+                seen[t] = seen.get(t, 0.0) + max(x1 - x0, y1 - y0)
+        for t, run in sorted(seen.items()):
+            problems.append(
+                f"{number}: {run:.2f} m of wall is {t * 1000:.0f} mm thick, "
+                f"which is not a declared thickness - it has no material "
+                f"and the bill does not measure it")
+    return problems
+
+
 def bill_reconciles():
     """The bill must agree with the drawings it was measured from.
 
@@ -1133,6 +1177,7 @@ def main():
                      ("issue", issue_status),
                      ("sched", schedule_matches_the_openings),
                      ("index", index_is_honest),
+                     ("walls", every_wall_has_a_material),
                      ("bill", bill_reconciles),
                      ("grid", grid_carries_the_walls),
                      ("mdl", deliverables_register)):

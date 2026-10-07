@@ -10,6 +10,14 @@ Every instruction that changed the drawings, in the order they were given. The t
 
 **What it moved.** The plans carried the superseded curve, 17.4 m² a floor to the full 2.00 m. They are redrawn to the serpentine: 1.95 m at each end, 0.75 m at the waist, 12.8 m² a floor. A-000 and A-100 to A-104 re-issued at P18; schemes B and C stamped not selected and dropped from the issue.
 
+## Internal partitions — 2026-10-07
+
+**Instruction.** 100 mm red brick, where the drawings had a 120 mm partition of unstated material.
+
+**Where it lives.** `geometry.PT / geometry.WALL_MATERIAL`
+
+**What it moved.** Every partition is redrawn 20 mm thinner and the bill names the material. It also found a fault: six walls, 21.29 m of them, were set out between two hard-coded coordinates whose gap was 120 mm only because PT was, so they went on being drawn 120 mm and left the bill of quantities silently. Those walls now follow PT, and a check refuses any wall whose thickness is not a declared one.
+
 ## Balcony waist — 2026-10-07
 
 **Instruction.** The serpentine's waist deepened from 0.75 m to 1.35 m, holding the deep ends at 1.95 m under the 2.00 m cap.
