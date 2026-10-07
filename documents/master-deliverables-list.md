@@ -41,11 +41,11 @@ Structural slabs: +0.00, +3.30, +6.60, +9.90, +13.20, +16.45 — six slabs to fi
 | --- | --- | --- | --- | --- | --- |
 | 0 — Information required from others | 3 | 1 | 0 | 1 | 1 |
 | A — Presentation and estimation | 8 | 1 | 0 | 1 | 6 |
-| B — Architecture | 21 | 9 | 0 | 0 | 12 |
+| B — Architecture | 21 | 10 | 0 | 0 | 11 |
 | C — Structure | 12 | 0 | 0 | 10 | 2 |
 | D — Building services | 33 | 0 | 0 | 3 | 30 |
 | E — Quantities and cost control | 4 | 0 | 0 | 4 | 0 |
-| **Total** | **81** | **11** | **0** | **19** | **51** |
+| **Total** | **81** | **12** | **0** | **19** | **50** |
 
 ## Package 0 — Information required from others
 
@@ -103,7 +103,7 @@ Structural slabs: +0.00, +3.30, +6.60, +9.90, +13.20, +16.45 — six slabs to fi
 | ARC-402 | Reflected ceiling plan - second floor, +6.60 | Architecture | 1:50 | A1 sheet | D | not started | ARC-103 | — |
 | ARC-403 | Reflected ceiling plan - third floor, +9.90 | Architecture | 1:50 | A1 sheet | D | not started | ARC-104 | — |
 | ARC-404 | Reflected ceiling plan - penthouse floor, +13.20 | Architecture | 1:50 | A1 sheet | D | not started | ARC-105 | — |
-| ARC-500 | Door and window schedule | Architecture | - | A1 sheet | D | not started | ARC-200 | — |
+| ARC-500 | Door and window schedule | Architecture | 1:100 | A1 sheet | D | issued | ARC-200 | ARC-500 |
 | ARC-600 | Construction details | Architecture | 1:5 / 1:10 | A1 sheet | L | not started | CLI-001 | — |
 | ARC-700 | External works and landscape | Architecture | 1:75 | A1 sheet | D | not started | ARC-100 | — |
 

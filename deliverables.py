@@ -255,7 +255,8 @@ def _package_b():
             note="Soffit levels, bulkheads and ceiling layout. Fittings "
                  "are indicative; the EL-200 series governs."))
     rows += [
-        Row("ARC-500", "Door and window schedule", "B", "D", fmt="A1 sheet",
+        Row("ARC-500", "Door and window schedule", "B", "D",
+            fmt="A1 sheet", scale="1:100", sheet="ARC-500",
             depends=("ARC-200",), source=("FACADE", "FACADE_DOORS",
                                           "EL_SILL", "EL_HEAD"),
             note="Every opening in the building is already a constant, so "

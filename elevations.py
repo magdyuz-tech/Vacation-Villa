@@ -78,6 +78,85 @@ def penthouse_span(face):
 # ---------------------------------------------------------------------------
 # the one funnel every opening passes through
 # ---------------------------------------------------------------------------
+def opening_kind(face, level, a, b):
+    """window, door or louvre.
+
+    The one rule.  The elevations classified openings inline and the door
+    and window schedule would have had to classify them again; two copies
+    of a rule like this diverge on the first exception, and the schedule
+    would then measure a building the elevations do not draw.
+    """
+    if (a, b) in FACADE_DOORS.get((level, face), []):
+        return "door"
+    # the west wall is blind below the penthouse - louvred ventilation
+    # only - so every opening in it is a louvre rather than a window
+    if face == "w" and level < 4:
+        return "vent"
+    return "window"
+
+
+def opening_head(face, level, kind):
+    """(sill, head) of an opening, as heights above its own floor."""
+    if kind == "vent":
+        return EL_VENT_LO, EL_VENT_HI
+    if kind == "door":
+        # the front door is not full height; every other door is
+        return 0.0, (EL_DOOR_HEAD if (level, face) == (0, "s") else EL_HEAD)
+    return EL_SILL, EL_HEAD
+
+
+def openings():
+    """Every opening in the building: (face, level, a, b, kind).
+
+    Read straight off the plans' own lists, in the order the elevations
+    draw them.
+    """
+    out = []
+    for level in range(len(EL_LEVELS)):
+        for face in FACES:
+            for a, b in FACADE[level][face]:
+                out.append((face, level, a, b,
+                            opening_kind(face, level, a, b)))
+    return out
+
+
+# the mark letters, and the order the schedule reads in
+MARK = {"door": "D", "window": "W", "vent": "L"}
+
+
+def opening_schedule():
+    """The door and window schedule: one row per distinct opening type.
+
+    Grouped by what a supplier would quote against - kind, width, height
+    and sill - rather than by where each one sits, which is what the
+    location columns carry.  Marks are allocated largest first inside each
+    kind, so D01 is the biggest door and W01 the biggest window; a type
+    added later takes its place in the order rather than being appended as
+    an orphan at the end.
+    """
+    kinds = {}
+    for face, level, a, b, kind in openings():
+        sill, head = opening_head(face, level, kind)
+        key = (kind, round(b - a, 3), round(head - sill, 3), round(sill, 3))
+        kinds.setdefault(key, []).append((level, face))
+
+    rows = []
+    for kind in ("door", "window", "vent"):
+        here = sorted((k for k in kinds if k[0] == kind),
+                      key=lambda k: (-k[1], -k[2]))
+        for i, key in enumerate(here, 1):
+            _k, w, h, sill = key
+            where = kinds[key]
+            rows.append(dict(
+                mark=f"{MARK[kind]}{i:02d}", kind=kind, w=w, h=h, sill=sill,
+                faces=sorted({f for _lvl, f in where},
+                             key=lambda f: FACES.index(f)),
+                levels=[sum(1 for lvl, _f in where if lvl == n)
+                        for n in range(len(EL_LEVELS))],
+                total=len(where)))
+    return rows
+
+
 def _opening(sh, face, level, a, b, kind, scheme):
     """Draw one opening and record what was drawn.
 
@@ -88,13 +167,8 @@ def _opening(sh, face, level, a, b, kind, scheme):
     s = SCHEME[scheme]
     ffl = EL_LEVELS[level]
     p, q = u_range(face, a, b)
-    if kind == "vent":
-        lo, hi = ffl + EL_VENT_LO, ffl + EL_VENT_HI
-    elif kind == "door":
-        lo, hi = ffl, ffl + (EL_DOOR_HEAD if (level, face) == (0, "s")
-                             else EL_HEAD)
-    else:
-        lo, hi = ffl + EL_SILL, ffl + EL_HEAD
+    sill, head = opening_head(face, level, kind)
+    lo, hi = ffl + sill, ffl + head
 
     if scheme == "B" and kind != "vent":
         _surround(sh, p, q, lo, hi)
@@ -245,12 +319,10 @@ def elevation(sh, face, scheme, levels=True):
         _cornice(sh, lo, hi, ROOF_LEVEL - B_CORNICE, B_CORNICE, B_TRIM)
 
     # the openings, level by level, straight out of the plans
-    for level in range(5):
+    for level in range(len(EL_LEVELS)):
         for a, b in FACADE[level][face]:
-            doors = FACADE_DOORS.get((level, face), [])
-            kind = ("door" if (a, b) in doors
-                    else "vent" if face == "w" and level < 4 else "window")
-            drawn.append(_opening(sh, face, level, a, b, kind, scheme))
+            drawn.append(_opening(sh, face, level, a, b,
+                                  opening_kind(face, level, a, b), scheme))
 
     if face == "s":
         if scheme in ("A", "C"):

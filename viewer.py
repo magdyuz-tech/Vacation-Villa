@@ -45,6 +45,8 @@ SHEETS = [
      "1:100", "The villa between its two surveyed neighbours."),
     ("A-430", "Axonometric — Three Balcony Options", "from the south-west",
      "1:250", "The three curves offered; scheme A was adopted."),
+    ("ARC-500", "Door & Window Schedule", "all levels", "1:100",
+     "95 openings in 24 types, measured off the plans."),
     ("A-300", "Typical Apartment — Enlarged Plan", "+3.30 / +6.60", "1:25",
      "Entry, wet rooms and kitchenettes of both apartments."),
     ("A-301", "Third Floor Apartment — Enlarged Plan", "+9.90", "1:25",

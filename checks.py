@@ -743,6 +743,72 @@ def issue_status():
     return problems
 
 
+def schedule_matches_the_openings():
+    """ARC-500 must schedule the openings the plans actually have.
+
+    What this cannot catch is the schedule drifting from the plans: it is
+    generated from the very lists the plans draw from, so widening a
+    window moves both sides together.  That is the point of deriving it,
+    and it is worth being clear that the rule earns its place somewhere
+    else.
+
+    What it catches is `opening_schedule` itself going wrong - two types
+    collapsed into one mark, a level column off by one, a mark issued
+    twice, totals that do not add up.  So the counting here is written
+    out again rather than borrowed from it: a grouping confirmed by its
+    own grouping proves nothing.  Both mistakes were injected and both
+    fail here.
+    """
+    import elevations as el
+    import geometry as G
+
+    rows = el.opening_schedule()
+    problems = []
+
+    want = {}
+    per_level = {}
+    for level in range(len(G.EL_LEVELS)):
+        for face in el.FACES:
+            for a, b in G.FACADE[level][face]:
+                kind = el.opening_kind(face, level, a, b)
+                sill, head = el.opening_head(face, level, kind)
+                key = (kind, round(b - a, 3), round(head - sill, 3),
+                       round(sill, 3))
+                want[key] = want.get(key, 0) + 1
+                per_level.setdefault(key, [0] * len(G.EL_LEVELS))
+                per_level[key][level] += 1
+
+    got = {(r["kind"], round(r["w"], 3), round(r["h"], 3),
+            round(r["sill"], 3)): r for r in rows}
+
+    for key, n in sorted(want.items()):
+        if key not in got:
+            problems.append(f"the plans have {n} × {key} and the schedule "
+                            f"has no mark for it")
+            continue
+        r = got[key]
+        if r["total"] != n:
+            problems.append(f"{r['mark']} is scheduled {r['total']} times "
+                            f"and the plans have {n}")
+        if r["levels"] != per_level[key]:
+            problems.append(f"{r['mark']} is scheduled per level as "
+                            f"{r['levels']} and the plans have "
+                            f"{per_level[key]}")
+    for key, r in sorted(got.items()):
+        if key not in want:
+            problems.append(f"{r['mark']} is scheduled but no opening in "
+                            f"the plans matches it")
+
+    marks = [r["mark"] for r in rows]
+    if len(set(marks)) != len(marks):
+        problems.append("two schedule rows share a mark")
+    for r in rows:
+        if sum(r["levels"]) != r["total"]:
+            problems.append(f"{r['mark']}: the level columns add to "
+                            f"{sum(r['levels'])}, not {r['total']}")
+    return problems
+
+
 def deliverables_register():
     """The Master Deliverables List must describe the building that exists.
 
@@ -906,6 +972,7 @@ def main():
                      ("elev", elevations_match_the_plans),
                      ("envel", elevation_envelope),
                      ("issue", issue_status),
+                     ("sched", schedule_matches_the_openings),
                      ("mdl", deliverables_register)):
         problems = fn()
         total += len(problems)

@@ -2945,6 +2945,153 @@ def sheet_elev_b_sides():
     return _sides_sheet("A-411", "B")
 
 
+# ===========================================================================
+# ARC-500  DOOR AND WINDOW SCHEDULE
+# ===========================================================================
+# Measured, not compiled.  Every opening in this building is already a pair
+# of numbers in geometry.FACADE - the same pair the plan cuts its wall with
+# and the elevation draws its frame in - so the schedule is a regrouping of
+# the plans rather than a document somebody types up beside them and keeps
+# in step by hand.
+OS_COL_X = (18.0, 300.0)      # the two columns of the schedule
+OS_TOP = 62.0
+OS_PITCH = 34.0               # one type, with room for its thumbnail
+OS_PER_COL = 12
+OS_SCALE = 10.0               # mm of sheet per metre of opening, i.e. 1:100
+# offsets within a column
+OS_MARK, OS_THUMB, OS_SIZE = 0.0, 26.0, 62.0
+OS_SILL, OS_FACE, OS_LEVEL, OS_QTY = 104.0, 128.0, 152.0, 252.0
+
+OS_KIND_NAME = {"door": "Door", "window": "Window", "vent": "Louvre"}
+
+
+def _opening_row(sh, x, y, r):
+    """One type: mark, a thumbnail to scale, its figures and where it goes."""
+    sh.text_mm(x + OS_MARK, y + 8, r["mark"], size=2.6, anchor="start",
+               weight=700)
+    sh.text_mm(x + OS_MARK, y + 15, OS_KIND_NAME[r["kind"]], size=2.0,
+               anchor="start", color=GREY)
+
+    # the opening itself, drawn to scale: a reader can compare two marks by
+    # eye rather than by reading four numbers
+    w, h = r["w"] * OS_SCALE, r["h"] * OS_SCALE
+    base = y + 30.0
+    sh.rect_mm(x + OS_THUMB, base - h, w, h, fill="#eef2f4", stroke=INK,
+               sw=LW_SECONDARY)
+    if r["kind"] == "vent":
+        for i in range(1, max(2, int(r["h"] / 0.12))):
+            yy = base - h + i * h / max(2, int(r["h"] / 0.12))
+            sh.line_mm(x + OS_THUMB, yy, x + OS_THUMB + w, yy, w=LW_THIN,
+                       color=GREY)
+    else:
+        sh.line_mm(x + OS_THUMB + w / 2, base - h, x + OS_THUMB + w / 2,
+                   base, w=LW_THIN, color=GREY)
+    sh.line_mm(x + OS_THUMB - 2, base, x + OS_THUMB + w + 2, base, w=0.3,
+               color=INK)
+
+    sh.text_mm(x + OS_SIZE, y + 12, f"{r['w'] * 1000:.0f} × {r['h'] * 1000:.0f}",
+               size=2.3, anchor="start")
+    sh.text_mm(x + OS_SILL, y + 12,
+               "floor" if r["sill"] < 0.005 else f"+{r['sill'] * 1000:.0f}",
+               size=2.2, anchor="start", color=GREY)
+    sh.text_mm(x + OS_FACE, y + 12,
+               "".join(f.upper() for f in r["faces"]), size=2.2,
+               anchor="start", color=GREY)
+    for i, n in enumerate(r["levels"]):
+        sh.text_mm(x + OS_LEVEL + i * 14, y + 12, str(n) if n else "·",
+                   size=2.2, anchor="middle",
+                   color=INK if n else "#c8c8c8")
+    sh.text_mm(x + OS_QTY, y + 12, str(r["total"]), size=2.6, anchor="end",
+               weight=700)
+    sh.line_mm(x, y + OS_PITCH - 3, x + OS_QTY, y + OS_PITCH - 3, w=0.12,
+               color="#e2e2e2")
+
+
+def _opening_heads(sh, x, y):
+    for off, txt, anc in ((OS_MARK, "MARK", "start"),
+                          (OS_THUMB, "1:100", "start"),
+                          (OS_SIZE, "W × H mm", "start"),
+                          (OS_SILL, "SILL", "start"),
+                          (OS_FACE, "FACE", "start"),
+                          (OS_QTY, "No.", "end")):
+        sh.text_mm(x + off, y, txt, size=2.0, anchor=anc, color=GREY, ls=0.4)
+    for i in range(len(EL_LEVELS)):
+        sh.text_mm(x + OS_LEVEL + i * 14, y, f"L{i}", size=2.0,
+                   anchor="middle", color=GREY, ls=0.4)
+    sh.line_mm(x, y + 2.0, x + OS_QTY, y + 2.0, w=0.25, color=GREY)
+
+
+def sheet_openings():
+    """ARC-500: every door, window and louvre in the building.
+
+    The first sheet in the set that is a table rather than a view, and the
+    one that makes the opening geometry orderable: 95 openings resolve to
+    24 types, and a reader who wants to know how many 1.40 m windows the
+    house has can answer it here instead of counting them off five plans.
+    """
+    rows = el.opening_schedule()
+    sh = Sheet("ARC-500", "Door & Window Schedule", "all levels",
+               "1:100 @ A1")
+    sh.rev = "P19"
+    F.border(sh)
+
+    sh.text_mm(OS_COL_X[0], 26, "DOOR & WINDOW SCHEDULE", size=6.0,
+               anchor="start", weight=700, ls=0.6)
+    sh.text_mm(OS_COL_X[0], 35,
+               f"{sum(r['total'] for r in rows)} OPENINGS   ·   "
+               f"{len(rows)} TYPES   ·   MEASURED FROM THE PLANS",
+               size=2.6, anchor="start", color=GREY, ls=0.35)
+    sh.line_mm(OS_COL_X[0], 40, OS_COL_X[1] + OS_QTY, 40, w=0.5, color=INK)
+
+    for col in (0, 1):
+        part = rows[col * OS_PER_COL:(col + 1) * OS_PER_COL]
+        if not part:
+            continue
+        _opening_heads(sh, OS_COL_X[col], 50)
+        for i, r in enumerate(part):
+            _opening_row(sh, OS_COL_X[col], OS_TOP + i * OS_PITCH, r)
+    if len(rows) > 2 * OS_PER_COL:
+        raise ValueError(
+            f"ARC-500: {len(rows)} opening types and the sheet holds "
+            f"{2 * OS_PER_COL} - it needs a second sheet")
+
+    area = {k: sum(r["w"] * r["h"] * r["total"] for r in rows
+                   if r["kind"] == k) for k in ("door", "window", "vent")}
+    F.heading(sh, sub="SCHEDULE   ·   ALL FIVE LEVELS   ·   MILLIMETRES")
+    y = F.datum_panel(sh, 52, "THE OPENINGS", [
+        ("Doors", f"{sum(r['total'] for r in rows if r['kind'] == 'door')}"),
+        ("Windows",
+         f"{sum(r['total'] for r in rows if r['kind'] == 'window')}"),
+        ("Louvres", f"{sum(r['total'] for r in rows if r['kind'] == 'vent')}"),
+        ("Types", f"{len(rows)}"),
+        ("Door area", f"{area['door']:.1f} m²"),
+        ("Glazed area", f"{area['window']:.1f} m²"),
+        ("Louvre area", f"{area['vent']:.1f} m²"),
+        ("Window head, every level", f"+{EL_HEAD:.2f} above floor"),
+        ("Window sill, every level", f"+{EL_SILL:.2f} above floor")])
+    F.notes(sh, y + 6, [
+        "Measured from the plans, not compiled beside them. Every opening "
+        "is a pair of coordinates the plan cuts its wall with and the "
+        "elevation draws its frame in, so this schedule and those "
+        "drawings cannot disagree about a width.",
+        "Marks run largest first within each kind, so D01 is the widest "
+        "door and W01 the widest window. L marks are the west wall's "
+        "louvres: that face is blind below the penthouse and ventilates "
+        "only.",
+        f"Heads and sills are constant through the building — sill "
+        f"+{EL_SILL:.2f}, head +{EL_HEAD:.2f} — so a type is distinguished "
+        f"by its width alone except at the doors.",
+        "Operation, frame material, glazing specification, ironmongery "
+        "and finishes are not set by the geometry and are not invented "
+        "here. They belong to ARC-600 and the specification.",
+        "Dimensions are structural opening sizes. Frame and tolerance "
+        "allowances to be taken off by the supplier against the "
+        "construction drawings.",
+    ])
+    F.titleblock(sh)
+    return sh
+
+
 def sheet_register():
     """ARC-000: the master deliverables list, on a sheet.
 
@@ -3008,7 +3155,7 @@ def sheet_register():
     return sh
 
 
-SHEETS = (sheet_register,
+SHEETS = (sheet_register, sheet_openings,
           sheet_site, sheet_ground, sheet_first, sheet_second,
           sheet_third, sheet_penthouse, sheet_section,
           sheet_elev_a, sheet_elev_a_sides,
