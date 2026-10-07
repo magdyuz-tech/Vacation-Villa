@@ -4,6 +4,7 @@ build.py - produce the whole drawing set in every format, in one pass.
 
     python3 build.py
 
+    documents/ written deliverables, Markdown   (the register, reports)
     drawings/  SVG sheets, ISO A1               (Inkscape, Figma, browsers)
     cad/       DXF, metric, 1:1 model space     (LibreCAD, QCAD, FreeCAD)
     pdf/       vector sheets, true to size      (print to scale)
@@ -24,6 +25,7 @@ sys.path.insert(0, HERE)
 
 def main():
     import checks
+    import documents
     import plans
     import viewer
     import export_cad
@@ -32,6 +34,11 @@ def main():
     print("checks")
     if checks.main():
         raise SystemExit("fix the plans before issuing the set")
+
+    print("\ndocuments")
+    for path in documents.main():
+        print(f"{os.path.basename(path):34s} "
+              f"{os.path.getsize(path) / 1024:6.1f} kB")
 
     print("\nsheets (svg)")
     svgs = plans.main()

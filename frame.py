@@ -27,7 +27,7 @@ def titleblock_top():
     revisions and the full record lives in the revision schedule.
     """
     return TITLEBLOCK_Y - max(0, min(len(REVISIONS), REV_ROWS) - 3) * REV_PITCH
-PROJECT = "FOUR-STOREY VACATION HOME"
+PROJECT = "FIVE-STOREY VACATION VILLA"
 CLIENT = "PRIVATE CLIENT"
 REV = "P4"                # the set's current revision - a sheet may be behind
 # Revision record, newest last.  A revision letter is only useful if it
@@ -54,12 +54,19 @@ REVISIONS = [
      "section A-A recut through the east strip, and marked on every plan"),
     ("P15", "2026-10-07",
      "exterior: two schemes, elevations and balcony curves"),
-    ("P16", None,
+    ("P16", "2026-10-07",
      "neighbours as surveyed: west 3 storeys and blind, east single storey"),
+    ("P17", None,
+     "ARC-000 deliverables list; title corrected to five storeys"),
 ]
 STATUS = "Preliminary design issue — not for construction."
 STATUS_FINAL_DRAFT = ("Final draft — layout agreed with the client; "
                       "not for construction.")
+# Document control rather than a view of the building: the register's own
+# status is that its contents are derived, so it cannot be "preliminary"
+# or "agreed" in the way a drawing is.
+STATUS_REGISTER = ("Document control — every status on this sheet is "
+                   "derived at build time from the issued set.")
 # The issue date, stamped at build time. Set SHEET_DATE to pin it when a
 # reproducible build matters.
 DATE = os.environ.get("SHEET_DATE") or _dt.date.today().isoformat()
@@ -79,12 +86,15 @@ def border(sh):
         sh.line_mm(SHEET_W - 13, y, SHEET_W - 10, y, w=0.25, color=GREY)
 
 
-def heading(sh):
+def heading(sh, sub=None):
+    """Sheet title in the panel.  `sub` replaces the level/scale line for
+    a sheet that is not a view of the building - the register, which has
+    no level and no scale."""
     sh.text_mm(PANEL_X, 30, sh.title.upper(), size=6.6, anchor="start",
                weight=700, ls=0.6)
-    sh.text_mm(PANEL_X, 40, f"LEVEL {sh.level}   ·   {sh.scale_note}"
-               "   ·   METRES", size=2.6,
-               anchor="start", color=GREY, ls=0.35)
+    sh.text_mm(PANEL_X, 40,
+               sub or f"LEVEL {sh.level}   ·   {sh.scale_note}   ·   METRES",
+               size=2.6, anchor="start", color=GREY, ls=0.35)
     sh.line_mm(PANEL_X, 46, PANEL_R, 46, w=0.5, color=INK)
 
 

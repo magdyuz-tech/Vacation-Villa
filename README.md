@@ -1,8 +1,14 @@
-# Four-Storey Vacation Home — 2D Drawing Set
+# Five-Storey Vacation Villa — 2D Drawing Set
 
-A five-sheet architectural drawing set for a four-storey building on a
-narrow plot: a long garden corridor onto the street and two blocks hard
-against three neighbouring plots.
+An architectural drawing set for a detached five-storey villa on a narrow
+plot: the house hard against the east boundary with its entrance garden
+to the west, a three-storey blind neighbour behind that garden and a
+single-storey clay-brick one to the east.
+
+Parts of the body of this file below still describe the four-storey
+apartment building the design started as, before the detached villa was
+agreed. The sheets, the module table and the deliverables register are
+current; the accommodation and fire sections are not.
 
 Everything is produced with free, open-source software — Python, [ezdxf]
 for the CAD files and [CairoSVG] for the sheets — and exported in the
@@ -18,17 +24,25 @@ repository.
 
 ## The set
 
-| Sheet   | Title                     | Level  | Scale |
-| ------- | ------------------------- | ------ | ----- |
-| `A-000` | Site Plan                 | +0.00  | 1:75  |
-| `A-100` | Ground Floor Plan         | +0.00  | 1:50  |
-| `A-101` | First Floor Plan          | +3.30  | 1:50  |
-| `A-102` | Second Floor Plan         | +6.60  | 1:50  |
-| `A-103` | Third Floor & Roof Plan   | +9.90  | 1:50  |
-| `A-200` | Section A–A               | —      | 1:50  |
-| `A-300` | Typical Apartment — Enlarged Plan | +3.30 / +6.60 | 1:25 |
-| `A-301` | Third Floor Apartment — Enlarged Plan | +9.90 | 1:25 |
-| `A-302` | Central Kitchen & Laundry — Enlarged Plan | +0.00 | 1:25 |
+| Sheet     | Title                                  | Level  | Scale |
+| --------- | -------------------------------------- | ------ | ----- |
+| `ARC-000` | Master Deliverables List               | —      | NTS   |
+| `A-000`   | Site Plan                              | +0.00  | 1:75  |
+| `A-100`   | Ground Floor Plan                      | +0.00  | 1:50  |
+| `A-101`   | First Floor Plan                       | +3.30  | 1:50  |
+| `A-102`   | Second Floor Plan                      | +6.60  | 1:50  |
+| `A-103`   | Third Floor Plan                       | +9.90  | 1:50  |
+| `A-104`   | Penthouse Plan                         | +13.20 | 1:50  |
+| `A-200`   | Section A–A                            | —      | 1:50  |
+| `A-400` / `A-401` | South, then side and rear elevations — scheme A, Wave | — | 1:50 / 1:75 |
+| `A-410` / `A-411` | The same, scheme B, Arcade     | —      | 1:50 / 1:75 |
+| `A-420` / `A-421` | The same, scheme C, Facet      | —      | 1:50 / 1:75 |
+| `A-402`   | Street Elevation in Context            | —      | 1:100 |
+| `A-430`   | Axonometric — Three Balcony Options    | —      | 1:250 |
+
+`A-300`, `A-301` and `A-302` are enlargements of apartment units that the
+detached villa no longer has. They are built but left out of the bound
+set, and should be formally withdrawn rather than reissued.
 
 All sheets are ISO A1 landscape (841 × 594 mm) with a title block, key,
 area schedule, general notes, north point and graphic scale. A-100 covers
@@ -106,6 +120,8 @@ or one at a time:
 
 ```sh
 python3 plans.py          # drawings/*.svg
+python3 documents.py      # documents/*.md
+python3 deliverables.py    # the register, to the terminal
 python3 export_cad.py     # cad/*.dxf
 python3 export_share.py   # pdf/*.pdf and png/*.png
 python3 viewer.py         # drawing-set.html
@@ -120,10 +136,14 @@ python3 viewer.py         # drawing-set.html
 | `drafting.py`   | Drawing engine — scale, walls, doors, windows, dimensions.     |
 | `fixtures.py`   | Sanitaryware, joinery, furniture, stairs, lift, landscape.     |
 | `frame.py`      | Sheet border, title block, key, schedule, notes.               |
-| `plans.py`      | The five sheets themselves.                                    |
+| `plans.py`      | The sheets themselves.                                         |
+| `elevations.py` | The exterior schemes, drawn off the plans' own openings.       |
+| `axonometric.py`| Isometric projection of the geometry — a view, not a render.   |
+| `deliverables.py`| The Master Deliverables List as data; status derived.         |
+| `documents.py`  | Renders the register to Markdown and onto sheet ARC-000.       |
 | `dxf_backend.py`| The same drawing interface, emitting CAD geometry.             |
 | `export_cad.py` | Runs the sheets against the CAD backend.                       |
-| `export_share.py`| PDF and PNG issues.                                           |
+| `export_share.py`| PDF and PNG issues, and the bound set.                        |
 | `viewer.py`     | Bundles the SVGs into the offline HTML page.                   |
 
 `dxf_backend.DXFSheet` implements the same interface as `drafting.Sheet`, so
@@ -351,6 +371,33 @@ the part being shown, so an enlargement cannot disagree with the plan it
 came from. They cover the wet cores, the kitchenettes and the service
 floor; a whole 13.90 m unit does not fit an A1 sheet at 1:25, so the
 whole-unit plans stay at 1:50 on A-101 and A-103.
+
+### The deliverables register
+
+`deliverables.py` holds the Master Deliverables List: eighty-one rows
+across packages 0 and A to E, printed on sheet `ARC-000` and written to
+`documents/master-deliverables-list.md`. Two things about it are worth
+knowing.
+
+Every family that repeats per level — floor plans, reflected ceiling
+plans, the six MEP series — is generated by looping `EL_LEVELS`, and
+every family that repeats per slab by looping the slabs. The brief this
+register answers assumed three floor plans; the building has five levels
+and six structural slabs, which multiplies through every package. A
+`checks.py` rule proves each family covers the whole building, so adding
+a level cannot quietly leave a package a row short.
+
+Every row carries a competence class, because the set is read as
+instructions by whoever holds it: **D** derived from `geometry.py` and
+ours to issue, **L** layout and coordination for an engineer to size and
+certify, **X** impossible here at all — a measured survey, a soil report,
+a market rate. Nothing is issued as engineering that has not been
+engineered.
+
+Status is derived, never typed: a row reports issued only where the
+project really produces its sheets or documents, and `checks.py` fails
+the build if a row names a sheet no builder draws or a document nothing
+writes.
 
 ### Still open
 

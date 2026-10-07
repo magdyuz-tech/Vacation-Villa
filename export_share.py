@@ -52,7 +52,8 @@ if __name__ == "__main__":
 # A-300 enlargements are left out on purpose: they are three enlargements
 # of apartment units that no longer exist, so binding them into the set
 # would hand the reader drawings of a different building.
-SET_ORDER = ["A-000", "A-100", "A-101", "A-102", "A-103", "A-104",
+SET_ORDER = ["ARC-000",
+             "A-000", "A-100", "A-101", "A-102", "A-103", "A-104",
              "A-200", "A-400", "A-401", "A-410", "A-411",
              "A-420", "A-421", "A-402", "A-430"]
 
@@ -77,7 +78,8 @@ def bind(pdf_dir, out_dir=None, rev=None):
         bound.append(hit[0])
     writer.add_metadata({
         "/Title": f"Detached Vacation Villa - drawing set, revision {rev}",
-        "/Subject": "Site plan, five floor plans and section A-A. "
+        "/Subject": "Master deliverables list, site plan, five floor "
+                    "plans, section A-A and the exterior schemes. "
                     "Final draft, not for construction.",
         "/Creator": "floor-plans/plans.py",
     })

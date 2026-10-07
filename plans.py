@@ -18,6 +18,8 @@ import drafting as D
 from drafting import (Sheet, INK, GREY, LIGHT, LW_CUT, LW_SECONDARY,
                       LW_FIXTURE, LW_THIN, LW_HIDDEN)
 import axonometric as ax
+import deliverables as dl
+import documents as doc
 import elevations as el
 import fixtures as fx
 import frame as F
@@ -2914,7 +2916,70 @@ def sheet_elev_b_sides():
     return _sides_sheet("A-411", "B")
 
 
-SHEETS = (sheet_site, sheet_ground, sheet_first, sheet_second,
+def sheet_register():
+    """ARC-000: the master deliverables list, on a sheet.
+
+    The set has to carry its own index, because a bound PDF handed to
+    anybody is the only thing they have: a register that lives in a
+    separate file is the register nobody reads.  Every row, and every
+    status on it, comes from `deliverables.py` - so this sheet cannot
+    claim a deliverable that is not there, and cannot fall behind the
+    document of the same name.
+    """
+    sh = Sheet("ARC-000", "Master Deliverables List", "the whole set",
+               "NTS")
+    sh.rev = "P17"
+    sh.status = F.STATUS_REGISTER
+    F.border(sh)
+    doc.register_table(sh)
+
+    rows = dl.resolved()
+    counts = dl.tally(rows)
+    klass = {}
+    for r, _s in rows:
+        klass[r.klass] = klass.get(r.klass, 0) + 1
+
+    F.heading(sh, sub="DOCUMENT CONTROL   ·   PACKAGES 0 AND A TO E   ·   "
+                      "STATUS DERIVED")
+    y = F.datum_panel(sh, 52, "THE SET AT A GLANCE", [
+        ("Deliverables", f"{len(rows)}"),
+        ("Issued", f"{counts[dl.ISSUED]}"),
+        ("In progress", f"{counts[dl.PROGRESS]}"),
+        ("Blocked", f"{counts[dl.BLOCKED]}"),
+        ("Not started", f"{counts[dl.OPEN]}"),
+        ("Levels", f"{len(dl.levels())}"),
+        ("Structural slabs", f"{len(dl.slabs())}"),
+        ("D — derived", f"{klass.get('D', 0)}"),
+        ("L — layout for others", f"{klass.get('L', 0)}"),
+        ("X — external", f"{klass.get('X', 0)}")])
+    F.notes(sh, y + 6, [
+        f"{doc.RULE} Class D is generated from geometry.py and is ours to "
+        f"issue. Class L is layout and coordination only, sized and "
+        f"certified by others. Class X cannot be produced here at all.",
+        "So the structural package carries foundation layouts on the real "
+        "grid and column coordinates, and no reinforcement; the services "
+        "package carries coordination layouts, and no load calculations.",
+        "Status is derived at build time from the issued set, never "
+        "typed. A row naming a sheet nobody draws, or a document nobody "
+        "writes, fails the checks rather than printing here.",
+        f"Five levels, {len(dl.slabs())} structural slabs: the slab at "
+        f"+{ROOF_LEVEL:.2f} is the penthouse floor and the roof over the "
+        f"third floor at once.",
+        "Deliverable codes are the client's. Where one resolves to sheets "
+        "already issued, the existing number is the cross reference — the "
+        "bound set at P16 is not renumbered.",
+        "Blocked rows wait on the measured survey, the soil "
+        "investigation, or the choice between exterior schemes A, B and "
+        "C. None of the three can be settled from the drawings.",
+        "For the owner's own record, costing and construction "
+        "information. Not a tender issue, and not for construction.",
+    ])
+    F.titleblock(sh)
+    return sh
+
+
+SHEETS = (sheet_register,
+          sheet_site, sheet_ground, sheet_first, sheet_second,
           sheet_third, sheet_penthouse, sheet_section,
           sheet_elev_a, sheet_elev_a_sides,
           sheet_elev_b, sheet_elev_b_sides,
