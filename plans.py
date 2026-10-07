@@ -22,6 +22,7 @@ import axonometric as ax
 import deliverables as dl
 import documents as doc
 import elevations as el
+import structure as st
 import fixtures as fx
 import frame as F
 from geometry import *          # noqa: F401,F403  (pure constants)
@@ -2944,6 +2945,377 @@ def sheet_elev_b_sides():
 
 
 # ===========================================================================
+# STR-001 ... STR-500  THE STRUCTURAL PACKAGE, AS LAYOUT
+# ===========================================================================
+# Twelve sheets, every one class L.  The grid, the coordinates, the spans,
+# the slab edges and the beam lines are exact because they fall out of the
+# architecture.  Sizes, depths, reinforcement and loads are nowhere on any
+# of them, and the status line on every sheet says so.
+STR_ORIGIN = (-60.0, 450.0)          # 1:50, as the floor plans
+STR_SITE_ORIGIN = SITE_ORIGIN        # 1:75, as the site plan
+
+
+def _str_sheet(number, title, level_txt, scale="1:50 @ A1"):
+    sh = Sheet(number, title, level_txt, scale)
+    sh.rev = "P19"
+    sh.status = st.STAMP
+    F.border(sh)
+    return sh
+
+
+def _str_panel(sh, rows, notes):
+    F.heading(sh)
+    y = F.legend(sh, 52)
+    y = F.datum_panel(sh, y + 8, "THE FRAME", rows)
+    F.notes(sh, y + 6, notes)
+    F.titleblock(sh)
+    return sh
+
+
+_STR_COMMON = (
+    "Layout only. No member size, no slab or footing depth, no "
+    "reinforcement and no load appears on this sheet or anywhere in the "
+    "STR series. Those are the structural engineer's, and a column "
+    "schedule with sizes invented by an architect is worse than none, "
+    "because somebody builds it.",
+    "The grid, the column coordinates, the spans and the slab edges are "
+    "measured from the same geometry the architecture is drawn from and "
+    "are exact.",
+)
+
+
+def _grid_rows():
+    ew, ns = grid_spans()
+    return ([("Grid", f"{len(GRID_X)} × {len(GRID_Y)}, "
+                      f"{GRID_LETTER[0]}–{GRID_LETTER[-1]} / 1–"
+                      f"{len(GRID_Y)}")]
+            + [(f"Span {n}", f"{v:.2f} m") for n, v in ew + ns]
+            + [("Columns", f"{len(grid_columns())}"),
+               ("Column section", f"{COL * 1000:.0f} × {COL * 1000:.0f} mm"),
+               ("Structural zone", f"{STRUCTURAL_ZONE * 1000:.0f} mm"),
+               ("Storey height", f"{FLOOR_TO_FLOOR:.2f} m")])
+
+
+def sheet_str_notes():
+    """STR-001: what the package is, and what it deliberately is not."""
+    sh = _str_sheet("STR-001", "Structural Notes & Design Criteria",
+                    "the whole frame", "NTS")
+    sh.text_mm(18, 26, "STRUCTURAL NOTES & DESIGN CRITERIA", size=6.0,
+               anchor="start", weight=700, ls=0.6)
+    sh.text_mm(18, 35, f"{F.LOCATION}   ·   " + "   ·   ".join(F.CODES),
+               size=2.6, anchor="start", color=GREY, ls=0.35)
+    sh.line_mm(18, 40, 570, 40, w=0.5, color=INK)
+
+    blocks = [
+        ("What this package is",
+         ["The frame set out: a grid, twelve column coordinates, six slab "
+          "outlines, the spans between them and the lines where a beam is "
+          "required. All of it falls out of the architecture and all of "
+          "it is exact.",
+          "It exists so the structural engineer starts from a coordinated "
+          "layout rather than from nothing, and so the architecture "
+          "cannot quietly move underneath the structure."]),
+        ("What this package is not",
+         ["It is not a structural design. No member size, no slab or "
+          "footing depth, no reinforcement, no cover, no load and no "
+          "analysis appears anywhere in it.",
+          "Design criteria — dead and imposed loads, wind, the seismic "
+          "zone and its design ground acceleration — are set and signed "
+          "by the structural engineer to ECP 201, and the concrete to "
+          "ECP 203. ECP 201 has five seismic zones; which governs "
+          "Shamandeel is named by the engineer, not assumed here."]),
+        ("What it waits on",
+         ["GEO-001, the soil investigation. The ground is central Nile "
+          "Delta and well characterised as a region, which is enough to "
+          "assume a foundation type and lay it out, and not enough to "
+          "size one. Allowable bearing pressure, the water table and "
+          "sulphate content are plot figures.",
+          "SUR-001, the measured survey, for the boundary STR-400 sits "
+          "on."]),
+        ("The one rule the architecture already settled",
+         ["A 300 mm wall needs a beam under it, and a beam is a column "
+          "line, a wall below, or a secondary beam landing on primary "
+          "beams. Every 300 mm wall in this building stands on a grid "
+          "line, with one exception: the penthouse's north wall, which "
+          "is a line load on the +13.20 slab spanning B to C. STR-305 "
+          "carries a secondary beam under it for that reason.",
+          "The 120 mm partitions do not stand on grid lines and do not "
+          "need to; they are carried by the slab."]),
+    ]
+    y = 52.0
+    for head, paras in blocks:
+        sh.text_mm(18, y, head.upper(), size=3.0, anchor="start",
+                   weight=700, ls=0.45)
+        sh.line_mm(18, y + 2.2, 570, y + 2.2, w=0.25, color=GREY)
+        y += 10.0
+        for t in paras:
+            for line in F._wrap(t, 96):
+                sh.text_mm(18, y, line, size=2.2, anchor="start")
+                y += 6.0
+            y += 2.4
+        y += 5.0
+    if y > 566:
+        raise ValueError(f"STR-001 runs to y={y:.0f} mm")
+    return _str_panel(sh, _grid_rows(), list(_STR_COMMON) + [
+        "Design criteria to ECP 201 and concrete to ECP 203, set and "
+        "signed by the structural engineer. No value is assumed here.",
+        "The package waits on GEO-001 for anything below ground and on "
+        "SUR-001 for the boundary.",
+    ])
+
+
+def sheet_str_excavation():
+    """STR-100: the extent of the dig, which is all that can be drawn."""
+    D.set_scale(75, *STR_SITE_ORIGIN)
+    sh = _str_sheet("STR-100", "Excavation, Grading & Shoring",
+                    f"{GARDEN_LEVEL:.2f} garden, +0.00 villa", "1:75 @ A1")
+    with sh.on("G-ANNO-BNDY"):
+        sh.poly(PLOT, stroke=INK, sw=LW_SECONDARY, dash="9 2 1.6 2")
+    sh.rect(0.0, -2.60, 23.0, 2.60, fill="#f6f6f6", stroke="none", sw=0)
+    sh.tag(11.50, -1.35, "S T R E E T", size=2.6, color=GREY)
+
+    # the dig: the footprint plus a working margin, which is a layout
+    # decision and not a design one
+    margin = 1.00
+    sh.rect(V3_X0 - margin, V3_Y0 - margin,
+            V3_X1 - V3_X0 + 2 * margin, V3_Y1 - V3_Y0 + 2 * margin,
+            fill="#eceff1", stroke=INK, sw=LW_SECONDARY, dash="6 3")
+    _hatch(sh, V3_X0 - margin, V3_Y0 - margin,
+           V3_X1 - V3_X0 + 2 * margin, V3_Y1 - V3_Y0 + 2 * margin,
+           pitch=0.9, color="#d6dade")
+    sh.rect(V3_X0, V3_Y0, V3_X1 - V3_X0, V3_Y1 - V3_Y0, fill="#ffffff",
+            stroke=INK, sw=LW_CUT)
+    sh.tag((V3_X0 + V3_X1) / 2.0, (V3_Y0 + V3_Y1) / 2.0, "VILLA FOOTPRINT",
+           size=2.4, color=INK)
+    sh.tag((V3_X0 + V3_X1) / 2.0, V3_Y0 - 1.70,
+           f"{margin:.2f} m WORKING MARGIN — EXTENT ONLY, NO DEPTH",
+           size=1.9, color=INK)
+    sh.dim_h(V3_X0 - margin, V3_X1 + margin, GARDEN_LEVEL * 0 + 1.20)
+
+    D.set_scale(75, *STR_SITE_ORIGIN)
+    return _str_panel(sh, [
+        ("Footprint", f"{(V3_X1 - V3_X0) * (V3_Y1 - V3_Y0):.1f} m²"),
+        ("Working margin", f"{margin:.2f} m"),
+        ("Dig extent",
+         f"{(V3_X1 - V3_X0 + 2 * margin) * (V3_Y1 - V3_Y0 + 2 * margin):.1f}"
+         f" m²"),
+        ("Dig depth", "by GEO-001 and STR-101"),
+        ("Formation level", "by GEO-001"),
+        ("Shoring", "by the engineer"),
+        ("Water table", "by GEO-001"),
+        ("Neighbour, east", f"{NBR_E_STOREYS} storey, {SETBACK:.2f} m away"),
+    ], list(_STR_COMMON) + [
+        "The extent of the dig is a layout decision and is drawn. Its "
+        "depth is not: formation level follows the foundation, the "
+        "foundation follows the bearing pressure, and that is GEO-001.",
+        "Shoring, dewatering and the sequence of excavation are the "
+        "engineer's and the contractor's. The east neighbour stands "
+        f"{SETBACK:.2f} m from the dig and is a single storey in clay "
+        f"brick; its protection is to be designed before anything is "
+        f"excavated against it.",
+    ])
+
+
+def sheet_str_foundation():
+    """STR-101: a pad under every column, at the right coordinate."""
+    D.set_scale(50, *STR_ORIGIN)
+    sh = _str_sheet("STR-101", "Foundation Layout", "formation by GEO-001")
+    st.grid(sh)
+    nominal = st.footings(sh)
+    st.columns_at(sh, 0, label=False)
+    st.grid_dims(sh)
+    sh.tag((GRID_X[0] + GRID_X[-1]) / 2.0, GRID_Y[-1] + 2.55,
+           "PAD SIZES ARE NOT SHOWN — SEE THE NOTES", size=2.0, color=INK)
+    return _str_panel(sh, _grid_rows() + [
+        ("Pads", f"{len(grid_columns())}"),
+        ("Pad size", "by the engineer"),
+        ("Founding depth", "by GEO-001")],
+        list(_STR_COMMON) + [
+        f"A pad is drawn under every column at the coordinate the column "
+        f"stands on. The square shown is a nominal {nominal:.2f} m so the "
+        f"layout reads; it is not a size and must not be scaled.",
+        "Pad sizes, founding depth, blinding and reinforcement follow the "
+        "allowable bearing pressure, the water table and the sulphate "
+        "content, which come from GEO-001 and do not exist yet.",
+        "A raft or piles may prove more appropriate than pads. That is "
+        "the engineer's call once the ground is known; the coordinates "
+        "on this sheet hold either way.",
+    ])
+
+
+def sheet_str_columns():
+    """STR-200: the grid, and every column's coordinate."""
+    D.set_scale(50, *STR_ORIGIN)
+    sh = _str_sheet("STR-200", "Column Schedule & Grid", "all levels")
+    st.grid(sh)
+    st.slab_edge(sh, 0)
+    st.grid(sh, bubbles=False)
+    st.columns_at(sh, 0)
+    st.grid_dims(sh)
+
+    y = 52.0
+    sh.text_mm(IX_COL_X[0] * 0 + 580, 0, "", size=2)   # keep the panel clean
+    rows = [("Mark", "x", "y", "Levels")]
+    for mark, x, yy, levels in grid_columns():
+        rows.append((mark, f"{x:.2f}", f"{yy:.2f}",
+                     f"{levels[0]}–{levels[-1]}"))
+    return _str_panel(sh, _grid_rows() + [
+        ("Columns to +9.90", f"{sum(1 for c in grid_columns() if 4 not in c[3])}"),
+        ("Columns to +13.20", f"{sum(1 for c in grid_columns() if 4 in c[3])}"),
+        ("Section", "by the engineer")],
+        list(_STR_COMMON) + [
+        "Every column is marked by its grid intersection and stands at "
+        "the coordinate printed beside it. Eight run from the foundation "
+        "to +13.20; four — B2, B3, C2 and C3 — carry on to the roof over "
+        "the penthouse.",
+        "Sections and reinforcement are the engineer's. The marks and "
+        "coordinates are what this sheet issues.",
+    ])
+
+
+def _str_framing(slab, level, datum):
+    """One slab framing layout."""
+    D.set_scale(50, *STR_ORIGIN)
+    sh = _str_sheet(f"STR-{301 + slab}", f"Slab Framing Layout at {datum}",
+                    datum)
+    st.slab_edge(sh, level)
+    st.grid(sh)
+    st.beams(sh, level)
+    st.voids(sh, level)
+    st.columns_at(sh, min(level, 4))
+    st.grid_dims(sh)
+    extra = []
+    if level == GRID_EXCEPTION[0]:
+        extra.append(
+            "This slab carries the one wall in the building that does not "
+            "stand on a grid line: the penthouse's north wall, a line "
+            "load spanning B to C. The secondary beam under it is drawn "
+            "dashed; its size is the engineer's.")
+    if 0 < level < 5:
+        extra.append(
+            f"The cantilever beyond grid 1 is the balcony: "
+            f"{wave_area():.1f} m² a floor, {V3_WAVE_DEEP:.2f} m at its "
+            f"deepest. It is the most engineering-sensitive element here "
+            f"and has its own sheet, STR-500.")
+    return _str_panel(sh, _grid_rows() + [
+        ("This slab", datum),
+        ("Slab thickness", "by the engineer")],
+        list(_STR_COMMON) + extra + [
+        "Primary beams run on the grid, because every 300 mm wall stands "
+        "on a grid line. The 120 mm partitions do not and do not need to: "
+        "they are carried by the slab.",
+    ])
+
+
+def sheet_str_walls():
+    """STR-400: retaining and boundary walls."""
+    D.set_scale(75, *STR_SITE_ORIGIN)
+    sh = _str_sheet("STR-400", "Retaining & Boundary Walls",
+                    f"{GARDEN_LEVEL:.2f} to +0.00", "1:75 @ A1")
+    with sh.on("G-ANNO-BNDY"):
+        sh.poly(PLOT, stroke=INK, sw=LW_SECONDARY, dash="9 2 1.6 2")
+    sh.rect(0.0, -2.60, 23.0, 2.60, fill="#f6f6f6", stroke="none", sw=0)
+    sh.tag(11.50, -1.35, "S T R E E T", size=2.6, color=GREY)
+    sh.rect(V3_X0, V3_Y0, V3_X1 - V3_X0, V3_Y1 - V3_Y0, fill="#ffffff",
+            stroke=INK, sw=LW_CUT)
+    sh.tag((V3_X0 + V3_X1) / 2.0, (V3_Y0 + V3_Y1) / 2.0, "VILLA", size=2.6,
+           color=INK)
+    gx, gy, gw = EW_GATE
+    with sh.on("S-WALL"):
+        sh.wall(0.0, 0.0, gx, 0.30)
+        sh.wall(gx + gw, 0.0, V3_X0 - SETBACK, 0.30)
+    sh.tag(6.40, 0.80, f"STREET WALL — {GARDEN_WALL_H:.2f} m, INDICATIVE",
+           size=1.9, color=INK)
+    sh.tag(6.40, -0.60, "LINE AWAITS SUR-001", size=1.7, color=GREY)
+    sh.tag((V3_X0 + V3_X1) / 2.0, GARDEN_LEVEL * 0 + 2.30,
+           f"GARDEN {GARDEN_LEVEL:.2f} TO VILLA +0.00 — "
+           f"{abs(GARDEN_LEVEL):.2f} m OF RETAINED GROUND", size=1.9,
+           color=INK)
+    return _str_panel(sh, [
+        ("Street wall", f"{V3_X0 - SETBACK - gw:.2f} m"),
+        ("Street wall height", f"{GARDEN_WALL_H:.2f} m, indicative"),
+        ("Gate", f"{gw:.2f} m"),
+        ("Garden level", f"{GARDEN_LEVEL:.2f}"),
+        ("Villa level", "+0.00"),
+        ("Ground retained", f"{abs(GARDEN_LEVEL):.2f} m"),
+        ("Wall design", "by the engineer"),
+        ("Boundary line", "by SUR-001"),
+    ], list(_STR_COMMON) + [
+        f"The garden sits {abs(GARDEN_LEVEL):.2f} m below the villa, so "
+        f"the change in level is retained somewhere along the west face "
+        f"and around the forecourt. Where is drawn; how is not.",
+        "The street wall's height is the client's choice and indicative "
+        "at 1.20 m; its line awaits the measured survey. Nothing else on "
+        "this sheet depends on either.",
+        "Retaining design, drainage behind the wall, movement joints and "
+        "foundations are the engineer's and wait on GEO-001.",
+    ])
+
+
+def sheet_str_cantilever():
+    """STR-500: the balcony, at 1:20, because it is the hard one."""
+    D.set_scale(20, -340.0, 300.0)
+    sh = _str_sheet("STR-500", "Cantilever Balcony Structure",
+                    f"{V4_LEVEL} and the three floors below", "1:20 @ A1")
+    pts = wave_points(n=200)
+    sh.poly([(pts[0][0], V3_Y0)] + pts + [(pts[-1][0], V3_Y0)],
+            fill="#e7ebee", stroke=INK, sw=LW_CUT)
+    sh.poly(wave_points(n=200, offset=V3_WAVE_BALUSTRADE), close=False,
+            stroke=GREY, sw=LW_SECONDARY)
+    sh.line(V3_X0, V3_Y0, V3_X1, V3_Y0, w=LW_CUT, color=INK)
+    for x in GRID_X:
+        sh.line(x, V3_Y0 - V3_WAVE_DEEP - 0.60, x, V3_Y0 + 0.90,
+                w=LW_THIN, color=GREY, dash="9 2 1.6 2")
+        sh.circle(x, V3_Y0 + 1.45, 0.42, fill="#ffffff", stroke=INK,
+                  sw=LW_SECONDARY)
+        sh.tag(x, V3_Y0 + 1.29, GRID_LETTER[GRID_X.index(x)], size=2.2,
+               color=INK)
+    for x, lbl in ((V3_X0, f"{V3_WAVE_DEEP:.2f}"),
+                   (V3_WAVE_WAIST_X, f"{V3_WAVE_WAIST:.2f}"),
+                   (V3_X1, f"{V3_WAVE_DEEP:.2f}")):
+        sh.dim_v(wave_edge(x), V3_Y0, x)
+    sh.tag((V3_X0 + V3_X1) / 2.0, V3_Y0 - V3_WAVE_DEEP - 1.15,
+           "SLAB EDGE — THICKNESS, ROOT DEPTH AND REINFORCEMENT BY THE "
+           "ENGINEER", size=2.0, color=INK)
+    return _str_panel(sh, [
+        ("Projection, deepest", f"{V3_WAVE_DEEP:.2f} m"),
+        ("Projection, at the waist", f"{V3_WAVE_WAIST:.2f} m"),
+        ("Span of the curve", f"{V3_X1 - V3_X0:.2f} m"),
+        ("Area a floor", f"{wave_area():.1f} m²"),
+        ("Levels", "4"),
+        ("Total", f"{4 * wave_area():.1f} m²"),
+        ("Balustrade", f"glass, {V3_WAVE_BALUSTRADE * 1000:.0f} mm inboard"),
+        ("Root and reinforcement", "by the engineer"),
+    ], list(_STR_COMMON) + [
+        f"A {V3_WAVE_DEEP:.2f} m cantilever on a curve, repeated on four "
+        f"levels, is the single most engineering-sensitive element in "
+        f"this building. It is drawn at 1:20 for that reason and for no "
+        f"other.",
+        "The curve, the span, the projection at every point and the "
+        "balustrade line are exact. The slab thickness, the root depth "
+        "into the floor behind, the top steel and the deflection and "
+        "vibration checks are entirely the engineer's.",
+        "Grid line 1 runs along the face the cantilever springs from. "
+        "The balcony projects south of it and is unsupported at its far "
+        "edge on all four levels.",
+    ])
+
+
+def _str_builders():
+    out = [sheet_str_notes, sheet_str_excavation, sheet_str_foundation,
+           sheet_str_columns]
+    for i, (level, datum) in enumerate(
+            [(0, "+0.00"), (1, "+3.30"), (2, "+6.60"), (3, "+9.90"),
+             (4, f"+{ROOF_LEVEL:.2f}"), (5, f"+{V4_TOP:.2f}")]):
+        def build(i=i, level=level, datum=datum):
+            return _str_framing(i, level, datum)
+        build.__name__ = f"sheet_str_slab_{i}"
+        out.append(build)
+    out += [sheet_str_walls, sheet_str_cantilever]
+    return out
+
+
+# ===========================================================================
 # ARC-001 / ARC-002  COVER, INDEX, GENERAL NOTES
 # ===========================================================================
 IX_COL_X = (18.0, 300.0)
@@ -4067,6 +4439,7 @@ def sheet_register():
 
 
 SHEETS = (sheet_cover, sheet_general_notes,
+          *_str_builders(),
           sheet_register, sheet_openings, sheet_roof,
           sheet_section_b, sheet_external_works,
           *_rcp_builders(),

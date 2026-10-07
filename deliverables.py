@@ -294,20 +294,22 @@ def _package_c():
     rows = [
         Row("STR-001", "Structural notes, materials and design criteria",
             "C", "L", discipline="Structure", fmt="A1 sheet",
+            sheet="STR-001", source=("GRID_X", "GRID_Y"),
             note="To ECP 203, with loads to ECP 201. The seismic zone and "
                  "its design ground acceleration, the wind basis and the "
                  "concrete grades are set and signed by the structural "
                  "engineer. No values assumed here."),
         Row("STR-100", "Excavation, grading and shoring", "C", "L",
-            discipline="Structure", scale="1:100",
+            discipline="Structure", scale="1:75", sheet="STR-100",
             depends=("GEO-001", "SUR-001")),
         Row("STR-101", "Foundation layout", "C", "L", discipline="Structure",
-            scale="1:50", depends=("GEO-001", "STR-200"),
+            scale="1:50", sheet="STR-101",
+            depends=("GEO-001", "STR-200"),
             note="Grid and column positions are exact; footing sizes, "
                  "depths and reinforcement are the engineer's."),
         Row("STR-200", "Column schedule and grid", "C", "L",
-            discipline="Structure", scale="1:50",
-            source=("EL_LEVELS",),
+            discipline="Structure", scale="1:50", sheet="STR-200",
+            source=("EL_LEVELS", "GRID_X", "GRID_Y"),
             note="Every column coordinate, carried through all five "
                  "levels. Sections and reinforcement left blank."),
     ]
@@ -317,17 +319,18 @@ def _package_c():
         rows.append(Row(
             f"STR-{301 + i}", f"Slab framing layout at {z}", "C", "L",
             discipline="Structure", scale="1:50",
+            sheet=f"STR-{301 + i}",
             depends=("STR-200",), source=("EL_LEVELS", "V4_TOP"),
             series="STR slab framing", index=i, across="slabs", note=note))
     rows += [
         Row("STR-400", "Retaining and boundary walls", "C", "L",
-            discipline="Structure", scale="1:50",
+            discipline="Structure", scale="1:75", sheet="STR-400",
             depends=("SUR-001", "GEO-001"),
             note="Boundary line awaits the measured survey."),
         # the lowest slab that carries a balcony is the one over the ground
         # floor, level index 1
         Row("STR-500", "Cantilever balcony structure", "C", "L",
-            discipline="Structure", scale="1:20",
+            discipline="Structure", scale="1:20", sheet="STR-500",
             depends=("CLI-001", f"STR-{301 + 1}"),
             source=("V3_WAVE_LIMIT", "V3_WAVE_BALUSTRADE"),
             note="A 2.00 m curved cantilever repeated on four levels is "

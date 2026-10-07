@@ -42,10 +42,10 @@ Structural slabs: +0.00, +3.30, +6.60, +9.90, +13.20, +16.45 — six slabs to fi
 | 0 — Information required from others | 3 | 1 | 0 | 1 | 1 |
 | A — Presentation and estimation | 8 | 1 | 0 | 0 | 7 |
 | B — Architecture | 21 | 20 | 0 | 0 | 1 |
-| C — Structure | 12 | 0 | 0 | 10 | 2 |
+| C — Structure | 12 | 12 | 0 | 0 | 0 |
 | D — Building services | 33 | 0 | 0 | 3 | 30 |
 | E — Quantities and cost control | 4 | 4 | 0 | 0 | 0 |
-| **Total** | **81** | **26** | **0** | **14** | **41** |
+| **Total** | **81** | **38** | **0** | **4** | **39** |
 
 ## Package 0 — Information required from others
 
@@ -127,18 +127,18 @@ Structural slabs: +0.00, +3.30, +6.60, +9.90, +13.20, +16.45 — six slabs to fi
 
 | Code | Deliverable | Discipline | Scale | Format | Class | Status | Waits on | Resolves to |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| STR-001 | Structural notes, materials and design criteria | Structure | - | A1 sheet | L | not started | — | — |
-| STR-100 | Excavation, grading and shoring | Structure | 1:100 | A1 sheet | L | blocked | GEO-001, SUR-001 | — |
-| STR-101 | Foundation layout | Structure | 1:50 | A1 sheet | L | blocked | GEO-001, STR-200 | — |
-| STR-200 | Column schedule and grid | Structure | 1:50 | A1 sheet | L | not started | — | — |
-| STR-301 | Slab framing layout at +0.00 | Structure | 1:50 | A1 sheet | L | blocked | STR-200 | — |
-| STR-302 | Slab framing layout at +3.30 | Structure | 1:50 | A1 sheet | L | blocked | STR-200 | — |
-| STR-303 | Slab framing layout at +6.60 | Structure | 1:50 | A1 sheet | L | blocked | STR-200 | — |
-| STR-304 | Slab framing layout at +9.90 | Structure | 1:50 | A1 sheet | L | blocked | STR-200 | — |
-| STR-305 | Slab framing layout at +13.20 | Structure | 1:50 | A1 sheet | L | blocked | STR-200 | — |
-| STR-306 | Slab framing layout at +16.45 | Structure | 1:50 | A1 sheet | L | blocked | STR-200 | — |
-| STR-400 | Retaining and boundary walls | Structure | 1:50 | A1 sheet | L | blocked | SUR-001, GEO-001 | — |
-| STR-500 | Cantilever balcony structure | Structure | 1:20 | A1 sheet | L | blocked | CLI-001, STR-302 | — |
+| STR-001 | Structural notes, materials and design criteria | Structure | - | A1 sheet | L | issued | — | STR-001 |
+| STR-100 | Excavation, grading and shoring | Structure | 1:75 | A1 sheet | L | issued | GEO-001, SUR-001 | STR-100 |
+| STR-101 | Foundation layout | Structure | 1:50 | A1 sheet | L | issued | GEO-001, STR-200 | STR-101 |
+| STR-200 | Column schedule and grid | Structure | 1:50 | A1 sheet | L | issued | — | STR-200 |
+| STR-301 | Slab framing layout at +0.00 | Structure | 1:50 | A1 sheet | L | issued | STR-200 | STR-301 |
+| STR-302 | Slab framing layout at +3.30 | Structure | 1:50 | A1 sheet | L | issued | STR-200 | STR-302 |
+| STR-303 | Slab framing layout at +6.60 | Structure | 1:50 | A1 sheet | L | issued | STR-200 | STR-303 |
+| STR-304 | Slab framing layout at +9.90 | Structure | 1:50 | A1 sheet | L | issued | STR-200 | STR-304 |
+| STR-305 | Slab framing layout at +13.20 | Structure | 1:50 | A1 sheet | L | issued | STR-200 | STR-305 |
+| STR-306 | Slab framing layout at +16.45 | Structure | 1:50 | A1 sheet | L | issued | STR-200 | STR-306 |
+| STR-400 | Retaining and boundary walls | Structure | 1:75 | A1 sheet | L | issued | SUR-001, GEO-001 | STR-400 |
+| STR-500 | Cantilever balcony structure | Structure | 1:20 | A1 sheet | L | issued | CLI-001, STR-302 | STR-500 |
 
 - **STR-001** — To ECP 203, with loads to ECP 201. The seismic zone and its design ground acceleration, the wind basis and the concrete grades are set and signed by the structural engineer. No values assumed here.
 - **STR-101** — Grid and column positions are exact; footing sizes, depths and reinforcement are the engineer's.

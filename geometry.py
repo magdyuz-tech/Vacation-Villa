@@ -515,6 +515,51 @@ EW_TREES = ((2.30, 4.20, 0.72), (4.80, 4.20, 0.72), (7.30, 4.20, 0.72),
 EW_STEPS = 3                               # risers from the forecourt
 
 
+# --- the structural grid, revision P19 -------------------------------------
+# Read off the columns the plans already draw, then written down here so
+# the structural package can letter and number it.  checks.py proves the
+# declaration still matches the columns, and proves the rule the whole
+# frame rests on: every 300 mm wall stands on a grid line, so it has a
+# beam under it, and the 120 mm partitions - which do not - are carried by
+# the slab.
+GRID_X = (12.65, 17.46, 21.85)          # A, B, C
+GRID_Y = (3.65, 8.46, 12.56, 16.85)     # 1, 2, 3, 4
+GRID_LETTER = "ABC"
+
+# The one 300 mm wall that does not stand on a grid line: the penthouse's
+# north wall.  It is not a mistake and it is not moved - it is where the
+# flat ends - but it is a line load on the +13.20 slab spanning B to C,
+# and it needs a secondary beam under it.  STR-305 draws that beam and
+# this is why.  Declared rather than tolerated, so the check can insist
+# there is exactly one exception and that it is this one.
+GRID_EXCEPTION = (4, "h", 15.19)
+
+
+def grid_columns():
+    """Every column: (mark, x, y, levels it runs through).
+
+    Named grid_columns rather than columns because plans.py already has a
+    columns(sh) that draws them, and `from geometry import *` would have
+    quietly replaced one with the other."""
+    out = []
+    for j, y in enumerate(GRID_Y, 1):
+        for i, x in enumerate(GRID_X):
+            # four of them carry on into the penthouse, which stands on
+            # grid lines 2 and 3 between B and C
+            upper = (GRID_LETTER[i] in "BC" and j in (2, 3))
+            out.append((f"{GRID_LETTER[i]}{j}", x, y,
+                        list(range(5)) if upper else list(range(4))))
+    return out
+
+
+def grid_spans():
+    """The spans between grid lines, which is what sizes a flat slab."""
+    return ([(f"{GRID_LETTER[i]}–{GRID_LETTER[i + 1]}",
+              GRID_X[i + 1] - GRID_X[i]) for i in range(len(GRID_X) - 1)],
+            [(f"{j + 1}–{j + 2}", GRID_Y[j + 1] - GRID_Y[j])
+             for j in range(len(GRID_Y) - 1)])
+
+
 def roof_zones():
     """Every surface that sheds water, as (name, box, area).
 

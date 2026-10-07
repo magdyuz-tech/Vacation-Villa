@@ -61,7 +61,10 @@ SET_ORDER = ["ARC-001", "ARC-002", "ARC-000",
              "A-200", "ARC-301", "A-400", "A-401", "A-402", "A-430",
              "ARC-500",
              "ARC-400", "ARC-401", "ARC-402", "ARC-403", "ARC-404",
-             "ARC-700"]
+             "ARC-700",
+             "STR-001", "STR-100", "STR-101", "STR-200",
+             "STR-301", "STR-302", "STR-303", "STR-304",
+             "STR-305", "STR-306", "STR-400", "STR-500"]
 
 
 def bind(pdf_dir, out_dir=None, rev=None):

@@ -906,6 +906,68 @@ def bill_reconciles():
     return problems
 
 
+def grid_carries_the_walls():
+    """The rule the whole frame rests on.
+
+    A 300 mm wall needs a beam under it, and a beam is a column line, a
+    wall below, or a secondary beam landing on primary beams.  The
+    structural package is drawn on the claim that every 300 mm wall in
+    this building stands on a grid line, so the primary beams are the
+    grid and nothing else is needed - with one exception, declared in
+    geometry.GRID_EXCEPTION, which is why STR-305 carries a secondary
+    beam the other five framing layouts do not.
+
+    If that claim ever stops being true, a framing layout is issued
+    showing a slab with an unsupported wall on it.  So it is checked
+    rather than believed, and the exception is checked too: exactly one,
+    and that one.
+    """
+    import geometry as G
+    import plans
+
+    WT = G.WT
+    problems, found = [], []
+    declared = {round(x, 2) for x in G.GRID_X}
+    declared_y = {round(y, 2) for y in G.GRID_Y}
+
+    for build, level in ((plans.sheet_ground, 0), (plans.sheet_first, 1),
+                         (plans.sheet_second, 2), (plans.sheet_third, 3),
+                         (plans.sheet_penthouse, 4)):
+        walls, _l, cols, *_rest, restore = _record()
+        try:
+            build()
+        finally:
+            restore()
+        # the declaration must still match the columns the plans draw
+        for cx, cy, _s in cols:
+            if round(cx, 2) not in declared or round(cy, 2) not in declared_y:
+                problems.append(
+                    f"level {level}: a column at ({cx:.2f}, {cy:.2f}) is "
+                    f"not on the declared grid")
+        for x0, y0, x1, y1, _op, _fill in walls:
+            if abs(min(x1 - x0, y1 - y0) - WT) > 0.01:
+                continue
+            horiz = (x1 - x0) > (y1 - y0)
+            mid = (y0 + y1) / 2.0 if horiz else (x0 + x1) / 2.0
+            lines = G.GRID_Y if horiz else G.GRID_X
+            if min(abs(mid - g) for g in lines) > WT / 2 + 0.01:
+                found.append((level, "h" if horiz else "v", round(mid, 2)))
+
+    want = tuple(G.GRID_EXCEPTION)
+    extra = [f for f in found if f != want]
+    for level, axis, mid in extra:
+        problems.append(
+            f"level {level}: a {WT * 1000:.0f} mm wall at {axis}={mid:.2f} "
+            f"stands on no grid line and is not the declared exception - "
+            f"it has no beam under it")
+    if want not in found:
+        problems.append(
+            f"the declared grid exception {want} is not in the plans any "
+            f"more; STR-305 draws a secondary beam for a wall that has "
+            f"moved")
+    return problems
+
+
 def deliverables_register():
     """The Master Deliverables List must describe the building that exists.
 
@@ -1072,6 +1134,7 @@ def main():
                      ("sched", schedule_matches_the_openings),
                      ("index", index_is_honest),
                      ("bill", bill_reconciles),
+                     ("grid", grid_carries_the_walls),
                      ("mdl", deliverables_register)):
         problems = fn()
         total += len(problems)
