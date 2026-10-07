@@ -128,3 +128,62 @@ def view(sh, scheme_colour, profile):
     """One complete axonometric, painted back to front."""
     context(sh)
     villa(sh, scheme_colour, profile)
+
+
+# ---------------------------------------------------------------------------
+# interior cutaways, Package A
+# ---------------------------------------------------------------------------
+# A doll's-house view: one floor, its walls cut off at waist height so the
+# plan reads in three dimensions.  The walls are not redrawn for it - they
+# come back from the same probe checks.py uses, so the cutaway is the
+# floor plan seen from the south-west and cannot be a different building.
+CUT = 1.20                      # where the walls are cut, above the floor
+SLAB = 0.18                     # the plate the rooms stand on, for the eye
+
+
+def _depth(wall):
+    """Painter's order: furthest first, which here is the largest x + y."""
+    x0, y0, x1, y1 = wall[:4]
+    return -(x0 + x1 + y0 + y1)
+
+
+def cutaway(sh, level, walls, sills, colour="#efe7d9", profile=None):
+    """One floor, walls cut at waist height, seen from the south-west.
+
+    `walls` is what the plan drew - (x0, y0, x1, y1, openings) - and
+    `sills` maps an opening to the height its wall carries on to, so a
+    window leaves a sill and a door leaves a gap.
+    """
+    ffl = EL_LEVELS[level]
+    # the floor plate
+    box(sh, V3_X0, V3_Y0, V3_X1, V3_Y1, ffl - SLAB, ffl,
+        shade(colour, 0.88), stroke=INK, sw=LW_SECONDARY)
+    if level > 0:
+        balcony(sh, ffl, profile, colour)
+
+    for x0, y0, x1, y1, openings in sorted(walls, key=_depth):
+        horiz = (x1 - x0) >= (y1 - y0)
+        lo, hi = (x0, x1) if horiz else (y0, y1)
+        pos = lo
+        for a, b in sorted(openings):
+            a, b = max(a, lo), min(b, hi)
+            if b <= a:
+                continue
+            if a > pos:
+                _wall_piece(sh, x0, y0, x1, y1, pos, a, horiz, ffl,
+                            ffl + CUT, colour)
+            sill = sills.get((round(a, 2), round(b, 2)), 0.0)
+            if sill > 0.01:      # a window leaves the wall under it
+                _wall_piece(sh, x0, y0, x1, y1, a, b, horiz, ffl,
+                            ffl + min(sill, CUT), colour)
+            pos = b
+        if pos < hi:
+            _wall_piece(sh, x0, y0, x1, y1, pos, hi, horiz, ffl,
+                        ffl + CUT, colour)
+
+
+def _wall_piece(sh, x0, y0, x1, y1, a, b, horiz, z0, z1, colour):
+    if horiz:
+        box(sh, a, y0, b, y1, z0, z1, colour, stroke=INK, sw=LW_THIN)
+    else:
+        box(sh, x0, a, x1, b, z0, z1, colour, stroke=INK, sw=LW_THIN)

@@ -40,12 +40,12 @@ Structural slabs: +0.00, +3.30, +6.60, +9.90, +13.20, +16.45 — six slabs to fi
 | Package | Deliverables | Issued | In progress | Blocked | Not started |
 | --- | --- | --- | --- | --- | --- |
 | 0 — Information required from others | 3 | 1 | 0 | 1 | 1 |
-| A — Presentation and estimation | 8 | 1 | 0 | 0 | 7 |
+| A — Presentation and estimation | 8 | 8 | 0 | 0 | 0 |
 | B — Architecture | 21 | 20 | 0 | 0 | 1 |
 | C — Structure | 12 | 12 | 0 | 0 | 0 |
 | D — Building services | 33 | 33 | 0 | 0 | 0 |
 | E — Quantities and cost control | 4 | 4 | 0 | 0 | 0 |
-| **Total** | **81** | **71** | **0** | **1** | **9** |
+| **Total** | **81** | **78** | **0** | **1** | **2** |
 
 ## Package 0 — Information required from others
 
@@ -64,13 +64,13 @@ Structural slabs: +0.00, +3.30, +6.60, +9.90, +13.20, +16.45 — six slabs to fi
 | Code | Deliverable | Discipline | Scale | Format | Class | Status | Waits on | Resolves to |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | A-01 | Exterior views - axonometric, three schemes | Presentation | 1:250 | A1 sheet | D | issued | — | A-430 |
-| A-02 | Interior cutaway axonometric - ground floor, +0.00 | Presentation | 1:100 | A1 sheet | D | not started | — | — |
-| A-03 | Interior cutaway axonometric - first floor, +3.30 | Presentation | 1:100 | A1 sheet | D | not started | — | — |
-| A-04 | Interior cutaway axonometric - second floor, +6.60 | Presentation | 1:100 | A1 sheet | D | not started | — | — |
-| A-05 | Interior cutaway axonometric - third floor, +9.90 | Presentation | 1:100 | A1 sheet | D | not started | — | — |
-| A-06 | Interior cutaway axonometric - penthouse floor, +13.20 | Presentation | 1:100 | A1 sheet | D | not started | — | — |
-| A-07 | Architectural design brief | Architecture | - | Report | D | not started | ARC-101, ARC-200 | — |
-| A-08 | Cost estimation report - elemental | Cost | - | Report | X | not started | QS-001, QS-004 | — |
+| A-02 | Interior cutaway axonometric - ground floor, +0.00 | Presentation | 1:75 | A1 sheet | D | issued | — | A-02 |
+| A-03 | Interior cutaway axonometric - first floor, +3.30 | Presentation | 1:75 | A1 sheet | D | issued | — | A-03 |
+| A-04 | Interior cutaway axonometric - second floor, +6.60 | Presentation | 1:75 | A1 sheet | D | issued | — | A-04 |
+| A-05 | Interior cutaway axonometric - third floor, +9.90 | Presentation | 1:75 | A1 sheet | D | issued | — | A-05 |
+| A-06 | Interior cutaway axonometric - penthouse floor, +13.20 | Presentation | 1:75 | A1 sheet | D | issued | — | A-06 |
+| A-07 | Architectural design brief | Architecture | - | Report | D | issued | ARC-101, ARC-200 | — |
+| A-08 | Cost estimation report - elemental | Cost | - | Report | X | issued | QS-001, QS-004 | — |
 
 - **A-01** — A projection of the geometry, not a render: it cannot show a balcony, a garden or a neighbour the drawings do not have.
 - **A-02** — Projected by axonometric.py from the same constants as the floor plan.

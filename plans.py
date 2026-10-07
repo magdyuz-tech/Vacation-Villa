@@ -2946,6 +2946,101 @@ def sheet_elev_b_sides():
 
 
 # ===========================================================================
+# A-02 ... A-06  INTERIOR CUTAWAYS
+# ===========================================================================
+# The last thing the set needed and the only one that is purely for
+# looking at: each floor as a doll's house, walls cut at waist height,
+# seen from the south-west like A-430.  Not a render and not redrawn -
+# the walls come back from the probe that validates the plans, so a
+# cutaway is its floor plan in three dimensions and cannot be a different
+# building.
+# 1:75.  The vertical origin follows the floor: v = z + (x + y) sin30, so
+# a cutaway of the penthouse sits ten metres higher up the sheet than one
+# of the ground floor unless the origin moves with it.
+AX_CUT_SCALE = 75
+AX_CUT_OX = 214.0
+AX_CUT_OY = 533.0
+
+
+def _cutaway_data(level):
+    """The walls of one floor, and the sill each opening leaves."""
+    import checks
+    import elevations as el
+
+    build = (sheet_ground, sheet_first, sheet_second, sheet_third,
+             sheet_penthouse)[level]
+    rec, *_rest, restore = checks._record()
+    try:
+        sh = build()
+    finally:
+        restore()
+    walls = [(x0, y0, x1, y1, list(op)) for x0, y0, x1, y1, op, _f in rec]
+    schedule = list(sh.schedule)
+    sills = {}
+    for face, lv, a, b, kind in el.openings():
+        if lv != level:
+            continue
+        sill, _head = el.opening_head(face, lv, kind)
+        sills[(round(a, 2), round(b, 2))] = sill
+    return walls, sills, schedule
+
+
+def _cutaway_sheet(level, name):
+    walls, sills, schedule = _cutaway_data(level)
+    D.set_scale(AX_CUT_SCALE, AX_CUT_OX,
+                AX_CUT_OY + EL_LEVELS[level] * 1000.0 / AX_CUT_SCALE)
+    sh = Sheet(f"A-{level + 2:02d}",
+               f"Interior Cutaway — {name} Floor", f"+{EL_LEVELS[level]:.2f}",
+               f"1:{AX_CUT_SCALE} @ A1")
+    sh.rev = "P19"
+    F.border(sh)
+    ax.cutaway(sh, level, walls, sills,
+               colour=el.SCHEME[SCHEME]["render"],
+               profile=el.SCHEME[SCHEME]["profile"])
+
+    F.heading(sh)
+    y = F.legend(sh, 52)
+    y = F.datum_panel(sh, y + 8, "THIS FLOOR", [
+        ("Level", f"+{EL_LEVELS[level]:.2f}"),
+        ("Rooms", f"{len(schedule)}"),
+        ("Net internal", f"{sum(a for _n, a in schedule):.1f} m²"),
+        ("Walls cut at", f"{ax.CUT:.2f} m above the floor"),
+        ("View", "isometric from the south-west"),
+        ("Scheme", f"{SCHEME} — {el.SCHEME[SCHEME]['name']}"),
+        ("Balcony", f"{wave_area():.1f} m²" if level else "—"),
+        ("Drawn from", f"A-{100 + level}")])
+    F.notes(sh, y + 6, [
+        f"The {name.lower()} floor as a doll's house, its walls cut "
+        f"{ax.CUT:.2f} m above the floor and seen from the south-west, "
+        f"which is the corner A-430 uses.",
+        "Not a render, and not redrawn. The walls come back from the "
+        "same probe that validates the plans, so this is A-"
+        f"{100 + level} in three dimensions and cannot be a different "
+        f"building.",
+        "A window leaves the wall under it standing to its sill; a door "
+        "leaves a gap to the floor. Both come from the opening heights "
+        "scheduled on ARC-500.",
+        "Faces are painted back to front rather than depth-sorted, so a "
+        "detail may overlap where two surfaces nearly touch. The plan "
+        "governs.",
+        "For looking at. Nothing is dimensioned here and nothing should "
+        "be measured off it.",
+    ])
+    F.titleblock(sh)
+    return sh
+
+
+def _cutaway_builders():
+    out = []
+    for level, name, _fn in RCP_LEVELS:
+        def build(level=level, name=name):
+            return _cutaway_sheet(level, name)
+        build.__name__ = f"sheet_cutaway_{level}"
+        out.append(build)
+    return out
+
+
+# ===========================================================================
 # EL / ME / PL  THE SERVICES PACKAGE, AS COORDINATION
 # ===========================================================================
 # Thirty-three sheets, every one class L.  They reserve space and record
@@ -4601,6 +4696,7 @@ def sheet_register():
 
 SHEETS = (sheet_cover, sheet_general_notes,
           *_str_builders(), *_svc_builders(),
+          *_cutaway_builders(),
           sheet_register, sheet_openings, sheet_roof,
           sheet_section_b, sheet_external_works,
           *_rcp_builders(),

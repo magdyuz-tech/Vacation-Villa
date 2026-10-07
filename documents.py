@@ -423,6 +423,141 @@ def specification_markdown():
     return "\n".join(out)
 
 
+# --------------------------------------------------------------------------
+# Package A - the brief, and the estimate that cannot be totalled
+# --------------------------------------------------------------------------
+def brief_markdown():
+    """A-07: what was asked for, what was built, and why it looks like it."""
+    import frame as F
+    import geometry as G
+    import plans
+    import quantities as Q
+
+    _w, rooms = Q.walls()
+    gross = (G.V3_X1 - G.V3_X0) * (G.V3_Y1 - G.V3_Y0)
+    net = sum(sum(a for _n, a in rooms[lv]) for lv in rooms)
+    outside, _m = G.ew_unallocated()
+
+    out = ["# Architectural Design Brief", "",
+           f"**{F.PROJECT.title()}** — {F.LOCATION.title()}.", "",
+           "Written from the drawings rather than before them: every "
+           "figure below is measured from the same geometry the set is "
+           "drawn from, so the brief describes the building that exists "
+           "rather than the one that was intended.", ""]
+
+    out += ["## The site", "",
+            f"- Plot {G.plot_area():.1f} m², an L on a street frontage "
+            f"{G.PLOT[1][0]:.2f} m wide.",
+            f"- The house sits hard against the east boundary with a "
+            f"{G.SETBACK:.2f} m paved side passage, and the whole "
+            f"{G.V3_X0 - G.SETBACK:.2f} m entrance garden on the west. It "
+            f"is not in the middle of its plot, and the drawings show "
+            f"that rather than a symmetrical fiction.",
+            f"- Neighbours: west {G.NBR_W_STOREYS} storeys and blind "
+            f"toward the garden, east {G.NBR_E_STOREYS} storey in clay "
+            f"brick {G.SETBACK:.2f} m away, north {G.NBR_N_STOREYS} "
+            f"storey. The east wall can be glazed at all because of that "
+            f"single storey: the lowest east sill at "
+            f"+{G.FLOOR_TO_FLOOR + G.EL_SILL:.2f} clears its roof by "
+            f"{G.FLOOR_TO_FLOOR + G.EL_SILL - G.NBR_E_STOREYS * G.NBR_STOREY_H:.2f} m.",
+            f"- Setbacks of {G.SETBACK:.2f} m on three sides, which are "
+            f"our own land and are paved as side passages rather than "
+            f"left dead.", ""]
+
+    out += ["## The building", "",
+            "| | Level | FFL | Rooms | Net internal |",
+            "| --- | --- | --- | ---: | ---: |"]
+    for i, name, ffl in [(i, n, f"+{G.EL_LEVELS[i]:.2f}")
+                         for i, n, _f in plans.RCP_LEVELS]:
+        here = rooms[i]
+        out.append(f"| L{i} | {name} | {ffl} | {len(here)} | "
+                   f"{sum(a for _n, a in here):.1f} m² |")
+    out += ["", f"Gross plate {gross:.1f} m² a floor over four floors and "
+                f"a set-back penthouse; {net:.1f} m² net internal in all. "
+                f"{outside:.1f} m² of the plot lies outside the building.",
+            "",
+            f"- {G.FLOOR_TO_FLOOR:.2f} m floor to floor, "
+            f"{G.CLEAR_HEIGHT:.2f} m clear under a "
+            f"{G.STRUCTURAL_ZONE * 1000:.0f} mm structural zone, top of "
+            f"building +{G.EL_TOP:.2f}.",
+            f"- Eleven numbered bedrooms and a guest room, each with its "
+            f"own or a shared bath; the wet rooms stack on one riser in "
+            f"the east strip, measured on PL-200.",
+            f"- A private stair, {round(G.FLOOR_TO_FLOOR / G.V3_STAIR_RISE)}"
+            f"R at {1000 * G.FLOOR_TO_FLOOR / round(G.FLOOR_TO_FLOOR / G.V3_STAIR_RISE):.0f}"
+            f" × {G.V3_STAIR_GOING * 1000:.0f}, in an open well with no "
+            f"enclosure and no lift.", ""]
+
+    out += ["## The street front", "",
+            f"Scheme {G.SCHEME}, \"{plans.el.SCHEME[G.SCHEME]['name']}\", "
+            f"chosen from three. A serpentine cantilever of one full "
+            f"period across the {G.V3_X1 - G.V3_X0:.2f} m frontage, "
+            f"{G.V3_WAVE_DEEP:.2f} m deep at each end and "
+            f"{G.V3_WAVE_WAIST:.2f} m at the waist — "
+            f"{G.wave_area():.1f} m² a floor, {4 * G.wave_area():.1f} m² "
+            f"over the four levels that carry it.", "",
+            f"The waist was 0.75 m when the scheme was adopted and was "
+            f"deepened to {G.V3_WAVE_WAIST:.2f} m so the balcony is "
+            f"usable along its whole length rather than only at the ends. "
+            f"That cost the curve half its swing and gained 2.9 m² a "
+            f"floor.", "",
+            "The balconies stop at the corner on every level: the 1.00 m "
+            "setbacks forbid anything projecting west, north or east, so "
+            "the cantilever stays on the street frontage.", ""]
+
+    out += ["## What the drawings do not decide", ""]
+    out += [f"- {t}" for t in OPEN_ITEMS]
+    out += ["", "The set is issued for the owner's record, costing and "
+                "construction information. It is not a tender issue and "
+                "it is not for construction.", ""]
+    return "\n".join(out)
+
+
+def estimate_markdown():
+    """A-08: the elemental estimate, and why it has no total."""
+    import geometry as G
+    import quantities as Q
+
+    items = [i for i in Q.takeoff() if i.klass == "D" and i.qty is not None]
+    gross = (G.V3_X1 - G.V3_X0) * (G.V3_Y1 - G.V3_Y0) * 4 + G.V4_PLATE
+
+    out = ["# Cost Estimation Report", "",
+           f"**{len(items)} measured items. No total.**", "",
+           "This report is class **X**: it cannot be completed here. The "
+           "quantities are ours and exact; the rates are not ours at all, "
+           "and an elemental estimate is quantities times rates.", "",
+           "What follows is therefore the estimate with every quantity "
+           "filled in and every rate left open, which is the honest shape "
+           "of it. Filling the rate column from memory or from another "
+           "country's prices would produce a number, and the number would "
+           "be believed.", "",
+           "## What is needed to complete it", "",
+           "1. Current rates for Menoufia, from a named source — a local "
+           "quantity surveyor, a recent comparable build, or quotations.",
+           "2. The structural design, which fixes the concrete and "
+           "reinforcement that are the largest single element in a frame "
+           "like this and are not measurable yet (STR series, class L).",
+           "3. The services design, same reason (EL, ME and PL series).",
+           "4. The specification, which decides what the finishes are "
+           "(QS-003).",
+           "5. Preliminaries, overheads, profit, contingency and "
+           "professional fees, none of which is a quantity.", "",
+           "## The measured elements", "",
+           "| Element | Item | Unit | Quantity | Rate | Source | Amount |",
+           "| --- | --- | --- | ---: | ---: | --- | ---: |"]
+    for i in items:
+        out.append(f"| {i.trade} | {i.desc} | {i.unit} | {i.qty:,.2f} | | | |")
+    out += ["| | | | | | **Total** | **not calculable** |", "",
+            f"Gross floor area {gross:.1f} m², which is the divisor for a "
+            f"cost per square metre once rates exist. It is given so the "
+            f"figure can be worked out, not so a figure can be guessed.",
+            "",
+            "## Excluded", ""]
+    out += [f"{n}. {t}" for n, t in enumerate(QS_EXCLUDED, 1)]
+    out.append("")
+    return "\n".join(out)
+
+
 def _writer(name, render):
     def write(out_dir=None):
         out_dir = out_dir or os.path.join(HERE, "documents")
@@ -445,7 +580,10 @@ RENDERS = {"master-deliverables-list.md": write_markdown,
                                            materials_markdown),
            "specification-schedule.md": _writer("specification-schedule.md",
                                                 specification_markdown),
-           "cost-baseline.csv": _writer("cost-baseline.csv", baseline_csv)}
+           "cost-baseline.csv": _writer("cost-baseline.csv", baseline_csv),
+           "design-brief.md": _writer("design-brief.md", brief_markdown),
+           "cost-estimation-report.md": _writer("cost-estimation-report.md",
+                                                estimate_markdown)}
 
 
 # --------------------------------------------------------------------------

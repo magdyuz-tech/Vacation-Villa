@@ -179,19 +179,20 @@ def _package_a():
         rows.append(Row(
             f"A-{i + 2:02d}", f"Interior cutaway axonometric - {name.lower()} "
             f"floor, {ffl}", "A", "D", discipline="Presentation",
-            scale="1:100", source=("EL_LEVELS",),
+            scale="1:75", sheet=f"A-{i + 2:02d}", source=("EL_LEVELS",),
             series="A interior cutaways", index=i, across="levels",
             note="Projected by axonometric.py from the same constants as "
                  "the floor plan."))
     rows += [
         Row("A-07", "Architectural design brief", "A", "D",
-            discipline="Architecture", fmt="Report",
+            discipline="Architecture", fmt="Report", doc="design-brief.md",
             depends=("ARC-101", "ARC-200"),
             source=("V3_X0", "V3_X1", "EL_LEVELS", "PLOT_W"),
             note="Accommodation, areas, levels and the reasoning behind "
                  "them, measured off the issued plans."),
         Row("A-08", "Cost estimation report - elemental", "A", "X",
             discipline="Cost", fmt="Report",
+            doc="cost-estimation-report.md",
             depends=("QS-001", "QS-004"),
             note="Quantities are ours; rates are not. Every rate carries "
                  "its source or is shown as an open assumption."),
