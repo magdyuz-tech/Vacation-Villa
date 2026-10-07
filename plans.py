@@ -418,7 +418,7 @@ def villa_garden(sh):
 def sheet_site():
     D.set_scale(75, *SITE_ORIGIN)
     sh = Sheet("A-000", "Site Plan — Detached Villa", "+0.00", "1:75 @ A1")
-    sh.rev, sh.status = "P18", F.STATUS_FINAL_DRAFT
+    sh.rev, sh.status = "P19", F.STATUS_FINAL_DRAFT
     F.border(sh)
     villa_neighbours(sh)
     street(sh)
@@ -805,7 +805,7 @@ def sheet_ground():
     D.set_scale(50, *PLAN_ORIGIN)
     sh = Sheet("A-100", "Ground Floor Plan \u2014 Detached Villa", "+0.00",
                "1:50 @ A1")
-    sh.rev, sh.status = "P18", F.STATUS_FINAL_DRAFT
+    sh.rev, sh.status = "P19", F.STATUS_FINAL_DRAFT
     F.border(sh)
 
     with sh.on("G-ANNO-BNDY"):
@@ -1264,7 +1264,7 @@ def sheet_second():
     D.set_scale(50, *PLAN_ORIGIN)
     sh = Sheet("A-102", "Second Floor Plan — Detached Villa", "+6.60",
                "1:50 @ A1")
-    sh.rev, sh.status = "P18", F.STATUS_FINAL_DRAFT
+    sh.rev, sh.status = "P19", F.STATUS_FINAL_DRAFT
     F.border(sh)
 
     with sh.on("G-ANNO-BNDY"):
@@ -1516,7 +1516,7 @@ def sheet_first():
     D.set_scale(50, *PLAN_ORIGIN)
     sh = Sheet("A-101", "First Floor Plan — Detached Villa", "+3.30",
                "1:50 @ A1")
-    sh.rev, sh.status = "P18", F.STATUS_FINAL_DRAFT
+    sh.rev, sh.status = "P19", F.STATUS_FINAL_DRAFT
     F.border(sh)
 
     with sh.on("G-ANNO-BNDY"):
@@ -1803,7 +1803,7 @@ def sheet_third():
     sh = Sheet("A-103", "Third Floor Plan — Detached Villa", "+9.90",
                "1:50 @ A1")
     # P9: the stair no longer stops here, it carries on to the penthouse
-    sh.rev, sh.status = "P18", F.STATUS_FINAL_DRAFT
+    sh.rev, sh.status = "P19", F.STATUS_FINAL_DRAFT
     F.border(sh)
 
     # the three setback lines, so the 1.00 m gap is measurable on the sheet
@@ -1873,8 +1873,8 @@ def sheet_third():
         "no enclosure, no smoke vent and no lift.",
         f"The south cantilever is reinforced concrete: a serpentine of "
         f"one full period, {V3_WAVE_DEEP:.2f} m deep at both ends and "
-        f"drawn in to {V3_WAVE_WAIST:.2f} m at the waist, where it is a "
-        f"planting ledge rather than somewhere to stand.",
+        f"drawn in to {V3_WAVE_WAIST:.2f} m at the waist, which is deep "
+        f"enough to sit out on along the whole frontage.",
         f"East and north carry ordinary windows. The east neighbour is a "
         f"single storey in clay brick 1.00 m away, so they clear its roof "
         f"by {FLOOR_TO_FLOOR + EL_SILL - NBR_E_STOREYS * NBR_STOREY_H:.2f} m "
@@ -2088,7 +2088,7 @@ def sheet_penthouse():
     D.set_scale(50, *PLAN_ORIGIN)
     sh = Sheet("A-104", "Penthouse Plan — Detached Villa", V4_LEVEL,
                "1:50 @ A1")
-    sh.rev, sh.status = "P18", F.STATUS_FINAL_DRAFT
+    sh.rev, sh.status = "P19", F.STATUS_FINAL_DRAFT
     F.border(sh)
 
     with sh.on("G-ANNO-BNDY"):
@@ -2259,7 +2259,7 @@ def sheet_section():
     D.set_scale(50, *SEC_ORIGIN)
     sh = Sheet("A-200", "Section A–A — Detached Villa",
                "looking west", "1:50 @ A1")
-    sh.rev, sh.status = "P18", F.STATUS_FINAL_DRAFT
+    sh.rev, sh.status = "P19", F.STATUS_FINAL_DRAFT
     F.border(sh)
 
     y_s, y_n = V3_Y0, V3_Y1                      # 3.50 .. 17.00
@@ -2593,7 +2593,7 @@ EL_KEY["C"] = [("Walls", "warm limestone render"),
 
 _EL_COMMON = (
     "The exterior only. The plans, site plan and section are agreed and "
-    "re-issued at P18 to the adopted curve; nothing here changes the rest "
+    "re-issued to the adopted curve; nothing here changes the rest "
     "of them: same five levels, same 9.50 × 13.50 m footprint, same 1.00 m "
     "setbacks, same openings. Only the skin differs between the schemes.",
     "Every opening drawn here is read from the plan it belongs to rather "
@@ -2611,15 +2611,15 @@ EL_NOTES = {
         f"The balcony curve is a serpentine — one full period across the "
         f"frontage, {EL_SERP_MEAN + EL_SERP_AMP:.2f} m deep at each end "
         f"drawn in to {EL_SERP_MEAN - EL_SERP_AMP:.2f} m at the waist. At "
-        f"the waist it is a planting ledge rather than somewhere to stand; "
-        f"the deep ends carry the furniture.",
+        f"{V3_WAVE_WAIST:.2f} m is usable the whole way along; the deep "
+        f"ends carry the dining and the furniture.",
         f"This is the adopted curve, and the plans are drawn to it. It "
         f"cost area to take: {wave_area('serpentine'):.1f} m² a floor "
         f"against the {wave_area('agreed'):.1f} m² of the curve it "
         f"replaced, "
         f"{4 * (wave_area('agreed') - wave_area('serpentine')):.0f} m² "
         f"over the four balcony levels. A-000 and A-100 to A-104 are "
-        f"re-issued at P18 to it.",
+        f"re-issued to it.",
         "The balconies do not wrap the corner as the reference does: the "
         "1.00 m setbacks forbid anything projecting west, north or east, "
         "so the cantilever stays on the street frontage.",
@@ -2656,18 +2656,17 @@ EL_NOTES["C"] = list(_EL_COMMON) + [
     f"a flat waist at {EL_FACET_WAIST:.2f} m in the middle, and "
     f"{EL_FACET_BLEND:.2f} m radiused transitions between. Every joint is "
     "a tangent, so from the street the eye still reads one continuous edge.",
-    f"Two things recommend it over the true serpentine. The formwork is "
-    f"straight for {(V3_X1 - V3_X0) - 2 * EL_FACET_BLEND:.2f} m of the "
-    f"{V3_X1 - V3_X0:.2f} m span rather than curved end to end. And "
-    f"because the deep runs are flat rather than passing through their "
-    f"depth, it carries {wave_area('facet'):.1f} m² a floor against the "
-    f"serpentine's {wave_area('serpentine'):.1f} — "
-    f"{4 * (wave_area('facet') - wave_area('serpentine')):.0f} m² more "
-    "over the four balcony levels.",
+    f"What recommends it is the formwork: straight for "
+    f"{(V3_X1 - V3_X0) - 2 * EL_FACET_BLEND:.2f} m of the "
+    f"{V3_X1 - V3_X0:.2f} m span rather than curved end to end. It also "
+    f"carried more area than the serpentine as first drawn; raising that "
+    f"curve's waist to {V3_WAVE_WAIST:.2f} m reversed it, and scheme A "
+    f"now carries {wave_area('serpentine'):.1f} m² a floor against this "
+    f"one's {wave_area('facet'):.1f}.",
     f"It is not the adopted curve. Scheme A was chosen and the plans are "
     f"drawn to its serpentine; moving to this one now would re-issue "
-    f"A-000 and A-100 to A-104 a second time, for "
-    f"{4 * (wave_area('facet') - wave_area('serpentine')):.0f} m² more "
+    f"A-000 and A-100 to A-104 a second time, and give up "
+    f"{4 * (wave_area('serpentine') - wave_area('facet')):.0f} m² of "
     f"balcony.",
     "The balconies do not wrap the corner: the 1.00 m setbacks forbid "
     "anything projecting west, north or east, so the cantilever stays on "
@@ -2705,10 +2704,8 @@ STATUS_NOT_SELECTED = ("Option not selected — scheme {0} “{1}” was adopted
 
 def _scheme_issue(sh, scheme):
     """Stamp a scheme sheet according to whether it was chosen."""
-    if scheme == SCHEME:
-        sh.rev = "P18"
-    else:
-        sh.rev = "P18"
+    sh.rev = "P19"
+    if scheme != SCHEME:
         sh.status = STATUS_NOT_SELECTED.format(
             SCHEME, el.SCHEME[SCHEME]["name"])
 
@@ -2808,7 +2805,7 @@ def sheet_axonometric():
         if sh is None:
             sh = Sheet("A-430", "Axonometric — Three Balcony Options",
                        "from the south-west", "1:250 @ A1")
-            sh.rev = "P18"
+            sh.rev = "P19"
             F.border(sh)
         ax.view(sh, el.SCHEME[letter]["render"], profile)
         u, v = ax.P(V3_X0, V3_Y0, 0.0)
@@ -2869,7 +2866,7 @@ def sheet_street_context():
     D.set_scale(100, *EL_CTX_ONE)
     sh = Sheet("A-402", "Street Elevation in Context",
                f"scheme {SCHEME}, as surveyed", "1:100 @ A1")
-    sh.rev = "P18"
+    sh.rev = "P19"
     F.border(sh)
     el.context_elevation(sh, SCHEME)
     sh.tag(11.50, GARDEN_LEVEL - 2.65,
@@ -2960,7 +2957,7 @@ def sheet_register():
     """
     sh = Sheet("ARC-000", "Master Deliverables List", "the whole set",
                "NTS")
-    sh.rev = "P18"
+    sh.rev = "P19"
     sh.status = F.STATUS_REGISTER
     F.border(sh)
     doc.register_table(sh)

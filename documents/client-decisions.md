@@ -10,6 +10,14 @@ Every instruction that changed the drawings, in the order they were given. The t
 
 **What it moved.** The plans carried the superseded curve, 17.4 m² a floor to the full 2.00 m. They are redrawn to the serpentine: 1.95 m at each end, 0.75 m at the waist, 12.8 m² a floor. A-000 and A-100 to A-104 re-issued at P18; schemes B and C stamped not selected and dropped from the issue.
 
+## Balcony waist — 2026-10-07
+
+**Instruction.** The serpentine's waist deepened from 0.75 m to 1.35 m, holding the deep ends at 1.95 m under the 2.00 m cap.
+
+**Where it lives.** `geometry.EL_SERP_MEAN / geometry.EL_SERP_AMP`
+
+**What it moved.** 0.75 m was a planting ledge; 1.35 m is usable the whole way along the frontage. The curve now swings 0.60 m rather than 1.20 m, so it reads as a gentler wave, and carries 15.7 m² a floor instead of 12.8 — 62.7 m² over the four balcony levels. It also overtakes scheme C's facet, which the C sheet used to beat it on. A-000 and A-100 to A-104 re-issued at P19.
+
 ## Site — 2026-10-07
 
 **Instruction.** Shamandeel, Quesna, Menoufia, Egypt — central Nile Delta.

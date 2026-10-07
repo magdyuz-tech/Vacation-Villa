@@ -396,18 +396,28 @@ V3_WAVE_FASCIA = 0.15          # upstand band on the slab edge (elevation)
 # cantilever rules over every one of them.
 #
 # What the shape costs is not free, and the client decides it with the
-# figures: agreed 17.4 m2 a floor, serpentine 12.8, bow 11.2.
-EL_SERP_MEAN, EL_SERP_AMP = 1.35, 0.60    # scheme A, one cosine period
+# figures: agreed 17.4 m2 a floor, serpentine 15.7, facet 14.9, bow 11.2.
+# Scheme A's serpentine is written as a mean and an amplitude because that
+# is how it is steered: the mean IS the average projection, so the area a
+# floor is simply mean x span, and the ends and waist are mean +/- amp.
+# The client raised the waist from 0.75 to 1.35 m - 0.75 m was a planting
+# ledge, not somewhere to stand.  Holding the deep ends at 1.95, just under
+# the 2.00 m cap, that fixes both numbers: mean 1.65, amplitude 0.30.  The
+# curve swings 0.60 m rather than 1.20 m, so it reads as a gentler wave,
+# and it carries 15.7 m2 a floor instead of 12.8.
+EL_SERP_MEAN, EL_SERP_AMP = 1.65, 0.30    # scheme A, one cosine period
 EL_BOW_FLANK, EL_BOW_PEAK = 0.90, 1.95    # scheme B, straight flanks
 EL_BOW_WIDTH = 5.00                       # ... and the bow between them
 
 # Scheme C is the serpentine's gesture built out of straight runs joined by
-# short radiused transitions - "straight curvy".  Two things recommend it
-# over the true serpentine: the formwork is straight for 7.10 m of the
-# 9.50 m span instead of curved end to end, and because the deep runs are
-# flat rather than passing through their depth it carries 14.9 m2 a floor
-# against the serpentine's 12.8.  The transitions are raised cosines, so
-# every joint is a tangent and the eye reads one continuous edge.
+# short radiused transitions - "straight curvy".  What recommended it was
+# buildability and area at once: the formwork is straight for 7.10 m of the
+# 9.50 m span instead of curved end to end, and with its deep runs flat it
+# carried more area than the serpentine then drawn.  Raising the
+# serpentine's waist to 1.35 m reversed the second half of that - scheme A
+# now carries 15.7 m2 a floor against this one's 14.9 - and the formwork
+# argument stands alone.  The transitions are raised cosines, so every
+# joint is a tangent and the eye reads one continuous edge.
 EL_FACET_DEEP, EL_FACET_WAIST = 1.95, 0.90
 EL_FACET_RUN = 2.40                       # the straight run at each end
 EL_FACET_BLEND = 1.20                     # each transition

@@ -406,8 +406,9 @@ def wave_balcony(sh, pts, wall_y, balustrade, reveal, label=None,
                 w=LW_SECONDARY, color=GREY)
     if label:
         # Where the slab is deepest, not at the middle of the span.  The
-        # serpentine's middle is its waist - 0.75 m - so a label centred
-        # there sat on the curve and read through it.  Kept clear of both
+        # serpentine's middle is its waist, the shallowest point of the
+        # slab, so a label centred there sat on the curve and read
+        # through it.  Kept clear of both
         # ends as well, because the text is centre-anchored and would
         # otherwise overhang the slab it names.
         inset = 2.00
