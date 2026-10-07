@@ -236,9 +236,216 @@ def write_decisions(out_dir=None):
     return path
 
 
+# --------------------------------------------------------------------------
+# Package E - the measure, the materials, what must be specified, the rates
+# --------------------------------------------------------------------------
+# Four documents off one takeoff.  The bill is what was measured, the
+# materials are the same measure resolved into things you buy, the
+# specification schedule is what has to be decided before any of it can be
+# bought, and the baseline is the bill with a rate column that stays empty
+# until a named source fills it.
+QS_HEAD = """\
+Measured from `geometry.py`, not scaled off the drawings. Wall runs come
+from the drawing calls themselves — the same calls the sheets are drawn
+with — so the bill cannot drift from the building it bills for.
+
+Every row carries a class: **D** measured here and exact, **L** needing
+someone else's design before it can be measured, **X** impossible here at
+all. **Nothing in this document is priced.**
+"""
+
+QS_EXCLUDED = [
+    "Everything below ground. The foundation type is not chosen and its "
+    "depth is not known; GEO-001 and STR-101 come first.",
+    "Slab, beam and footing thicknesses, so no concrete volume is given "
+    "for them. The areas are ours; the depths are the structural "
+    "engineer's, and a volume needs both.",
+    "Reinforcement, in any form.",
+    "Services. The EL, ME and PL series are coordination layouts; their "
+    "quantities follow the services engineer's design.",
+    "Rates, overheads, preliminaries, profit and contingency.",
+]
+
+
+def _qs_rows():
+    import quantities as Q
+    return Q.by_trade()
+
+
+def quantities_markdown():
+    import quantities as Q
+
+    out = ["# Bill of Quantities", "",
+           "Detached vacation villa — Shamandeel, Quesna, Menoufia, Egypt.",
+           "", "**Itemised, unpriced, by trade.**", "", QS_HEAD, ""]
+    totals = {}
+    for trade, items in _qs_rows():
+        out += [f"## {trade}", "",
+                "| Class | Description | Unit | Quantity | Note |",
+                "| --- | --- | --- | ---: | --- |"]
+        for i in items:
+            q = "—" if i.qty is None else f"{i.qty:,.2f}"
+            out.append(f"| {i.klass} | {i.desc} | {i.unit} | {q} | "
+                       f"{i.note} |")
+            totals[i.klass] = totals.get(i.klass, 0) + 1
+        out.append("")
+    out += ["## Excluded", ""]
+    out += [f"{n}. {t}" for n, t in enumerate(QS_EXCLUDED, 1)]
+    out += ["", f"{sum(totals.values())} items: "
+                + ", ".join(f"{v} class {k}" for k, v in sorted(totals.items()))
+                + ".", ""]
+    return "\n".join(out)
+
+
+def quantities_csv():
+    rows = ["trade,class,description,unit,quantity,note"]
+    for trade, items in _qs_rows():
+        for i in items:
+            q = "" if i.qty is None else f"{i.qty:.2f}"
+            desc = i.desc.replace('"', "'")
+            note = i.note.replace('"', "'").replace("\n", " ")
+            rows.append(f'"{trade}",{i.klass},"{desc}",{i.unit},{q},"{note}"')
+    return "\n".join(rows) + "\n"
+
+
+def baseline_csv():
+    """QS-004: the measure with a rate column nobody has filled."""
+    import quantities as Q
+
+    rows = ["trade,class,description,unit,quantity,rate,source,amount"]
+    for trade, items in _qs_rows():
+        for i in items:
+            if i.klass != "D":
+                continue            # only what is measured can be priced
+            desc = i.desc.replace('"', "'")
+            rows.append(f'"{trade}",D,"{desc}",{i.unit},{i.qty:.2f},,,')
+    rows.append('"","","TOTAL","","",,,')
+    return "\n".join(rows) + "\n"
+
+
+def materials_markdown():
+    """QS-002: the same measure, resolved into things you buy."""
+    import quantities as Q
+    import elevations as el
+    import geometry as G
+
+    items = Q.takeoff()
+    def q(prefix):
+        return next((i.qty for i in items if i.desc.startswith(prefix)), 0.0)
+
+    sched = el.opening_schedule()
+    def area(kind):
+        return sum(r["w"] * r["h"] * r["total"]
+                   for r in sched if r["kind"] == kind)
+
+    _lifts, _h, col_vol = Q.columns()
+    rows = [
+        ("Blockwork, 300 mm", "m²", q("External and"), "D",
+         "Block size, strength and mortar are specification."),
+        ("Blockwork, 120 mm", "m²", q("Internal part"), "D", ""),
+        ("Blockwork, 250 mm parapet", "m²", q("Parapet"), "D", ""),
+        ("Concrete, columns", "m³", col_vol, "D",
+         f"{G.COL * 1000:.0f} mm square × the storey height, measured. "
+         f"Grade is the engineer's."),
+        ("Concrete, slabs", "m³", None, "L",
+         "Area is measured; the thickness is the engineer's."),
+        ("Reinforcement", "t", None, "X", "The engineer's, entirely."),
+        ("Glazing", "m²", area("window"), "D",
+         "Structural opening area. Glass build-up is specification."),
+        ("Door leaves and frames", "m²", area("door"), "D", ""),
+        ("Louvres", "m²", area("vent"), "D", ""),
+        ("Internal plaster", "m²", q("Internal plaster"), "D", ""),
+        ("External render", "m²", q("External render"), "D", ""),
+        ("Floor finish", "m²", q("Floor finish"), "D",
+         "One figure; the split between finishes is specification."),
+        ("Waterproofing membrane", "m²",
+         sum(a for _n, _b, a in G.roof_zones()), "D", ""),
+        ("Paving", "m²", sum(v for k, v in G.ew_areas().items()
+                             if "Turf" not in k), "D", ""),
+        ("Turf", "m²", G.ew_areas()["Turf"], "D", ""),
+        ("Timber, pergola", "m²", G.EW_PERGOLA[2] * G.EW_PERGOLA[3], "D", ""),
+        ("Trees", "nr", float(len(G.EW_TREES)), "D", ""),
+    ]
+    out = ["# Bill of Materials", "",
+           "The same measure as QS-001, resolved into materials rather "
+           "than trades.", "", QS_HEAD, "",
+           "| Class | Material | Unit | Quantity | Note |",
+           "| --- | --- | --- | ---: | --- |"]
+    for desc, unit, qty, klass, note in rows:
+        v = "—" if qty is None else f"{qty:,.2f}"
+        out.append(f"| {klass} | {desc} | {unit} | {v} | {note} |")
+    out += ["", "## Excluded", ""]
+    out += [f"{n}. {t}" for n, t in enumerate(QS_EXCLUDED, 1)]
+    return "\n".join(out) + "\n"
+
+
+# What has to be decided before any of the measure can be bought.  Topics,
+# not specifications: naming a block strength or a membrane here would be
+# inventing the one thing this document exists to ask for.
+SPEC_TOPICS = [
+    ("Masonry", "Block type, strength and density; mortar; movement "
+                "joints; wall ties; lintels over every opening."),
+    ("Concrete", "Grade, cover, aggregate and finish — all to the "
+                 "structural engineer's specification, not this one."),
+    ("Openings", "Frame material and finish, glazing build-up and "
+                 "performance, operation, ironmongery, seals and "
+                 "thresholds. ARC-500 measures the openings; none of this "
+                 "is in them."),
+    ("Internal finishes", "Plaster system, paint, which rooms are tiled "
+                          "and to what height, floor finish per room, "
+                          "skirtings and junctions."),
+    ("External finishes", "Render system and colour, the slab nosing and "
+                          "its cove light, balustrade glass and fixings."),
+    ("Roof", "Membrane, insulation, falls screed, upstands, outlets and "
+             "overflows, protection and the walking surface."),
+    ("External works", "Paving material and bedding, sub-base, falls, "
+                       "edgings, turf and topsoil, irrigation, the gate, "
+                       "the street wall's coping and finish."),
+    ("Services", "Everything. The EL, ME and PL series are coordination "
+                 "only."),
+]
+
+
+def specification_markdown():
+    out = ["# Material Requisitions and Specification Schedule", "",
+           "What has to be decided before the measure can be bought.", "",
+           "These are topics, not specifications. Naming a block strength "
+           "or a membrane here would be inventing the one thing this "
+           "document exists to ask for — it is issued so that whoever "
+           "specifies has a complete list to answer, and so that nothing "
+           "is priced against an assumption nobody wrote down.", "",
+           "| Trade | To be specified |", "| --- | --- |"]
+    for trade, topics in SPEC_TOPICS:
+        out.append(f"| {trade} | {topics} |")
+    out += ["", "Quantities for every item above are in QS-001 and QS-002 "
+                "where the geometry fixes them, and are marked class L or "
+                "X where it does not.", ""]
+    return "\n".join(out)
+
+
+def _writer(name, render):
+    def write(out_dir=None):
+        out_dir = out_dir or os.path.join(HERE, "documents")
+        os.makedirs(out_dir, exist_ok=True)
+        path = os.path.join(out_dir, name)
+        with open(path, "w", encoding="utf-8") as fh:
+            fh.write(render())
+        return path
+    return write
+
+
 # file name -> what writes it.  deliverables.status() reads the keys.
 RENDERS = {"master-deliverables-list.md": write_markdown,
-           "client-decisions.md": write_decisions}
+           "client-decisions.md": write_decisions,
+           "bill-of-quantities.md": _writer("bill-of-quantities.md",
+                                            quantities_markdown),
+           "bill-of-quantities.csv": _writer("bill-of-quantities.csv",
+                                             quantities_csv),
+           "bill-of-materials.md": _writer("bill-of-materials.md",
+                                           materials_markdown),
+           "specification-schedule.md": _writer("specification-schedule.md",
+                                                specification_markdown),
+           "cost-baseline.csv": _writer("cost-baseline.csv", baseline_csv)}
 
 
 # --------------------------------------------------------------------------

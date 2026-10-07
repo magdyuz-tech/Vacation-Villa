@@ -3746,18 +3746,18 @@ def sheet_roof():
             sh.line(a, b, c, d, w=LW_THIN, color=LIGHT, dash="4 2")
 
     sx0, sy0, sx1, sy1 = V3_STAIR
-    west = (V3_X0 + PARAPET, V4_Y0, V4_CORR_X0, V4_PLANT[1])
-    west_area = ((west[2] - west[0]) * (west[3] - west[1])
-                 - (sx1 - sx0) * (sy1 - sy0))
-    _roof_area(sh, west, "West terrace", V4_LEVEL, (13.78, 6.30),
-               area=west_area)
-    _roof_area(sh, (V4_CORR_X0, V4_Y0, V4_CORR_X1, V4_ROOF_Y1),
-               "Open corridor", V4_LEVEL, (16.60, 8.00), rot=-90)
-    _roof_area(sh, (V4_CORR_X1, V4_Y1, V4_ROOF_X1, V4_ROOF_Y1),
-               "North strip", V4_LEVEL, (19.60, 16.30))
-    _roof_area(sh, (V4_X0 + PARAPET, V4_Y0 + PARAPET, V4_X1 - PARAPET,
-                    V4_Y1 - PARAPET), "Penthouse roof",
-               f"+{V4_TOP:.2f}", (19.65, 10.20), tint="#e7ebee")
+    # the zones come from geometry.roof_zones(), which the quantities read
+    # too: the sheet and the bill must give one roof area, not two
+    zones = {n: (box, area) for n, box, area in roof_zones()}
+    at = {"West terrace": ((13.78, 6.30), None, "#f4f6f7"),
+          "Open corridor": ((16.60, 8.00), -90, "#f4f6f7"),
+          "North strip": ((19.60, 16.30), None, "#f4f6f7"),
+          "Penthouse roof": ((19.65, 10.20), None, "#e7ebee")}
+    for name, (where, rot, tint) in at.items():
+        box, area = zones[name]
+        level = f"+{V4_TOP:.2f}" if name == "Penthouse roof" else V4_LEVEL
+        _roof_area(sh, box, name, level, where, area=area, tint=tint,
+                   rot=rot)
 
     # the stair well, open to the sky under its canopy, is not a surface
     sh.rect(sx0, sy0, sx1 - sx0, sy1 - sy0, fill="#ffffff", stroke=GREY,

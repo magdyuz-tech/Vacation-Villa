@@ -379,6 +379,7 @@ def _package_e():
     return [
         Row("QS-001", "Bill of quantities - itemised, unpriced, by trade",
             "E", "D", discipline="Quantity surveying", fmt="Spreadsheet",
+            doc="bill-of-quantities.md",
             depends=("ARC-101", "ARC-700"),
             source=("V3_X0", "V3_X1", "V3_Y0", "V3_Y1", "EL_LEVELS",
                     "WT", "PT"),
@@ -386,17 +387,20 @@ def _package_e():
                  "opening counts reconcile to the plans they came from."),
         Row("QS-002", "Bill of materials", "E", "D",
             discipline="Quantity surveying", fmt="Spreadsheet",
+            doc="bill-of-materials.md",
             depends=("QS-001",), source=("WT", "PT", "PARAPET", "COL"),
             note="The same measure resolved into materials rather than "
                  "trades: blockwork, concrete, reinforcement allowance, "
                  "glazing and joinery."),
         Row("QS-003", "Material requisitions and specifications", "E", "L",
             discipline="Procurement", fmt="Schedule",
+            doc="specification-schedule.md",
             depends=("QS-002", "CLI-001"),
             note="Quantities are ours; performance specifications and "
                  "approved-equal judgements are the specifier's."),
         Row("QS-004", "Owner's cost baseline", "E", "X",
-            discipline="Cost", fmt="Spreadsheet", depends=("QS-001",),
+            discipline="Cost", fmt="Spreadsheet", doc="cost-baseline.csv",
+            depends=("QS-001",),
             note="The measured quantities with a rate column, for "
                  "budgeting and for checking a quotation against. Rates "
                  "stay empty until a named source fills them - nothing "

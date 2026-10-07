@@ -515,6 +515,35 @@ EW_TREES = ((2.30, 4.20, 0.72), (4.80, 4.20, 0.72), (7.30, 4.20, 0.72),
 EW_STEPS = 3                               # risers from the forecourt
 
 
+def roof_zones():
+    """Every surface that sheds water, as (name, box, area).
+
+    One source for ARC-106 and for the quantities.  They were worked out
+    separately at first and disagreed by 15 m²: the bill took the
+    penthouse footprint rather than the area inside its parapets, and
+    counted the stair well as roof.  Two documents giving two roof areas
+    is the exact failure the register exists to stop.
+    """
+    sx0, sy0, sx1, sy1 = V3_STAIR
+    west = (V3_X0 + PARAPET, V4_Y0, V4_CORR_X0, V4_PLANT[1])
+    corridor = (V4_CORR_X0, V4_Y0, V4_CORR_X1, V4_ROOF_Y1)
+    north = (V4_CORR_X1, V4_Y1, V4_ROOF_X1, V4_ROOF_Y1)
+    penthouse = (V4_X0 + PARAPET, V4_Y0 + PARAPET, V4_X1 - PARAPET,
+                 V4_Y1 - PARAPET)
+
+    def a(box):
+        return (box[2] - box[0]) * (box[3] - box[1])
+
+    return [
+        # the stair well is open to the sky, so it is not roof
+        ("West terrace", west, a(west) - (sx1 - sx0) * (sy1 - sy0)),
+        ("Open corridor", corridor, a(corridor)),
+        ("North strip", north, a(north)),
+        ("Penthouse roof", penthouse, a(penthouse)),
+        ("Balcony", None, wave_area()),
+    ]
+
+
 def ew_side_passages():
     """The three 1.00 m setback strips, which are paved, not dead land."""
     return ((V3_X0 - SETBACK, V3_Y0, SETBACK, V3_Y1 + SETBACK - V3_Y0),

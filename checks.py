@@ -850,6 +850,62 @@ def F_REV():
     return frame.REV
 
 
+def bill_reconciles():
+    """The bill must agree with the drawings it was measured from.
+
+    A bill is read by somebody buying things, and the one way it goes
+    wrong that nobody notices is quietly measuring a different building
+    from the sheets beside it.  Three ties are checked, each between the
+    bill and a drawing that states the same figure in its own panel:
+    ARC-106's roof zones, ARC-500's opening counts, ARC-700's external
+    areas.  Two of them already disagreed once - the roof by 15 m², when
+    the bill took the penthouse footprint and counted the stair well -
+    which is why they are checked rather than assumed.
+    """
+    import geometry as G
+    import elevations as el
+    import quantities as Q
+
+    items = Q.takeoff()
+    problems = []
+
+    def found(prefix, trade=None):
+        return [i for i in items if i.desc.startswith(prefix)
+                and (trade is None or i.trade == trade)]
+
+    roof = sum(i.qty for i in items if i.trade == "Roof" and i.unit == "m²")
+    zones = sum(a for _n, _b, a in G.roof_zones())
+    if abs(roof - zones) > 0.01:
+        problems.append(f"the bill measures {roof:.2f} m² of roof and "
+                        f"ARC-106 draws {zones:.2f} m²")
+
+    sched = el.opening_schedule()
+    for kind, prefix in (("door", "Doors"), ("window", "Windows"),
+                         ("vent", "Louvres")):
+        want = sum(r["total"] for r in sched if r["kind"] == kind)
+        rows = found(prefix, "Openings")
+        if len(rows) != 1:
+            problems.append(f"the bill has {len(rows)} rows for {prefix}")
+        elif abs(rows[0].qty - want) > 0.001:
+            problems.append(f"the bill counts {rows[0].qty:.0f} {prefix} "
+                            f"and ARC-500 schedules {want}")
+
+    for name, area in G.ew_areas().items():
+        rows = found(name, "External works")
+        if len(rows) != 1:
+            problems.append(f"the bill has {len(rows)} rows for the "
+                            f"external works item {name!r}")
+        elif abs(rows[0].qty - area) > 0.01:
+            problems.append(f"the bill measures {rows[0].qty:.2f} m² of "
+                            f"{name} and ARC-700 draws {area:.2f} m²")
+
+    # nothing may be priced, and nothing unmeasured may carry a quantity
+    for i in items:
+        if i.klass == "X" and i.qty is not None:
+            problems.append(f"{i.desc!r} is class X but carries a quantity")
+    return problems
+
+
 def deliverables_register():
     """The Master Deliverables List must describe the building that exists.
 
@@ -1015,6 +1071,7 @@ def main():
                      ("issue", issue_status),
                      ("sched", schedule_matches_the_openings),
                      ("index", index_is_honest),
+                     ("bill", bill_reconciles),
                      ("mdl", deliverables_register)):
         problems = fn()
         total += len(problems)

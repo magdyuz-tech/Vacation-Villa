@@ -40,12 +40,12 @@ Structural slabs: +0.00, +3.30, +6.60, +9.90, +13.20, +16.45 — six slabs to fi
 | Package | Deliverables | Issued | In progress | Blocked | Not started |
 | --- | --- | --- | --- | --- | --- |
 | 0 — Information required from others | 3 | 1 | 0 | 1 | 1 |
-| A — Presentation and estimation | 8 | 1 | 0 | 1 | 6 |
+| A — Presentation and estimation | 8 | 1 | 0 | 0 | 7 |
 | B — Architecture | 21 | 20 | 0 | 0 | 1 |
 | C — Structure | 12 | 0 | 0 | 10 | 2 |
 | D — Building services | 33 | 0 | 0 | 3 | 30 |
-| E — Quantities and cost control | 4 | 0 | 0 | 3 | 1 |
-| **Total** | **81** | **22** | **0** | **18** | **41** |
+| E — Quantities and cost control | 4 | 4 | 0 | 0 | 0 |
+| **Total** | **81** | **26** | **0** | **14** | **41** |
 
 ## Package 0 — Information required from others
 
@@ -70,7 +70,7 @@ Structural slabs: +0.00, +3.30, +6.60, +9.90, +13.20, +16.45 — six slabs to fi
 | A-05 | Interior cutaway axonometric - third floor, +9.90 | Presentation | 1:100 | A1 sheet | D | not started | — | — |
 | A-06 | Interior cutaway axonometric - penthouse floor, +13.20 | Presentation | 1:100 | A1 sheet | D | not started | — | — |
 | A-07 | Architectural design brief | Architecture | - | Report | D | not started | ARC-101, ARC-200 | — |
-| A-08 | Cost estimation report - elemental | Cost | - | Report | X | blocked | QS-001, QS-004 | — |
+| A-08 | Cost estimation report - elemental | Cost | - | Report | X | not started | QS-001, QS-004 | — |
 
 - **A-01** — A projection of the geometry, not a render: it cannot show a balcony, a garden or a neighbour the drawings do not have.
 - **A-02** — Projected by axonometric.py from the same constants as the floor plan.
@@ -221,10 +221,10 @@ Structural slabs: +0.00, +3.30, +6.60, +9.90, +13.20, +16.45 — six slabs to fi
 
 | Code | Deliverable | Discipline | Scale | Format | Class | Status | Waits on | Resolves to |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| QS-001 | Bill of quantities - itemised, unpriced, by trade | Quantity surveying | - | Spreadsheet | D | not started | ARC-101, ARC-700 | — |
-| QS-002 | Bill of materials | Quantity surveying | - | Spreadsheet | D | blocked | QS-001 | — |
-| QS-003 | Material requisitions and specifications | Procurement | - | Schedule | L | blocked | QS-002, CLI-001 | — |
-| QS-004 | Owner's cost baseline | Cost | - | Spreadsheet | X | blocked | QS-001 | — |
+| QS-001 | Bill of quantities - itemised, unpriced, by trade | Quantity surveying | - | Spreadsheet | D | issued | ARC-101, ARC-700 | — |
+| QS-002 | Bill of materials | Quantity surveying | - | Spreadsheet | D | issued | QS-001 | — |
+| QS-003 | Material requisitions and specifications | Procurement | - | Schedule | L | issued | QS-002, CLI-001 | — |
+| QS-004 | Owner's cost baseline | Cost | - | Spreadsheet | X | issued | QS-001 | — |
 
 - **QS-001** — Measured off the geometry: wall lengths, slab areas and opening counts reconcile to the plans they came from.
 - **QS-002** — The same measure resolved into materials rather than trades: blockwork, concrete, reinforcement allowance, glazing and joinery.
