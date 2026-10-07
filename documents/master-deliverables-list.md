@@ -41,11 +41,11 @@ Structural slabs: +0.00, +3.30, +6.60, +9.90, +13.20, +16.45 — six slabs to fi
 | --- | --- | --- | --- | --- | --- |
 | 0 — Information required from others | 3 | 1 | 0 | 1 | 1 |
 | A — Presentation and estimation | 8 | 1 | 0 | 1 | 6 |
-| B — Architecture | 21 | 12 | 0 | 0 | 9 |
+| B — Architecture | 21 | 13 | 0 | 0 | 8 |
 | C — Structure | 12 | 0 | 0 | 10 | 2 |
 | D — Building services | 33 | 0 | 0 | 3 | 30 |
-| E — Quantities and cost control | 4 | 0 | 0 | 4 | 0 |
-| **Total** | **81** | **14** | **0** | **19** | **48** |
+| E — Quantities and cost control | 4 | 0 | 0 | 3 | 1 |
+| **Total** | **81** | **15** | **0** | **18** | **48** |
 
 ## Package 0 — Information required from others
 
@@ -105,7 +105,7 @@ Structural slabs: +0.00, +3.30, +6.60, +9.90, +13.20, +16.45 — six slabs to fi
 | ARC-404 | Reflected ceiling plan - penthouse floor, +13.20 | Architecture | 1:50 | A1 sheet | D | not started | ARC-105 | — |
 | ARC-500 | Door and window schedule | Architecture | 1:100 | A1 sheet | D | issued | ARC-200 | ARC-500 |
 | ARC-600 | Construction details | Architecture | 1:5 / 1:10 | A1 sheet | L | not started | CLI-001 | — |
-| ARC-700 | External works and landscape | Architecture | 1:75 | A1 sheet | D | not started | ARC-100 | — |
+| ARC-700 | External works and landscape | Architecture | 1:75 | A1 sheet | D | issued | ARC-100 | ARC-700 |
 
 - **ARC-000** — This register. Status on it is derived at build time from the sheet builders and the files on disk.
 - **ARC-002** — Notes and symbols are ours. The matrix is set against ECP 201 and ECP 203, the Egyptian codes the site is governed by, and signed off by the architect of record.
@@ -220,7 +220,7 @@ Structural slabs: +0.00, +3.30, +6.60, +9.90, +13.20, +16.45 — six slabs to fi
 
 | Code | Deliverable | Discipline | Scale | Format | Class | Status | Waits on | Resolves to |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| QS-001 | Bill of quantities - itemised, unpriced, by trade | Quantity surveying | - | Spreadsheet | D | blocked | ARC-101, ARC-700 | — |
+| QS-001 | Bill of quantities - itemised, unpriced, by trade | Quantity surveying | - | Spreadsheet | D | not started | ARC-101, ARC-700 | — |
 | QS-002 | Bill of materials | Quantity surveying | - | Spreadsheet | D | blocked | QS-001 | — |
 | QS-003 | Material requisitions and specifications | Procurement | - | Schedule | L | blocked | QS-002, CLI-001 | — |
 | QS-004 | Owner's cost baseline | Cost | - | Spreadsheet | X | blocked | QS-001 | — |

@@ -273,8 +273,9 @@ def _package_b():
                  "Buildability, waterproofing and thermal performance are "
                  "the specifier's, not ours."),
         Row("ARC-700", "External works and landscape", "B", "D",
-            scale="1:75", depends=("ARC-100",),
-            source=("GARDEN_WALL_H", "SETBACK"),
+            scale="1:75", sheet="ARC-700", depends=("ARC-100",),
+            source=("EW_WALK", "EW_FORECOURT", "EW_PERGOLA",
+                    "GARDEN_WALL_H", "SETBACK"),
             note="The entrance garden, gate, pergola, paving and barbecue "
                  "are drawn on A-000 and would otherwise fall straight "
                  "out of the quantities."),

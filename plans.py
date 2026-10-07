@@ -369,47 +369,39 @@ def villa_garden(sh):
     the front door covered without a porch on the elevation.
     """
     # the 1.00 m side passages, on three sides
-    for px, py, pw, pd in ((V3_X0 - SETBACK, V3_Y0, SETBACK,
-                            V3_Y1 + SETBACK - V3_Y0),
-                           (V3_X0, V3_Y1, V3_X1 - V3_X0, SETBACK),
-                           (V3_X1, V3_Y0, SETBACK,
-                            V3_Y1 + SETBACK - V3_Y0)):
+    for px, py, pw, pd in ew_side_passages():
         fx.paving(sh, px, py, pw, pd, pitch=1.0)
         sh.rect(px, py, pw, pd, sw=LW_THIN, stroke=GREY)
 
     # the west garden: gate, walk under a pergola, lawn, barbecue
-    walk_y0, walk_y1 = 1.55, 3.35
-    fx.paving(sh, 0.30, walk_y0, 15.80, walk_y1 - walk_y0, pitch=0.9)
-    sh.rect(0.30, walk_y0, 15.80, walk_y1 - walk_y0, sw=LW_SECONDARY,
-            stroke=GREY)
-    fx.grass(sh, 0.30, 0.35, 9.30, 1.05)
-    fx.grass(sh, 0.30, 3.50, 11.05, 1.35)
-    for tx in (2.3, 4.8, 7.3):
-        fx.tree(sh, tx, 4.20, 0.72)
-    for tx in (1.7, 3.6):
-        fx.tree(sh, tx, 0.90, 0.60)
-    fx.pergola(sh, 5.10, 1.25, 4.00, 2.35, pitch=0.5)
+    fx.paving(sh, *EW_WALK, pitch=0.9)
+    sh.rect(*EW_WALK, sw=LW_SECONDARY, stroke=GREY)
+    fx.grass(sh, *EW_LAWN_S)
+    fx.grass(sh, *EW_LAWN_N)
+    for tx, ty, tr in EW_TREES:
+        fx.tree(sh, tx, ty, tr)
+    fx.pergola(sh, *EW_PERGOLA, pitch=0.5)
     sh.tag(7.10, 3.78, "TIMBER PERGOLA OVER WALKWAY", size=2.0, color=GREY)
 
-    fx.paving(sh, 9.90, 0.35, 3.20, 1.05, pitch=0.75, color="#dadada")
-    sh.rect(9.90, 0.35, 3.20, 1.05, sw=LW_SECONDARY, stroke=GREY)
-    fx.counter(sh, 10.15, 0.48, 2.10, 0.60)
+    fx.paving(sh, *EW_BBQ, pitch=0.75, color="#dadada")
+    sh.rect(*EW_BBQ, sw=LW_SECONDARY, stroke=GREY)
+    fx.counter(sh, *EW_BBQ_COUNTER)
     sh.tag(11.50, 1.18, "BARBECUE", size=2.0, color=GREY)
 
-    sh.arc(0.30, 1.40, 2.40, 0, 78, sw=LW_THIN, color=GREY)
-    sh.line(0.30, 1.40, 2.70, 1.40, w=LW_FIXTURE, color=INK)
+    gx, gy, gw = EW_GATE
+    sh.arc(gx, gy, gw, 0, 78, sw=LW_THIN, color=GREY)
+    sh.line(gx, gy, gx + gw, gy, w=LW_FIXTURE, color=INK)
     sh.tag(1.90, 5.35, "MAIN GATE", size=2.2, color=INK)
 
     # the forecourt east of the door, under the cantilever
-    fx.paving(sh, 16.50, 0.35, 6.20, 2.95, pitch=0.9, color="#dadada")
-    sh.rect(16.50, 0.35, 6.20, 2.95, sw=LW_SECONDARY, stroke=GREY)
+    fx.paving(sh, *EW_FORECOURT, pitch=0.9, color="#dadada")
+    sh.rect(*EW_FORECOURT, sw=LW_SECONDARY, stroke=GREY)
     fx.table(sh, 18.40, 1.40, 1.50, 0.85, seats_n=3, seats_s=3)
     sh.tag(21.75, 1.80, "OUTDOOR DINING", size=2.0, color=GREY, rot=-90)
 
     # three risers up to the front door, under the cantilever
     fx.steps(sh, V0_DOOR_ENTRY[0] - 0.20, 2.55, 1.50, 0.95, n=ENTRY_RISERS)
-    sh.rect(22.10, 4.20, 0.80, 1.40, sw=LW_SECONDARY, stroke=GREY,
-            dash="2.0 1.2")
+    sh.rect(*EW_BINS, sw=LW_SECONDARY, stroke=GREY, dash="2.0 1.2")
     sh.tag(22.50, 4.90, "BINS", size=1.6, color=GREY, rot=-90)
 
 
@@ -2952,6 +2944,102 @@ def sheet_elev_b_sides():
 
 
 # ===========================================================================
+# ARC-700  EXTERNAL WORKS AND LANDSCAPE
+# ===========================================================================
+# The garden is drawn on A-000 as context for the building.  It is also a
+# trade package - paving, turf, a pergola, a gate, five trees and a street
+# wall - and nothing measured it.  Drawn on its own here, at the plot's
+# scale, with every area read from the same constants the site plan draws
+# from, so the quantities and the drawing cannot disagree.
+EW_HATCH = {"Paved walk": "#ececec", "Forecourt": "#dadada",
+            "Barbecue terrace": "#dadada", "Side passages": "#f0f0f0",
+            "Turf": "#e8efe4"}
+
+
+def sheet_external_works():
+    """ARC-700: the garden, the forecourt and the side passages."""
+    D.set_scale(75, *SITE_ORIGIN)
+    sh = Sheet("ARC-700", "External Works & Landscape",
+               f"{GARDEN_LEVEL:.2f} garden, +0.00 villa", "1:75 @ A1")
+    sh.rev = "P19"
+    F.border(sh)
+
+    with sh.on("G-ANNO-BNDY"):
+        sh.poly(PLOT, stroke=INK, sw=LW_SECONDARY, dash="9 2 1.6 2")
+    sh.rect(0.0, -2.60, 23.0, 2.60, fill="#f6f6f6", stroke="none", sw=0)
+    sh.tag(11.50, -1.35, "S T R E E T", size=2.6, color=GREY)
+
+    villa_garden(sh)
+
+    # the villa itself, as an outline only: this sheet is about what is
+    # around it, and a full plan here would compete with A-100
+    sh.rect(V3_X0, V3_Y0, V3_X1 - V3_X0, V3_Y1 - V3_Y0, fill="#ffffff",
+            stroke=INK, sw=LW_CUT)
+    sh.tag((V3_X0 + V3_X1) / 2.0, (V3_Y0 + V3_Y1) / 2.0 + 0.45, "VILLA",
+           size=2.8, color=INK)
+    sh.tag((V3_X0 + V3_X1) / 2.0, (V3_Y0 + V3_Y1) / 2.0 - 0.75,
+           "SEE A-100", size=2.0, color=GREY)
+
+    # the street wall and the gate in it
+    gx, gy, gw = EW_GATE
+    with sh.on("A-WALL-EXTR"):
+        sh.wall(0.0, 0.0, gx, 0.30)
+        sh.wall(gx + gw, 0.0, V3_X0 - SETBACK, 0.30)
+    sh.tag(6.40, -0.55, f"STREET WALL {GARDEN_WALL_H:.2f} m, INDICATIVE",
+           size=1.8, color=GREY)
+    sh.tag(gx + gw / 2.0, 0.75, f"GATE {gw:.2f} m", size=1.8, color=INK)
+
+    sh.dim_h(0.0, V3_X0 - SETBACK, 6.30)
+    sh.dim_h(V3_X0 - SETBACK, V3_X0, 6.30)
+    sh.dim_v(0.35, 3.35, -1.20)
+    sh.level_tag(0.90, 2.45, f"GARDEN {GARDEN_LEVEL:.2f}")
+
+    # the area schedule panel reads sh.schedule, which the plans fill
+    # through Sheet.room; nothing here is a room, so it is filled from the
+    # same constants the drawing above was made from
+    sh.schedule = list(ew_areas().items())
+    F.heading(sh)
+    y = F.legend(sh, 52)
+    outside, measured = ew_unallocated()
+    y = F.schedule(sh, y + 8, extra=[
+        ("Pergola over the walk", f"{EW_PERGOLA[2] * EW_PERGOLA[3]:.1f} m² "
+                                  f"timber"),
+        ("Trees", f"{len(EW_TREES)} nr"),
+        ("Street wall", f"{V3_X0 - SETBACK - gw:.2f} m at "
+                        f"{GARDEN_WALL_H:.2f} m, indicative"),
+        ("Gate", f"{gw:.2f} m leaf"),
+        ("Steps to the front door", f"{ENTRY_RISERS} risers"),
+        ("Plot less the villa", f"{outside:.1f} m²"),
+        ("Not measured here", f"{outside - measured:.1f} m²")])
+    F.notes(sh, y + 6, [
+        "The garden as a trade package rather than as context. Every area "
+        "is read from the constants A-000 draws from, so this sheet and "
+        "the site plan cannot disagree about a width.",
+        "The three 1.00 m setbacks are our own land and are paved as side "
+        "passages, reached from the forecourt on the east and the garden "
+        "on the west. They are the largest paved item on the sheet.",
+        f"The street wall is {GARDEN_WALL_H:.2f} m high and INDICATIVE: "
+        f"its height, its coping and its finish await the client, and its "
+        f"line awaits the measured survey. Nothing else on the sheet "
+        f"depends on it.",
+        "Paving materials, bedding, falls, sub-base, turf specification "
+        "and irrigation are not set by the geometry and are not invented "
+        "here. The quantities are ours; the specification is not.",
+        "The forecourt is overhung by the balcony for up to 1.95 m, which "
+        "is what covers the front door without a porch. See A-000 and "
+        "A-400.",
+        f"The schedule measures ground cover, so the pergola is listed "
+        f"beside it rather than in it - it stands over paving already "
+        f"counted. {outside - measured:.1f} m² of the plot outside the "
+        f"villa is not measured here: margins, the bin standing and the "
+        f"entrance steps. It is shown rather than absorbed.",
+    ])
+    F.compass_and_scale(sh, x=470.0, y=500.0)
+    F.titleblock(sh)
+    return sh
+
+
+# ===========================================================================
 # ARC-301  TRANSVERSE SECTION B-B
 # ===========================================================================
 # A-A cuts north-south at x 20.70 and shows the building's depth.  Nothing
@@ -3551,7 +3639,7 @@ def sheet_register():
 
 
 SHEETS = (sheet_register, sheet_openings, sheet_roof,
-          sheet_section_b,
+          sheet_section_b, sheet_external_works,
           sheet_site, sheet_ground, sheet_first, sheet_second,
           sheet_third, sheet_penthouse, sheet_section,
           sheet_elev_a, sheet_elev_a_sides,

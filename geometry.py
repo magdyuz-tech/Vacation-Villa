@@ -493,6 +493,74 @@ def wave_points(n=72, offset=0.0, profile=None):
 
 EL_PROFILES = ("agreed", "serpentine", "facet", "bow")
 
+# --- external works, revision P19 ------------------------------------------
+# The garden was drawn straight onto the site plan with its coordinates
+# written into the drawing calls.  That was fine while it was scenery.  It
+# stops being scenery the moment anybody has to buy it: paving, turf, a
+# pergola, a gate and five trees are a trade package, and the quantities
+# have to come from the same numbers the drawing uses rather than be
+# scaled off it.  Each is (x, y, width, depth) in metres, which is the
+# order fixtures.paving and fixtures.grass take.
+EW_WALK = (0.30, 1.55, 15.80, 1.80)        # paved walk, gate to front door
+EW_LAWN_S = (0.30, 0.35, 9.30, 1.05)       # turf, south of the walk
+EW_LAWN_N = (0.30, 3.50, 11.05, 1.35)      # turf, north of it
+EW_BBQ = (9.90, 0.35, 3.20, 1.05)          # the barbecue terrace
+EW_BBQ_COUNTER = (10.15, 0.48, 2.10, 0.60)
+EW_FORECOURT = (16.50, 0.35, 6.20, 2.95)   # in front of the door
+EW_PERGOLA = (5.10, 1.25, 4.00, 2.35)      # timber, over the walk
+EW_BINS = (22.10, 4.20, 0.80, 1.40)
+EW_GATE = (0.30, 1.40, 2.40)               # x, y, leaf width
+EW_TREES = ((2.30, 4.20, 0.72), (4.80, 4.20, 0.72), (7.30, 4.20, 0.72),
+            (1.70, 0.90, 0.60), (3.60, 0.90, 0.60))
+EW_STEPS = 3                               # risers from the forecourt
+
+
+def ew_side_passages():
+    """The three 1.00 m setback strips, which are paved, not dead land."""
+    return ((V3_X0 - SETBACK, V3_Y0, SETBACK, V3_Y1 + SETBACK - V3_Y0),
+            (V3_X0, V3_Y1, V3_X1 - V3_X0, SETBACK),
+            (V3_X1, V3_Y0, SETBACK, V3_Y1 + SETBACK - V3_Y0))
+
+
+def ew_areas():
+    """Named ground-cover areas in m², for the sheet and the quantities.
+
+    Ground cover only, so the figures add up to something real.  The
+    pergola is not in here: it is a timber structure standing over paving
+    that is already measured, and putting it in the same column made the
+    total count that ground twice.
+    """
+    def a(box):
+        return box[2] * box[3]
+    return {
+        "Paved walk": a(EW_WALK),
+        "Forecourt": a(EW_FORECOURT),
+        "Barbecue terrace": a(EW_BBQ),
+        "Side passages": sum(a(p) for p in ew_side_passages()),
+        "Turf": a(EW_LAWN_S) + a(EW_LAWN_N),
+    }
+
+
+def plot_area():
+    """The plot, from its own polygon - the shoelace of PLOT."""
+    n = len(PLOT)
+    return abs(sum(PLOT[i][0] * PLOT[(i + 1) % n][1]
+                   - PLOT[(i + 1) % n][0] * PLOT[i][1]
+                   for i in range(n))) / 2.0
+
+
+def ew_unallocated():
+    """Plot, less the villa, less what this sheet measures.
+
+    Printed rather than hidden.  The external works do not cover every
+    square metre outside the building - there are margins between the
+    walk and the turf, the bin standing and the entrance steps - and a
+    schedule that quietly implied they did would be short when somebody
+    priced it.
+    """
+    outside = plot_area() - (V3_X1 - V3_X0) * (V3_Y1 - V3_Y0)
+    return outside, sum(ew_areas().values())
+
 # --- the scheme the client chose, revision P18 -----------------------------
 # Scheme A, "Wave": the serpentine curve and the contemporary skin.  Held
 # here rather than passed from sheet to sheet, because once a scheme is
