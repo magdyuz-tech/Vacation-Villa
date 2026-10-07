@@ -25,8 +25,8 @@
 <line x1="170.000" y1="380.000" x2="170.000" y2="90.000" stroke="#9a9a9a" stroke-width="0.13" stroke-linecap="butt" stroke-dasharray="4 2"/>
 <line x1="170.000" y1="90.000" x2="400.000" y2="90.000" stroke="#9a9a9a" stroke-width="0.13" stroke-linecap="butt" stroke-dasharray="4 2"/>
 <line x1="400.000" y1="380.000" x2="400.000" y2="90.000" stroke="#9a9a9a" stroke-width="0.13" stroke-linecap="butt" stroke-dasharray="4 2"/>
-<text x="179.000" y="250.000" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#5d5d5d" text-anchor="middle" font-weight="400" letter-spacing="0.0" style="" transform="rotate(-90 179.000 250.000)">1.00 m SETBACK</text>
-<text x="391.000" y="250.000" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#5d5d5d" text-anchor="middle" font-weight="400" letter-spacing="0.0" style="" transform="rotate(-90 391.000 250.000)">1.00 m SETBACK</text>
+<text x="179.000" y="158.000" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#5d5d5d" text-anchor="middle" font-weight="400" letter-spacing="0.0" style="" transform="rotate(-90 179.000 158.000)">1.00 m SETBACK</text>
+<text x="391.000" y="158.000" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#5d5d5d" text-anchor="middle" font-weight="400" letter-spacing="0.0" style="" transform="rotate(-90 391.000 158.000)">1.00 m SETBACK</text>
 <text x="218.000" y="99.000" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#5d5d5d" text-anchor="middle" font-weight="400" letter-spacing="0.0" style="">1.00 m SETBACK</text>
 <rect x="190.000" y="374.000" width="10.000" height="6.000" fill="#141414" stroke="#141414" stroke-width="0.05"/>
 <rect x="246.000" y="374.000" width="6.000" height="6.000" fill="#141414" stroke="#141414" stroke-width="0.05"/>
@@ -340,6 +340,13 @@
 <text x="354.000" y="76.400" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="middle" font-weight="400" letter-spacing="0.0" style="">A</text>
 <polygon points="341.600,414.000 352.800,408.800 352.800,419.200" fill="#141414" stroke="#141414" stroke-width="0.13"/>
 <polygon points="341.600,87.000 352.800,81.800 352.800,92.200" fill="#141414" stroke="#141414" stroke-width="0.13"/>
+<line x1="179.000" y1="234.000" x2="391.000" y2="234.000" stroke="#141414" stroke-width="0.13" stroke-linecap="butt" stroke-dasharray="9 2 1.6 2"/>
+<circle cx="179.000" cy="234.000" r="9.000" fill="#ffffff" stroke="#141414" stroke-width="0.35"/>
+<text x="179.000" y="237.400" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="middle" font-weight="400" letter-spacing="0.0" style="">B</text>
+<circle cx="391.000" cy="234.000" r="9.000" fill="#ffffff" stroke="#141414" stroke-width="0.35"/>
+<text x="391.000" y="237.400" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="middle" font-weight="400" letter-spacing="0.0" style="">B</text>
+<polygon points="193.000,221.600 198.200,232.800 187.800,232.800" fill="#141414" stroke="#141414" stroke-width="0.13"/>
+<polygon points="377.000,221.600 382.200,232.800 371.800,232.800" fill="#141414" stroke="#141414" stroke-width="0.13"/>
 <line x1="190.000" y1="431.000" x2="380.000" y2="431.000" stroke="#141414" stroke-width="0.13" stroke-linecap="butt"/>
 <line x1="188.900" y1="432.100" x2="191.100" y2="429.900" stroke="#141414" stroke-width="0.13" stroke-linecap="butt"/>
 <line x1="190.000" y1="380.000" x2="190.000" y2="433.000" stroke="#9a9a9a" stroke-width="0.13" stroke-linecap="butt"/>

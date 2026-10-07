@@ -244,9 +244,13 @@ def _package_b():
         Row("ARC-300", "Longitudinal section A-A", "B", "D", scale="1:50",
             sheet="A-200", source=("EL_LEVELS",)),
         Row("ARC-301", "Transverse section B-B", "B", "D", scale="1:50",
-            depends=("ARC-300",), source=("EL_LEVELS", "V3_Y0", "V3_Y1"),
-            note="Cut east-west through the stair and the wave cantilever, "
-                 "which section A-A runs parallel to and cannot show."),
+            sheet="ARC-301", depends=("ARC-300",),
+            source=("EL_LEVELS", "V3_X0", "V3_X1"),
+            note="Cut east-west at y 10.80, looking north: the only "
+                 "drawing of the building's width, its spine and its two "
+                 "setbacks. The cantilever is not in it - an east-west "
+                 "cut crosses the balcony, it does not project - and "
+                 "A-A carries that."),
     ]
     for i, name, ffl in levels():
         rows.append(Row(

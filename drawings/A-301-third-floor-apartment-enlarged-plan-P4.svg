@@ -345,6 +345,13 @@
 <text x="396.000" y="-57.200" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="middle" font-weight="400" letter-spacing="0.0" style="">A</text>
 <polygon points="371.200,618.000 393.600,607.600 393.600,628.400" fill="#141414" stroke="#141414" stroke-width="0.13"/>
 <polygon points="371.200,-36.000 393.600,-46.400 393.600,-25.600" fill="#141414" stroke="#141414" stroke-width="0.13"/>
+<line x1="46.000" y1="258.000" x2="470.000" y2="258.000" stroke="#141414" stroke-width="0.13" stroke-linecap="butt" stroke-dasharray="9 2 1.6 2"/>
+<circle cx="46.000" cy="258.000" r="18.000" fill="#ffffff" stroke="#141414" stroke-width="0.35"/>
+<text x="46.000" y="264.800" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="middle" font-weight="400" letter-spacing="0.0" style="">B</text>
+<circle cx="470.000" cy="258.000" r="18.000" fill="#ffffff" stroke="#141414" stroke-width="0.35"/>
+<text x="470.000" y="264.800" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="middle" font-weight="400" letter-spacing="0.0" style="">B</text>
+<polygon points="74.000,233.200 84.400,255.600 63.600,255.600" fill="#141414" stroke="#141414" stroke-width="0.13"/>
+<polygon points="442.000,233.200 452.400,255.600 431.600,255.600" fill="#141414" stroke="#141414" stroke-width="0.13"/>
 </g>
 <line x1="40.000" y1="82.000" x2="476.000" y2="82.000" stroke="#141414" stroke-width="0.13" stroke-linecap="butt"/>
 <line x1="38.900" y1="83.100" x2="41.100" y2="80.900" stroke="#141414" stroke-width="0.13" stroke-linecap="butt"/>

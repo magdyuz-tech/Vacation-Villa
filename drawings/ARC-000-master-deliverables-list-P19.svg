@@ -174,7 +174,7 @@
 <line x1="18.000" y1="257.600" x2="274.000" y2="257.600" stroke="#e2e2e2" stroke-width="0.12" stroke-linecap="butt"/>
 <text x="18.000" y="263.000" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="start" font-weight="700" letter-spacing="0.0" style="">ARC-301</text>
 <text x="44.000" y="263.000" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#5d5d5d" text-anchor="start" font-weight="400" letter-spacing="0.0" style="">D</text>
-<text x="52.000" y="263.000" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#9a9a9a" text-anchor="start" font-weight="400" letter-spacing="0.0" style="">· not started</text>
+<text x="52.000" y="263.000" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="start" font-weight="400" letter-spacing="0.0" style="">+ issued</text>
 <text x="86.000" y="263.000" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="start" font-weight="400" letter-spacing="0.0" style="">Transverse section B-B</text>
 <text x="274.000" y="263.000" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#5d5d5d" text-anchor="end" font-weight="400" letter-spacing="0.0" style="">1:50</text>
 <line x1="18.000" y1="264.600" x2="274.000" y2="264.600" stroke="#e2e2e2" stroke-width="0.12" stroke-linecap="butt"/>
@@ -539,7 +539,7 @@
 <text x="818.000" y="63.000" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="end" font-weight="400" letter-spacing="0.0" style="">81</text>
 <line x1="581.000" y1="64.400" x2="818.000" y2="64.400" stroke="#e2e2e2" stroke-width="0.12" stroke-linecap="butt"/>
 <text x="581.000" y="70.400" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="start" font-weight="400" letter-spacing="0.0" style="">ISSUED</text>
-<text x="818.000" y="70.400" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="end" font-weight="400" letter-spacing="0.0" style="">13</text>
+<text x="818.000" y="70.400" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="end" font-weight="400" letter-spacing="0.0" style="">14</text>
 <line x1="581.000" y1="71.800" x2="818.000" y2="71.800" stroke="#e2e2e2" stroke-width="0.12" stroke-linecap="butt"/>
 <text x="581.000" y="77.800" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="start" font-weight="400" letter-spacing="0.0" style="">IN PROGRESS</text>
 <text x="818.000" y="77.800" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="end" font-weight="400" letter-spacing="0.0" style="">0</text>
@@ -548,7 +548,7 @@
 <text x="818.000" y="85.200" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="end" font-weight="400" letter-spacing="0.0" style="">19</text>
 <line x1="581.000" y1="86.600" x2="818.000" y2="86.600" stroke="#e2e2e2" stroke-width="0.12" stroke-linecap="butt"/>
 <text x="581.000" y="92.600" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="start" font-weight="400" letter-spacing="0.0" style="">NOT STARTED</text>
-<text x="818.000" y="92.600" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="end" font-weight="400" letter-spacing="0.0" style="">49</text>
+<text x="818.000" y="92.600" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="end" font-weight="400" letter-spacing="0.0" style="">48</text>
 <line x1="581.000" y1="94.000" x2="818.000" y2="94.000" stroke="#e2e2e2" stroke-width="0.12" stroke-linecap="butt"/>
 <text x="581.000" y="100.000" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="start" font-weight="400" letter-spacing="0.0" style="">LEVELS</text>
 <text x="818.000" y="100.000" font-family="ui-sans-serif,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="4.2333333333333325" fill="#141414" text-anchor="end" font-weight="400" letter-spacing="0.0" style="">5</text>

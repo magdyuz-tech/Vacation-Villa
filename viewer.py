@@ -28,6 +28,8 @@ SHEETS = [
      "Every surface that sheds water, with its level and its falls."),
     ("A-200", "Section A–A", "through the core", "1:50",
      "Cut through the glazing, lift shaft, stair and north rooms."),
+    ("ARC-301", "Section B–B — Transverse", "looking north", "1:50",
+     "The width, the spine and both setbacks; A-A shows the depth."),
     ("A-400", "South Elevation — Scheme A “Wave”", "street frontage",
      "1:50", "Adopted. Limestone, cove-lit slab nosing, glass."),
     ("A-401", "Side & Rear Elevations — Scheme A “Wave”",
