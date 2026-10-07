@@ -2712,6 +2712,76 @@ def elevations_of(scheme):
             else (sheet_elev_b(), sheet_elev_b_sides()))
 
 
+EL_CTX_ORIGIN = ((60.0, 262.0),    # 1:100, scheme A on the upper half
+                 (60.0, 522.0))   #        scheme B beneath it
+
+
+def sheet_street_context():
+    """A-402: the villa between its two real neighbours, both schemes.
+
+    One sheet rather than two, because the whole point is to compare them
+    standing in the same street.  At 1:100 the full 23.00 m plot is 230 mm
+    and two stack comfortably.
+    """
+    sh = None
+    for i, scheme in enumerate(("A", "B")):
+        D.set_scale(100, *EL_CTX_ORIGIN[i])
+        if sh is None:
+            sh = Sheet("A-402", "Street Elevation in Context",
+                       "both schemes, as surveyed", "1:100 @ A1")
+            sh.rev = "P16"
+            F.border(sh)
+        el.context_elevation(sh, scheme)
+        sh.tag(11.50, GARDEN_LEVEL - 2.65,
+               f"SCHEME {scheme} — {el.SCHEME[scheme]['name'].upper()}",
+               size=2.6, color=INK)
+        sh.dim_h(0.0, V3_X1 + SETBACK, GARDEN_LEVEL - 1.35,
+                 ext_from=GARDEN_LEVEL)
+        sh.dim_h(0.0, V3_X0, GARDEN_LEVEL - 0.55)
+        sh.dim_h(V3_X0, V3_X1, GARDEN_LEVEL - 0.55)
+
+    F.heading(sh)
+    y = F.legend(sh, 52)
+    y = F.datum_panel(sh, y + 8, "AS SURVEYED", [
+        ("Plot width", "23.00 m"),
+        ("Entrance garden, west", f"{V3_X0 - SETBACK:.2f} m"),
+        ("Villa frontage", f"{V3_X1 - V3_X0:.2f} m"),
+        ("Side passage, east", f"{SETBACK:.2f} m"),
+        ("West neighbour", f"{NBR_W_STOREYS} storeys, blind"),
+        ("East neighbour", f"{NBR_E_STOREYS} storey, clay brick"),
+        ("North neighbour", "not surveyed"),
+        ("Our top of building", f"+{EL_TOP:.2f}"),
+        ("We stand over the east",
+         f"{EL_TOP - NBR_E_STOREYS * NBR_STOREY_H:.2f} m")])
+    F.notes(sh, y + 6, [
+        "Preliminary — the exterior only, and the first drawing in the set "
+        "to show the villa against the houses it actually stands between.",
+        f"The house is not in the middle of its plot. It sits hard against "
+        f"the east boundary with a {SETBACK:.2f} m paved side passage, and "
+        f"the whole {V3_X0 - SETBACK:.2f} m entrance garden is on the west, "
+        f"gated from the west boundary with a walk running east to the "
+        f"front door.",
+        f"East: a single storey in clay brick, {SETBACK:.2f} m away. That "
+        f"is what lets the east wall be glazed at all — our lowest east "
+        f"sill at +{FLOOR_TO_FLOOR + EL_SILL:.2f} clears its roof by "
+        f"{FLOOR_TO_FLOOR + EL_SILL - NBR_E_STOREYS * NBR_STOREY_H:.2f} m. "
+        f"We stand {EL_TOP - NBR_E_STOREYS * NBR_STOREY_H:.2f} m over it, "
+        f"which is worth seeing before the elevations are agreed.",
+        f"West: {NBR_W_STOREYS} storeys and blind toward us, drawn in thin "
+        f"line because it stands back behind the garden. Nothing of ours "
+        f"opens that way in any case — the west wall takes louvred "
+        f"ventilation only.",
+        "The north neighbour has not been surveyed and is not drawn. The "
+        "north wall carries windows on every floor, so its height deserves "
+        "the same question the east has been given.",
+        "The garden wall height is indicative and awaits the client's "
+        "choice. Boundaries to be confirmed by measured survey.",
+    ])
+    fx.scale_bar(sh, 360, 566, metres=10)
+    F.titleblock(sh)
+    return sh
+
+
 def sheet_elev_a():
     return _elevation_sheet("A-400", "A")
 
@@ -2732,6 +2802,7 @@ SHEETS = (sheet_site, sheet_ground, sheet_first, sheet_second,
           sheet_third, sheet_penthouse, sheet_section,
           sheet_elev_a, sheet_elev_a_sides,
           sheet_elev_b, sheet_elev_b_sides,
+          sheet_street_context,
           sheet_unit_typical, sheet_unit_third, sheet_service)
 
 

@@ -36,6 +36,8 @@ SHEETS = [
     ("A-411", "Side & Rear Elevations — Scheme B “Arcade”",
      "east, north and west", "1:75",
      "The three remaining faces of the ornamented scheme."),
+    ("A-402", "Street Elevation in Context", "both schemes, as surveyed",
+     "1:100", "The villa between its two surveyed neighbours."),
     ("A-300", "Typical Apartment — Enlarged Plan", "+3.30 / +6.60", "1:25",
      "Entry, wet rooms and kitchenettes of both apartments."),
     ("A-301", "Third Floor Apartment — Enlarged Plan", "+9.90", "1:25",

@@ -208,8 +208,12 @@ def _wall(sh, lo, hi, z0, z1, s):
 # ---------------------------------------------------------------------------
 # a whole face
 # ---------------------------------------------------------------------------
-def elevation(sh, face, scheme):
-    """Draw one face of one scheme.  Returns what it drew, for the checker."""
+def elevation(sh, face, scheme, levels=True):
+    """Draw one face of one scheme.  Returns what it drew, for the checker.
+
+    `levels` is off in the street context drawing, where the villa has
+    neighbours either side and its level tags would land on them.
+    """
     s = SCHEME[scheme]
     lo, hi = face_span(face)
     drawn = []
@@ -262,10 +266,10 @@ def elevation(sh, face, scheme):
         sh.tag((p0 + p1) / 2.0, ROOF_LEVEL + 0.52,
                f"PENTHOUSE {back:.2f} m BEHIND", size=1.7, color=GREY)
 
-    # levels
-    for level, z in enumerate(EL_LEVELS):
-        sh.level_tag(lo - 1.15, z, f"+{z:.2f}")
-    sh.level_tag(lo - 1.15, V4_TOP, f"+{V4_TOP:.2f}")
+    if levels:
+        for level, z in enumerate(EL_LEVELS):
+            sh.level_tag(lo - 1.15, z, f"+{z:.2f}")
+        sh.level_tag(lo - 1.15, V4_TOP, f"+{V4_TOP:.2f}")
     return drawn
 
 
@@ -301,3 +305,68 @@ def curve_diagram(sh, profile, label=True):
                f"{V3_Y0 - deep:.2f} m DEEPEST  ·  {V3_Y0 - shallow:.2f} m "
                f"SHALLOWEST  ·  {wave_area(profile):.1f} m² A FLOOR",
                size=2.0, color=INK)
+
+# ---------------------------------------------------------------------------
+# the street in context: the villa between the two houses it actually has
+# ---------------------------------------------------------------------------
+def context_elevation(sh, scheme):
+    """The street frontage with both surveyed neighbours either side.
+
+    The set had no drawing of the villa against its neighbours, which is
+    the one thing a client standing on the pavement will see first.  It is
+    also the drawing that makes the asymmetry honest: the house is not in
+    the middle of its plot, it is hard against the east boundary with a
+    single-storey house a metre away and the whole garden on the west.
+    """
+    s = SCHEME[scheme]
+    w_top = NBR_W_STOREYS * NBR_STOREY_H
+    e_top = NBR_E_STOREYS * NBR_STOREY_H
+
+    # ground across the whole plot and a little beyond, both neighbours on it
+    sh.line(-1.20, GARDEN_LEVEL, NBR_E_X1 + 0.60, GARDEN_LEVEL, w=LW_CUT,
+            color=INK)
+
+    # WEST: three storeys, blind, standing back behind our garden - thin
+    # line because it is seen beyond, not cut
+    sh.rect(0.0, GARDEN_LEVEL, NBR_W_X1, w_top - GARDEN_LEVEL, fill="#f2f2f2",
+            stroke=GREY, sw=LW_SECONDARY)
+    for i in range(1, NBR_W_STOREYS):
+        sh.line(0.0, i * NBR_STOREY_H, NBR_W_X1, i * NBR_STOREY_H,
+                w=LW_THIN, color=LIGHT)
+    sh.tag(NBR_W_X1 / 2.0, w_top * 0.55,
+           f"NEIGHBOUR — {NBR_W_STOREYS} STOREYS", size=2.0, color=GREY)
+    sh.tag(NBR_W_X1 / 2.0, w_top * 0.55 - 1.10, "BLIND TO OUR GARDEN",
+           size=1.8, color=GREY)
+
+    # our entrance garden in front of it: wall, pergola and trees, all beyond
+    sh.rect(0.0, GARDEN_LEVEL, V3_X0 - SETBACK, GARDEN_WALL_H - GARDEN_LEVEL,
+            fill="#e8e4dc", stroke=INK, sw=LW_SECONDARY)
+    sh.tag((V3_X0 - SETBACK) / 2.0, GARDEN_LEVEL + 0.42,
+           "ENTRANCE GARDEN WALL — INDICATIVE", size=1.7, color=GREY)
+    with sh.on("A-FLOR-OVER"):
+        sh.rect(4.60, 2.35, 4.00, 0.18, sw=LW_HIDDEN, stroke=GREY,
+                dash="2.2 1.4")
+    for tx in (2.30, 4.80, 7.30):
+        sh.line(tx, GARDEN_WALL_H, tx, 3.60, w=LW_THIN, color=LIGHT)
+        sh.circle(tx, 4.20, 0.72, stroke=LIGHT, sw=LW_THIN)
+
+    # EAST: a single storey in clay brick, 1.00 m from our wall
+    sh.rect(V3_X1 + SETBACK, GARDEN_LEVEL, NBR_E_X1 - V3_X1 - SETBACK,
+            e_top - GARDEN_LEVEL, fill="#d8bda8", stroke=INK, sw=LW_SECONDARY)
+    for i in range(1, int((e_top - GARDEN_LEVEL) / 0.30)):
+        z = GARDEN_LEVEL + i * 0.30
+        sh.line(V3_X1 + SETBACK, z, NBR_E_X1, z, w=LW_THIN, color="#b99a84")
+    sh.tag((V3_X1 + SETBACK + NBR_E_X1) / 2.0, e_top + 0.70,
+           "NEIGHBOUR", size=2.0, color=GREY)
+    sh.tag((V3_X1 + SETBACK + NBR_E_X1) / 2.0, e_top - 0.40,
+           "SINGLE STOREY", size=1.8, color=GREY)
+    sh.tag((V3_X1 + SETBACK + NBR_E_X1) / 2.0, e_top - 1.35,
+           "CLAY BRICK", size=1.8, color=GREY)
+
+    # and then our villa, drawn by the same code as its own elevation
+    elevation(sh, "s", scheme, levels=False)
+    for z in list(EL_LEVELS) + [V4_TOP]:
+        sh.level_tag(NBR_E_X1 + 0.30, z, f"+{z:.2f}")
+
+    sh.tag(V3_X1 + SETBACK / 2.0, e_top + 2.40, f"{SETBACK:.2f} m", size=1.7,
+           color=INK, rot=-90)

@@ -265,6 +265,9 @@ NBR_W_STOREYS = 3              # west: three storeys, blind to our garden
 NBR_E_STOREYS = 1              # east: single storey, clay brick
 NBR_N_STOREYS = None           # north: not surveyed yet, assumed low
 NBR_STOREY_H = 3.00            # an existing storey, for the overlooking check
+GARDEN_WALL_H = 1.20           # street wall to the entrance garden, INDICATIVE
+NBR_E_X1 = 27.60               # how far east the context elevation runs
+NBR_W_X1 = 11.50               # the west neighbour's flank, behind the garden
 
 SETBACK = 1.00
 V3_X0, V3_X1 = A_X0 + SETBACK, B_X1 - SETBACK      # 12.50 .. 22.00   (9.50)
