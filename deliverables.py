@@ -256,10 +256,13 @@ def _package_b():
         rows.append(Row(
             f"ARC-{400 + i}", f"Reflected ceiling plan - {name.lower()} "
             f"floor, {ffl}", "B", "D", scale="1:50",
-            depends=(f"ARC-{101 + i}",), source=("FLOOR_TO_FLOOR",),
+            sheet=f"ARC-{400 + i}", depends=(f"ARC-{101 + i}",),
+            source=("FLOOR_TO_FLOOR", "CLEAR_HEIGHT"),
             series="ARC reflected ceiling plans", index=i, across="levels",
-            note="Soffit levels, bulkheads and ceiling layout. Fittings "
-                 "are indicative; the EL-200 series governs."))
+            note="Run off the floor plan with its fittings switched "
+                 "off, so it cannot drift from it. A bulkhead over every "
+                 "room the plan calls wet; no light fitting drawn, "
+                 "because the EL-200 series governs those."))
     rows += [
         Row("ARC-500", "Door and window schedule", "B", "D",
             fmt="A1 sheet", scale="1:100", sheet="ARC-500",

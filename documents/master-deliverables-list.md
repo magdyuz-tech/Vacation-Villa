@@ -41,11 +41,11 @@ Structural slabs: +0.00, +3.30, +6.60, +9.90, +13.20, +16.45 — six slabs to fi
 | --- | --- | --- | --- | --- | --- |
 | 0 — Information required from others | 3 | 1 | 0 | 1 | 1 |
 | A — Presentation and estimation | 8 | 1 | 0 | 1 | 6 |
-| B — Architecture | 21 | 13 | 0 | 0 | 8 |
+| B — Architecture | 21 | 18 | 0 | 0 | 3 |
 | C — Structure | 12 | 0 | 0 | 10 | 2 |
 | D — Building services | 33 | 0 | 0 | 3 | 30 |
 | E — Quantities and cost control | 4 | 0 | 0 | 3 | 1 |
-| **Total** | **81** | **15** | **0** | **18** | **48** |
+| **Total** | **81** | **20** | **0** | **18** | **43** |
 
 ## Package 0 — Information required from others
 
@@ -98,11 +98,11 @@ Structural slabs: +0.00, +3.30, +6.60, +9.90, +13.20, +16.45 — six slabs to fi
 | ARC-200 | Facade elevations - all four faces, scheme A | Architecture | 1:50 / 1:75 | A1 sheet | D | issued | CLI-001 | A-400, A-401, A-402 |
 | ARC-300 | Longitudinal section A-A | Architecture | 1:50 | A1 sheet | D | issued | — | A-200 |
 | ARC-301 | Transverse section B-B | Architecture | 1:50 | A1 sheet | D | issued | ARC-300 | ARC-301 |
-| ARC-400 | Reflected ceiling plan - ground floor, +0.00 | Architecture | 1:50 | A1 sheet | D | not started | ARC-101 | — |
-| ARC-401 | Reflected ceiling plan - first floor, +3.30 | Architecture | 1:50 | A1 sheet | D | not started | ARC-102 | — |
-| ARC-402 | Reflected ceiling plan - second floor, +6.60 | Architecture | 1:50 | A1 sheet | D | not started | ARC-103 | — |
-| ARC-403 | Reflected ceiling plan - third floor, +9.90 | Architecture | 1:50 | A1 sheet | D | not started | ARC-104 | — |
-| ARC-404 | Reflected ceiling plan - penthouse floor, +13.20 | Architecture | 1:50 | A1 sheet | D | not started | ARC-105 | — |
+| ARC-400 | Reflected ceiling plan - ground floor, +0.00 | Architecture | 1:50 | A1 sheet | D | issued | ARC-101 | ARC-400 |
+| ARC-401 | Reflected ceiling plan - first floor, +3.30 | Architecture | 1:50 | A1 sheet | D | issued | ARC-102 | ARC-401 |
+| ARC-402 | Reflected ceiling plan - second floor, +6.60 | Architecture | 1:50 | A1 sheet | D | issued | ARC-103 | ARC-402 |
+| ARC-403 | Reflected ceiling plan - third floor, +9.90 | Architecture | 1:50 | A1 sheet | D | issued | ARC-104 | ARC-403 |
+| ARC-404 | Reflected ceiling plan - penthouse floor, +13.20 | Architecture | 1:50 | A1 sheet | D | issued | ARC-105 | ARC-404 |
 | ARC-500 | Door and window schedule | Architecture | 1:100 | A1 sheet | D | issued | ARC-200 | ARC-500 |
 | ARC-600 | Construction details | Architecture | 1:5 / 1:10 | A1 sheet | L | not started | CLI-001 | — |
 | ARC-700 | External works and landscape | Architecture | 1:75 | A1 sheet | D | issued | ARC-100 | ARC-700 |
@@ -113,11 +113,11 @@ Structural slabs: +0.00, +3.30, +6.60, +9.90, +13.20, +16.45 — six slabs to fi
 - **ARC-106** — Outlines, parapets, plant deck and levels are exact; the falls and outlet positions are architectural intent and PL-200 sets the real ones.
 - **ARC-200** — South, the three other faces, and the street elevation in context. Schemes B and C still build and stay in the repository as the record of what was offered, but they are stamped not selected and left out of the issue.
 - **ARC-301** — Cut east-west at y 10.80, looking north: the only drawing of the building's width, its spine and its two setbacks. The cantilever is not in it - an east-west cut crosses the balcony, it does not project - and A-A carries that.
-- **ARC-400** — Soffit levels, bulkheads and ceiling layout. Fittings are indicative; the EL-200 series governs.
-- **ARC-401** — Soffit levels, bulkheads and ceiling layout. Fittings are indicative; the EL-200 series governs.
-- **ARC-402** — Soffit levels, bulkheads and ceiling layout. Fittings are indicative; the EL-200 series governs.
-- **ARC-403** — Soffit levels, bulkheads and ceiling layout. Fittings are indicative; the EL-200 series governs.
-- **ARC-404** — Soffit levels, bulkheads and ceiling layout. Fittings are indicative; the EL-200 series governs.
+- **ARC-400** — Run off the floor plan with its fittings switched off, so it cannot drift from it. A bulkhead over every room the plan calls wet; no light fitting drawn, because the EL-200 series governs those.
+- **ARC-401** — Run off the floor plan with its fittings switched off, so it cannot drift from it. A bulkhead over every room the plan calls wet; no light fitting drawn, because the EL-200 series governs those.
+- **ARC-402** — Run off the floor plan with its fittings switched off, so it cannot drift from it. A bulkhead over every room the plan calls wet; no light fitting drawn, because the EL-200 series governs those.
+- **ARC-403** — Run off the floor plan with its fittings switched off, so it cannot drift from it. A bulkhead over every room the plan calls wet; no light fitting drawn, because the EL-200 series governs those.
+- **ARC-404** — Run off the floor plan with its fittings switched off, so it cannot drift from it. A bulkhead over every room the plan calls wet; no light fitting drawn, because the EL-200 series governs those.
 - **ARC-500** — Every opening in the building is already a constant, so the schedule is measured rather than compiled.
 - **ARC-600** — Balcony nosing, parapet, threshold, roof upstand. Buildability, waterproofing and thermal performance are the specifier's, not ours.
 - **ARC-700** — The entrance garden, gate, pergola, paving and barbecue are drawn on A-000 and would otherwise fall straight out of the quantities.

@@ -2944,6 +2944,166 @@ def sheet_elev_b_sides():
 
 
 # ===========================================================================
+# ARC-400 ... ARC-404  REFLECTED CEILING PLANS
+# ===========================================================================
+# One per level, and each is the floor plan itself with everything that is
+# not the enclosure switched off - no sanitaryware, no furniture, no door
+# swings, no dimension chains.  Running the plan rather than redrawing it
+# is the whole point: a ceiling plan that was traced would be a drawing
+# that quietly stops agreeing with its floor the first time a partition
+# moves.
+#
+# What the sheet adds is the ceiling: the soffit level, the stair void
+# open above, the balcony soffit with its cove, and a bulkhead over every
+# wet room.  The bulkheads are not placed by eye - they are drawn over the
+# rooms the plan itself labels as wet, because that is where the drainage
+# has to run.  Their depth, their exact extent and anything inside them
+# are the services engineer's, and the sheet says so.
+RCP_WET = ("bath", "ensuite", "wc", "shower", "kitchen", "laundry",
+           "utility", "cloak")
+RCP_BULK = 0.35                 # the zone a bulkhead is shown over, in plan
+
+RCP_LEVELS = ((0, "Ground", "_villa_ground_floor"),
+              (1, "First", "_villa_living_floor"),
+              (2, "Second", "_villa_bedroom_floor"),
+              (3, "Third", "_plan_third"),
+              (4, "Penthouse", "_villa_penthouse"))
+
+
+def _rcp_plan(sh, draw):
+    """Run a floor plan with everything but its enclosure switched off.
+
+    Returns the rooms it labelled, so the bulkheads can be put where the
+    plan says the wet rooms are rather than where they look right.
+    """
+    rooms = []
+    saved_fx = {k: v for k, v in vars(fx).items()
+                if callable(v) and not k.startswith("_")}
+    saved = (D.Sheet.door, D.Sheet.window, D.Sheet.dim_h, D.Sheet.dim_v,
+             D.Sheet.room)
+
+    def nothing(*_a, **_k):
+        return None
+
+    def rec_room(self, x, y, w, h, name, **kw):
+        rooms.append((x, y, w, h, name))
+        return saved[4](self, x, y, w, h, name, **kw)
+
+    for k in saved_fx:
+        setattr(fx, k, nothing)
+    D.Sheet.door = D.Sheet.window = nothing
+    D.Sheet.dim_h = D.Sheet.dim_v = nothing
+    D.Sheet.room = rec_room
+    try:
+        draw(sh)
+    finally:
+        for k, v in saved_fx.items():
+            setattr(fx, k, v)
+        (D.Sheet.door, D.Sheet.window, D.Sheet.dim_h, D.Sheet.dim_v,
+         D.Sheet.room) = saved
+    return rooms
+
+
+def _rcp_bulkheads(sh, rooms):
+    """A bulkhead over every room the plan calls wet."""
+    n = 0
+    for x, y, w, h, name in rooms:
+        if not any(k in name.lower() for k in RCP_WET):
+            continue
+        # hatched rather than filled: a solid tint sat over the room name
+        # the plan had just written, and the name is why the bulkhead is
+        # there at all
+        _hatch(sh, x, y, w, h, pitch=0.42, color="#d3dade")
+        sh.rect(x, y, w, h, fill="none", stroke=GREY, sw=LW_SECONDARY,
+                dash="3 2")
+        sh.rect(x + RCP_BULK, y + RCP_BULK, max(w - 2 * RCP_BULK, 0.10),
+                max(h - 2 * RCP_BULK, 0.10), fill="none", stroke=LIGHT,
+                sw=LW_THIN, dash="2 1.5")
+        n += 1
+    return n
+
+
+def _rcp_sheet(level, name, draw):
+    ffl = EL_LEVELS[level]
+    soffit = ffl + CLEAR_HEIGHT
+    D.set_scale(50, *(GF_ORIGIN if level == 0 else PLAN_ORIGIN))
+    sh = Sheet(f"ARC-{400 + level}",
+               f"Reflected Ceiling Plan — {name} Floor", f"+{ffl:.2f}",
+               "1:50 @ A1")
+    sh.rev = "P19"
+    F.border(sh)
+
+    rooms = _rcp_plan(sh, draw)
+    bulks = _rcp_bulkheads(sh, rooms)
+
+    # the stair well, open above on every floor it passes
+    sx0, sy0, sx1, sy1 = V3_STAIR
+    if level < 4:
+        sh.rect(sx0, sy0, sx1 - sx0, sy1 - sy0, fill="none", stroke=INK,
+                sw=LW_SECONDARY, dash="6 3")
+        # clear of the B-B cut line, which runs through the middle of
+        # this well at y 10.80
+        sh.tag((sx0 + sx1) / 2.0, sy1 - 0.55, "VOID OVER STAIR",
+               size=1.7, color=GREY)
+
+    # the balcony soffit, which is the one piece of modelled ceiling
+    if level > 0:
+        sh.poly(wave_points(), close=False, stroke=GREY, sw=LW_SECONDARY)
+        sh.poly(wave_points(offset=V3_WAVE_REVEAL), close=False,
+                stroke=LIGHT, sw=LW_THIN, dash="2.4 1.4")
+        sh.tag(17.25, V3_Y0 - 0.55,
+               f"BALCONY SOFFIT — {A_COVE * 1000:.0f} mm COVE IN THE "
+               f"{A_NOSING * 1000:.0f} mm NOSING", size=1.7, color=GREY)
+
+    sh.level_tag(V3_X0 + 0.80, V3_Y0 + 1.30, f"SOFFIT +{soffit:.2f}")
+
+    F.heading(sh)
+    y = F.legend(sh, 52)
+    y = F.datum_panel(sh, y + 8, "THE CEILING", [
+        ("Finished floor level", f"+{ffl:.2f}"),
+        ("Soffit, generally", f"+{soffit:.2f}"),
+        ("Clear height", f"{CLEAR_HEIGHT:.2f} m"),
+        ("Structural zone over", f"{STRUCTURAL_ZONE * 1000:.0f} mm"),
+        ("Floor to floor", f"{FLOOR_TO_FLOOR:.2f} m"),
+        ("Bulkheads shown", f"{bulks} wet rooms"),
+        ("Bulkhead depth", "by the services engineer"),
+        ("Light fittings", "see EL-200 series")])
+    F.notes(sh, y + 6, [
+        f"The ceiling of the {name.lower()} floor, seen from below. Drawn "
+        f"by running the floor plan with its sanitaryware, furniture, "
+        f"door swings and dimension chains switched off, so it cannot "
+        f"stop agreeing with A-{100 + level} when a partition moves.",
+        f"Soffit is +{soffit:.2f} throughout, {CLEAR_HEIGHT:.2f} m clear, "
+        f"under a {STRUCTURAL_ZONE * 1000:.0f} mm structural zone. Any "
+        f"local drop below that is a bulkhead and is shown as one.",
+        "A bulkhead is drawn over every room the plan calls wet, because "
+        "that is where the drainage runs. The outline is the room; the "
+        "depth, the exact extent and everything inside it are the "
+        "services engineer's and are set on the ME and PL series.",
+        "No light fitting is drawn. Fittings, switching and emergency "
+        "provision are the EL-200 series; a layout invented here would "
+        "only have to be thrown away.",
+        "Ceiling finishes, board type, moisture resistance in the wet "
+        "rooms and access panels are specification, not geometry, and "
+        "are not set on this sheet.",
+    ])
+    F.compass_and_scale(sh, x=470.0, y=500.0)
+    F.titleblock(sh)
+    return sh
+
+
+def _rcp_builders():
+    """One sheet builder per level, named so SHEETS can hold them."""
+    out = []
+    for level, name, fn in RCP_LEVELS:
+        def build(level=level, name=name, fn=fn):
+            return _rcp_sheet(level, name, globals()[fn])
+        build.__name__ = f"sheet_ceiling_{level}"
+        out.append(build)
+    return out
+
+
+# ===========================================================================
 # ARC-700  EXTERNAL WORKS AND LANDSCAPE
 # ===========================================================================
 # The garden is drawn on A-000 as context for the building.  It is also a
@@ -3626,7 +3786,9 @@ def sheet_register():
         f"third floor at once.",
         "Deliverable codes are the client's. Where one resolves to sheets "
         "already issued, the existing number is the cross reference — the "
-        "agreed set is not renumbered.",
+        "agreed set is not renumbered. The prefix is part of the number: "
+        "A-402 is the street elevation and ARC-402 the second floor's "
+        "ceiling plan, and they are different sheets.",
         f"The exterior is settled: scheme {SCHEME}, adopted at P18. "
         f"Blocked rows now wait on the measured survey and the plot's "
         f"soil figures, neither of which can be settled from the "
@@ -3640,6 +3802,7 @@ def sheet_register():
 
 SHEETS = (sheet_register, sheet_openings, sheet_roof,
           sheet_section_b, sheet_external_works,
+          *_rcp_builders(),
           sheet_site, sheet_ground, sheet_first, sheet_second,
           sheet_third, sheet_penthouse, sheet_section,
           sheet_elev_a, sheet_elev_a_sides,
