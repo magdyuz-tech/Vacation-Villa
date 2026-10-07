@@ -19,7 +19,7 @@ What follows is therefore the estimate with every quantity filled in and every r
 | Element | Item | Unit | Quantity | Rate | Source | Amount |
 | --- | --- | --- | ---: | ---: | --- | ---: |
 | Frame | Columns, 300 × 300 mm | nr | 52.00 | | | |
-| Masonry | External and party wall, 300 mm — masonry — material to be specified | m² | 600.63 | | | |
+| Masonry | External and party wall, 300 mm — brick, colour unrestricted | m² | 600.63 | | | |
 | Masonry | Internal partition, 100 mm — red brick | m² | 281.40 | | | |
 | Masonry | Parapet, 250 mm — masonry — material to be specified | m² | 27.13 | | | |
 | Openings | Doors, 6 types | nr | 9.00 | | | |

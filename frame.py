@@ -73,8 +73,10 @@ REVISIONS = [
      "scheme A adopted: serpentine balcony on every plan; site named"),
     ("P19", "2026-10-07",
      "serpentine waist deepened 0.75 to 1.35 m; 15.7 m² of balcony a floor"),
-    ("P20", None,
+    ("P20", "2026-10-07",
      "internal partitions 100 mm red brick, specified by the client"),
+    ("P21", None,
+     "300 mm external and party walls: brick, colour unrestricted"),
 ]
 STATUS = "Preliminary design issue — not for construction."
 STATUS_FINAL_DRAFT = ("Final draft — layout agreed with the client; "
@@ -122,9 +124,12 @@ def legend(sh, y0=52):
     sh.line_mm(PANEL_X, y0 + 2.2, PANEL_R, y0 + 2.2, w=0.25, color=GREY)
     y = y0 + 12
     rows = [
-        ("wall", "Masonry wall cut by section — 200 mm partition,"
-                 " 300 mm external / party"),
-        ("partition", f"Internal partition, {G.PT * 1000:.0f} mm "
+        # Both wall rows read geometry rather than stating a thickness in
+        # prose: this one said "200 mm partition" long after the partition
+        # was 120 mm, and would have gone on saying it at 100 mm.
+        ("wall", f"External / party wall cut by section, "
+                 f"{G.WT * 1000:.0f} mm — {G.WALL_MATERIAL[G.WT]}"),
+        ("partition", f"Internal partition, {G.PT * 1000:.0f} mm — "
                       f"{G.WALL_MATERIAL[G.PT]}"),
         ("parapet", "Terrace parapet, 250 mm × 1100 mm high"),
         ("door", "Single leaf door, swing shown to opening side"),

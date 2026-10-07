@@ -1,6 +1,6 @@
 # Client Instructions and Decisions
 
-Every instruction that changed the drawings, in the order they were given. The third column is the constant the decision became, so a decision cannot be recorded here and left unbuilt.
+Every instruction that changed the drawings, grouped by what it changed rather than strictly by date — several were given in one sitting. Each one names the constant the decision became, so a decision cannot be recorded here and left unbuilt.
 
 ## Exterior scheme — 2026-10-07
 
@@ -17,6 +17,14 @@ Every instruction that changed the drawings, in the order they were given. The t
 **Where it lives.** `geometry.PT / geometry.WALL_MATERIAL`
 
 **What it moved.** Every partition is redrawn 20 mm thinner and the bill names the material. It also found a fault: six walls, 21.29 m of them, were set out between two hard-coded coordinates whose gap was 120 mm only because PT was, so they went on being drawn 120 mm and left the bill of quantities silently. Those walls now follow PT, and a check refuses any wall whose thickness is not a declared one.
+
+## External and party walls — 2026-10-07
+
+**Instruction.** Brick, of any colour — the 300 mm walls, which had been left unspecified rather than assumed.
+
+**Where it lives.** `geometry.WALL_MATERIAL`
+
+**What it moved.** The largest masonry item in the bill stops reading “material to be specified” — it is measured on QS-001 and named there. The colour being free is a decision and not a gap: both faces are plastered or rendered, so no brick on this building is ever seen and a facing brick would be bought and buried. The bill, the bill of materials and the key on every sheet that carries one now name it; the specification schedule stops asking for it and asks only for the size, strength and mortar. Nothing moved — no line on any drawing changes, because a material is not a dimension. The parapet is now the one wall nobody has specified.
 
 ## Balcony waist — 2026-10-07
 

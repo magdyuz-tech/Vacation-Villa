@@ -894,6 +894,79 @@ def every_wall_has_a_material():
     return problems
 
 
+def prose_says_the_real_thickness():
+    """A wall thickness written in words must be one that exists.
+
+    `every_wall_has_a_material` watches the geometry; this watches the
+    prose, which drifts the same way and is not drawn, so nothing looks
+    wrong.  The key said "200 mm partition" long after the partition was
+    120 mm, and eight sheets of structural notes explained that "the
+    120 mm partitions" are carried by the slab after the client specified
+    100 mm - a sentence that is now about a wall this building does not
+    have.  Both were typed rather than derived, which is the same fault
+    the hard-coded 12.54 was.
+
+    So: any text on any sheet that names a thickness in millimetres in
+    the same breath as a wall or a partition must name a declared one.
+    The 50-500 mm window keeps parapet heights, door widths and room
+    dimensions out of it.
+
+    What it cannot catch: prose that quotes a declared thickness for the
+    wrong wall.  "300 mm partitions" would read as perfectly fine here,
+    because 300 is a thickness this building has.  It catches the number
+    going stale, not the sentence being wrong.
+
+    One wrinkle in the reporting: the cover builds the index, which builds
+    every other sheet, so text written by a nested build is attributed to
+    the outer sheet as well.  A sentence on STR-001 is therefore reported
+    against ARC-001 too.  The quoted text is in the message, so it is
+    findable either way; it is noted here so nobody hunts for a note on
+    the cover that is not on it.
+    """
+    import re
+    import drafting as D
+    import geometry as G
+    import plans
+
+    said = []
+    text_mm, tag = D.Sheet.text_mm, D.Sheet.tag
+
+    def _text(self, x, y, s, **kw):
+        said.append(s)
+        return text_mm(self, x, y, s, **kw)
+
+    def _tag(self, x, y, s, **kw):
+        said.append(s)
+        return tag(self, x, y, s, **kw)
+
+    declared = {round(t * 1000) for t in G.WALL_MATERIAL}
+    problems, seen = [], set()
+    D.Sheet.text_mm, D.Sheet.tag = _text, _tag
+    try:
+        for build in plans.SHEETS:
+            said.clear()
+            sh = build()
+            for s in said:
+                if not isinstance(s, str):
+                    continue
+                low = s.lower()
+                if "wall" not in low and "partition" not in low:
+                    continue
+                for m in re.finditer(r"(\d{2,4})\s*mm", s):
+                    v = int(m.group(1))
+                    if 50 <= v <= 500 and v not in declared \
+                            and (sh.number, v) not in seen:
+                        seen.add((sh.number, v))
+                        problems.append(
+                            f"{sh.number}: the sheet says {v} mm of a wall "
+                            f"or partition, which is not a thickness this "
+                            f"building has ({', '.join(str(d) for d in sorted(declared))}): "
+                            f"“{s.strip()[:60]}…”")
+    finally:
+        D.Sheet.text_mm, D.Sheet.tag = text_mm, tag
+    return problems
+
+
 def bill_reconciles():
     """The bill must agree with the drawings it was measured from.
 
@@ -1178,6 +1251,7 @@ def main():
                      ("sched", schedule_matches_the_openings),
                      ("index", index_is_honest),
                      ("walls", every_wall_has_a_material),
+                     ("prose", prose_says_the_real_thickness),
                      ("bill", bill_reconciles),
                      ("grid", grid_carries_the_walls),
                      ("mdl", deliverables_register)):

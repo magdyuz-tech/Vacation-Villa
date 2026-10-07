@@ -192,6 +192,21 @@ DECISIONS = [
      "only because PT was, so they went on being drawn 120 mm and left "
      "the bill of quantities silently. Those walls now follow PT, and a "
      "check refuses any wall whose thickness is not a declared one."),
+    ("2026-10-07", "External and party walls",
+     "Brick, of any colour — the 300 mm walls, which had been left "
+     "unspecified rather than assumed.",
+     "geometry.WALL_MATERIAL",
+     "The largest masonry item in the bill stops reading “material to be "
+     "specified” — it is measured on QS-001 and named there. The "
+     "colour being free is a decision and not a gap: both faces are "
+     "plastered or rendered, so no brick on this building is ever seen "
+     "and a facing brick would be bought and buried. The bill, the bill "
+     "of materials and the key on every sheet that carries one now name "
+     "it; the "
+     "specification schedule stops asking for it and asks only for the "
+     "size, strength and mortar. Nothing moved — no line on any drawing "
+     "changes, because a material is not a dimension. The parapet is now "
+     "the one wall nobody has specified."),
     ("2026-10-07", "Balcony waist",
      "The serpentine's waist deepened from 0.75 m to 1.35 m, holding the "
      "deep ends at 1.95 m under the 2.00 m cap.",
@@ -225,10 +240,10 @@ DECISIONS = [
 
 def decisions_markdown():
     out = ["# Client Instructions and Decisions", "",
-           "Every instruction that changed the drawings, in the order they "
-           "were given. The third column is the constant the decision "
-           "became, so a decision cannot be recorded here and left "
-           "unbuilt.", ""]
+           "Every instruction that changed the drawings, grouped by what it "
+           "changed rather than strictly by date — several were given in "
+           "one sitting. Each one names the constant the decision became, "
+           "so a decision cannot be recorded here and left unbuilt.", ""]
     for when, subject, decision, constant, effect in DECISIONS:
         out += [f"## {subject} — {when}", "",
                 f"**Instruction.** {decision}", "",
@@ -349,15 +364,23 @@ def materials_markdown():
                    for r in sched if r["kind"] == kind)
 
     _lifts, _h, col_vol = Q.columns()
+    # All three masonry rows name their material out of geometry, the same
+    # way the bill's labels do, so a wall that gets specified cannot leave
+    # the material it used to be in this document.
+    def mat(t, what):
+        return f"{what}, {t * 1000:.0f} mm — {G.WALL_MATERIAL[t]}"
+
     rows = [
-        (f"Masonry, {G.WT * 1000:.0f} mm", "m²", q("External and"), "D",
-         f"{G.WALL_MATERIAL[G.WT].capitalize()}. Unit size, strength and "
-         f"mortar are specification."),
-        (f"Red brick, {G.PT * 1000:.0f} mm", "m²", q("Internal part"), "D",
+        (mat(G.WT, "External and party wall"), "m²", q("External and"), "D",
+         "Brick, specified by the client, with no colour constraint: both "
+         "faces are plastered or rendered, so a facing brick would be paid "
+         "for and never seen. Unit size, strength and mortar are "
+         "specification."),
+        (mat(G.PT, "Internal partition"), "m²", q("Internal part"), "D",
          "Material specified by the client; a half-brick partition. "
          "Brick size, strength and mortar are still specification."),
-        ("Masonry, 250 mm parapet", "m²", q("Parapet"), "D",
-         f"{G.WALL_MATERIAL[0.25].capitalize()}."),
+        (mat(0.25, "Parapet"), "m²", q("Parapet"), "D",
+         "The one wall left unspecified."),
         ("Concrete, columns", "m³", col_vol, "D",
          f"{G.COL * 1000:.0f} mm square × the storey height, measured. "
          f"Grade is the engineer's."),
@@ -397,11 +420,11 @@ def materials_markdown():
 # not specifications: naming a block strength or a membrane here would be
 # inventing the one thing this document exists to ask for.
 SPEC_TOPICS = [
-    ("Masonry", "The 100 mm partitions are red brick, specified by the "
-                "client. Still to be specified: brick size and strength, "
-                "the material of the 300 mm external and party walls and "
-                "of the parapet, mortar, movement joints, wall ties and "
-                "lintels over every opening."),
+    ("Masonry", "Both walls are brick, specified by the client: the 100 mm "
+                "partitions red, the 300 mm external and party walls any "
+                "colour. Still to be specified: brick size and strength, "
+                "the parapet's material, mortar, movement joints, wall "
+                "ties and lintels over every opening."),
     ("Concrete", "Grade, cover, aggregate and finish — all to the "
                  "structural engineer's specification, not this one."),
     ("Openings", "Frame material and finish, glazing build-up and "

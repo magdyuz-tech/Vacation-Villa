@@ -173,8 +173,12 @@ plot                                                     264.50 m²
 built footprint                                          166.75 m²   coverage 63 %
 ```
 
-External and party walls are 300 mm, internal partitions 100 mm red brick, terrace
-parapets 250 mm × 1100 mm high.
+External and party walls are 300 mm brick of any colour — both faces are
+plastered or rendered, so no brick on this building is ever seen — internal
+partitions 100 mm red brick, terrace parapets 250 mm × 1100 mm high and the
+only wall still unspecified. `geometry.WALL_MATERIAL` holds all three, and
+every drawing, every key and every bill row reads it rather than naming a
+material of its own.
 
 Clear ceiling height is **3.00 m**, the client's minimum. A 0.30 m
 structural zone puts the floors 3.30 m apart, so levels are +0.00, +3.30,
@@ -371,6 +375,19 @@ It earned its place immediately: it found that the ground floor's second
 arched opening was cut through the party wall into the services riser
 cupboard rather than into a room. Both arches now sit in y 3.80 – 7.18,
 the only band where the wall has a room on each side.
+
+Two later rules watch for the same fault in two places. A thickness that
+was typed rather than derived goes stale the moment the constant moves,
+and nothing on the sheet looks wrong afterwards. `every_wall_has_a_material`
+refuses any wall drawn at a thickness `WALL_MATERIAL` does not declare —
+it was written after six walls, set out between two hard-coded
+coordinates, went on being drawn 120 mm thick and left the bill in
+silence. `prose_says_the_real_thickness` does the same for the words: it
+reads back every string a sheet prints and refuses one that names a wall
+or partition thickness the building does not have. It was written after
+the key had said "200 mm partition" for weeks, and it immediately found
+eight sheets of structural notes still explaining what "the 120 mm
+partitions" do.
 
 The 1:25 sheets run the ordinary plan code at a larger scale and crop to
 the part being shown, so an enlargement cannot disagree with the plan it

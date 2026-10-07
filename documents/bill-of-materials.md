@@ -13,9 +13,9 @@ all. **Nothing in this document is priced.**
 
 | Class | Material | Unit | Quantity | Note |
 | --- | --- | --- | ---: | --- |
-| D | Masonry, 300 mm | m² | 600.63 | Masonry — material to be specified. Unit size, strength and mortar are specification. |
-| D | Red brick, 100 mm | m² | 281.40 | Material specified by the client; a half-brick partition. Brick size, strength and mortar are still specification. |
-| D | Masonry, 250 mm parapet | m² | 27.13 | Masonry — material to be specified. |
+| D | External and party wall, 300 mm — brick, colour unrestricted | m² | 600.63 | Brick, specified by the client, with no colour constraint: both faces are plastered or rendered, so a facing brick would be paid for and never seen. Unit size, strength and mortar are specification. |
+| D | Internal partition, 100 mm — red brick | m² | 281.40 | Material specified by the client; a half-brick partition. Brick size, strength and mortar are still specification. |
+| D | Parapet, 250 mm — masonry — material to be specified | m² | 27.13 | The one wall left unspecified. |
 | D | Concrete, columns | m³ | 15.44 | 300 mm square × the storey height, measured. Grade is the engineer's. |
 | L | Concrete, slabs | m³ | — | Area is measured; the thickness is the engineer's. |
 | X | Reinforcement | t | — | The engineer's, entirely. |

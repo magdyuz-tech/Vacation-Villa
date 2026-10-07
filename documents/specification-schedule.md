@@ -6,7 +6,7 @@ These are topics, not specifications. Naming a block strength or a membrane here
 
 | Trade | To be specified |
 | --- | --- |
-| Masonry | The 100 mm partitions are red brick, specified by the client. Still to be specified: brick size and strength, the material of the 300 mm external and party walls and of the parapet, mortar, movement joints, wall ties and lintels over every opening. |
+| Masonry | Both walls are brick, specified by the client: the 100 mm partitions red, the 300 mm external and party walls any colour. Still to be specified: brick size and strength, the parapet's material, mortar, movement joints, wall ties and lintels over every opening. |
 | Concrete | Grade, cover, aggregate and finish — all to the structural engineer's specification, not this one. |
 | Openings | Frame material and finish, glazing build-up and performance, operation, ironmongery, seals and thresholds. ARC-500 measures the openings; none of this is in them. |
 | Internal finishes | Plaster system, paint, which rooms are tiled and to what height, floor finish per room, skirtings and junctions. |

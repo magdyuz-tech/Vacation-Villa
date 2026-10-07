@@ -36,7 +36,7 @@ all. **Nothing in this document is priced.**
 
 | Class | Description | Unit | Quantity | Note |
 | --- | --- | --- | ---: | --- |
-| D | External and party wall, 300 mm — masonry — material to be specified | m² | 600.63 | 806.0 m² gross, openings deducted. |
+| D | External and party wall, 300 mm — brick, colour unrestricted | m² | 600.63 | 806.0 m² gross, openings deducted. |
 | D | Internal partition, 100 mm — red brick | m² | 281.40 | 326.8 m² gross, openings deducted. |
 | D | Parapet, 250 mm — masonry — material to be specified | m² | 27.13 | 27.1 m² gross, openings deducted. |
 

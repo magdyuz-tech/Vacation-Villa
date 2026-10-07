@@ -63,10 +63,17 @@ PT = 0.10                      # internal partition: a half-brick on edge
 # What each wall is made of, named rather than assumed.  The bill of
 # materials called all three "blockwork" before the client specified the
 # partitions, which was an assumption nobody had written down - the kind
-# this project is otherwise careful not to make.  Only the partition is
-# specified; the other two say so.
+# this project is otherwise careful not to make.
+#
+# Both walls of the house are brick.  The 300 mm walls carry no colour
+# constraint: the client's instruction was that they "can be any colour",
+# which is a real decision rather than an omission, and it costs nothing
+# to honour because both faces are plastered or rendered - no brick on
+# this building is ever seen.  Naming the colour as free is what keeps a
+# supplier from being asked for a facing brick nobody needs.  The parapet
+# is still unspecified and says so.
 WALL_MATERIAL = {
-    WT: "masonry — material to be specified",
+    WT: "brick, colour unrestricted",
     PT: "red brick",
     0.25: "masonry — material to be specified",   # the terrace parapet
 }
@@ -537,9 +544,9 @@ EW_STEPS = 3                               # risers from the forecourt
 # Read off the columns the plans already draw, then written down here so
 # the structural package can letter and number it.  checks.py proves the
 # declaration still matches the columns, and proves the rule the whole
-# frame rests on: every 300 mm wall stands on a grid line, so it has a
-# beam under it, and the 120 mm partitions - which do not - are carried by
-# the slab.
+# frame rests on: every WT wall stands on a grid line, so it has a beam
+# under it, and the PT partitions - which do not - are carried by the
+# slab.
 GRID_X = (12.65, 17.46, 21.85)          # A, B, C
 GRID_Y = (3.65, 8.46, 12.56, 16.85)     # 1, 2, 3, 4
 GRID_LETTER = "ABC"

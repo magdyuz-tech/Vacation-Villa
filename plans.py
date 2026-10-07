@@ -413,7 +413,7 @@ def villa_garden(sh):
 def sheet_site():
     D.set_scale(75, *SITE_ORIGIN)
     sh = Sheet("A-000", "Site Plan — Detached Villa", "+0.00", "1:75 @ A1")
-    sh.rev, sh.status = "P20", F.STATUS_FINAL_DRAFT
+    sh.rev, sh.status = "P21", F.STATUS_FINAL_DRAFT
     F.border(sh)
     villa_neighbours(sh)
     street(sh)
@@ -801,7 +801,7 @@ def sheet_ground():
     D.set_scale(50, *PLAN_ORIGIN)
     sh = Sheet("A-100", "Ground Floor Plan \u2014 Detached Villa", "+0.00",
                "1:50 @ A1")
-    sh.rev, sh.status = "P20", F.STATUS_FINAL_DRAFT
+    sh.rev, sh.status = "P21", F.STATUS_FINAL_DRAFT
     F.border(sh)
 
     with sh.on("G-ANNO-BNDY"):
@@ -1261,7 +1261,7 @@ def sheet_second():
     D.set_scale(50, *PLAN_ORIGIN)
     sh = Sheet("A-102", "Second Floor Plan — Detached Villa", "+6.60",
                "1:50 @ A1")
-    sh.rev, sh.status = "P20", F.STATUS_FINAL_DRAFT
+    sh.rev, sh.status = "P21", F.STATUS_FINAL_DRAFT
     F.border(sh)
 
     with sh.on("G-ANNO-BNDY"):
@@ -1514,7 +1514,7 @@ def sheet_first():
     D.set_scale(50, *PLAN_ORIGIN)
     sh = Sheet("A-101", "First Floor Plan — Detached Villa", "+3.30",
                "1:50 @ A1")
-    sh.rev, sh.status = "P20", F.STATUS_FINAL_DRAFT
+    sh.rev, sh.status = "P21", F.STATUS_FINAL_DRAFT
     F.border(sh)
 
     with sh.on("G-ANNO-BNDY"):
@@ -1802,7 +1802,7 @@ def sheet_third():
     sh = Sheet("A-103", "Third Floor Plan — Detached Villa", "+9.90",
                "1:50 @ A1")
     # P9: the stair no longer stops here, it carries on to the penthouse
-    sh.rev, sh.status = "P20", F.STATUS_FINAL_DRAFT
+    sh.rev, sh.status = "P21", F.STATUS_FINAL_DRAFT
     F.border(sh)
 
     # the three setback lines, so the 1.00 m gap is measurable on the sheet
@@ -2088,7 +2088,7 @@ def sheet_penthouse():
     D.set_scale(50, *PLAN_ORIGIN)
     sh = Sheet("A-104", "Penthouse Plan — Detached Villa", V4_LEVEL,
                "1:50 @ A1")
-    sh.rev, sh.status = "P20", F.STATUS_FINAL_DRAFT
+    sh.rev, sh.status = "P21", F.STATUS_FINAL_DRAFT
     F.border(sh)
 
     with sh.on("G-ANNO-BNDY"):
@@ -2259,7 +2259,7 @@ def sheet_section():
     D.set_scale(50, *SEC_ORIGIN)
     sh = Sheet("A-200", "Section A–A — Detached Villa",
                "looking west", "1:50 @ A1")
-    sh.rev, sh.status = "P20", F.STATUS_FINAL_DRAFT
+    sh.rev, sh.status = "P21", F.STATUS_FINAL_DRAFT
     F.border(sh)
 
     y_s, y_n = V3_Y0, V3_Y1                      # 3.50 .. 17.00
@@ -2704,7 +2704,7 @@ STATUS_NOT_SELECTED = ("Option not selected — scheme {0} “{1}” was adopted
 
 def _scheme_issue(sh, scheme):
     """Stamp a scheme sheet according to whether it was chosen."""
-    sh.rev = "P20"
+    sh.rev = "P21"
     if scheme != SCHEME:
         sh.status = STATUS_NOT_SELECTED.format(
             SCHEME, el.SCHEME[SCHEME]["name"])
@@ -2805,7 +2805,7 @@ def sheet_axonometric():
         if sh is None:
             sh = Sheet("A-430", "Axonometric — Three Balcony Options",
                        "from the south-west", "1:250 @ A1")
-            sh.rev = "P20"
+            sh.rev = "P21"
             F.border(sh)
         ax.view(sh, el.SCHEME[letter]["render"], profile)
         u, v = ax.P(V3_X0, V3_Y0, 0.0)
@@ -2866,7 +2866,7 @@ def sheet_street_context():
     D.set_scale(100, *EL_CTX_ONE)
     sh = Sheet("A-402", "Street Elevation in Context",
                f"scheme {SCHEME}, as surveyed", "1:100 @ A1")
-    sh.rev = "P20"
+    sh.rev = "P21"
     F.border(sh)
     el.context_elevation(sh, SCHEME)
     sh.tag(11.50, GARDEN_LEVEL - 2.65,
@@ -2992,7 +2992,7 @@ def _cutaway_sheet(level, name):
     sh = Sheet(f"A-{level + 2:02d}",
                f"Interior Cutaway — {name} Floor", f"+{EL_LEVELS[level]:.2f}",
                f"1:{AX_CUT_SCALE} @ A1")
-    sh.rev = "P20"
+    sh.rev = "P21"
     F.border(sh)
     ax.cutaway(sh, level, walls, sills,
                colour=el.SCHEME[SCHEME]["render"],
@@ -3066,7 +3066,7 @@ def _svc_sheet(code, level, title, discipline, marks, purpose):
     D.set_scale(50, *(GF_ORIGIN if level == 0 else PLAN_ORIGIN))
     sh = Sheet(code, f"{title} — {name} Floor", f"+{EL_LEVELS[level]:.2f}",
                "1:50 @ A1")
-    sh.rev = "P20"
+    sh.rev = "P21"
     sh.status = sv.STAMP
     F.border(sh)
 
@@ -3125,7 +3125,7 @@ def _svc_schematic(code, title, discipline, purpose):
     zone = data["zone"]
     D.set_scale(50, -150.0, 470.0)
     sh = Sheet(code, title, "the whole building", "schematic")
-    sh.rev = "P20"
+    sh.rev = "P21"
     sh.status = sv.STAMP
     F.border(sh)
 
@@ -3213,7 +3213,7 @@ STR_SITE_ORIGIN = SITE_ORIGIN        # 1:75, as the site plan
 
 def _str_sheet(number, title, level_txt, scale="1:50 @ A1"):
     sh = Sheet(number, title, level_txt, scale)
-    sh.rev = "P20"
+    sh.rev = "P21"
     sh.status = st.STAMP
     F.border(sh)
     return sh
@@ -3289,14 +3289,15 @@ def sheet_str_notes():
           "SUR-001, the measured survey, for the boundary STR-400 sits "
           "on."]),
         ("The one rule the architecture already settled",
-         ["A 300 mm wall needs a beam under it, and a beam is a column "
-          "line, a wall below, or a secondary beam landing on primary "
-          "beams. Every 300 mm wall in this building stands on a grid "
-          "line, with one exception: the penthouse's north wall, which "
-          "is a line load on the +13.20 slab spanning B to C. STR-305 "
-          "carries a secondary beam under it for that reason.",
-          "The 120 mm partitions do not stand on grid lines and do not "
-          "need to; they are carried by the slab."]),
+         [f"A {WT * 1000:.0f} mm wall needs a beam under it, and a beam "
+          f"is a column line, a wall below, or a secondary beam landing "
+          f"on primary beams. Every {WT * 1000:.0f} mm wall in this "
+          f"building stands on a grid line, with one exception: the "
+          f"penthouse's north wall, which is a line load on the +13.20 "
+          f"slab spanning B to C. STR-305 carries a secondary beam under "
+          f"it for that reason.",
+          f"The {PT * 1000:.0f} mm partitions do not stand on grid "
+          f"lines and do not need to; they are carried by the slab."]),
     ]
     y = 52.0
     for head, paras in blocks:
@@ -3457,9 +3458,10 @@ def _str_framing(slab, level, datum):
         ("This slab", datum),
         ("Slab thickness", "by the engineer")],
         list(_STR_COMMON) + extra + [
-        "Primary beams run on the grid, because every 300 mm wall stands "
-        "on a grid line. The 120 mm partitions do not and do not need to: "
-        "they are carried by the slab.",
+        f"Primary beams run on the grid, because every {WT * 1000:.0f} "
+        f"mm wall stands on a grid line. The {PT * 1000:.0f} mm "
+        f"partitions do not and do not need to: they are carried by the "
+        f"slab.",
     ])
 
 
@@ -3584,7 +3586,7 @@ IX_NUM, IX_TITLE, IX_LEVEL, IX_SCALE, IX_REV = 0.0, 36.0, 140.0, 214.0, 252.0
 # rather than written inline so checks.py can compare it against the sheet
 # it claims to describe.
 IX_SELF = ("ARC-001", "Cover Sheet & Drawing Index", "the whole set",
-           "NTS", "P20")
+           "NTS", "P21")
 
 _INDEXING = False
 
@@ -3757,7 +3759,7 @@ def sheet_general_notes():
     """ARC-002: general notes, symbols and the code compliance matrix."""
     sh = Sheet("ARC-002", "General Notes, Symbols & Compliance",
                "the whole set", "NTS")
-    sh.rev = "P20"
+    sh.rev = "P21"
     sh.status = ("Layout for the architect of record — the compliance "
                  "matrix is completed and signed against ECP 201 and "
                  "ECP 203.")
@@ -3924,7 +3926,7 @@ def _rcp_sheet(level, name, draw):
     sh = Sheet(f"ARC-{400 + level}",
                f"Reflected Ceiling Plan — {name} Floor", f"+{ffl:.2f}",
                "1:50 @ A1")
-    sh.rev = "P20"
+    sh.rev = "P21"
     F.border(sh)
 
     rooms = _rcp_plan(sh, draw)
@@ -4015,7 +4017,7 @@ def sheet_external_works():
     D.set_scale(75, *SITE_ORIGIN)
     sh = Sheet("ARC-700", "External Works & Landscape",
                f"{GARDEN_LEVEL:.2f} garden, +0.00 villa", "1:75 @ A1")
-    sh.rev = "P20"
+    sh.rev = "P21"
     F.border(sh)
 
     with sh.on("G-ANNO-BNDY"):
@@ -4162,7 +4164,7 @@ def sheet_section_b():
     D.set_scale(50, *SEC2_ORIGIN)
     sh = Sheet("ARC-301", "Section B–B — Transverse", "looking north",
                "1:50 @ A1")
-    sh.rev = "P20"
+    sh.rev = "P21"
     F.border(sh)
 
     x_w, x_e = V3_X0, V3_X1                 # 12.50 .. 22.00
@@ -4365,7 +4367,7 @@ def sheet_roof():
     D.set_scale(50, *PLAN_ORIGIN)
     sh = Sheet("ARC-106", "Roof Plan", f"+{V4_TOP:.2f} / {V4_LEVEL}",
                "1:50 @ A1")
-    sh.rev = "P20"
+    sh.rev = "P21"
     F.border(sh)
 
     with sh.on("G-ANNO-BNDY"):
@@ -4569,7 +4571,7 @@ def sheet_openings():
     rows = el.opening_schedule()
     sh = Sheet("ARC-500", "Door & Window Schedule", "all levels",
                "1:100 @ A1")
-    sh.rev = "P20"
+    sh.rev = "P21"
     F.border(sh)
 
     sh.text_mm(OS_COL_X[0], 26, "DOOR & WINDOW SCHEDULE", size=6.0,
@@ -4641,7 +4643,7 @@ def sheet_register():
     """
     sh = Sheet("ARC-000", "Master Deliverables List", "the whole set",
                "NTS")
-    sh.rev = "P20"
+    sh.rev = "P21"
     sh.status = F.STATUS_REGISTER
     F.border(sh)
     doc.register_table(sh)

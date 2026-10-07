@@ -1,6 +1,6 @@
 trade,class,description,unit,quantity,rate,source,amount
 "Frame",D,"Columns, 300 × 300 mm",nr,52.00,,,
-"Masonry",D,"External and party wall, 300 mm — masonry — material to be specified",m²,600.63,,,
+"Masonry",D,"External and party wall, 300 mm — brick, colour unrestricted",m²,600.63,,,
 "Masonry",D,"Internal partition, 100 mm — red brick",m²,281.40,,,
 "Masonry",D,"Parapet, 250 mm — masonry — material to be specified",m²,27.13,,,
 "Openings",D,"Doors, 6 types",nr,9.00,,,
