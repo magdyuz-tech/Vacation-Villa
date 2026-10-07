@@ -401,7 +401,7 @@ def villa_garden(sh):
 def sheet_site():
     D.set_scale(75, *SITE_ORIGIN)
     sh = Sheet("A-000", "Site Plan — Detached Villa", "+0.00", "1:75 @ A1")
-    sh.rev, sh.status = "P13", F.STATUS_FINAL_DRAFT
+    sh.rev, sh.status = "P14", F.STATUS_FINAL_DRAFT
     F.border(sh)
     villa_neighbours(sh)
     street(sh)
@@ -490,8 +490,9 @@ def sheet_site():
         "boundary at 18.00. To be confirmed by measured survey before any "
         "work starts on site.",
         "Structure is an RC frame on the grid shown, 300 mm columns on "
-        "wall centrelines so none stands in a room. Section A—A and the "
-        "A-300 enlargements are still on the old 11.50 × 14.50 footprint.",
+        "wall centrelines so none stands in a room. The A-300 "
+        "enlargements are the last sheets still on the old 11.50 × 14.50 "
+        "footprint.",
     ])
     F.compass_and_scale(sh, x=502.0, y=452.0)
     F.titleblock(sh)
@@ -781,12 +782,13 @@ def _villa_ground_floor(sh):
             v3_y1 - V0_ENS_Y1 - PT, "Guest Bedroom", area=13.4, size=2.4,
             sched_name="Guest bedroom", at=(19.95, 16.20))
 
+    villa_section_line(sh)
 
 def sheet_ground():
     D.set_scale(50, *PLAN_ORIGIN)
     sh = Sheet("A-100", "Ground Floor Plan \u2014 Detached Villa", "+0.00",
                "1:50 @ A1")
-    sh.rev, sh.status = "P12", F.STATUS_FINAL_DRAFT
+    sh.rev, sh.status = "P14", F.STATUS_FINAL_DRAFT
     F.border(sh)
 
     with sh.on("G-ANNO-BNDY"):
@@ -850,7 +852,7 @@ def sheet_ground():
         "Bedrooms are numbered 1 to 11 through the house, south to "
         "north and west before east on each floor; the ground "
         "floor's room is the guest bedroom and carries no number.",
-        "Section A—A and the A-300 enlargements are still on the old "
+        "The A-300 enlargements are the last sheets still on the old "
         "11.50 × 14.50 footprint.",
     ])
 
@@ -1228,6 +1230,7 @@ def _villa_bedroom_floor(sh):
     sh.room(V3_SPINE_X1, V3_BED3_Y0, v3_x1 - V3_SPINE_X1, v3_y1 - V3_BED3_Y0,
             "Bedroom 7", area=17.0, size=2.4, at=(19.80, 16.30))
 
+    villa_section_line(sh)
 
 def sheet_second():
     """A-102: the villa's bedroom floor - two suites and two bedrooms.
@@ -1244,7 +1247,7 @@ def sheet_second():
     D.set_scale(50, *PLAN_ORIGIN)
     sh = Sheet("A-102", "Second Floor Plan — Detached Villa", "+6.60",
                "1:50 @ A1")
-    sh.rev, sh.status = "P12", F.STATUS_FINAL_DRAFT
+    sh.rev, sh.status = "P14", F.STATUS_FINAL_DRAFT
     F.border(sh)
 
     with sh.on("G-ANNO-BNDY"):
@@ -1491,12 +1494,13 @@ def _villa_living_floor(sh):
     sh.room(V3_SPINE_X1, V3_BED3_Y0, v3_x1 - V3_SPINE_X1, v3_y1 - V3_BED3_Y0,
             "Bedroom 3", area=17.0, size=2.4, at=(19.80, 16.30))
 
+    villa_section_line(sh)
 
 def sheet_first():
     D.set_scale(50, *PLAN_ORIGIN)
     sh = Sheet("A-101", "First Floor Plan — Detached Villa", "+3.30",
                "1:50 @ A1")
-    sh.rev, sh.status = "P12", F.STATUS_FINAL_DRAFT
+    sh.rev, sh.status = "P14", F.STATUS_FINAL_DRAFT
     F.border(sh)
 
     with sh.on("G-ANNO-BNDY"):
@@ -1775,13 +1779,14 @@ def _plan_third(sh):
     sh.room(v3_x0, V3_BED3_Y0, V3_BED3_X1 - v3_x0, v3_y1 - V3_BED3_Y0,
             "Bedroom 9", area=16.4, size=2.4, at=(14.60, 16.00))
 
+    villa_section_line(sh)
 
 def sheet_third():
     D.set_scale(50, *PLAN_ORIGIN)
     sh = Sheet("A-103", "Third Floor Plan — Detached Villa", "+9.90",
                "1:50 @ A1")
     # P9: the stair no longer stops here, it carries on to the penthouse
-    sh.rev, sh.status = "P12", F.STATUS_FINAL_DRAFT
+    sh.rev, sh.status = "P14", F.STATUS_FINAL_DRAFT
     F.border(sh)
 
     # the three setback lines, so the 1.00 m gap is measurable on the sheet
@@ -2060,12 +2065,13 @@ def _villa_penthouse(sh):
             show_area=False, schedule=False, at=(13.80, 12.00))
     sh.level_tag(18.30, 12.70, "FFL " + V4_LEVEL)
 
+    villa_section_line(sh)
 
 def sheet_penthouse():
     D.set_scale(50, *PLAN_ORIGIN)
     sh = Sheet("A-104", "Penthouse Plan — Detached Villa", V4_LEVEL,
                "1:50 @ A1")
-    sh.rev, sh.status = "P12", F.STATUS_FINAL_DRAFT
+    sh.rev, sh.status = "P14", F.STATUS_FINAL_DRAFT
     F.border(sh)
 
     with sh.on("G-ANNO-BNDY"):
@@ -2142,161 +2148,236 @@ def sheet_penthouse():
     return sh
 
 
+# the villa's A-A cut.  20.70 is not arbitrary: it is the one north-south
+# line that passes through a room at every level and through every wet
+# room in the east strip, and it clears all three column lines, so the
+# section shows slabs spanning rather than a column standing in the cut.
+SEC_X_V = 20.70
+
+# what the cut passes through at each level: (south face, north face,
+# whether the wall carries an opening at the cut).  Read off the plans by
+# the probe in checks, not written from memory.
+SEC_WALLS = {
+    0: [(8.00, 8.12, True), (11.60, 11.72, False), (13.30, 13.42, False)],
+    1: [(8.60, 8.72, True), (10.30, 10.42, False), (12.42, 12.54, False)],
+    2: [(8.60, 8.72, True), (10.30, 10.42, False), (12.42, 12.54, False)],
+    3: [(7.60, 7.72, False), (9.30, 9.42, False), (11.00, 11.12, False),
+        (12.70, 12.82, False)],
+}
+SEC_ROOMS = {
+    0: [(3.80, 8.00, "Dining"), (8.12, 11.60, "Kitchen"),
+        (11.72, 13.30, "Ensuite"), (13.42, 16.70, "Guest bedroom")],
+    1: [(3.80, 8.60, "Bedroom 1"), (8.72, 10.30, "Ensuite 1"),
+        (10.42, 12.42, "Shared bath"), (12.54, 16.70, "Bedroom 3")],
+    2: [(3.80, 8.60, "Bedroom 5"), (8.72, 10.30, "Ensuite 5"),
+        (10.42, 12.42, "Shared bath"), (12.54, 16.70, "Bedroom 7")],
+    3: [(3.80, 7.60, "Bedroom 8"), (7.72, 9.30, "Ensuite 8"),
+        (9.42, 11.00, "Shared bath"), (11.12, 12.70, "Ensuite 10"),
+        (12.82, 16.70, "Bedroom 10")],
+}
+SEC_PH = [(3.80, 9.60, "Living & dining"), (9.72, 11.60, "Bath"),
+          (11.72, 15.04, "Bedroom 11")]
+
+SILL, HEAD, DOOR_HEAD = 0.90, 2.40, 2.10
+PH_UPSTAND = 0.60              # parapet upstand to the penthouse roof
+
+
+def villa_section_line(sh, y0=1.10, y1=18.85):
+    """The A-A cut line, so the section can be located on every plan."""
+    with sh.on("A-ANNO-SYMB"):
+        sh.line(SEC_X_V, y0, SEC_X_V, y1, w=LW_THIN, color=INK,
+                dash="9 2 1.6 2")
+    for yy in (y0, y1):
+        sh.circle(SEC_X_V, yy, 0.45, fill="#ffffff", stroke=INK,
+                  sw=LW_SECONDARY)
+        sh.tag(SEC_X_V, yy - 0.17, "A", size=2.6, color=INK)
+    for yy in (y0 + 0.70, y1 - 0.70):
+        sh.poly([(SEC_X_V - 0.62, yy), (SEC_X_V - 0.06, yy + 0.26),
+                 (SEC_X_V - 0.06, yy - 0.26)], fill=INK, stroke=INK,
+                sw=LW_THIN)
+
+
+def _glazed(sh, a, b, ffl, clear=CLEAR_HEIGHT):
+    """External wall at the cut: piers under the sill and over the head."""
+    sh.wall(a, ffl, b, ffl + SILL)
+    sh.wall(a, ffl + HEAD, b, ffl + clear)
+    for f in (0.3, 0.7):
+        sh.line(a + (b - a) * f, ffl + SILL, a + (b - a) * f, ffl + HEAD,
+                w=LW_FIXTURE, color=GREY)
+
+
+def _villa_stair_beyond(sh, ffl):
+    """The dog-leg stair, seen beyond the cut through the open spine.
+
+    Drawn only within the storey it stands in.  The stair well is at
+    x 12.80-14.80 and this cut is at 20.70, so the slab over it is solid
+    here - a flight carried on through the slab line would be a drawing
+    that lies about what the cut passes through.  The return flight is
+    therefore stopped at the soffit, where it genuinely goes out of sight.
+    """
+    y1 = V3_STAIR[3]
+    risers = round(FLOOR_TO_FLOOR / V3_STAIR_RISE)          # 18
+    rise, going, treads = FLOOR_TO_FLOOR / risers, V3_STAIR_GOING, risers // 2
+    run = treads * going
+    half = ffl + rise * treads
+    soffit = ffl + CLEAR_HEIGHT
+
+    def flight(y, z, step):
+        pts = [(y, z)]
+        for _ in range(treads):
+            if z + rise > soffit:
+                break
+            z += rise
+            pts.append((y, z))
+            y += step * going
+            pts.append((y, z))
+        sh.poly(pts, close=False, stroke=LIGHT, sw=LW_THIN)
+
+    flight(y1 - V3_STAIR_LANDING - run, ffl, +1)           # up, walking north
+    sh.line(y1 - V3_STAIR_LANDING, half, y1, half, w=LW_THIN, color=LIGHT)
+    flight(y1, half, -1)                                   # up, walking south
+
+
 def sheet_section():
     D.set_scale(50, *SEC_ORIGIN)
-    sh = Sheet("A-200", "Section A–A", "through the core", "1:50 @ A1")
+    sh = Sheet("A-200", "Section A–A — Detached Villa",
+               "looking west", "1:50 @ A1")
+    sh.rev, sh.status = "P14", F.STATUS_FINAL_DRAFT
     F.border(sh)
 
-    top = 3 * FLOOR_TO_FLOOR                      # +9.90
-    roof = ROOF_LEVEL                             # +13.20
+    y_s, y_n = V3_Y0, V3_Y1                      # 3.50 .. 17.00
+    roof, top = ROOF_LEVEL, V4_TOP               # +13.20, +16.45
+    proj = wave_projection(SEC_X_V)              # 1.63 m of balcony here
+    y_b = y_s - proj
 
-    # ground, garden and the street beyond
-    sh.rect(-1.0, -2.60, A_Y0 + 1.0, 2.10, fill="#f4f4f4", stroke="none",
-            sw=0)
-    _hatch(sh, -1.0, -2.60, A_Y0 + 1.0, 2.10, pitch=0.7, color="#dcdcdc")
-    sh.line(-1.0, GARDEN_LEVEL, A_Y0, GARDEN_LEVEL, w=LW_CUT, color=INK)
-    sh.rect(A_Y0, -2.60, A_Y1 - A_Y0, 2.60, fill="#f4f4f4", stroke="none",
-            sw=0)
-    _hatch(sh, A_Y0, -2.60, A_Y1 - A_Y0, 2.10, pitch=0.7, color="#dcdcdc")
-    sh.level_tag(1.60, GARDEN_LEVEL, "GARDEN −0.50")
-    fx.steps(sh, A_Y0 - 0.95, GARDEN_LEVEL, 0.95, 0.50, n=ENTRY_RISERS,
-             axis="e")
+    # --- ground, forecourt and the setback strip beyond the north wall ---
+    sh.rect(y_b - 1.60, -2.60, y_s - y_b + 1.60, 2.10, fill="#f4f4f4",
+            stroke="none", sw=0)
+    _hatch(sh, y_b - 1.60, -2.60, y_s - y_b + 1.60, 2.10, pitch=0.7,
+           color="#dcdcdc")
+    sh.line(y_b - 1.60, GARDEN_LEVEL, y_s, GARDEN_LEVEL, w=LW_CUT, color=INK)
+    sh.rect(y_s, -2.60, y_n - y_s, 2.60, fill="#f4f4f4", stroke="none", sw=0)
+    _hatch(sh, y_s, -2.60, y_n - y_s, 2.10, pitch=0.7, color="#dcdcdc")
+    sh.rect(y_n, -2.60, 1.60, 2.10, fill="#f4f4f4", stroke="none", sw=0)
+    _hatch(sh, y_n, -2.60, 1.60, 2.10, pitch=0.7, color="#dcdcdc")
+    sh.line(y_n, GARDEN_LEVEL, y_n + 1.60, GARDEN_LEVEL, w=LW_CUT, color=INK)
+    sh.level_tag(y_b - 0.95, GARDEN_LEVEL, "FORECOURT −0.50")
+    sh.tag(y_n + 0.80, GARDEN_LEVEL - 0.75, "1.00 m SETBACK", size=1.7,
+           color=GREY, rot=-90)
 
-    # foundations, indicative
-    for a, b in ((A_Y0, A_Y0 + WT), (LF_Y0 - PT, LF_Y0), (LOB_Y1, ST_Y0),
-                 (ST_Y1, CORE_N), (a_y1, A_Y1)):
-        sh.wall(a - 0.25, -1.55, b + 0.25, -1.15)
+    # foundations under the two external walls, indicative
+    for a, b in ((y_s, y_s + WT), (y_n - WT, y_n)):
+        sh.wall(a - 0.30, -1.55, b + 0.30, -1.15)
         sh.wall(a, -1.15, b, -STRUCTURAL_ZONE)
 
-    for lv in SEC_LEVELS:
+    # --- the four villa floors -------------------------------------------
+    for lv in range(4):
         ffl = lv * FLOOR_TO_FLOOR
-        # floor slabs, continuous from the south wall to the north
-        _slab(sh, A_Y0, A_Y1, ffl)
-        # the lift shaft carries removable infill slabs, shown dashed
-        _slab(sh, LF_Y0, LF_Y1, ffl, dash="2.2 1.4")
-        # cantilevered balcony or terrace slab
+        _slab(sh, y_s, y_n, ffl)
+        if lv > 0:                                    # the cantilever
+            _slab(sh, y_b, y_s, ffl - 0.03)
+            sh.wall(y_b, ffl - 0.03, y_b + V3_WAVE_BALUSTRADE, ffl + 1.10,
+                    fill=PARAPET_FILL)
+        _glazed(sh, y_s, y_s + WT, ffl)
+        _glazed(sh, y_n - WT, y_n, ffl)
+        for a, b, open_ in SEC_WALLS[lv]:
+            if open_:
+                sh.wall(a, ffl + DOOR_HEAD, b, ffl + CLEAR_HEIGHT)
+            else:
+                sh.wall(a, ffl, b, ffl + CLEAR_HEIGHT)
+        _villa_stair_beyond(sh, ffl)
+        sh.level_tag(y_s + 0.75, ffl, f"FFL +{ffl:.2f}")
+        for a, b, name in SEC_ROOMS[lv]:
+            sh.tag((a + b) / 2.0, ffl + 1.05, name.upper(),
+                   size=2.0 if b - a > 2.4 else 1.6, color=INK)
         if lv > 0:
-            _slab(sh, A_Y0 - BALC_D, A_Y0, ffl - 0.03)
-            sh.wall(A_Y0 - BALC_D, ffl - 0.03, A_Y0 - BALC_D + PARAPET,
-                    ffl + 1.10)
-        # external and core walls of the storey
-        clear = CLEAR_HEIGHT
-        for a, b in ((LF_Y0 - PT, LF_Y0), (LF_Y1, LOB_Y0),
-                     (LOB_Y1, ST_Y0), (ST_Y1, CORE_N)):
-            sh.wall(a, ffl, b, ffl + clear)
-        # north wall: the boundary is open, so the cut passes through a
-        # window in it on every floor
-        sh.wall(a_y1, ffl, A_Y1, ffl + clear,
-                openings=[(ffl + 0.90, ffl + 2.40)])
-        sh.window(ffl + 0.90, ffl + 2.40, a_y1, A_Y1, "v")
-        # south wall: glazed at the cut, so only the piers above and below
-        sh.wall(A_Y0, ffl + 2.35, A_Y0 + WT, ffl + clear)
-        sh.wall(A_Y0, ffl, A_Y0 + WT, ffl + 0.10)
-        sh.line(A_Y0 + WT / 2, ffl + 0.10, A_Y0 + WT / 2, ffl + 2.35,
-                w=LW_FIXTURE, color=GREY)
-        _stair_section(sh, ffl)
-        sh.level_tag(A_Y0 + 0.9, ffl, f"FFL +{ffl:.2f}")
+            sh.tag(y_b + proj / 2.0, ffl + 0.55, "BALCONY", size=1.7,
+                   color=GREY, rot=-90)
 
-    # roof slab and parapets, with the stair-head vent opening in it
-    _slab(sh, A_Y0, A_Y1, roof, openings=[AOV_Y])
-    sh.wall(A_Y0, roof, A_Y0 + PARAPET, roof + 1.10)
-    sh.wall(a_y1, roof, A_Y1, roof + 1.10)
-    sh.level_tag(A_Y0 + 0.9, roof, f"ROOF +{roof:.2f}")
+    # --- the roof deck, and the penthouse standing on it ------------------
+    _slab(sh, y_s, y_n, roof)
+    _slab(sh, y_b, y_s, roof - 0.03)
+    sh.wall(y_b, roof - 0.03, y_b + V3_WAVE_BALUSTRADE, roof + 1.10,
+            fill=PARAPET_FILL)
+    sh.level_tag(y_s + 0.75, roof, f"FFL {V4_LEVEL}")
 
-    # the stair-head vent, drawn open: kerb upstand, the closed lid dashed
-    # and the flap in its open position
-    kerb = 0.30
-    sh.wall(AOV_Y[0] - PT, roof, AOV_Y[0], roof + kerb)
-    sh.wall(AOV_Y[1], roof, AOV_Y[1] + PT, roof + kerb)
-    sh.line(AOV_Y[0] - PT, roof + kerb, AOV_Y[1] + PT, roof + kerb,
-            w=LW_SECONDARY, color=GREY, dash="2.2 1.4")
-    sh.line(AOV_Y[0] - PT, roof + kerb, AOV_Y[1] - 0.05, roof + kerb + 0.55,
-            w=LW_CUT, color=INK)
-    sh.tag((AOV_Y[0] + AOV_Y[1]) / 2.0, roof + 1.20,
-           f"AOV {AOV_AREA:.1f} m² — STAIR SMOKE VENT", size=1.9, color=INK)
+    _glazed(sh, V4_Y0, V4_Y0 + WT, roof)
+    sh.wall(V4_HALL_X1 * 0 + 9.60, roof, 9.72, roof + CLEAR_HEIGHT)
+    sh.wall(11.60, roof, 11.72, roof + CLEAR_HEIGHT)
+    sh.wall(V4_Y1 - WT, roof, V4_Y1, roof + CLEAR_HEIGHT)
+    _slab(sh, V4_Y0, V4_Y1, top)
+    for a, b in ((V4_Y0, V4_Y0 + WT), (V4_Y1 - WT, V4_Y1)):
+        sh.wall(a, top, b, top + PH_UPSTAND, fill=PARAPET_FILL)
+    for a, b, name in SEC_PH:
+        sh.tag((a + b) / 2.0, roof + 1.05, name.upper(),
+               size=2.0 if b - a > 2.4 else 1.6, color=INK)
+    sh.tag(y_b + proj / 2.0, roof + 0.55, "BALCONY", size=1.7, color=GREY,
+           rot=-90)
 
-    # lift shaft: pit, car and overrun
-    sh.wall(LF_Y0 - PT, -1.45, LF_Y0, 0.0)
-    sh.wall(LF_Y1, -1.45, LOB_Y0, 0.0)
-    sh.wall(LF_Y0 - PT, -1.55, LOB_Y0, -1.45)
-    sh.tag((LF_Y0 + LF_Y1) / 2.0, -0.95, "PIT", size=1.7, color=GREY)
-    sh.rect(LF_Y0, top + 0.10, LF_Y1 - LF_Y0, 1.55, sw=LW_SECONDARY,
-            stroke=GREY, dash="2.2 1.4")
-    sh.tag((LF_Y0 + LF_Y1) / 2.0, top + 1.00, "OVERRUN", size=1.6,
-           color=GREY)
-    for lv in SEC_LEVELS:
-        sh.tag((LF_Y0 + LF_Y1) / 2.0, lv * FLOOR_TO_FLOOR + 1.35, "LIFT",
-               size=1.8, color=GREY)
+    # north roof terrace and its parapet
+    sh.wall(y_n - PARAPET, roof, y_n, roof + 1.10, fill=PARAPET_FILL)
+    sh.tag((V4_Y1 + y_n - PARAPET) / 2.0, roof + 1.45, "TERRACE", size=1.7,
+           color=GREY, rot=-90)
+    sh.level_tag(y_n - 2.40, top, f"TOP OF SLAB +{top:.2f}")
+    sh.line(V3_STAIR[3] - 0.60, 1.65, 14.30, 2.45, w=LW_THIN, color=GREY)
+    sh.tag(15.15, 2.42, "STAIR BEYOND", size=1.8, color=GREY)
 
-    # what the cut passes through, named at each level
-    rooms = {0: ("Entrance lobby", "Fire lobby", "Store & plant"),
-             1: ("Apt A living", "Fire lobby", "Apt A bedroom"),
-             2: ("Apt A living", "Fire lobby", "Apt A bedroom"),
-             3: ("Living / dining", "Fire lobby", "Bedroom 2")}
-    for lv in SEC_LEVELS:
+    # --- dimensions -------------------------------------------------------
+    for lv in range(4):
         ffl = lv * FLOOR_TO_FLOOR
-        south, lobby, north = rooms[lv]
-        sh.tag((a_y0 + LF_Y0) / 2.0, ffl + 1.05, south.upper(), size=1.9,
-               color=INK)
-        sh.tag((LOB_Y0 + LOB_Y1) / 2.0, ffl + 1.05, lobby.upper(), size=1.7,
-               color=INK)
-        sh.tag((CORE_N + a_y1) / 2.0, ffl + 1.05, north.upper(), size=1.7,
-               color=INK)
-        if lv > 0:
-            sh.tag(A_Y0 - BALC_D / 2.0, ffl + 0.62,
-                   "TERRACE" if lv == 3 else "BALCONY", size=1.7, color=GREY,
-                   rot=-90)
-
-    # dimensions: storey heights on the left, the plan axis along the bottom
-    for lv in SEC_LEVELS:
-        ffl = lv * FLOOR_TO_FLOOR
-        sh.dim_v(ffl, ffl + FLOOR_TO_FLOOR if lv < 3 else roof, -1.60,
-                 f"{FLOOR_TO_FLOOR:.2f}" if lv < 3 else f"{roof - top:.2f}")
-    sh.dim_v(GARDEN_LEVEL, 0.0, -1.60)
-    sh.dim_v(GARDEN_LEVEL, roof, -2.65, f"{roof - GARDEN_LEVEL:.2f}")
-    sh.dim_h(A_Y0, A_Y1, -3.05, ext_from=GARDEN_LEVEL)
-    sh.dim_h(A_Y0 - BALC_D, A_Y0, -3.05)
-    sh.dim_h(CORE_N, a_y1, -2.05)
-    sh.dim_h(ST_Y0, ST_Y1, -2.05)
+        sh.dim_v(ffl, ffl + FLOOR_TO_FLOOR, y_b - 1.05)
+    sh.dim_v(roof, top, y_b - 1.05)
+    sh.dim_v(GARDEN_LEVEL, 0.0, y_b - 1.05)
+    sh.dim_v(GARDEN_LEVEL, top, y_b - 2.10, f"{top - GARDEN_LEVEL:.2f}")
+    sh.dim_h(y_s, y_n, -3.05, ext_from=GARDEN_LEVEL)
+    sh.dim_h(y_b, y_s, -3.05)
+    sh.dim_h(y_n, y_n + 1.00, -3.05)
+    sh.dim_h(V4_Y0, V4_Y1, top + PH_UPSTAND + 0.80, ext_from=top)
+    sh.dim_h(V4_Y1, y_n, top + PH_UPSTAND + 0.80)
 
     F.heading(sh)
     y = F.legend(sh, 52)
     y = F.datum_panel(sh, y + 8, "LEVEL DATUMS", [
-        ("Garden", f"{GARDEN_LEVEL:+.2f}"),
+        ("Forecourt and garden", f"{GARDEN_LEVEL:+.2f}"),
         ("Ground floor", "+0.00"),
         ("First floor", f"+{FLOOR_TO_FLOOR:.2f}"),
         ("Second floor", f"+{2 * FLOOR_TO_FLOOR:.2f}"),
-        ("Third floor", f"+{top:.2f}"),
-        ("Roof, top of slab", f"+{roof:.2f}"),
+        ("Third floor", f"+{3 * FLOOR_TO_FLOOR:.2f}"),
+        ("Penthouse floor", f"+{roof:.2f}"),
+        ("Penthouse, top of slab", f"+{top:.2f}"),
         ("Clear ceiling height", f"{CLEAR_HEIGHT:.2f} m"),
         ("Structural zone", f"{STRUCTURAL_ZONE:.2f} m"),
-        ("Overall, garden to roof", f"{roof - GARDEN_LEVEL:.2f} m")])
+        ("Overall, garden to top", f"{top - GARDEN_LEVEL:.2f} m")])
     F.notes(sh, y + 6, [
-        "Section looking west, cut on the line marked A–A on the floor "
-        "plans: through the south glazing, the lift shaft, the protected "
-        "lobby, the stair and the room at the north end of block A.",
-        "Both ends of block A are glazed: the north boundary is open, so "
-        "the cut passes through a north window at every level. The light "
-        "court that stood here in P3 has been built over, giving back "
-        "7.3 m² a floor.",
-        "The lift shaft is built full height with removable infill slabs "
-        "at each level, shown dashed, so a lift can be installed later "
-        "without cutting structure. Pit and overrun are indicative and to "
-        "be confirmed against the chosen lift.",
-        "Flat slab on the column grid, 300 mm structural zone, giving "
-        "3.00 m clear at every level and 3.30 m floor to floor.",
-        "The stair is enclosed in the middle of block A and has no "
-        "external wall, so it is smoke-vented at its head by a "
-        f"{AOV_AREA:.1f} m² automatic opening vent through the roof slab, "
-        "shown open. The single-stair strategy is the client's decision "
-        "and still needs the authority's agreement.",
-        "Foundations are shown indicatively only and are subject to a "
-        "ground investigation and the engineer's design.",
+        f"Final draft — layout agreed. Looking west, cut on the line "
+        f"marked A–A on every plan, at x {SEC_X_V:.2f}. That line is not "
+        f"arbitrary: it is the one north-south cut that passes through a "
+        f"room at every level and through every wet room in the east "
+        f"strip, and it clears all three column lines, so the slabs are "
+        f"seen spanning rather than a column standing in the cut.",
+        "The wet rooms on the first and second floors sit one over the "
+        "other, wall for wall — 8.60, 10.30 and 12.42 on both — so each "
+        "drops a single drainage stack straight to the ground. The third "
+        "floor divides the strip on its own lines and is shown as it is.",
+        f"Flat slab on the column grid, {STRUCTURAL_ZONE * 1000:.0f} mm "
+        f"structural zone, giving {CLEAR_HEIGHT:.2f} m clear at every "
+        f"level and {FLOOR_TO_FLOOR:.2f} m floor to floor; the penthouse "
+        f"is {top - roof:.2f} m floor to top of slab.",
+        f"The south cantilever is carried on all three upper floors and "
+        f"the penthouse. It projects {proj:.2f} m at this cut, against "
+        f"{V3_WAVE_W:.2f} m at the west end of the curve and "
+        f"{V3_WAVE_E:.2f} m at the east, with a glass balustrade at the "
+        f"slab edge.",
+        "The penthouse stands clear of the north edge, leaving the roof "
+        "terrace beyond its north wall. The corridor that joins the two "
+        "terraces runs west of this cut and does not appear; see A-104.",
+        "The stair is drawn in thin line beyond the cut, where it is seen "
+        "through the open spine. Foundations are indicative only and "
+        "subject to a ground investigation and the engineer's design.",
     ])
     fx.scale_bar(sh, 96, 556, metres=10)
     F.titleblock(sh)
     return sh
-
 
 # ===========================================================================
 # A-300 / A-301 / A-302  ENLARGED PLANS AT 1:25

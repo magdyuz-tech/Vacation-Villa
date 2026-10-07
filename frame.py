@@ -49,7 +49,9 @@ REVISIONS = [
      "penthouse: 2.51 m corridor outside the flat; living room to the face"),
     ("P12", "2026-10-07",
      "bedrooms numbered 1-11; all five floors issued as final draft"),
-    ("P13", None, "site plan redrawn for the detached villa"),
+    ("P13", "2026-10-07", "site plan redrawn for the detached villa"),
+    ("P14", None,
+     "section A-A recut through the east strip, and marked on every plan"),
 ]
 STATUS = "Preliminary design issue — not for construction."
 STATUS_FINAL_DRAFT = ("Final draft — layout agreed with the client; "
