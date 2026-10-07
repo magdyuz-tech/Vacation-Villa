@@ -254,6 +254,18 @@ TER_N_Y0, TER_N_Y1 = 15.00, 17.70      # north terrace, block B, 2.70 m deep
 # Only the third floor is drawn to this envelope for now, at the client's
 # instruction; floors 0-2, the site plan and the section still sit on the old
 # 11.50 x 14.50 footprint and must follow before the set is coherent again.
+# --- the neighbours, as surveyed -------------------------------------------
+# Recorded because the window strategy rests on them, not as decoration.
+# The east house is a single storey in clay brick standing 1.00 m from our
+# east wall, low enough that every east window from the first floor up
+# looks over its roof.  The west house is three storeys and blind toward
+# our entrance garden.  Had those two been the other way round, the east
+# elevation would have needed rethinking rather than redrawing.
+NBR_W_STOREYS = 3              # west: three storeys, blind to our garden
+NBR_E_STOREYS = 1              # east: single storey, clay brick
+NBR_N_STOREYS = None           # north: not surveyed yet, assumed low
+NBR_STOREY_H = 3.00            # an existing storey, for the overlooking check
+
 SETBACK = 1.00
 V3_X0, V3_X1 = A_X0 + SETBACK, B_X1 - SETBACK      # 12.50 .. 22.00   (9.50)
 V3_Y0, V3_Y1 = A_Y0, A_Y1 - SETBACK                #  3.50 .. 17.00  (13.50)
@@ -434,9 +446,13 @@ EL_PROFILES = ("agreed", "serpentine", "bow")
 # ---------------------------------------------------------------------------
 # openings, revision P6 third floor
 # ---------------------------------------------------------------------------
-# East and north take ordinary windows: the neighbours on both sides are
-# 3.00 m high, so neither looks into this floor.  The west takes ventilation
-# openings only - louvred, for air and a little light, never a balcony.
+# East and north take ordinary windows.  The EAST neighbour is a single
+# storey - see NBR_E_STOREYS - so from the first floor up these windows
+# look clean over its roof, which is the whole reason the east wall can be
+# glazed at all with only 1.00 m between the two buildings.  The west
+# takes ventilation openings only: louvred, for air and a little light,
+# never a balcony.  The west neighbour is three storeys and presents a
+# blind flank to our garden, which is one more reason nothing opens west.
 # Every range clears the 300 mm columns on V3_GRID_X / V3_GRID_Y.
 V3_WIN_S_LIV = [(13.00, 15.30), (15.60, 17.20)]    # living, to the balcony
 V3_DOOR_BALC = (13.00, 15.30)   # of those, the sliding door onto it

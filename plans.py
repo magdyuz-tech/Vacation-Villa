@@ -334,13 +334,25 @@ def garden(sh):
 
 
 def villa_neighbours(sh):
-    """Detached: a neighbour on the west, north and east, 1.00 m clear."""
+    """The three neighbours, named by what was surveyed rather than hatched.
+
+    Their heights are not decoration: the east wall can only be glazed
+    because the house on that side is a single storey, and the west wall
+    is blind partly because the house on that side is three and faces us
+    with no openings.  A site plan that says only "neighbouring plot"
+    throws that away.
+    """
     _hatch(sh, 0.0, 5.0, 11.5, 14.55)
-    sh.tag(5.70, 12.10, "NEIGHBOURING PLOT", size=2.8, color=LIGHT)
+    sh.tag(5.70, 12.40, "NEIGHBOURING PLOT", size=2.6, color=LIGHT)
+    sh.tag(5.70, 11.35, f"{NBR_W_STOREYS} STOREYS, BLIND TO OUR GARDEN",
+           size=2.0, color=LIGHT)
     _hatch(sh, 11.5, 18.0, 11.5, 1.55)
-    sh.tag(17.25, 18.75, "NEIGHBOURING PLOT", size=2.3, color=LIGHT)
+    sh.tag(17.25, 18.75, "NEIGHBOURING PLOT — HEIGHT NOT SURVEYED",
+           size=2.0, color=LIGHT)
     _hatch(sh, 23.0, 0.0, 2.05, 19.55)
-    sh.tag(24.05, 9.50, "NEIGHBOURING PLOT", size=2.3, color=LIGHT, rot=-90)
+    sh.tag(23.75, 9.50, "NEIGHBOURING PLOT", size=2.2, color=LIGHT, rot=-90)
+    sh.tag(24.65, 9.50, f"SINGLE STOREY, CLAY BRICK", size=2.0, color=LIGHT,
+           rot=-90)
 
 
 def villa_garden(sh):
@@ -402,7 +414,7 @@ def villa_garden(sh):
 def sheet_site():
     D.set_scale(75, *SITE_ORIGIN)
     sh = Sheet("A-000", "Site Plan — Detached Villa", "+0.00", "1:75 @ A1")
-    sh.rev, sh.status = "P14", F.STATUS_FINAL_DRAFT
+    sh.rev, sh.status = "P16", F.STATUS_FINAL_DRAFT
     F.border(sh)
     villa_neighbours(sh)
     street(sh)
@@ -1787,7 +1799,7 @@ def sheet_third():
     sh = Sheet("A-103", "Third Floor Plan — Detached Villa", "+9.90",
                "1:50 @ A1")
     # P9: the stair no longer stops here, it carries on to the penthouse
-    sh.rev, sh.status = "P14", F.STATUS_FINAL_DRAFT
+    sh.rev, sh.status = "P16", F.STATUS_FINAL_DRAFT
     F.border(sh)
 
     # the three setback lines, so the 1.00 m gap is measurable on the sheet
@@ -1852,21 +1864,21 @@ def sheet_third():
         "north and west before east on each floor; the ground "
         "floor's room is the guest bedroom and carries no number.",
         "The west strip south of bedroom 9 is one room: no wall divides "
-        "the living area from the stair standing in it, and the pantry is "
-        "its only enclosure. The stair is a private villa stair — 900 mm "
-        "flights, 18R at 183 × 260, landing 950 mm — needing no enclosure, "
-        "no smoke vent and no lift.",
+        "the living area from the stair standing in it. The stair is a "
+        "private villa stair — 900 mm flights, 18R at 183 × 260 — needing "
+        "no enclosure, no smoke vent and no lift.",
         f"The south cantilever is reinforced concrete: one asymmetric "
         f"curve bowed outward, {V3_WAVE_W:.2f} m at the west end sweeping "
         f"away to {V3_WAVE_E:.2f} m at the east. Every point on the edge "
         "stands outside the line joining the two ends.",
-        "East and north carry ordinary windows; both neighbours are "
-        "3.00 m high. The west carries louvred ventilation only.",
+        f"East and north carry ordinary windows. The east neighbour is a "
+        f"single storey in clay brick 1.00 m away, so they clear its roof "
+        f"by {FLOOR_TO_FLOOR + EL_SILL - NBR_E_STOREYS * NBR_STOREY_H:.2f} m "
+        f"at the first floor. The west is louvred only — that neighbour is "
+        f"{NBR_W_STOREYS} storeys, and blind toward us.",
         "Bedroom 8 and the shared bath open off the living area; bedrooms "
-        "9 and 10 off the hall, which stops once it has served those two "
-        "doors — the 2.08 m of dead end beyond goes to bedroom 9, which "
-        "turns the corner behind it at 16.4 m². Bedroom 10 has no balcony: "
-        "it takes the north wall and two windows instead.",
+        "9 and 10 off the hall, whose dead end goes to bedroom 9. Bedroom "
+        "10 has no balcony: it takes the north wall and two windows.",
     ])
 
     F.compass_and_scale(sh, x=470.0, y=500.0)
