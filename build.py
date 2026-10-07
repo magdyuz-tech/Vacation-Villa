@@ -52,6 +52,11 @@ def main():
               f"{os.path.getsize(pdf) / 1024:6.0f} kB pdf   "
               f"{os.path.getsize(png) / 1024:6.0f} kB png ({px}px)")
 
+    print("\nbound set")
+    path, bound = export_share.bind(os.path.join(HERE, "pdf"), HERE)
+    print(f"{os.path.basename(path):34s} "
+          f"{os.path.getsize(path) / 1024:6.0f} kB   {len(bound)} sheets")
+
     print("\nviewer")
     out = viewer.build(os.path.join(HERE, "drawings"),
                        os.path.join(HERE, "drawing-set.html"))

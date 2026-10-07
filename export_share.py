@@ -47,3 +47,39 @@ if __name__ == "__main__":
         print(f"  {os.path.basename(pdf):42s} "
               f"{os.path.getsize(pdf) / 1024:7.0f} kB pdf  "
               f"{os.path.getsize(png) / 1024:7.0f} kB png")
+
+# the sheets the villa set is issued as, in the order they are read.  The
+# A-300 enlargements are left out on purpose: they are three enlargements
+# of apartment units that no longer exist, so binding them into the set
+# would hand the reader drawings of a different building.
+SET_ORDER = ["A-000", "A-100", "A-101", "A-102", "A-103", "A-104", "A-200"]
+
+
+def bind(pdf_dir, out_dir=None, rev=None):
+    """One combined PDF of the whole issued set, in sheet order."""
+    from pypdf import PdfReader, PdfWriter
+
+    import frame as F
+
+    rev = rev or F.REVISIONS[-1][0]
+    out_dir = out_dir or pdf_dir
+    files = sorted(os.listdir(pdf_dir))
+    writer, bound = PdfWriter(), []
+    for number in SET_ORDER:
+        hit = [f for f in files if f.startswith(number) and f.endswith(".pdf")]
+        if len(hit) != 1:
+            raise SystemExit(f"{number}: expected one sheet, found {hit}")
+        reader = PdfReader(os.path.join(pdf_dir, hit[0]))
+        for page in reader.pages:
+            writer.add_page(page)
+        bound.append(hit[0])
+    writer.add_metadata({
+        "/Title": f"Detached Vacation Villa - drawing set, revision {rev}",
+        "/Subject": "Site plan, five floor plans and section A-A. "
+                    "Final draft, not for construction.",
+        "/Creator": "floor-plans/plans.py",
+    })
+    path = os.path.join(out_dir, f"vacation-villa-drawing-set-{rev}.pdf")
+    with open(path, "wb") as fh:
+        writer.write(fh)
+    return path, bound
