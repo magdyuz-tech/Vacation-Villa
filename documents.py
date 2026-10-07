@@ -49,9 +49,9 @@ OPEN_ITEMS = [
     "north wall carries windows on all five levels; only the ground floor "
     "looks at anything, and from +3.30 up they clear its roof. Its exact "
     "height and position still come with SUR-001.",
-    "Three exterior schemes are live on one agreed building. The scheme "
-    "selection (CLI-001) gates the details, the finishes and the finishes "
-    "quantities.",
+    "The exterior is settled: scheme A, “Wave”, adopted at P18. Schemes B "
+    "and C still build and stay in the repository as the record of what "
+    "was offered, stamped not selected and left out of the issue.",
     "Sheets A-300, A-301 and A-302 are enlargements of apartment units "
     "that no longer exist. They are already left out of the bound set and "
     "should be formally withdrawn rather than reissued.",
@@ -164,8 +164,71 @@ def write_markdown(out_dir=None):
     return path
 
 
+# --------------------------------------------------------------------------
+# the decisions record
+# --------------------------------------------------------------------------
+# What the client settled, when, and what each answer moved.  Written down
+# because a decision that lives only in a conversation gets re-argued, and
+# because several of these are the reason a drawing looks the way it does.
+# Each one names the constant it became, so the record and the geometry
+# cannot drift: a decision nobody implemented has nothing to point at.
+DECISIONS = [
+    ("2026-10-07", "Exterior scheme",
+     "Scheme A, “Wave” — the serpentine balcony and the contemporary skin, "
+     "chosen from three live options plus the curve then drawn.",
+     "geometry.SCHEME / geometry.PROFILE",
+     "The plans carried the superseded curve, 17.4 m² a floor to the full "
+     "2.00 m. They are redrawn to the serpentine: 1.95 m at each end, "
+     "0.75 m at the waist, 12.8 m² a floor. A-000 and A-100 to A-104 "
+     "re-issued at P18; schemes B and C stamped not selected and dropped "
+     "from the issue."),
+    ("2026-10-07", "Site",
+     "Shamandeel, Quesna, Menoufia, Egypt — central Nile Delta.",
+     "frame.LOCATION / frame.CODES",
+     "Printed in the title block of every sheet. Fixes ECP 201 and ECP 203 "
+     "as the governing codes, and with them the seismic and wind basis the "
+     "structural engineer will name on STR-001."),
+    ("2026-10-07", "Ground conditions",
+     "Delta ground, known as a region; no site investigation commissioned.",
+     "—",
+     "Enough to assume a foundation type and lay the structure out, not "
+     "enough to size one. GEO-001 stays open and no soil value is written "
+     "on any sheet."),
+    ("2026-10-07", "North neighbour",
+     "A single storey, as on the east.",
+     "geometry.NBR_N_STOREYS",
+     "The last unknown face. Only the ground-floor north windows look at "
+     "anything; from +3.30 up they clear its roof. Nothing in the plans "
+     "had to move."),
+]
+
+
+def decisions_markdown():
+    out = ["# Client Instructions and Decisions", "",
+           "Every instruction that changed the drawings, in the order they "
+           "were given. The third column is the constant the decision "
+           "became, so a decision cannot be recorded here and left "
+           "unbuilt.", ""]
+    for when, subject, decision, constant, effect in DECISIONS:
+        out += [f"## {subject} — {when}", "",
+                f"**Instruction.** {decision}", "",
+                f"**Where it lives.** `{constant}`", "",
+                f"**What it moved.** {effect}", ""]
+    return "\n".join(out) + "\n"
+
+
+def write_decisions(out_dir=None):
+    out_dir = out_dir or os.path.join(HERE, "documents")
+    os.makedirs(out_dir, exist_ok=True)
+    path = os.path.join(out_dir, "client-decisions.md")
+    with open(path, "w", encoding="utf-8") as fh:
+        fh.write(decisions_markdown())
+    return path
+
+
 # file name -> what writes it.  deliverables.status() reads the keys.
-RENDERS = {"master-deliverables-list.md": write_markdown}
+RENDERS = {"master-deliverables-list.md": write_markdown,
+           "client-decisions.md": write_decisions}
 
 
 # --------------------------------------------------------------------------

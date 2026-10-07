@@ -376,7 +376,6 @@ V3_DOOR_BED3 = (13.20, 14.10)  # hall into bedroom 3, through its east wall
 V3_WAVE_SPAN = (V3_X0, V3_X1)
 V3_WAVE_W = 2.00               # projection at the west end, and the deepest
 V3_WAVE_E = 1.50               # projection at the east end
-V3_WAVE_MAX = max(V3_WAVE_W, V3_WAVE_E)
 
 # The client's cap, held separately from the figures that generate the curve
 # and never read by them.  Checking the deep end against V3_WAVE_W would
@@ -414,8 +413,15 @@ EL_FACET_RUN = 2.40                       # the straight run at each end
 EL_FACET_BLEND = 1.20                     # each transition
 
 
-def wave_projection(x, profile="agreed"):
-    """Projection of the south cantilever at plan x, metres from the wall."""
+def wave_projection(x, profile=None):
+    """Projection of the south cantilever at plan x, metres from the wall.
+
+    `profile` left out means the adopted one - PROFILE, below.  It was the
+    literal "agreed" until the client chose scheme A, and leaving it that
+    way would have kept every plan drawing the superseded curve while the
+    elevations drew the chosen one.
+    """
+    profile = profile or PROFILE
     x0, x1 = V3_WAVE_SPAN
     t = (x - x0) / (x1 - x0)
     if profile == "serpentine":
@@ -446,8 +452,9 @@ def wave_projection(x, profile="agreed"):
     return V3_WAVE_W + (V3_WAVE_E - V3_WAVE_W) * t * t
 
 
-def wave_area(profile="agreed"):
+def wave_area(profile=None):
     """Area under the curve: the projection integrated along the span."""
+    profile = profile or PROFILE
     if profile == "agreed":
         return (V3_WAVE_W + (V3_WAVE_E - V3_WAVE_W) / 3.0) * (V3_X1 - V3_X0)
     x0, x1 = V3_WAVE_SPAN
@@ -457,12 +464,12 @@ def wave_area(profile="agreed"):
                for i in range(n)) * step
 
 
-def wave_edge(x, profile="agreed"):
+def wave_edge(x, profile=None):
     """Plan y of the cantilever's slab edge at x."""
     return V3_Y0 - wave_projection(x, profile)
 
 
-def wave_points(n=72, offset=0.0, profile="agreed"):
+def wave_points(n=72, offset=0.0, profile=None):
     """The slab edge, or a curve parallel to it, as a list of (x, y).
 
     `offset` moves the curve inboard, which is how the balustrade, the
@@ -475,6 +482,44 @@ def wave_points(n=72, offset=0.0, profile="agreed"):
 
 
 EL_PROFILES = ("agreed", "serpentine", "facet", "bow")
+
+# --- the scheme the client chose, revision P18 -----------------------------
+# Scheme A, "Wave": the serpentine curve and the contemporary skin.  Held
+# here rather than passed from sheet to sheet, because once a scheme is
+# chosen it stops being an option and becomes the building - and every
+# drawing in the set has to agree about it.  The default profile of the
+# wave_* functions now resolves to this, so the plans, the section, the
+# elevations and the quantities are all measuring one balcony.
+#
+# "agreed" stays in EL_PROFILES: it is the curve the set carried up to
+# P17, and the comparison on A-430 would be dishonest without the thing
+# that was given up.
+SCHEME = "A"
+PROFILE = "serpentine"
+
+
+def wave_depths(profile=None):
+    """(deepest, shallowest, x of the shallowest) of a curve.
+
+    Sampled rather than solved, because each profile reaches its extremes
+    differently - the serpentine at its ends, the bow at its middle, the
+    facet along a flat run - and a sample works for all of them and for
+    any curve added later.
+    """
+    x0, x1 = V3_WAVE_SPAN
+    n = 400
+    p = [(wave_projection(x0 + (x1 - x0) * i / n, profile),
+          x0 + (x1 - x0) * i / n) for i in range(n + 1)]
+    shallow, sx = min(p)
+    return max(p)[0], shallow, sx
+
+
+# The adopted curve's figures, which is what the plans dimension and the
+# notes quote.  V3_WAVE_W and V3_WAVE_E above are not these: they are the
+# two ends of the superseded "agreed" parabola and generate that profile
+# alone.  Reading them on a drawing would state the old balcony.
+V3_WAVE_DEEP, V3_WAVE_WAIST, V3_WAVE_WAIST_X = wave_depths()
+V3_WAVE_MAX = V3_WAVE_DEEP
 
 
 # ---------------------------------------------------------------------------

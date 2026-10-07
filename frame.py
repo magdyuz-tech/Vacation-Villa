@@ -66,8 +66,10 @@ REVISIONS = [
      "exterior: two schemes, elevations and balcony curves"),
     ("P16", "2026-10-07",
      "neighbours as surveyed: west 3 storeys and blind, east single storey"),
-    ("P17", None,
+    ("P17", "2026-10-07",
      "ARC-000 deliverables list; title corrected to five storeys"),
+    ("P18", None,
+     "scheme A adopted: serpentine balcony on every plan; site named"),
 ]
 STATUS = "Preliminary design issue — not for construction."
 STATUS_FINAL_DRAFT = ("Final draft — layout agreed with the client; "

@@ -350,8 +350,9 @@ def villa_neighbours(sh):
     sh.tag(5.70, 11.35, f"{NBR_W_STOREYS} STOREYS, BLIND TO OUR GARDEN",
            size=2.0, color=LIGHT)
     _hatch(sh, 11.5, 18.0, 11.5, 1.55)
-    sh.tag(17.25, 18.75, "NEIGHBOURING PLOT — HEIGHT NOT SURVEYED",
-           size=2.0, color=LIGHT)
+    sh.tag(17.25, 18.75,
+           f"NEIGHBOURING PLOT — {NBR_N_STOREYS} STOREY", size=2.0,
+           color=LIGHT)
     _hatch(sh, 23.0, 0.0, 2.05, 19.55)
     sh.tag(23.75, 9.50, "NEIGHBOURING PLOT", size=2.2, color=LIGHT, rot=-90)
     sh.tag(24.65, 9.50, f"SINGLE STOREY, CLAY BRICK", size=2.0, color=LIGHT,
@@ -417,7 +418,7 @@ def villa_garden(sh):
 def sheet_site():
     D.set_scale(75, *SITE_ORIGIN)
     sh = Sheet("A-000", "Site Plan — Detached Villa", "+0.00", "1:75 @ A1")
-    sh.rev, sh.status = "P16", F.STATUS_FINAL_DRAFT
+    sh.rev, sh.status = "P18", F.STATUS_FINAL_DRAFT
     F.border(sh)
     villa_neighbours(sh)
     street(sh)
@@ -494,9 +495,10 @@ def sheet_site():
         "The setbacks are our own land, so each is a 1.00 m paved side "
         "passage rather than a dead strip, reached from the forecourt on "
         "the east and from the entrance garden on the west.",
-        f"The cantilever oversails the forecourt by {V3_WAVE_W:.2f} m at "
-        f"the west end and {V3_WAVE_E:.2f} m at the east, leaving at "
-        f"least {GARDEN_D_E - V3_WAVE_W:.2f} m clear to the street, and "
+        f"The cantilever oversails the forecourt by {V3_WAVE_DEEP:.2f} m "
+        f"at each end and draws in to {V3_WAVE_WAIST:.2f} m at the waist, "
+        f"leaving at least {GARDEN_D_E - V3_WAVE_DEEP:.2f} m clear to the "
+        f"street, and "
         "covers the front door and its three risers. Nothing projects "
         "over a boundary, but the overhang is subject to the local "
         "projection rule; confirm before construction.",
@@ -681,10 +683,9 @@ def _villa_ground_floor(sh):
     with sh.on("A-FLOR-OVER"):
         sh.poly(wave_points(), stroke=GREY, sw=LW_HIDDEN, dash="4 2.5",
                 close=False)
-        sh.line(V3_X0, V3_Y0 - V3_WAVE_W, V3_X0, V3_Y0, w=LW_HIDDEN,
-                color=GREY, dash="4 2.5")
-        sh.line(V3_X1, V3_Y0 - V3_WAVE_E, V3_X1, V3_Y0, w=LW_HIDDEN,
-                color=GREY, dash="4 2.5")
+        for x in (V3_X0, V3_X1):
+            sh.line(x, V3_Y0 - V3_WAVE_DEEP, x, V3_Y0, w=LW_HIDDEN,
+                    color=GREY, dash="4 2.5")
     sh.tag(17.25, 2.35, "BALCONY OVER — COVERED ENTRANCE", size=1.8,
            color=GREY)
 
@@ -804,7 +805,7 @@ def sheet_ground():
     D.set_scale(50, *PLAN_ORIGIN)
     sh = Sheet("A-100", "Ground Floor Plan \u2014 Detached Villa", "+0.00",
                "1:50 @ A1")
-    sh.rev, sh.status = "P14", F.STATUS_FINAL_DRAFT
+    sh.rev, sh.status = "P18", F.STATUS_FINAL_DRAFT
     F.border(sh)
 
     with sh.on("G-ANNO-BNDY"):
@@ -1263,7 +1264,7 @@ def sheet_second():
     D.set_scale(50, *PLAN_ORIGIN)
     sh = Sheet("A-102", "Second Floor Plan — Detached Villa", "+6.60",
                "1:50 @ A1")
-    sh.rev, sh.status = "P14", F.STATUS_FINAL_DRAFT
+    sh.rev, sh.status = "P18", F.STATUS_FINAL_DRAFT
     F.border(sh)
 
     with sh.on("G-ANNO-BNDY"):
@@ -1292,9 +1293,9 @@ def sheet_second():
     sh.dim_v(V2_S2_BED_Y1, V2_ENS2_Y1, 23.25)
     sh.dim_v(V2_ENS2_Y1, V3_BED3_Y0, 23.25)
     sh.dim_v(V3_BED3_Y0, V3_Y1, 23.25)
-    # the cantilever's two ends
-    sh.dim_v(V3_Y0 - V3_WAVE_W, V3_Y0, 12.10)
-    sh.dim_v(V3_Y0 - V3_WAVE_E, V3_Y0, 22.45)
+    # the cantilever's two ends, both at the deep end of the serpentine
+    sh.dim_v(V3_Y0 - V3_WAVE_DEEP, V3_Y0, 12.10)
+    sh.dim_v(V3_Y0 - V3_WAVE_DEEP, V3_Y0, 22.45)
 
     sh.tag(24.00, 7.00, "OPEN ASPECT — WINDOWS TO EAST", size=2.0,
            color=INK, rot=-90)
@@ -1302,8 +1303,8 @@ def sheet_second():
            color=INK)
     sh.tag(11.60, 6.60, "VENTILATION ONLY — NO BALCONY WEST", size=2.0,
            color=INK, rot=-90)
-    sh.tag(17.25, 0.25, f"CANTILEVER — SINGLE ASYMMETRIC CURVE, "
-           f"{V3_WAVE_W:.2f} m WEST → {V3_WAVE_E:.2f} m EAST",
+    sh.tag(17.25, 0.25, f"CANTILEVER — SERPENTINE, {V3_WAVE_DEEP:.2f} m "
+           f"AT EACH END → {V3_WAVE_WAIST:.2f} m AT THE WAIST",
            size=2.0, color=INK)
 
     sh.level_tag(13.00, 4.25, "FFL +6.60")
@@ -1331,11 +1332,10 @@ def sheet_second():
         "between the columns, so lobby and landing read as one space. It "
         "serves bedroom 5, the shared bath and bedroom 7. Bedroom 6 has "
         "the old hall — the whole north-west quarter, 18.8 m².",
-        f"The cantilever is carried here too — the same curve, "
-        f"{V3_WAVE_W:.2f} m west to {V3_WAVE_E:.2f} m east, "
-        f"{wave_area():.1f} m² — so it runs all three upper floors and the "
-        "slabs stack. Both suites open onto it; a screen between the two "
-        "is worth considering.",
+        f"The cantilever is carried here too — the same serpentine, "
+        f"{V3_WAVE_DEEP:.2f} m at each end, {V3_WAVE_WAIST:.2f} m at the "
+        f"waist, {wave_area():.1f} m². Both suites open onto it; a screen "
+        f"between them is worth considering.",
     ])
 
     F.compass_and_scale(sh, x=470.0, y=500.0)
@@ -1516,7 +1516,7 @@ def sheet_first():
     D.set_scale(50, *PLAN_ORIGIN)
     sh = Sheet("A-101", "First Floor Plan — Detached Villa", "+3.30",
                "1:50 @ A1")
-    sh.rev, sh.status = "P14", F.STATUS_FINAL_DRAFT
+    sh.rev, sh.status = "P18", F.STATUS_FINAL_DRAFT
     F.border(sh)
 
     with sh.on("G-ANNO-BNDY"):
@@ -1539,8 +1539,8 @@ def sheet_first():
     sh.dim_v(V1_MBED_Y1, V1_ENS_Y1, 23.25)
     sh.dim_v(V1_ENS_Y1, V3_BED3_Y0, 23.25)
     sh.dim_v(V3_BED3_Y0, V3_Y1, 23.25)
-    sh.dim_v(V3_Y0 - V3_WAVE_W, V3_Y0, 12.10)
-    sh.dim_v(V3_Y0 - V3_WAVE_E, V3_Y0, 22.45)
+    sh.dim_v(V3_Y0 - V3_WAVE_DEEP, V3_Y0, 12.10)
+    sh.dim_v(V3_Y0 - V3_WAVE_DEEP, V3_Y0, 22.45)
 
     sh.tag(24.00, 7.00, "OPEN ASPECT — WINDOWS TO EAST", size=2.0,
            color=INK, rot=-90)
@@ -1548,8 +1548,8 @@ def sheet_first():
            color=INK)
     sh.tag(11.60, 6.60, "VENTILATION ONLY — NO BALCONY WEST", size=2.0,
            color=INK, rot=-90)
-    sh.tag(17.25, 0.25, f"CANTILEVER — SINGLE ASYMMETRIC CURVE, "
-           f"{V3_WAVE_W:.2f} m WEST → {V3_WAVE_E:.2f} m EAST",
+    sh.tag(17.25, 0.25, f"CANTILEVER — SERPENTINE, {V3_WAVE_DEEP:.2f} m "
+           f"AT EACH END → {V3_WAVE_WAIST:.2f} m AT THE WAIST",
            size=2.0, color=INK)
 
     sh.level_tag(13.00, 4.25, "FFL +3.30")
@@ -1582,8 +1582,9 @@ def sheet_first():
         "ventilation only. The hall to the north bedrooms stops at its "
         "last door; the dead end beyond goes to bedroom 2, 16.4 m².",
         f"The cantilever runs on all three upper floors and the penthouse "
-        f"— the same curve, {V3_WAVE_W:.2f} m west sweeping to "
-        f"{V3_WAVE_E:.2f} m east, {wave_area():.1f} m² — with sliding "
+        f"— the same serpentine, {V3_WAVE_DEEP:.2f} m deep at each end "
+        f"drawing in to {V3_WAVE_WAIST:.2f} m at the waist, "
+        f"{wave_area():.1f} m² — with sliding "
         "doors from the living area and bedroom 1.",
     ])
 
@@ -1802,7 +1803,7 @@ def sheet_third():
     sh = Sheet("A-103", "Third Floor Plan — Detached Villa", "+9.90",
                "1:50 @ A1")
     # P9: the stair no longer stops here, it carries on to the penthouse
-    sh.rev, sh.status = "P16", F.STATUS_FINAL_DRAFT
+    sh.rev, sh.status = "P18", F.STATUS_FINAL_DRAFT
     F.border(sh)
 
     # the three setback lines, so the 1.00 m gap is measurable on the sheet
@@ -1835,9 +1836,9 @@ def sheet_third():
     sh.dim_v(V3_S1_Y1, V3_BATH_Y1, 23.25)
     sh.dim_v(V3_BATH_Y1, V3_S2_ENS_Y1, 23.25)
     sh.dim_v(V3_S2_ENS_Y1, V3_Y1, 23.25)
-    # the cantilever's two ends
-    sh.dim_v(V3_Y0 - V3_WAVE_W, V3_Y0, 12.10)
-    sh.dim_v(V3_Y0 - V3_WAVE_E, V3_Y0, 22.45)
+    # the cantilever's two ends, both at the deep end of the serpentine
+    sh.dim_v(V3_Y0 - V3_WAVE_DEEP, V3_Y0, 12.10)
+    sh.dim_v(V3_Y0 - V3_WAVE_DEEP, V3_Y0, 22.45)
 
     sh.tag(24.00, 7.00, "OPEN ASPECT — WINDOWS TO EAST", size=2.0,
            color=INK, rot=-90)
@@ -1845,8 +1846,8 @@ def sheet_third():
            color=INK)
     sh.tag(11.60, 6.60, "VENTILATION ONLY — NO BALCONY WEST", size=2.0,
            color=INK, rot=-90)
-    sh.tag(17.25, 0.25, f"CANTILEVER — SINGLE ASYMMETRIC CURVE, "
-           f"{V3_WAVE_W:.2f} m WEST → {V3_WAVE_E:.2f} m EAST",
+    sh.tag(17.25, 0.25, f"CANTILEVER — SERPENTINE, {V3_WAVE_DEEP:.2f} m "
+           f"AT EACH END → {V3_WAVE_WAIST:.2f} m AT THE WAIST",
            size=2.0, color=INK)
 
     sh.level_tag(19.00, 4.10, "FFL +9.90")
@@ -1870,10 +1871,10 @@ def sheet_third():
         "the living area from the stair standing in it. The stair is a "
         "private villa stair — 900 mm flights, 18R at 183 × 260 — needing "
         "no enclosure, no smoke vent and no lift.",
-        f"The south cantilever is reinforced concrete: one asymmetric "
-        f"curve bowed outward, {V3_WAVE_W:.2f} m at the west end sweeping "
-        f"away to {V3_WAVE_E:.2f} m at the east. Every point on the edge "
-        "stands outside the line joining the two ends.",
+        f"The south cantilever is reinforced concrete: a serpentine of "
+        f"one full period, {V3_WAVE_DEEP:.2f} m deep at both ends and "
+        f"drawn in to {V3_WAVE_WAIST:.2f} m at the waist, where it is a "
+        f"planting ledge rather than somewhere to stand.",
         f"East and north carry ordinary windows. The east neighbour is a "
         f"single storey in clay brick 1.00 m away, so they clear its roof "
         f"by {FLOOR_TO_FLOOR + EL_SILL - NBR_E_STOREYS * NBR_STOREY_H:.2f} m "
@@ -2087,7 +2088,7 @@ def sheet_penthouse():
     D.set_scale(50, *PLAN_ORIGIN)
     sh = Sheet("A-104", "Penthouse Plan — Detached Villa", V4_LEVEL,
                "1:50 @ A1")
-    sh.rev, sh.status = "P14", F.STATUS_FINAL_DRAFT
+    sh.rev, sh.status = "P18", F.STATUS_FINAL_DRAFT
     F.border(sh)
 
     with sh.on("G-ANNO-BNDY"):
@@ -2110,15 +2111,15 @@ def sheet_penthouse():
     sh.dim_v(V4_LIV_Y1, V4_BATH_Y1, 23.25)
     sh.dim_v(V4_BATH_Y1, V4_Y1, 23.25)
     sh.dim_v(V4_Y1, V3_Y1, 23.25)
-    sh.dim_v(V3_Y0 - V3_WAVE_W, V3_Y0, 12.10)
-    sh.dim_v(V3_Y0 - V3_WAVE_E, V3_Y0, 22.45)
+    sh.dim_v(V3_Y0 - V3_WAVE_DEEP, V3_Y0, 12.10)
+    sh.dim_v(V3_Y0 - V3_WAVE_DEEP, V3_Y0, 22.45)
 
     sh.tag(24.00, 14.00, "OPEN ASPECT — WINDOWS TO EAST", size=2.0,
            color=INK, rot=-90)
     sh.tag(19.60, 17.45, "OPEN ASPECT — WINDOWS TO NORTH", size=2.0,
            color=INK)
-    sh.tag(17.25, 0.25, f"CANTILEVER CARRIED TO THE TOP — "
-           f"{V3_WAVE_W:.2f} m WEST → {V3_WAVE_E:.2f} m EAST",
+    sh.tag(17.25, 0.25, f"CANTILEVER CARRIED TO THE TOP — SERPENTINE, "
+           f"{V3_WAVE_DEEP:.2f} m AT EACH END → {V3_WAVE_WAIST:.2f} m",
            size=2.0, color=INK)
 
     F.heading(sh)
@@ -2258,7 +2259,7 @@ def sheet_section():
     D.set_scale(50, *SEC_ORIGIN)
     sh = Sheet("A-200", "Section A–A — Detached Villa",
                "looking west", "1:50 @ A1")
-    sh.rev, sh.status = "P14", F.STATUS_FINAL_DRAFT
+    sh.rev, sh.status = "P18", F.STATUS_FINAL_DRAFT
     F.border(sh)
 
     y_s, y_n = V3_Y0, V3_Y1                      # 3.50 .. 17.00
@@ -2381,8 +2382,9 @@ def sheet_section():
         f"is {top - roof:.2f} m floor to top of slab.",
         f"The south cantilever is carried on all three upper floors and "
         f"the penthouse. It projects {proj:.2f} m at this cut, against "
-        f"{V3_WAVE_W:.2f} m at the west end of the curve and "
-        f"{V3_WAVE_E:.2f} m at the east, with a glass balustrade at the "
+        f"{V3_WAVE_DEEP:.2f} m at each end of the curve and "
+        f"{V3_WAVE_WAIST:.2f} m at its waist, with a glass balustrade at "
+        f"the "
         f"slab edge.",
         "The penthouse stands clear of the north edge, leaving the roof "
         "terrace beyond its north wall. The corridor that joins the two "
@@ -2590,10 +2592,10 @@ EL_KEY["C"] = [("Walls", "warm limestone render"),
                ("Top of building", f"+{EL_TOP:.2f}")]
 
 _EL_COMMON = (
-    "Preliminary — the exterior only. The plans, site plan and section are "
-    "agreed at P14 and nothing here changes them: same five levels, same "
-    "9.50 × 13.50 m footprint, same 1.00 m setbacks, same openings. Only "
-    "the skin differs between the two schemes.",
+    "The exterior only. The plans, site plan and section are agreed and "
+    "re-issued at P18 to the adopted curve; nothing here changes the rest "
+    "of them: same five levels, same 9.50 × 13.50 m footprint, same 1.00 m "
+    "setbacks, same openings. Only the skin differs between the schemes.",
     "Every opening drawn here is read from the plan it belongs to rather "
     "than redrawn, and checks.py fails the build if an elevation ever "
     "shows one the plan does not have.",
@@ -2611,11 +2613,13 @@ EL_NOTES = {
         f"drawn in to {EL_SERP_MEAN - EL_SERP_AMP:.2f} m at the waist. At "
         f"the waist it is a planting ledge rather than somewhere to stand; "
         f"the deep ends carry the furniture.",
-        f"That shape costs area: {wave_area('serpentine'):.1f} m² a floor "
-        f"against the {wave_area():.1f} m² of the curve drawn today, so "
-        f"{4 * (wave_area() - wave_area('serpentine')):.0f} m² over the "
-        f"four balcony levels. Adopting it re-issues A-000 and A-101 to "
-        f"A-104, which carry the balcony in plan.",
+        f"This is the adopted curve, and the plans are drawn to it. It "
+        f"cost area to take: {wave_area('serpentine'):.1f} m² a floor "
+        f"against the {wave_area('agreed'):.1f} m² of the curve it "
+        f"replaced, "
+        f"{4 * (wave_area('agreed') - wave_area('serpentine')):.0f} m² "
+        f"over the four balcony levels. A-000 and A-100 to A-104 are "
+        f"re-issued at P18 to it.",
         "The balconies do not wrap the corner as the reference does: the "
         "1.00 m setbacks forbid anything projecting west, north or east, "
         "so the cantilever stays on the street frontage.",
@@ -2660,10 +2664,11 @@ EL_NOTES["C"] = list(_EL_COMMON) + [
     f"serpentine's {wave_area('serpentine'):.1f} — "
     f"{4 * (wave_area('facet') - wave_area('serpentine')):.0f} m² more "
     "over the four balcony levels.",
-    f"It still costs area against the curve drawn today: "
-    f"{wave_area():.1f} m² a floor becomes {wave_area('facet'):.1f}. "
-    f"Adopting it re-issues A-000 and A-101 to A-104, which carry the "
-    f"balcony in plan.",
+    f"It is not the adopted curve. Scheme A was chosen and the plans are "
+    f"drawn to its serpentine; moving to this one now would re-issue "
+    f"A-000 and A-100 to A-104 a second time, for "
+    f"{4 * (wave_area('facet') - wave_area('serpentine')):.0f} m² more "
+    f"balcony.",
     "The balconies do not wrap the corner: the 1.00 m setbacks forbid "
     "anything projecting west, north or east, so the cantilever stays on "
     "the street frontage.",
@@ -2689,13 +2694,32 @@ EL_ORIGIN_3 = ((-21.67, 418.0),   # 1:75, east  at  25..205 mm
                (335.33, 418.0))   #       west  at 382..562 mm
 
 
+# Scheme A is the one the client chose.  B and C stay in the repository
+# because a set that destroys the options it offered cannot show how the
+# building was arrived at - but they carry a line saying so, and they are
+# not bound into the issued set, because an unmarked drawing of a rejected
+# option is a drawing somebody eventually builds.
+STATUS_NOT_SELECTED = ("Option not selected — scheme {0} “{1}” was adopted "
+                       "at P18. Record only; not for construction.")
+
+
+def _scheme_issue(sh, scheme):
+    """Stamp a scheme sheet according to whether it was chosen."""
+    if scheme == SCHEME:
+        sh.rev = "P18"
+    else:
+        sh.rev = "P18"
+        sh.status = STATUS_NOT_SELECTED.format(
+            SCHEME, el.SCHEME[SCHEME]["name"])
+
+
 def _elevation_sheet(number, scheme):
     """The street frontage at 1:50, with that scheme's curve beside it."""
     s = el.SCHEME[scheme]
     D.set_scale(50, *EL_ORIGIN)
     sh = Sheet(number, f"South Elevation — Scheme {scheme} “{s['name']}”",
                "street frontage", "1:50 @ A1")
-    sh.rev = "P15"
+    _scheme_issue(sh, scheme)
     F.border(sh)
     el.elevation(sh, "s", scheme)
 
@@ -2734,7 +2758,7 @@ def _sides_sheet(number, scheme):
             sh = Sheet(number,
                        f"Side & Rear Elevations — Scheme {scheme} "
                        f"“{s['name']}”", "east, north and west", "1:75 @ A1")
-            sh.rev = "P15"
+            _scheme_issue(sh, scheme)
             F.border(sh)
         el.elevation(sh, face, scheme)
         sh.tag((lo + hi) / 2.0, GARDEN_LEVEL - 2.40,
@@ -2757,8 +2781,12 @@ def elevations_of(scheme):
             "C": lambda: (sheet_elev_c(), sheet_elev_c_sides())}[scheme]()
 
 
-EL_CTX_ORIGIN = ((60.0, 262.0),    # 1:100, scheme A on the upper half
-                 (60.0, 522.0))   #        scheme B beneath it
+# 1:100.  Two views while two schemes were live, one since scheme A was
+# adopted - the single view sits between where the two used to, so the
+# drawing is centred on the sheet rather than sitting in the top half with
+# the rejected option's space left empty under it.
+EL_CTX_ORIGIN = ((60.0, 262.0), (60.0, 522.0))
+EL_CTX_ONE = (60.0, 392.0)
 
 
 AX_ORIGIN = ((78.8, 275.2), (256.8, 275.2), (434.8, 275.2))   # 1:250
@@ -2780,11 +2808,13 @@ def sheet_axonometric():
         if sh is None:
             sh = Sheet("A-430", "Axonometric — Three Balcony Options",
                        "from the south-west", "1:250 @ A1")
-            sh.rev = "P16"
+            sh.rev = "P18"
             F.border(sh)
         ax.view(sh, el.SCHEME[letter]["render"], profile)
         u, v = ax.P(V3_X0, V3_Y0, 0.0)
-        sh.tag(u - 1.20, v - 3.60, f"SCHEME {letter} — {name.upper()}",
+        chosen = "  ·  ADOPTED" if letter == SCHEME else ""
+        sh.tag(u - 1.20, v - 3.60,
+               f"SCHEME {letter} — {name.upper()}{chosen}",
                size=2.4, color=INK)
         sh.tag(u - 1.20, v - 5.30,
                f"{wave_area(profile):.1f} m² of balcony a floor",
@@ -2792,11 +2822,12 @@ def sheet_axonometric():
 
     F.heading(sh)
     y = F.legend(sh, 52)
-    y = F.datum_panel(sh, y + 8, "THE FOUR CURVES", [
-        ("Agreed, drawn today", f"{wave_area():.1f} m² a floor"),
-        ("A — serpentine", f"{wave_area('serpentine'):.1f} m² a floor"),
+    y = F.datum_panel(sh, y + 8, "THE FOUR CURVES OFFERED", [
+        ("A — serpentine, ADOPTED",
+         f"{wave_area('serpentine'):.1f} m² a floor"),
         ("C — facet", f"{wave_area('facet'):.1f} m² a floor"),
         ("B — bowed centre bay", f"{wave_area('bow'):.1f} m² a floor"),
+        ("Superseded curve", f"{wave_area('agreed'):.1f} m² a floor"),
         ("Deepest allowed", f"{V3_WAVE_LIMIT:.2f} m"),
         ("Shallowest usable", "0.60 m"),
         ("West neighbour", f"{NBR_W_STOREYS} storeys, blind"),
@@ -2813,42 +2844,41 @@ def sheet_axonometric():
         f"{V3_X0 - SETBACK:.2f} m entrance garden on the west, the "
         f"three-storey blind neighbour standing back behind it and the "
         f"single-storey clay-brick one a metre to the east.",
-        "A and C wear the same skin, so the only difference between them "
-        "is the curve — which is why they stand side by side here. B "
-        "differs in ornament as well.",
+        f"Scheme {SCHEME} is the one adopted, and the plans are drawn to "
+        f"its curve. B and C are kept here as the record of what was "
+        f"offered; their elevation sheets are stamped not selected and "
+        f"are not bound into the issue.",
         "The balconies stop at the corner on all three: the 1.00 m "
         "setbacks forbid anything projecting west, north or east.",
         "Faces are painted back to front rather than depth-sorted, so a "
         "detail may overlap where two surfaces nearly touch. The measured "
-        "elevations A-400 to A-421 govern.",
+        "elevations A-400 and A-401 govern.",
     ])
     F.titleblock(sh)
     return sh
 
 
 def sheet_street_context():
-    """A-402: the villa between its two real neighbours, both schemes.
+    """A-402: the villa between its two real neighbours, as adopted.
 
-    One sheet rather than two, because the whole point is to compare them
-    standing in the same street.  At 1:100 the full 23.00 m plot is 230 mm
-    and two stack comfortably.
+    It carried both live schemes side by side while the client was
+    choosing.  Scheme A is chosen, so it carries one: a sheet that still
+    showed the rejected option would be read as a building that might
+    still be built.
     """
-    sh = None
-    for i, scheme in enumerate(("A", "B")):
-        D.set_scale(100, *EL_CTX_ORIGIN[i])
-        if sh is None:
-            sh = Sheet("A-402", "Street Elevation in Context",
-                       "both schemes, as surveyed", "1:100 @ A1")
-            sh.rev = "P16"
-            F.border(sh)
-        el.context_elevation(sh, scheme)
-        sh.tag(11.50, GARDEN_LEVEL - 2.65,
-               f"SCHEME {scheme} — {el.SCHEME[scheme]['name'].upper()}",
-               size=2.6, color=INK)
-        sh.dim_h(0.0, V3_X1 + SETBACK, GARDEN_LEVEL - 1.35,
-                 ext_from=GARDEN_LEVEL)
-        sh.dim_h(0.0, V3_X0, GARDEN_LEVEL - 0.55)
-        sh.dim_h(V3_X0, V3_X1, GARDEN_LEVEL - 0.55)
+    D.set_scale(100, *EL_CTX_ONE)
+    sh = Sheet("A-402", "Street Elevation in Context",
+               f"scheme {SCHEME}, as surveyed", "1:100 @ A1")
+    sh.rev = "P18"
+    F.border(sh)
+    el.context_elevation(sh, SCHEME)
+    sh.tag(11.50, GARDEN_LEVEL - 2.65,
+           f"SCHEME {SCHEME} — {el.SCHEME[SCHEME]['name'].upper()}, ADOPTED",
+           size=2.6, color=INK)
+    sh.dim_h(0.0, V3_X1 + SETBACK, GARDEN_LEVEL - 1.35,
+             ext_from=GARDEN_LEVEL)
+    sh.dim_h(0.0, V3_X0, GARDEN_LEVEL - 0.55)
+    sh.dim_h(V3_X0, V3_X1, GARDEN_LEVEL - 0.55)
 
     F.heading(sh)
     y = F.legend(sh, 52)
@@ -2930,7 +2960,7 @@ def sheet_register():
     """
     sh = Sheet("ARC-000", "Master Deliverables List", "the whole set",
                "NTS")
-    sh.rev = "P17"
+    sh.rev = "P18"
     sh.status = F.STATUS_REGISTER
     F.border(sh)
     doc.register_table(sh)
@@ -2969,10 +2999,11 @@ def sheet_register():
         f"third floor at once.",
         "Deliverable codes are the client's. Where one resolves to sheets "
         "already issued, the existing number is the cross reference — the "
-        "bound set at P16 is not renumbered.",
-        "Blocked rows wait on the measured survey, the soil "
-        "investigation, or the choice between exterior schemes A, B and "
-        "C. None of the three can be settled from the drawings.",
+        "agreed set is not renumbered.",
+        f"The exterior is settled: scheme {SCHEME}, adopted at P18. "
+        f"Blocked rows now wait on the measured survey and the plot's "
+        f"soil figures, neither of which can be settled from the "
+        f"drawings.",
         "For the owner's own record, costing and construction "
         "information. Not a tender issue, and not for construction.",
     ])

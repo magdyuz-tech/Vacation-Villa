@@ -1,9 +1,11 @@
 # Five-Storey Vacation Villa — 2D Drawing Set
 
-An architectural drawing set for a detached five-storey villa on a narrow
-plot: the house hard against the east boundary with its entrance garden
-to the west, a three-storey blind neighbour behind that garden and a
-single-storey clay-brick one to the east.
+An architectural drawing set for a detached five-storey villa at
+Shamandeel, Quesna, Menoufia, Egypt — the central Nile Delta. The house
+sits hard against the east boundary with its entrance garden to the west,
+a three-storey blind neighbour behind that garden, a single-storey
+clay-brick one to the east and another single storey to the north. Drawn
+to ECP 201 and ECP 203.
 
 Parts of the body of this file below still describe the four-storey
 apartment building the design started as, before the detached villa was
@@ -35,10 +37,14 @@ repository.
 | `A-104`   | Penthouse Plan                         | +13.20 | 1:50  |
 | `A-200`   | Section A–A                            | —      | 1:50  |
 | `A-400` / `A-401` | South, then side and rear elevations — scheme A, Wave | — | 1:50 / 1:75 |
-| `A-410` / `A-411` | The same, scheme B, Arcade     | —      | 1:50 / 1:75 |
-| `A-420` / `A-421` | The same, scheme C, Facet      | —      | 1:50 / 1:75 |
 | `A-402`   | Street Elevation in Context            | —      | 1:100 |
 | `A-430`   | Axonometric — Three Balcony Options    | —      | 1:250 |
+
+Scheme A, "Wave", was adopted at P18, and the plans are drawn to its
+serpentine balcony: 1.95 m deep at each end, 0.75 m at the waist, 12.8 m²
+a floor. `A-410` / `A-411` (scheme B, Arcade) and `A-420` / `A-421`
+(scheme C, Facet) still build and stay here as the record of what was
+offered, stamped not selected and left out of the issue.
 
 `A-300`, `A-301` and `A-302` are enlargements of apartment units that the
 detached villa no longer has. They are built but left out of the bound
@@ -371,6 +377,20 @@ the part being shown, so an enlargement cannot disagree with the plan it
 came from. They cover the wet cores, the kitchenettes and the service
 floor; a whole 13.90 m unit does not fit an A1 sheet at 1:25, so the
 whole-unit plans stay at 1:50 on A-101 and A-103.
+
+### The adopted scheme
+
+`geometry.SCHEME` and `geometry.PROFILE` hold what the client chose, and
+the default profile of every `wave_*` function resolves to them. That is
+the whole mechanism: the plans, the section, the elevations and the
+quantities all measure one balcony, because they all ask the same
+function the same question. Before the choice the default was the literal
+`"agreed"`, which would have left every plan drawing the superseded curve
+while the elevations drew the chosen one.
+
+`documents.DECISIONS` records each instruction with the constant it
+became, and a `checks.py` rule resolves every one of those constants — so
+a decision cannot be written down here and left unbuilt.
 
 ### The deliverables register
 

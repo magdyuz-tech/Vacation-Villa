@@ -48,14 +48,16 @@ if __name__ == "__main__":
               f"{os.path.getsize(pdf) / 1024:7.0f} kB pdf  "
               f"{os.path.getsize(png) / 1024:7.0f} kB png")
 
-# the sheets the villa set is issued as, in the order they are read.  The
-# A-300 enlargements are left out on purpose: they are three enlargements
-# of apartment units that no longer exist, so binding them into the set
-# would hand the reader drawings of a different building.
+# the sheets the villa set is issued as, in the order they are read.  Two
+# groups are left out on purpose, both for the same reason: binding them
+# would hand the reader drawings of a building that is not being built.
+# The A-300 enlargements are of apartment units that no longer exist, and
+# A-410 to A-421 are exterior schemes B and C, which the client did not
+# choose.  All of them stay in the repository and still build; they are
+# simply not part of the issue.
 SET_ORDER = ["ARC-000",
              "A-000", "A-100", "A-101", "A-102", "A-103", "A-104",
-             "A-200", "A-400", "A-401", "A-410", "A-411",
-             "A-420", "A-421", "A-402", "A-430"]
+             "A-200", "A-400", "A-401", "A-402", "A-430"]
 
 
 def bind(pdf_dir, out_dir=None, rev=None):

@@ -854,6 +854,29 @@ def deliverables_register():
     if not families:
         problems.append("no family in the register repeats per level - the "
                         "per-level rule is not being tested")
+
+    # a decision recorded but never built is worse than one never recorded:
+    # it reads as settled on paper while the drawings still show the old
+    # thing.  Every decision names the constant it became, and every one of
+    # those has to resolve.
+    import documents as DOC
+
+    for when, subject, _decision, constant, _effect in DOC.DECISIONS:
+        if constant == "—":
+            continue
+        for ref in constant.split(" / "):
+            module, _, name = ref.partition(".")
+            try:
+                holder = __import__(module)
+            except ImportError:
+                problems.append(f"decision {subject!r} of {when} points at "
+                                f"{ref}, and there is no module {module}")
+                continue
+            if not hasattr(holder, name):
+                problems.append(
+                    f"decision {subject!r} of {when} says it became {ref}, "
+                    f"which does not exist - it was recorded but never "
+                    f"built")
     return problems
 
 

@@ -156,11 +156,14 @@ def _package_0():
                  "are plot figures, and this row stays open until they "
                  "arrive with a source - boreholes, or figures the "
                  "engineer will sign."),
-        Row("CLI-001", "Exterior scheme selection - A, B or C", "0", "X",
-            discipline="Client decision", fmt="Written instruction",
-            depends=("ARC-200",),
-            note="Three skins are live on one agreed building. Finishes, "
-                 "details and the finishes quantities all wait on this."),
+        Row("CLI-001", "Client instructions and decisions record", "0", "D",
+            discipline="Client decision", fmt="Register",
+            doc="client-decisions.md",
+            source=("SCHEME", "PROFILE", "NBR_N_STOREYS"),
+            note="Each instruction with its date and what it settled. "
+                 "Written down because a decision that lives only in a "
+                 "conversation gets re-argued: scheme A was chosen off "
+                 "three live options, and the plans were redrawn to it."),
     ]
 
 
@@ -227,13 +230,15 @@ def _package_b():
             scale="1:50", source=("V4_TOP", "V4_PLANT", "PARAPET"),
             note="Falls, outlets, parapets, water tanks and the plant "
                  "deck. Drawn nowhere in the set today."),
-        Row("ARC-200", "Facade elevations - all four faces, three schemes",
-            "B", "D", scale="1:50 / 1:75",
-            sheet=("A-400", "A-401", "A-410", "A-411", "A-420", "A-421",
-                   "A-402"),
-            source=("FACADE", "EL_TOP"),
-            note="Seven sheets: south and sides for each scheme, plus the "
-                 "street elevation in context."),
+        Row("ARC-200", f"Facade elevations - all four faces, scheme "
+            f"{G.SCHEME}", "B", "D", scale="1:50 / 1:75",
+            sheet=("A-400", "A-401", "A-402"),
+            depends=("CLI-001",),
+            source=("FACADE", "EL_TOP", "SCHEME"),
+            note="South, the three other faces, and the street elevation "
+                 "in context. Schemes B and C still build and stay in the "
+                 "repository as the record of what was offered, but they "
+                 "are stamped not selected and left out of the issue."),
         Row("ARC-300", "Longitudinal section A-A", "B", "D", scale="1:50",
             sheet="A-200", source=("EL_LEVELS",)),
         Row("ARC-301", "Transverse section B-B", "B", "D", scale="1:50",

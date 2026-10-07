@@ -405,7 +405,14 @@ def wave_balcony(sh, pts, wall_y, balustrade, reveal, label=None,
         sh.line(xv, pts[0][1] if xv == x0 else pts[-1][1], xv, wall_y,
                 w=LW_SECONDARY, color=GREY)
     if label:
-        cx = (x0 + x1) / 2.0
+        # Where the slab is deepest, not at the middle of the span.  The
+        # serpentine's middle is its waist - 0.75 m - so a label centred
+        # there sat on the curve and read through it.  Kept clear of both
+        # ends as well, because the text is centre-anchored and would
+        # otherwise overhang the slab it names.
+        inset = 2.00
+        inner = [(y, x) for x, y in pts if x0 + inset <= x <= x1 - inset]
+        cx = min(inner)[1] if inner else (x0 + x1) / 2.0
         sh.room(x0, wall_y - 1.0, x1 - x0, 1.0, label, area=area, size=2.0,
                 schedule=False, sub=level_txt, show_area=show_area,
                 at=(cx, label_y if label_y is not None else wall_y - 0.78))

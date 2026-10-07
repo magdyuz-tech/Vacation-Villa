@@ -23,6 +23,28 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 
 
+def prune(directory, keep):
+    """Delete superseded issues of the sheets just written.
+
+    The revision is part of every file name on purpose, so a stale issue
+    sitting in a folder is obvious rather than silently overwritten.  The
+    cost is that a re-issue leaves the old file behind, and the next build
+    finds two candidates for one sheet and cannot bind the set.  So the
+    build removes them: `keep` is the file name each sheet was written as,
+    and anything else beginning with the same drawing number is a previous
+    issue of a drawing that has just been superseded.
+    """
+    gone = []
+    for name in sorted(os.listdir(directory)):
+        stem = os.path.splitext(name)[0]
+        for number, basename in keep.items():
+            if stem.startswith(number + "-") and stem != basename:
+                os.remove(os.path.join(directory, name))
+                gone.append(name)
+                break
+    return gone
+
+
 def main():
     import checks
     import documents
@@ -42,6 +64,14 @@ def main():
 
     print("\nsheets (svg)")
     svgs = plans.main()
+    current = {sh.number: plans.sheet_basename(sh)
+               for sh in (build() for build in plans.SHEETS)}
+    for folder in ("drawings", "pdf", "png", "cad"):
+        path = os.path.join(HERE, folder)
+        if not os.path.isdir(path):
+            continue
+        for name in prune(path, current):
+            print(f"superseded, removed: {name}")
 
     print("\ncad (dxf)")
     for path, n in export_cad.export(os.path.join(HERE, "cad")):

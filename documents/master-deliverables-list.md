@@ -39,13 +39,13 @@ Structural slabs: +0.00, +3.30, +6.60, +9.90, +13.20, +16.45 — six slabs to fi
 
 | Package | Deliverables | Issued | In progress | Blocked | Not started |
 | --- | --- | --- | --- | --- | --- |
-| 0 — Information required from others | 3 | 0 | 0 | 1 | 2 |
+| 0 — Information required from others | 3 | 1 | 0 | 1 | 1 |
 | A — Presentation and estimation | 8 | 1 | 0 | 1 | 6 |
-| B — Architecture | 21 | 9 | 0 | 1 | 11 |
+| B — Architecture | 21 | 9 | 0 | 0 | 12 |
 | C — Structure | 12 | 0 | 0 | 10 | 2 |
 | D — Building services | 33 | 0 | 0 | 3 | 30 |
 | E — Quantities and cost control | 4 | 0 | 0 | 4 | 0 |
-| **Total** | **81** | **10** | **0** | **20** | **51** |
+| **Total** | **81** | **11** | **0** | **19** | **51** |
 
 ## Package 0 — Information required from others
 
@@ -53,11 +53,11 @@ Structural slabs: +0.00, +3.30, +6.60, +9.90, +13.20, +16.45 — six slabs to fi
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | SUR-001 | Measured topographic and boundary survey | Survey | 1:200 | Report + DWG | X | not started | — | — |
 | GEO-001 | Soil investigation and foundation recommendation | Geotechnical | - | Report | X | blocked | SUR-001 | — |
-| CLI-001 | Exterior scheme selection - A, B or C | Client decision | - | Written instruction | X | not started | ARC-200 | — |
+| CLI-001 | Client instructions and decisions record | Client decision | - | Register | D | issued | — | — |
 
 - **SUR-001** — Boundaries on A-000 are indicative until this is in hand, as are the three neighbours' heights and positions - they are recorded as the client describes them, which is enough to design against and not enough to build to.
 - **GEO-001** — Central Nile Delta ground is well characterised as a region, and that is enough to assume a foundation type for layout. It is not enough to size one: allowable bearing pressure, the water table and sulphate content are plot figures, and this row stays open until they arrive with a source - boreholes, or figures the engineer will sign.
-- **CLI-001** — Three skins are live on one agreed building. Finishes, details and the finishes quantities all wait on this.
+- **CLI-001** — Each instruction with its date and what it settled. Written down because a decision that lives only in a conversation gets re-argued: scheme A was chosen off three live options, and the plans were redrawn to it.
 
 ## Package A — Presentation and estimation
 
@@ -95,7 +95,7 @@ Structural slabs: +0.00, +3.30, +6.60, +9.90, +13.20, +16.45 — six slabs to fi
 | ARC-104 | Third floor plan, +9.90 | Architecture | 1:50 | A1 sheet | D | issued | — | A-103 |
 | ARC-105 | Penthouse floor plan, +13.20 | Architecture | 1:50 | A1 sheet | D | issued | — | A-104 |
 | ARC-106 | Roof plan over the penthouse, +16.45 | Architecture | 1:50 | A1 sheet | D | not started | — | — |
-| ARC-200 | Facade elevations - all four faces, three schemes | Architecture | 1:50 / 1:75 | A1 sheet | D | issued | — | A-400, A-401, A-410, A-411, A-420, A-421, A-402 |
+| ARC-200 | Facade elevations - all four faces, scheme A | Architecture | 1:50 / 1:75 | A1 sheet | D | issued | CLI-001 | A-400, A-401, A-402 |
 | ARC-300 | Longitudinal section A-A | Architecture | 1:50 | A1 sheet | D | issued | — | A-200 |
 | ARC-301 | Transverse section B-B | Architecture | 1:50 | A1 sheet | D | not started | ARC-300 | — |
 | ARC-400 | Reflected ceiling plan - ground floor, +0.00 | Architecture | 1:50 | A1 sheet | D | not started | ARC-101 | — |
@@ -104,14 +104,14 @@ Structural slabs: +0.00, +3.30, +6.60, +9.90, +13.20, +16.45 — six slabs to fi
 | ARC-403 | Reflected ceiling plan - third floor, +9.90 | Architecture | 1:50 | A1 sheet | D | not started | ARC-104 | — |
 | ARC-404 | Reflected ceiling plan - penthouse floor, +13.20 | Architecture | 1:50 | A1 sheet | D | not started | ARC-105 | — |
 | ARC-500 | Door and window schedule | Architecture | - | A1 sheet | D | not started | ARC-200 | — |
-| ARC-600 | Construction details | Architecture | 1:5 / 1:10 | A1 sheet | L | blocked | CLI-001 | — |
+| ARC-600 | Construction details | Architecture | 1:5 / 1:10 | A1 sheet | L | not started | CLI-001 | — |
 | ARC-700 | External works and landscape | Architecture | 1:75 | A1 sheet | D | not started | ARC-100 | — |
 
 - **ARC-000** — This register. Status on it is derived at build time from the sheet builders and the files on disk.
 - **ARC-002** — Notes and symbols are ours. The matrix is set against ECP 201 and ECP 203, the Egyptian codes the site is governed by, and signed off by the architect of record.
 - **ARC-100** — Issued with the boundary marked indicative.
 - **ARC-106** — Falls, outlets, parapets, water tanks and the plant deck. Drawn nowhere in the set today.
-- **ARC-200** — Seven sheets: south and sides for each scheme, plus the street elevation in context.
+- **ARC-200** — South, the three other faces, and the street elevation in context. Schemes B and C still build and stay in the repository as the record of what was offered, but they are stamped not selected and left out of the issue.
 - **ARC-301** — Cut east-west through the stair and the wave cantilever, which section A-A runs parallel to and cannot show.
 - **ARC-400** — Soffit levels, bulkheads and ceiling layout. Fittings are indicative; the EL-200 series governs.
 - **ARC-401** — Soffit levels, bulkheads and ceiling layout. Fittings are indicative; the EL-200 series governs.
@@ -235,7 +235,7 @@ Structural slabs: +0.00, +3.30, +6.60, +9.90, +13.20, +16.45 — six slabs to fi
 1. A measured topographic and boundary survey (SUR-001) is not in hand; boundaries on A-000 are issued marked indicative.
 2. The ground is central Nile Delta, which is well characterised as a region — enough to assume a foundation type and lay the structure out, not enough to size it. Allowable bearing pressure, the water table and sulphate content are plot figures, and GEO-001 stays open until they arrive with a source. No soil value is written on any sheet here.
 3. The north neighbour is a single storey, confirmed by the client. The north wall carries windows on all five levels; only the ground floor looks at anything, and from +3.30 up they clear its roof. Its exact height and position still come with SUR-001.
-4. Three exterior schemes are live on one agreed building. The scheme selection (CLI-001) gates the details, the finishes and the finishes quantities.
+4. The exterior is settled: scheme A, “Wave”, adopted at P18. Schemes B and C still build and stay in the repository as the record of what was offered, stamped not selected and left out of the issue.
 5. Sheets A-300, A-301 and A-302 are enlargements of apartment units that no longer exist. They are already left out of the bound set and should be formally withdrawn rather than reissued.
 6. Rates are class X throughout. No rate appears in any document here without a named source, and QS-004 is issued with its rate column open.
 
