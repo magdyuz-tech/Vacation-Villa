@@ -224,32 +224,40 @@ def _west_is_vent_only(leaves, vents):
 
 
 def wave_cantilever():
-    """The south cantilever must not pass the projection the client set."""
+    """The south cantilever must not pass the projection the client set.
+
+    Run over EVERY profile, not just the one the issued sheets are drawn
+    with.  The exterior schemes gave the curve two more shapes, and a
+    scheme that breached the 2.00 m cap or pinched below the 0.60 m floor
+    would otherwise reach a client drawing with nothing to stop it.
+    """
     import geometry as g
 
     problems = []
-    pts = g.wave_points(n=2000)
-    worst = max(g.V3_Y0 - y for _x, y in pts)
-    if worst > g.V3_WAVE_LIMIT + 1e-9:
-        problems.append(
-            f"the wave balcony projects {worst:.3f} m, past the "
-            f"{g.V3_WAVE_LIMIT:.2f} m the client set")
-    # the balcony oversails our own forecourt, which is GARDEN_D_E deep;
-    # at least 1.00 m of it has to stay clear to the street
-    if worst > g.GARDEN_D_E - 1.00:
-        problems.append(
-            f"the wave balcony leaves only {g.GARDEN_D_E - worst:.2f} m of "
-            f"forecourt to the street")
-    inboard = min(g.V3_Y0 - y for _x, y in pts)
-    if inboard < 0.60:
-        problems.append(
-            f"the wave balcony narrows to {inboard:.2f} m - too shallow "
-            f"to stand on at the troughs")
-    for x, _y in pts:
-        if x < g.V3_X0 - TOL or x > g.V3_X1 + TOL:
-            problems.append(f"the wave balcony runs past the envelope at "
-                            f"x = {x:.2f}")
-            break
+    for profile in g.EL_PROFILES:
+        pts = g.wave_points(n=2000, profile=profile)
+        where = f" ({profile})" if profile != "agreed" else ""
+        worst = max(g.V3_Y0 - y for _x, y in pts)
+        if worst > g.V3_WAVE_LIMIT + 1e-9:
+            problems.append(
+                f"the wave balcony{where} projects {worst:.3f} m, past the "
+                f"{g.V3_WAVE_LIMIT:.2f} m the client set")
+        # the balcony oversails our own forecourt, which is GARDEN_D_E deep;
+        # at least 1.00 m of it has to stay clear to the street
+        if worst > g.GARDEN_D_E - 1.00:
+            problems.append(
+                f"the wave balcony{where} leaves only "
+                f"{g.GARDEN_D_E - worst:.2f} m of forecourt to the street")
+        inboard = min(g.V3_Y0 - y for _x, y in pts)
+        if inboard < 0.60:
+            problems.append(
+                f"the wave balcony{where} narrows to {inboard:.2f} m - too "
+                f"shallow to stand on at the troughs")
+        for x, _y in pts:
+            if x < g.V3_X0 - TOL or x > g.V3_X1 + TOL:
+                problems.append(f"the wave balcony{where} runs past the "
+                                f"envelope at x = {x:.2f}")
+                break
     return problems
 
 
@@ -562,6 +570,121 @@ def balconies_stack():
     return problems
 
 
+def _face_wall(level, face):
+    """(axis, lo, hi) of the external wall a given face is drawn of."""
+    import geometry as g
+
+    if level == 4:
+        y0, y1, x0, x1 = g.V4_Y0, g.V4_Y1, g.V4_X0, g.V4_X1
+    else:
+        y0, y1, x0, x1 = g.V3_Y0, g.V3_Y1, g.V3_X0, g.V3_X1
+    return {"s": ("h", y0, y0 + g.WT), "n": ("h", y1 - g.WT, y1),
+            "e": ("v", x1 - g.WT, x1), "w": ("v", x0, x0 + g.WT)}[face]
+
+
+def elevations_match_the_plans():
+    """An elevation may not show an opening its plan does not have.
+
+    The elevations exist to show the skin.  The moment they carry their own
+    copy of the openings they start drifting from the agreed plans, and the
+    drift is invisible: a window moved on a plan and left alone on an
+    elevation looks perfectly ordinary on both sheets.  So every opening is
+    drawn through one funnel, `elevations._opening`, and this reads the
+    record back against the wall the plan actually drew.
+
+    It compares in BOTH directions.  An elevation that omits an opening the
+    plan has is just as wrong as one that invents a window.
+    """
+    import elevations as el
+    import plans
+
+    builders = {0: plans.sheet_ground, 1: plans.sheet_first,
+                2: plans.sheet_second, 3: plans.sheet_third,
+                4: plans.sheet_penthouse}
+
+    # what the plans actually drew, per level and face
+    in_plan = {}
+    for level, build in builders.items():
+        walls, leaves, cols, vents, dims, restore = _record()
+        try:
+            build()
+        finally:
+            restore()
+        for face in el.FACES:
+            axis, lo, hi = _face_wall(level, face)
+            found = set()
+            for x0, y0, x1, y1, openings, _fill in walls:
+                ax, _span, wlo, whi = _wall_span(x0, y0, x1, y1)
+                if ax != axis or not _near(wlo, lo) or not _near(whi, hi):
+                    continue
+                found |= {(round(a, 2), round(b, 2)) for a, b in openings}
+            in_plan[(level, face)] = found
+
+    problems = []
+    for scheme, number in (("A", "A-400/A-401"), ("B", "A-410/A-411")):
+        drawn = {}
+        real = el._opening
+
+        def _spy(sh, face, level, a, b, kind, sc, _real=real, _d=drawn):
+            _d.setdefault((level, face), set()).add((round(a, 2), round(b, 2)))
+            return _real(sh, face, level, a, b, kind, sc)
+
+        el._opening = _spy
+        try:
+            plans.elevations_of(scheme)
+        finally:
+            el._opening = real
+
+        for key, shown in sorted(drawn.items()):
+            level, face = key
+            expected = in_plan[key]
+            for a, b in sorted(shown - expected):
+                problems.append(
+                    f"{number}: scheme {scheme} draws an opening "
+                    f"{a:.2f}-{b:.2f} on the {face} face at level {level} "
+                    f"that the plan's wall does not have")
+            for a, b in sorted(expected - shown):
+                problems.append(
+                    f"{number}: the plan has an opening {a:.2f}-{b:.2f} on "
+                    f"the {face} face at level {level} that scheme "
+                    f"{scheme}'s elevation leaves out")
+    return problems
+
+
+def elevation_envelope():
+    """No scheme may raise the building or cross a setback."""
+    import geometry as g
+
+    problems = []
+    if g.EL_LEVELS != [0.0, g.FLOOR_TO_FLOOR, 2 * g.FLOOR_TO_FLOOR,
+                       3 * g.FLOOR_TO_FLOOR, g.ROOF_LEVEL]:
+        problems.append("the elevations no longer stand on the agreed five "
+                        "levels")
+    if g.EL_TOP > g.V4_TOP + 0.60 + 1e-9:
+        problems.append(
+            f"the exterior schemes top out at +{g.EL_TOP:.2f}, above the "
+            f"agreed slab at +{g.V4_TOP:.2f} and its parapet")
+    # scheme B arches its openings, and an arch is a crown height the
+    # storey has to be able to spare.  A semicircular head on a 2.30 m bay
+    # would rise 1.15 m over a head already at 2.40 m and come out through
+    # the slab - which looks perfectly ordinary on an elevation.
+    widest = max(b - a for lv in range(5) for f in ("s", "e", "n", "w")
+                 for a, b in g.FACADE[lv][f])
+    crown = g.EL_HEAD + g.B_ARCH_RISE + g.B_SURROUND
+    if crown > g.CLEAR_HEIGHT:
+        problems.append(
+            f"scheme B's arched heads crown at {crown:.2f} m, through the "
+            f"soffit at {g.CLEAR_HEIGHT:.2f} m (widest bay {widest:.2f} m)")
+
+    for profile in g.EL_PROFILES:
+        for x, y in g.wave_points(n=500, profile=profile):
+            if x < g.V3_X0 - TOL or x > g.V3_X1 + TOL:
+                problems.append(f"the {profile} curve runs past the south "
+                                f"frontage at x = {x:.2f}")
+                break
+    return problems
+
+
 def issue_status():
     """Each sheet's revision letter and status line must be defensible.
 
@@ -642,6 +765,8 @@ def main():
 
     for name, fn in (("stair", stair_stacks), ("wave", wave_cantilever),
                      ("balc", balconies_stack), ("east", east_strip_stacks),
+                     ("elev", elevations_match_the_plans),
+                     ("envel", elevation_envelope),
                      ("issue", issue_status)):
         problems = fn()
         total += len(problems)

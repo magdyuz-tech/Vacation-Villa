@@ -32,6 +32,10 @@ LEVELS = [
     (plans.sheet_third,  "A-103-third-floor",  "-03", 120.0),
     (plans.sheet_penthouse, "A-104-penthouse", "-04", 150.0),
     (plans.sheet_section, "A-200-section",      "-SEC", 180.0),
+    (plans.sheet_elev_a,       "A-400-elev-south-scheme-a", "-ELA", 210.0),
+    (plans.sheet_elev_a_sides, "A-401-elev-sides-scheme-a", "-ELA", 240.0),
+    (plans.sheet_elev_b,       "A-410-elev-south-scheme-b", "-ELB", 285.0),
+    (plans.sheet_elev_b_sides, "A-411-elev-sides-scheme-b", "-ELB", 315.0),
 ]
 
 # enlargements are the same geometry at a larger plotted scale, so they add

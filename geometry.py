@@ -367,32 +367,68 @@ V3_WAVE_REVEAL = 0.40          # recessed reveal in the soffit, same curve
 V3_WAVE_FASCIA = 0.15          # upstand band on the slab edge (elevation)
 
 
-def wave_projection(x):
+# --- the exterior schemes' curves (revision P15) ---------------------------
+# The client asked for the balcony curve to follow the reference photos and
+# to differ between the two exterior schemes, so the profile became an
+# argument rather than a constant.  "agreed" is the curve the five issued
+# sheets are drawn with and stays the default: nothing moves until a scheme
+# is chosen.  All three are pure functions of x, and checks.py runs the
+# cantilever rules over every one of them.
+#
+# What the shape costs is not free, and the client decides it with the
+# figures: agreed 17.4 m2 a floor, serpentine 12.8, bow 11.2.
+EL_SERP_MEAN, EL_SERP_AMP = 1.35, 0.60    # scheme A, one cosine period
+EL_BOW_FLANK, EL_BOW_PEAK = 0.90, 1.95    # scheme B, straight flanks
+EL_BOW_WIDTH = 5.00                       # ... and the bow between them
+
+
+def wave_projection(x, profile="agreed"):
     """Projection of the south cantilever at plan x, metres from the wall."""
     x0, x1 = V3_WAVE_SPAN
     t = (x - x0) / (x1 - x0)
+    if profile == "serpentine":
+        return EL_SERP_MEAN + EL_SERP_AMP * math.cos(2.0 * math.pi * t)
+    if profile == "bow":
+        # a raised cosine, so the bow meets the flanks with zero slope and
+        # the joint is a tangent rather than a kink
+        half = EL_BOW_WIDTH / 2.0
+        s = (x - (x0 + x1) / 2.0) / half
+        if abs(s) >= 1.0:
+            return EL_BOW_FLANK
+        return EL_BOW_FLANK + (EL_BOW_PEAK - EL_BOW_FLANK) * 0.5 * (
+            1.0 + math.cos(math.pi * s))
     return V3_WAVE_W + (V3_WAVE_E - V3_WAVE_W) * t * t
 
 
-def wave_area():
+def wave_area(profile="agreed"):
     """Area under the curve: the projection integrated along the span."""
-    return (V3_WAVE_W + (V3_WAVE_E - V3_WAVE_W) / 3.0) * (V3_X1 - V3_X0)
+    if profile == "agreed":
+        return (V3_WAVE_W + (V3_WAVE_E - V3_WAVE_W) / 3.0) * (V3_X1 - V3_X0)
+    x0, x1 = V3_WAVE_SPAN
+    n = 2000
+    step = (x1 - x0) / n
+    return sum(wave_projection(x0 + (i + 0.5) * step, profile)
+               for i in range(n)) * step
 
 
-def wave_edge(x):
+def wave_edge(x, profile="agreed"):
     """Plan y of the cantilever's slab edge at x."""
-    return V3_Y0 - wave_projection(x)
+    return V3_Y0 - wave_projection(x, profile)
 
 
-def wave_points(n=72, offset=0.0):
+def wave_points(n=72, offset=0.0, profile="agreed"):
     """The slab edge, or a curve parallel to it, as a list of (x, y).
 
     `offset` moves the curve inboard, which is how the balustrade, the
     soffit reveal and the fascia band are drawn from the same geometry.
     """
     x0, x1 = V3_WAVE_SPAN
-    return [(x0 + (x1 - x0) * i / n, wave_edge(x0 + (x1 - x0) * i / n) + offset)
+    return [(x0 + (x1 - x0) * i / n,
+             wave_edge(x0 + (x1 - x0) * i / n, profile) + offset)
             for i in range(n + 1)]
+
+
+EL_PROFILES = ("agreed", "serpentine", "bow")
 
 
 # ---------------------------------------------------------------------------
@@ -730,3 +766,71 @@ V4_TERR_N = ((V4_ROOF_X1 - V4_CORR_X1) * (V4_ROOF_Y1 - V4_Y1)
 
 def area(x0, y0, x1, y1):
     return (x1 - x0) * (y1 - y0)
+
+
+# ---------------------------------------------------------------------------
+# elevations (revision P15) - the exterior, drawn from the plans
+# ---------------------------------------------------------------------------
+# The elevations exist to show the skin, not to re-state the building, so
+# they read the SAME opening lists the plans draw from.  FACADE is a view
+# onto those lists, not a copy: move a window in the plan and the elevation
+# moves with it, and checks.py fails if the two ever disagree.
+#
+# Faces are named by the wall they are drawn of: "s" is the street
+# frontage, "e" and "n" the two open boundaries, "w" the blind wall.
+FACADE = {
+    0: {"s": V0_WIN_S, "e": V0_WIN_E, "n": V0_WIN_N, "w": V0_VENT_W},
+    1: {"s": V1_WIN_S, "e": V1_WIN_E, "n": V1_WIN_N, "w": V1_VENT_W},
+    2: {"s": V2_WIN_S, "e": V2_WIN_E, "n": V2_WIN_N, "w": V2_VENT_W},
+    3: {"s": V3_WIN_S_LIV + V3_WIN_S_S1, "e": V3_WIN_E, "n": V3_WIN_N,
+        "w": V3_VENT_W},
+    # the penthouse's west wall faces our own corridor, so it carries the
+    # front door as well as windows - the plan draws both in that wall
+    4: {"s": V4_WIN_S, "e": V4_WIN_E, "n": V4_WIN_N,
+        "w": [V4_DOOR_MAIN] + V4_WIN_W},
+}
+
+# Which of those openings go to the floor.  Everything else is a window on
+# a sill.  Taken from the sliding doors the plans actually draw, so this
+# cannot drift either.
+FACADE_DOORS = {
+    (0, "s"): [V0_DOOR_ENTRY],
+    (1, "s"): [V1_DOOR_BALC, V1_DOOR_BALC_M],
+    (2, "s"): [V2_DOOR_BALC_1, V2_DOOR_BALC_2],
+    (3, "s"): [V3_DOOR_BALC],
+    (4, "s"): [V4_DOOR_TERR],
+    (4, "n"): [V4_DOOR_TERR_N],
+    (4, "w"): [V4_DOOR_MAIN],
+}
+
+EL_SILL = 0.90                 # window sill above the floor it stands on
+EL_HEAD = 2.40                 # head of every window and sliding door
+EL_DOOR_HEAD = 2.10            # the front door, which is not full height
+EL_VENT_LO, EL_VENT_HI = 2.10, 2.60     # the west louvres, at high level
+
+# The agreed top.  No scheme may raise it: the penthouse slab is at V4_TOP
+# and its parapet upstand is already drawn on A-104 and A-200.
+EL_TOP = V4_TOP + 0.60
+EL_LEVELS = [0.0, FLOOR_TO_FLOOR, 2 * FLOOR_TO_FLOOR, 3 * FLOOR_TO_FLOOR,
+             ROOF_LEVEL]
+
+# --- scheme A, "Wave": the contemporary skin ------------------------------
+A_RENDER = "#efe7d9"           # warm limestone render
+A_SOFFIT = "#b9ab93"           # the shaded underside of each slab
+A_FRAME = "#6d5c45"            # bronze-anodised frames
+A_GLASS = "#cfd8dc"
+A_NOSING = 0.18                # rounded slab nosing, deeper than the fascia
+A_COVE = 0.05                  # the cove light in the underside of it
+A_PLANTER = (0.55, 0.45)       # planters along the balcony edge: w, h
+
+# --- scheme B, "Arcade": the ornamented skin ------------------------------
+B_RENDER = "#f6f1e7"           # ivory render
+B_TRIM = "#b5503c"             # terracotta trim, after the reference
+B_FRAME = "#5b4636"
+B_GLASS = "#cfd8dc"
+B_BAND = 0.35                  # the trim band at every floor line
+B_CORNICE = 0.55               # the crowning cornice at the penthouse
+B_ARCH_RISE = 0.38             # rise of the segmental heads (see checks)
+B_SURROUND = 0.12              # moulded surround around every opening
+B_BALUSTER = 0.16              # wrought-iron baluster pitch
+B_TILE = 0.30                  # the terracotta band on the penthouse parapet

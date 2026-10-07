@@ -17,6 +17,7 @@ import sys
 import drafting as D
 from drafting import (Sheet, INK, GREY, LIGHT, LW_CUT, LW_SECONDARY,
                       LW_FIXTURE, LW_THIN, LW_HIDDEN)
+import elevations as el
 import fixtures as fx
 import frame as F
 from geometry import *          # noqa: F401,F403  (pure constants)
@@ -2529,9 +2530,197 @@ def sheet_service():
 
 
 # ===========================================================================
+# ===========================================================================
+# A-400 / A-401 / A-410 / A-411  EXTERIOR ELEVATIONS, TWO SCHEMES
+# ===========================================================================
+# Two skins on one agreed building.  The geometry is the plans' - the sheet
+# builders live here rather than in elevations.py because export_cad swaps
+# plans.Sheet to reach the DXF backend, and a builder that resolved Sheet
+# from another module would quietly bypass it and export nothing.
+EL_KEY = {
+    "A": [("Walls", "warm limestone render"),
+          ("Slab nosing", f"rounded, {A_NOSING * 1000:.0f} mm"),
+          ("Cove light", "in the underside of the nosing"),
+          ("Balustrade", f"clear glass, {V3_WAVE_BALUSTRADE * 1000:.0f} mm "
+                         f"inboard"),
+          ("Frames", "bronze anodised"),
+          ("Balcony curve", "serpentine"),
+          ("Projection", f"{EL_SERP_MEAN + EL_SERP_AMP:.2f} / "
+                         f"{EL_SERP_MEAN - EL_SERP_AMP:.2f} m"),
+          ("Balcony area", f"{wave_area('serpentine'):.1f} m² a floor"),
+          ("Top of building", f"+{EL_TOP:.2f}")],
+    "B": [("Walls", "ivory render, terracotta trim"),
+          ("Floor bands", f"{B_BAND * 1000:.0f} mm at every level"),
+          ("Openings", "round arched, keystone"),
+          ("Balustrade", "wrought iron"),
+          ("Frames", "dark stained timber"),
+          ("Balcony curve", "bowed centre bay"),
+          ("Projection", f"{EL_BOW_PEAK:.2f} / {EL_BOW_FLANK:.2f} m"),
+          ("Balcony area", f"{wave_area('bow'):.1f} m² a floor"),
+          ("Top of building", f"+{EL_TOP:.2f}")],
+}
+
+_EL_COMMON = (
+    "Preliminary — the exterior only. The plans, site plan and section are "
+    "agreed at P14 and nothing here changes them: same five levels, same "
+    "9.50 × 13.50 m footprint, same 1.00 m setbacks, same openings. Only "
+    "the skin differs between the two schemes.",
+    "Every opening drawn here is read from the plan it belongs to rather "
+    "than redrawn, and checks.py fails the build if an elevation ever "
+    "shows one the plan does not have.",
+)
+
+EL_NOTES = {
+    "A": list(_EL_COMMON) + [
+        "Scheme A takes its material from the contemporary reference: warm "
+        "limestone render, a rounded slab nosing with a cove light tucked "
+        "into its underside, clear glass balustrades and planting along the "
+        "balcony edge. The four south bays read as glazed ribbons between "
+        "the slabs.",
+        f"The balcony curve is a serpentine — one full period across the "
+        f"frontage, {EL_SERP_MEAN + EL_SERP_AMP:.2f} m deep at each end "
+        f"drawn in to {EL_SERP_MEAN - EL_SERP_AMP:.2f} m at the waist. At "
+        f"the waist it is a planting ledge rather than somewhere to stand; "
+        f"the deep ends carry the furniture.",
+        f"That shape costs area: {wave_area('serpentine'):.1f} m² a floor "
+        f"against the {wave_area():.1f} m² of the curve drawn today, so "
+        f"{4 * (wave_area() - wave_area('serpentine')):.0f} m² over the "
+        f"four balcony levels. Adopting it re-issues A-000 and A-101 to "
+        f"A-104, which carry the balcony in plan.",
+        "The balconies do not wrap the corner as the reference does: the "
+        "1.00 m setbacks forbid anything projecting west, north or east, "
+        "so the cantilever stays on the street frontage.",
+    ],
+    "B": list(_EL_COMMON) + [
+        "Scheme B takes its ornament, not its shape, from the classical "
+        "reference: ivory render with terracotta bands at every floor line, "
+        "moulded surrounds, round-arched heads with keystones, and "
+        "wrought-iron balustrade panels on the same cantilever.",
+        "The entrance is a recessed arched porch with a tiled hood, not a "
+        "projecting portico. The cantilever already gives 1.96 m of cover "
+        "over the front door and the forecourt has no room for one.",
+        f"The balcony curve is a bowed centre bay — flanks at "
+        f"{EL_BOW_FLANK:.2f} m with a {EL_BOW_WIDTH:.2f} m bow swelling to "
+        f"{EL_BOW_PEAK:.2f} m, blended so the bow meets the flanks "
+        f"tangentially. Centred on the frontage rather than the door, "
+        f"because symmetry is the whole character of the scheme.",
+        f"It costs more area than scheme A: {wave_area('bow'):.1f} m² a "
+        f"floor, {4 * (wave_area() - wave_area('bow')):.0f} m² over the "
+        f"four levels. Adopting it re-issues A-000 and A-101 to A-104.",
+        "No pitched roof and no dome. Both raise the building, and at "
+        "+16.45 the penthouse is already a fourth storey for most planning "
+        "codes.",
+    ],
+}
+
+EL_SIDE_NOTES = list(_EL_COMMON) + [
+    "The east and north boundaries are open and carry ordinary windows on "
+    "every floor. The west is the blind elevation: louvred ventilation "
+    "only, drawn at high level, and nothing projects.",
+    "The penthouse stands back 4.81 m from the west and 1.66 m from the "
+    "north, so on those two faces it is drawn in thin line behind the roof "
+    "terrace parapet.",
+    "The balcony appears on the street frontage only and so does not show "
+    "on any of these three faces.",
+]
+
+# Origins are solved from where the face has to LAND on the sheet rather
+# than guessed: ox = wanted_mm - plan_coordinate * (1000 / scale).
+EL_ORIGIN = (-130.0, 482.0)       # 1:50, south elevation at x 120..310 mm
+EL_CURVE_ORIGIN = (-5.0, 578.0)   # 1:100, the curve in plan beneath it
+EL_ORIGIN_3 = ((-21.67, 418.0),   # 1:75, east  at  25..205 mm
+               (63.33, 418.0),    #       north at 230..357 mm
+               (335.33, 418.0))   #       west  at 382..562 mm
+
+
+def _elevation_sheet(number, scheme):
+    """The street frontage at 1:50, with that scheme's curve beside it."""
+    s = el.SCHEME[scheme]
+    D.set_scale(50, *EL_ORIGIN)
+    sh = Sheet(number, f"South Elevation — Scheme {scheme} “{s['name']}”",
+               "street frontage", "1:50 @ A1")
+    sh.rev = "P15"
+    F.border(sh)
+    el.elevation(sh, "s", scheme)
+
+    sh.dim_h(V3_X0, V3_X1, GARDEN_LEVEL - 1.30, ext_from=GARDEN_LEVEL)
+    # the dimensions go on the WEST side: the panel starts at 580 mm and
+    # anything east of the building runs underneath it
+    for i in range(4):
+        sh.dim_v(EL_LEVELS[i], EL_LEVELS[i + 1], V3_X0 - 1.95)
+    sh.dim_v(ROOF_LEVEL, V4_TOP, V3_X0 - 1.95)
+    sh.dim_v(GARDEN_LEVEL, EL_TOP, V3_X0 - 3.05, f"{EL_TOP - GARDEN_LEVEL:.2f}")
+
+    D.set_scale(100, *EL_CURVE_ORIGIN)
+    el.curve_diagram(sh, s["profile"])
+    sh.tag((V3_X0 + V3_X1) / 2.0, V3_Y0 + 1.45,
+           "THE BALCONY CURVE IN PLAN — IT CANNOT SHOW IN ELEVATION",
+           size=2.0, color=GREY)
+
+    F.heading(sh)
+    y = F.legend(sh, 52)
+    y = F.datum_panel(sh, y + 8, f"SCHEME {scheme} — {s['name'].upper()}",
+                      EL_KEY[scheme])
+    F.notes(sh, y + 6, EL_NOTES[scheme])
+    fx.scale_bar(sh, 360, 566, metres=5)
+    F.titleblock(sh)
+    return sh
+
+
+def _sides_sheet(number, scheme):
+    """East, north and west on one sheet at 1:75."""
+    s = el.SCHEME[scheme]
+    sh = None
+    for i, face in enumerate(("e", "n", "w")):
+        lo, hi = el.face_span(face)
+        D.set_scale(75, *EL_ORIGIN_3[i])
+        if sh is None:
+            sh = Sheet(number,
+                       f"Side & Rear Elevations — Scheme {scheme} "
+                       f"“{s['name']}”", "east, north and west", "1:75 @ A1")
+            sh.rev = "P15"
+            F.border(sh)
+        el.elevation(sh, face, scheme)
+        sh.tag((lo + hi) / 2.0, GARDEN_LEVEL - 2.40,
+               f"{el.FACE_NAME[face].upper()} ELEVATION", size=2.4, color=INK)
+        sh.dim_h(lo, hi, GARDEN_LEVEL - 1.30, ext_from=GARDEN_LEVEL)
+
+    F.heading(sh)
+    y = F.legend(sh, 52)
+    y = F.datum_panel(sh, y + 8, f"SCHEME {scheme} — {s['name'].upper()}",
+                      EL_KEY[scheme])
+    F.notes(sh, y + 6, EL_SIDE_NOTES)
+    F.titleblock(sh)
+    return sh
+
+
+def elevations_of(scheme):
+    """Both sheets of one scheme - what the checker walks."""
+    return ((sheet_elev_a(), sheet_elev_a_sides()) if scheme == "A"
+            else (sheet_elev_b(), sheet_elev_b_sides()))
+
+
+def sheet_elev_a():
+    return _elevation_sheet("A-400", "A")
+
+
+def sheet_elev_a_sides():
+    return _sides_sheet("A-401", "A")
+
+
+def sheet_elev_b():
+    return _elevation_sheet("A-410", "B")
+
+
+def sheet_elev_b_sides():
+    return _sides_sheet("A-411", "B")
+
+
 SHEETS = (sheet_site, sheet_ground, sheet_first, sheet_second,
-          sheet_third, sheet_penthouse,
-          sheet_section, sheet_unit_typical, sheet_unit_third, sheet_service)
+          sheet_third, sheet_penthouse, sheet_section,
+          sheet_elev_a, sheet_elev_a_sides,
+          sheet_elev_b, sheet_elev_b_sides,
+          sheet_unit_typical, sheet_unit_third, sheet_service)
 
 
 def slugify(title):

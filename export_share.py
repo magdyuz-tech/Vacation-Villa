@@ -52,7 +52,8 @@ if __name__ == "__main__":
 # A-300 enlargements are left out on purpose: they are three enlargements
 # of apartment units that no longer exist, so binding them into the set
 # would hand the reader drawings of a different building.
-SET_ORDER = ["A-000", "A-100", "A-101", "A-102", "A-103", "A-104", "A-200"]
+SET_ORDER = ["A-000", "A-100", "A-101", "A-102", "A-103", "A-104",
+             "A-200", "A-400", "A-401", "A-410", "A-411"]
 
 
 def bind(pdf_dir, out_dir=None, rev=None):

@@ -50,8 +50,9 @@ REVISIONS = [
     ("P12", "2026-10-07",
      "bedrooms numbered 1-11; all five floors issued as final draft"),
     ("P13", "2026-10-07", "site plan redrawn for the detached villa"),
-    ("P14", None,
+    ("P14", "2026-10-07",
      "section A-A recut through the east strip, and marked on every plan"),
+    ("P15", None, "exterior: two schemes, elevations and balcony curves"),
 ]
 STATUS = "Preliminary design issue — not for construction."
 STATUS_FINAL_DRAFT = ("Final draft — layout agreed with the client; "
