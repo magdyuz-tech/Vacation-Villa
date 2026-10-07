@@ -38,6 +38,10 @@ SCHEME = {
               glass=A_GLASS, profile="serpentine"),
     "B": dict(name="Arcade", render=B_RENDER, soffit=B_TRIM, frame=B_FRAME,
               glass=B_GLASS, profile="bow"),
+    # C wears A's skin exactly: the only thing that differs is the curve,
+    # which is the point of offering it.
+    "C": dict(name="Facet", render=A_RENDER, soffit=A_SOFFIT, frame=A_FRAME,
+              glass=A_GLASS, profile="facet"),
 }
 
 
@@ -159,11 +163,11 @@ def _balcony(sh, scheme):
     lo, hi = face_span("s")
     for level in (1, 2, 3, 4):
         ffl = EL_LEVELS[level]
-        nose = A_NOSING if scheme == "A" else V3_WAVE_FASCIA
+        nose = A_NOSING if scheme in ("A", "C") else V3_WAVE_FASCIA
         sh.rect(lo, ffl - STRUCTURAL_ZONE, hi - lo,
                 STRUCTURAL_ZONE + nose - 0.15, fill=s["soffit"],
                 stroke=INK, sw=LW_CUT)
-        if scheme == "A":
+        if scheme in ("A", "C"):
             # the cove light tucked into the underside of the nosing
             sh.rect(lo, ffl - STRUCTURAL_ZONE - A_COVE, hi - lo, A_COVE,
                     fill="#f6e4c0", stroke=GREY, sw=LW_THIN)
@@ -249,7 +253,7 @@ def elevation(sh, face, scheme, levels=True):
             drawn.append(_opening(sh, face, level, a, b, kind, scheme))
 
     if face == "s":
-        if scheme == "A":
+        if scheme in ("A", "C"):
             # the contemporary reference arches its ground floor too, which
             # is the one thing the two schemes share
             for a, b in FACADE[0]["s"]:

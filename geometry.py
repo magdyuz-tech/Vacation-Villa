@@ -396,6 +396,17 @@ EL_SERP_MEAN, EL_SERP_AMP = 1.35, 0.60    # scheme A, one cosine period
 EL_BOW_FLANK, EL_BOW_PEAK = 0.90, 1.95    # scheme B, straight flanks
 EL_BOW_WIDTH = 5.00                       # ... and the bow between them
 
+# Scheme C is the serpentine's gesture built out of straight runs joined by
+# short radiused transitions - "straight curvy".  Two things recommend it
+# over the true serpentine: the formwork is straight for 7.10 m of the
+# 9.50 m span instead of curved end to end, and because the deep runs are
+# flat rather than passing through their depth it carries 14.9 m2 a floor
+# against the serpentine's 12.8.  The transitions are raised cosines, so
+# every joint is a tangent and the eye reads one continuous edge.
+EL_FACET_DEEP, EL_FACET_WAIST = 1.95, 0.90
+EL_FACET_RUN = 2.40                       # the straight run at each end
+EL_FACET_BLEND = 1.20                     # each transition
+
 
 def wave_projection(x, profile="agreed"):
     """Projection of the south cantilever at plan x, metres from the wall."""
@@ -403,6 +414,20 @@ def wave_projection(x, profile="agreed"):
     t = (x - x0) / (x1 - x0)
     if profile == "serpentine":
         return EL_SERP_MEAN + EL_SERP_AMP * math.cos(2.0 * math.pi * t)
+    if profile == "facet":
+        d = x - x0
+        span = x1 - x0
+        mid = span - 2.0 * EL_FACET_RUN - 2.0 * EL_FACET_BLEND
+        lo, hi = EL_FACET_WAIST, EL_FACET_DEEP
+        if d <= EL_FACET_RUN or d >= span - EL_FACET_RUN:
+            return hi
+        if d <= EL_FACET_RUN + EL_FACET_BLEND:
+            u = (d - EL_FACET_RUN) / EL_FACET_BLEND
+            return lo + (hi - lo) * 0.5 * (1.0 + math.cos(math.pi * u))
+        if d <= EL_FACET_RUN + EL_FACET_BLEND + mid:
+            return lo
+        u = (d - EL_FACET_RUN - EL_FACET_BLEND - mid) / EL_FACET_BLEND
+        return lo + (hi - lo) * 0.5 * (1.0 - math.cos(math.pi * u))
     if profile == "bow":
         # a raised cosine, so the bow meets the flanks with zero slope and
         # the joint is a tangent rather than a kink
@@ -443,7 +468,7 @@ def wave_points(n=72, offset=0.0, profile="agreed"):
             for i in range(n + 1)]
 
 
-EL_PROFILES = ("agreed", "serpentine", "bow")
+EL_PROFILES = ("agreed", "serpentine", "facet", "bow")
 
 
 # ---------------------------------------------------------------------------

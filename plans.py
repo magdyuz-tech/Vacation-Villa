@@ -2572,6 +2572,20 @@ EL_KEY = {
           ("Top of building", f"+{EL_TOP:.2f}")],
 }
 
+EL_KEY["C"] = [("Walls", "warm limestone render"),
+               ("Slab nosing", f"rounded, {A_NOSING * 1000:.0f} mm"),
+               ("Cove light", "in the underside of the nosing"),
+               ("Balustrade", f"clear glass, "
+                              f"{V3_WAVE_BALUSTRADE * 1000:.0f} mm inboard"),
+               ("Frames", "bronze anodised"),
+               ("Balcony curve", "straight runs, radiused"),
+               ("Projection", f"{EL_FACET_DEEP:.2f} / {EL_FACET_WAIST:.2f} m"),
+               ("Straight formwork",
+                f"{2 * EL_FACET_RUN + (V3_X1 - V3_X0) - 2 * EL_FACET_RUN - 2 * EL_FACET_BLEND:.2f}"
+                f" of {V3_X1 - V3_X0:.2f} m"),
+               ("Balcony area", f"{wave_area('facet'):.1f} m² a floor"),
+               ("Top of building", f"+{EL_TOP:.2f}")]
+
 _EL_COMMON = (
     "Preliminary — the exterior only. The plans, site plan and section are "
     "agreed at P14 and nothing here changes them: same five levels, same "
@@ -2624,6 +2638,33 @@ EL_NOTES = {
         "codes.",
     ],
 }
+
+EL_NOTES["C"] = list(_EL_COMMON) + [
+    "Scheme C is scheme A's skin exactly — warm limestone, cove-lit slab "
+    "nosings, glass balustrades, planting, the same arched ground floor. "
+    "Only the balcony curve differs, which is the whole point of putting "
+    "it beside A.",
+    f"The curve is the serpentine built out of straight runs: "
+    f"{EL_FACET_RUN:.2f} m flat at {EL_FACET_DEEP:.2f} m deep at each end, "
+    f"a flat waist at {EL_FACET_WAIST:.2f} m in the middle, and "
+    f"{EL_FACET_BLEND:.2f} m radiused transitions between. Every joint is "
+    "a tangent, so from the street the eye still reads one continuous edge.",
+    f"Two things recommend it over the true serpentine. The formwork is "
+    f"straight for {(V3_X1 - V3_X0) - 2 * EL_FACET_BLEND:.2f} m of the "
+    f"{V3_X1 - V3_X0:.2f} m span rather than curved end to end. And "
+    f"because the deep runs are flat rather than passing through their "
+    f"depth, it carries {wave_area('facet'):.1f} m² a floor against the "
+    f"serpentine's {wave_area('serpentine'):.1f} — "
+    f"{4 * (wave_area('facet') - wave_area('serpentine')):.0f} m² more "
+    "over the four balcony levels.",
+    f"It still costs area against the curve drawn today: "
+    f"{wave_area():.1f} m² a floor becomes {wave_area('facet'):.1f}. "
+    f"Adopting it re-issues A-000 and A-101 to A-104, which carry the "
+    f"balcony in plan.",
+    "The balconies do not wrap the corner: the 1.00 m setbacks forbid "
+    "anything projecting west, north or east, so the cantilever stays on "
+    "the street frontage.",
+]
 
 EL_SIDE_NOTES = list(_EL_COMMON) + [
     "The east and north boundaries are open and carry ordinary windows on "
@@ -2708,8 +2749,9 @@ def _sides_sheet(number, scheme):
 
 def elevations_of(scheme):
     """Both sheets of one scheme - what the checker walks."""
-    return ((sheet_elev_a(), sheet_elev_a_sides()) if scheme == "A"
-            else (sheet_elev_b(), sheet_elev_b_sides()))
+    return {"A": lambda: (sheet_elev_a(), sheet_elev_a_sides()),
+            "B": lambda: (sheet_elev_b(), sheet_elev_b_sides()),
+            "C": lambda: (sheet_elev_c(), sheet_elev_c_sides())}[scheme]()
 
 
 EL_CTX_ORIGIN = ((60.0, 262.0),    # 1:100, scheme A on the upper half
@@ -2794,6 +2836,14 @@ def sheet_elev_b():
     return _elevation_sheet("A-410", "B")
 
 
+def sheet_elev_c():
+    return _elevation_sheet("A-420", "C")
+
+
+def sheet_elev_c_sides():
+    return _sides_sheet("A-421", "C")
+
+
 def sheet_elev_b_sides():
     return _sides_sheet("A-411", "B")
 
@@ -2802,6 +2852,7 @@ SHEETS = (sheet_site, sheet_ground, sheet_first, sheet_second,
           sheet_third, sheet_penthouse, sheet_section,
           sheet_elev_a, sheet_elev_a_sides,
           sheet_elev_b, sheet_elev_b_sides,
+          sheet_elev_c, sheet_elev_c_sides,
           sheet_street_context,
           sheet_unit_typical, sheet_unit_third, sheet_service)
 

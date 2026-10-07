@@ -621,7 +621,8 @@ def elevations_match_the_plans():
             in_plan[(level, face)] = found
 
     problems = []
-    for scheme, number in (("A", "A-400/A-401"), ("B", "A-410/A-411")):
+    for scheme, number in (("A", "A-400/A-401"), ("B", "A-410/A-411"),
+                           ("C", "A-420/A-421")):
         drawn = {}
         real = el._opening
 
