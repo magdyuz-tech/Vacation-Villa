@@ -11,93 +11,21 @@ import os
 import re
 import sys
 
-SHEETS = [
-    ("ARC-001", "Cover Sheet & Drawing Index", "the whole set", "NTS",
-     "Project data and every sheet the project can draw."),
-    ("ARC-002", "General Notes, Symbols & Compliance", "the whole set",
-     "NTS", "Drafting conventions and the compliance matrix, open."),
-    ("A-000", "Site Plan", "+0.00", "1:75",
-     "The plot, the garden corridor and the building footprint."),
-    ("A-100", "Ground Floor Plan — Detached Villa", "+0.00", "1:50",
-     "Reception hall, dining, kitchen and a guest suite."),
-    ("A-101", "First Floor Plan — Detached Villa", "+3.30", "1:50",
-     "Living area, master suite and two bedrooms, on the wave balcony."),
-    ("A-102", "Second Floor Plan — Detached Villa", "+6.60", "1:50",
-     "Two suites and two further bedrooms, on the same balcony."),
-    ("A-103", "Third Floor Plan — Detached Villa", "+9.90", "1:50",
-     "Living area, two suites and a bedroom, on the same balcony."),
-    ("A-104", "Penthouse Plan — Detached Villa", "+13.20", "1:50",
-     "Two-bedroom roof apartment, terrace and pergola."),
-    ("ARC-106", "Roof Plan", "+16.45 / +13.20", "1:50",
-     "Every surface that sheds water, with its level and its falls."),
-    ("A-200", "Section A–A", "through the core", "1:50",
-     "Cut through the glazing, lift shaft, stair and north rooms."),
-    ("ARC-301", "Section B–B — Transverse", "looking north", "1:50",
-     "The width, the spine and both setbacks; A-A shows the depth."),
-    ("A-400", "South Elevation — Scheme A “Wave”", "street frontage",
-     "1:50", "Adopted. Limestone, cove-lit slab nosing, glass."),
-    ("A-401", "Side & Rear Elevations — Scheme A “Wave”",
-     "east, north and west", "1:75",
-     "The three remaining faces of the contemporary scheme."),
-    ("A-410", "South Elevation — Scheme B “Arcade”", "street frontage",
-     "1:50", "Not selected: ornamented skin, arched bays, terracotta."),
-    ("A-411", "Side & Rear Elevations — Scheme B “Arcade”",
-     "east, north and west", "1:75",
-     "Not selected: the ornamented scheme's three other faces."),
-    ("A-420", "South Elevation — Scheme C “Facet”", "street frontage",
-     "1:50", "Not selected: scheme A's skin, straight-run balcony."),
-    ("A-421", "Side & Rear Elevations — Scheme C “Facet”",
-     "east, north and west", "1:75",
-     "Not selected: the faceted scheme's three other faces."),
-    ("A-402", "Street Elevation in Context", "scheme A, as surveyed",
-     "1:100", "The villa between its two surveyed neighbours."),
-    ("A-430", "Axonometric — Three Balcony Options", "from the south-west",
-     "1:250", "The three curves offered; scheme A was adopted."),
-    ("ARC-400", "Reflected Ceiling Plan — Ground Floor", "+0.00", "1:50",
-     "The ceiling seen from below: soffit level and wet-room bulkheads."),
-    ("ARC-401", "Reflected Ceiling Plan — First Floor", "+3.30", "1:50",
-     "The ceiling seen from below: soffit level and wet-room bulkheads."),
-    ("ARC-402", "Reflected Ceiling Plan — Second Floor", "+6.60", "1:50",
-     "The ceiling seen from below: soffit level and wet-room bulkheads."),
-    ("ARC-403", "Reflected Ceiling Plan — Third Floor", "+9.90", "1:50",
-     "The ceiling seen from below: soffit level and wet-room bulkheads."),
-    ("ARC-404", "Reflected Ceiling Plan — Penthouse Floor", "+13.20", "1:50",
-     "The ceiling seen from below: soffit level and wet-room bulkheads."),
-    ("ARC-700", "External Works & Landscape", "garden −0.50", "1:75",
-     "The garden as a trade package: 113.3 m² of ground cover measured."),
-    ("ARC-500", "Door & Window Schedule", "all levels", "1:100",
-     "95 openings in 24 types, measured off the plans."),
-    ("STR-001", "Structural Notes & Design Criteria", "the frame", "NTS",
-     "What the package is, and what it deliberately is not."),
-    ("STR-100", "Excavation, Grading & Shoring", "garden to +0.00", "1:75",
-     "The extent of the dig; its depth waits on GEO-001."),
-    ("STR-101", "Foundation Layout", "formation by GEO-001", "1:50",
-     "A pad under every column, at the right coordinate, without a size."),
-    ("STR-200", "Column Schedule & Grid", "all levels", "1:50",
-     "Twelve columns on a 3 × 4 grid, with coordinates."),
-    ("STR-301", "Slab Framing Layout at +0.00", "+0.00", "1:50",
-     "Primary beams on the grid; slab thickness by the engineer."),
-    ("STR-302", "Slab Framing Layout at +3.30", "+3.30", "1:50",
-     "Primary beams on the grid; slab thickness by the engineer."),
-    ("STR-303", "Slab Framing Layout at +6.60", "+6.60", "1:50",
-     "Primary beams on the grid; slab thickness by the engineer."),
-    ("STR-304", "Slab Framing Layout at +9.90", "+9.90", "1:50",
-     "Primary beams on the grid; slab thickness by the engineer."),
-    ("STR-305", "Slab Framing Layout at +13.20", "+13.20", "1:50",
-     "Primary beams on the grid; slab thickness by the engineer."),
-    ("STR-306", "Slab Framing Layout at +16.45", "+16.45", "1:50",
-     "Primary beams on the grid; slab thickness by the engineer."),
-    ("STR-400", "Retaining & Boundary Walls", "garden to +0.00", "1:75",
-     "Where ground is retained; how is the engineer's."),
-    ("STR-500", "Cantilever Balcony Structure", "four levels", "1:20",
-     "The hardest element in the building, drawn at 1:20 for that reason."),
-    ("A-300", "Typical Apartment — Enlarged Plan", "+3.30 / +6.60", "1:25",
-     "Entry, wet rooms and kitchenettes of both apartments."),
-    ("A-301", "Third Floor Apartment — Enlarged Plan", "+9.90", "1:25",
-     "The living band across both blocks and the master suite."),
-    ("A-302", "Central Kitchen & Laundry — Enlarged Plan", "+0.00", "1:25",
-     "The service floor: kitchen, servery, wash-up, laundry, stores."),
-]
+# The sheet list used to be typed here, and went stale every time the set
+# changed - it still said ten sheets and four storeys when there were
+# thirty-five and five.  It is now read from the issued set and from the
+# sheets themselves, so it cannot.
+
+
+def sheets():
+    """(number, title) for the issued set, in the order it is read."""
+    import export_share
+    import plans
+
+    titles = {n: t for n, t, _lv, _sc, _rev
+              in [plans.IX_SELF] + plans.sheet_index(skip=plans.sheet_cover)}
+    return [(n, titles.get(n, n)) for n in export_share.SET_ORDER]
+
 
 CSS = """
 *{box-sizing:border-box;margin:0;padding:0}
@@ -239,8 +167,11 @@ def _rev_of(path):
 
 
 def build(drawings_dir, out_path):
+    import frame as F
+
+    rows = sheets()
     parts, tabs = [], []
-    for i, (num, title, level, scale, blurb) in enumerate(SHEETS):
+    for num, title in rows:
         path = _sheet_file(drawings_dir, num)
         rev = _rev_of(path)
         with open(path, encoding="utf-8") as fh:
@@ -255,15 +186,15 @@ def build(drawings_dir, out_path):
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Four-Storey Vacation Home — Drawing Set</title>
+<title>{F.PROJECT.title()} — Drawing Set</title>
 <style>{CSS}</style>
 </head>
 <body>
 <header>
-  <h1>Four-Storey Vacation Home</h1>
-  <span class="sub">Ten sheets · ISO A1 · A-100 to A-103 are the
-  detached villa, with the penthouse at A-104; the rest are the
-  superseded apartment scheme and have not been redrawn</span>
+  <h1>{F.PROJECT.title()}</h1>
+  <span class="sub">{len(rows)} sheets · ISO A1 · {F.LOCATION.title()} ·
+  revision {F.REVISIONS[-1][0]} · architecture, structure and services;
+  structure and services are layout for others to design</span>
 </header>
 <nav>
   {''.join(tabs)}

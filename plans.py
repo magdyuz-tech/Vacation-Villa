@@ -22,6 +22,7 @@ import axonometric as ax
 import deliverables as dl
 import documents as doc
 import elevations as el
+import services as sv
 import structure as st
 import fixtures as fx
 import frame as F
@@ -2945,6 +2946,166 @@ def sheet_elev_b_sides():
 
 
 # ===========================================================================
+# EL / ME / PL  THE SERVICES PACKAGE, AS COORDINATION
+# ===========================================================================
+# Thirty-three sheets, every one class L.  They reserve space and record
+# where the architecture already decides something - where the wet rooms
+# stack, where the tanks stand, which rooms are habitable - and they draw
+# no fitting, no size and no load.
+_SVC_CACHE = {}
+
+
+def _svc_data():
+    """Rooms, the stack zone and the isolated wet rooms, measured once."""
+    if not _SVC_CACHE:
+        rooms = sv.rooms_by_level()
+        zone = sv.stack_zone(rooms)
+        _SVC_CACHE.update(rooms=rooms, zone=zone,
+                          isolated=sv.isolated_wet(rooms, zone))
+    return _SVC_CACHE
+
+
+def _svc_sheet(code, level, title, discipline, marks, purpose):
+    data = _svc_data()
+    _lv, name, fn = RCP_LEVELS[level]
+    D.set_scale(50, *(GF_ORIGIN if level == 0 else PLAN_ORIGIN))
+    sh = Sheet(code, f"{title} — {name} Floor", f"+{EL_LEVELS[level]:.2f}",
+               "1:50 @ A1")
+    sh.rev = "P19"
+    sh.status = sv.STAMP
+    F.border(sh)
+
+    _rcp_plan(sh, globals()[fn])
+    here = data["rooms"][level]
+    if marks == "habitable":
+        n = sv.draw_rooms(sh, here, sv.is_habitable, "ROOMS SERVED")
+    elif marks == "wet":
+        n = sv.draw_rooms(sh, here, sv.is_wet, "WET ROOMS")
+    else:
+        n = len(here)
+    zone = data["zone"]
+    if zone and level in zone[4]:
+        sv.draw_zone(sh, zone)
+    sv.draw_isolated(sh, data["isolated"].get(level, []))
+    if level == 4:
+        sv.draw_plant(sh)
+
+    F.heading(sh)
+    y = F.legend(sh, 52)
+    y = F.datum_panel(sh, y + 8, "COORDINATION", [
+        ("Level", f"+{EL_LEVELS[level]:.2f}"),
+        ("Discipline", discipline),
+        ("Rooms marked", f"{n}"),
+        ("Riser reserved",
+         f"{zone[2] - zone[0]:.2f} × {zone[3] - zone[1]:.2f} m"
+         if zone else "—"),
+        ("Isolated wet rooms", f"{len(data['isolated'].get(level, []))}"),
+        ("Soffit", f"+{EL_LEVELS[level] + CLEAR_HEIGHT:.2f}"),
+        ("Structural zone", f"{STRUCTURAL_ZONE * 1000:.0f} mm"),
+        ("Sizes and loads", "by the engineer")])
+    F.notes(sh, y + 6, [
+        purpose,
+        "Coordination only. No fitting, outlet, diffuser, pipe or cable "
+        "is drawn, and no size, load or capacity appears. Those are the "
+        "services engineer's design; a layout invented here would be "
+        "thrown away, and in the meantime somebody might price it.",
+        "What this sheet does fix is space: the riser reserved through "
+        "the building, the rooms that have to be served, and the plant "
+        "position. Those are expensive to change later, which is why the "
+        "architecture states them now.",
+        "The plan is run from the floor plan with its fittings switched "
+        "off, so it cannot drift from A-"
+        f"{100 + level} when a partition moves.",
+        "Builder's work — holes, chases, upstands and bases — is to be "
+        "agreed against this layout before any slab is poured.",
+    ])
+    F.compass_and_scale(sh, x=470.0, y=500.0)
+    F.titleblock(sh)
+    return sh
+
+
+def _svc_schematic(code, title, discipline, purpose):
+    """A diagram rather than a plan: levels stacked, riser through them."""
+    data = _svc_data()
+    zone = data["zone"]
+    D.set_scale(50, -150.0, 470.0)
+    sh = Sheet(code, title, "the whole building", "schematic")
+    sh.rev = "P19"
+    sh.status = sv.STAMP
+    F.border(sh)
+
+    x0, x1 = 1.00, 9.00
+    for i, ffl in enumerate(EL_LEVELS):
+        sh.line(x0, ffl, x1, ffl, w=LW_CUT, color=INK)
+        sh.tag(x0 - 0.90, ffl + 0.30, f"+{ffl:.2f}", size=2.0, color=INK)
+        sh.tag(x1 + 1.30, ffl + 0.30, RCP_LEVELS[i][1].upper(), size=1.9,
+               color=GREY)
+    sh.line(x0, V4_TOP, x1, V4_TOP, w=LW_CUT, color=INK)
+    sh.tag(x0 - 0.90, V4_TOP + 0.30, f"+{V4_TOP:.2f}", size=2.0, color=INK)
+    sh.tag(x1 + 1.30, V4_TOP + 0.30, "ROOF", size=1.9, color=GREY)
+
+    # the riser, running the full height
+    rx0, rx1 = 5.20, 6.40
+    sh.rect(rx0, 0.0, rx1 - rx0, V4_TOP, fill="#e8eef2", stroke=INK,
+            sw=LW_SECONDARY, dash="5 3")
+    sh.tag((rx0 + rx1) / 2.0, V4_TOP / 2.0, "RISER", size=2.2, color=INK,
+           rot=-90)
+    sh.rect(rx0 - 1.40, V4_TOP, 3.90, 1.10, fill="#e0e4e7", stroke=INK,
+            sw=LW_SECONDARY)
+    sh.tag((rx0 + rx1) / 2.0, V4_TOP + 0.45, "PLANT / TANKS", size=1.9,
+           color=INK)
+    sh.line((rx0 + rx1) / 2.0, 0.0, (rx0 + rx1) / 2.0, -1.60, w=LW_CUT,
+            color=INK, dash="6 3")
+    sh.tag((rx0 + rx1) / 2.0, -2.05, "TO BELOW-GROUND DRAINAGE — BY THE "
+           "ENGINEER", size=1.8, color=INK)
+
+    F.heading(sh)
+    y = F.legend(sh, 52)
+    y = F.datum_panel(sh, y + 8, "THE RISER", [
+        ("Levels served", f"{len(EL_LEVELS)}"),
+        ("Riser reserved",
+         f"{zone[2] - zone[0]:.2f} × {zone[3] - zone[1]:.2f} m"
+         if zone else "—"),
+        ("Wet on", f"{len(zone[4])} levels" if zone else "—"),
+        ("Plant", "roof, north-west"),
+        ("Height served", f"{V4_TOP:.2f} m"),
+        ("Sizes", "by the engineer"),
+        ("Capacities", "by the engineer"),
+        ("Below ground", "by the engineer")])
+    F.notes(sh, y + 6, [
+        purpose,
+        "A diagram, not a drawing to scale, and it fixes one thing: the "
+        "riser runs the full height of the building in the east strip, "
+        "where the wet rooms were measured to stack on every level.",
+        "No size, capacity, rating or load appears. The engineer's design "
+        "fills them in; this reserves the space it has to fit through.",
+        "The connection below ground waits on GEO-001 and the drainage "
+        "design, and on whatever the authority requires at the boundary.",
+    ])
+    F.titleblock(sh)
+    return sh
+
+
+def _svc_builders():
+    out = []
+    for prefix, series, title, discipline, marks, purpose in sv.SYSTEMS:
+        for level in range(len(EL_LEVELS)):
+            def build(prefix=prefix, series=series, level=level, title=title,
+                      discipline=discipline, marks=marks, purpose=purpose):
+                return _svc_sheet(f"{prefix}-{series + level}", level, title,
+                                  discipline, marks, purpose)
+            build.__name__ = f"sheet_{prefix.lower()}_{series + level}"
+            out.append(build)
+    for code, title, discipline, purpose in sv.SCHEMATICS:
+        def build(code=code, title=title, discipline=discipline,
+                  purpose=purpose):
+            return _svc_schematic(code, title, discipline, purpose)
+        build.__name__ = f"sheet_{code.lower().replace('-', '_')}"
+        out.append(build)
+    return out
+
+
+# ===========================================================================
 # STR-001 ... STR-500  THE STRUCTURAL PACKAGE, AS LAYOUT
 # ===========================================================================
 # Twelve sheets, every one class L.  The grid, the coordinates, the spans,
@@ -4439,7 +4600,7 @@ def sheet_register():
 
 
 SHEETS = (sheet_cover, sheet_general_notes,
-          *_str_builders(),
+          *_str_builders(), *_svc_builders(),
           sheet_register, sheet_openings, sheet_roof,
           sheet_section_b, sheet_external_works,
           *_rcp_builders(),

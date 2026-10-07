@@ -43,9 +43,9 @@ Structural slabs: +0.00, +3.30, +6.60, +9.90, +13.20, +16.45 — six slabs to fi
 | A — Presentation and estimation | 8 | 1 | 0 | 0 | 7 |
 | B — Architecture | 21 | 20 | 0 | 0 | 1 |
 | C — Structure | 12 | 12 | 0 | 0 | 0 |
-| D — Building services | 33 | 0 | 0 | 3 | 30 |
+| D — Building services | 33 | 33 | 0 | 0 | 0 |
 | E — Quantities and cost control | 4 | 4 | 0 | 0 | 0 |
-| **Total** | **81** | **38** | **0** | **4** | **39** |
+| **Total** | **81** | **71** | **0** | **1** | **9** |
 
 ## Package 0 — Information required from others
 
@@ -151,39 +151,39 @@ Structural slabs: +0.00, +3.30, +6.60, +9.90, +13.20, +16.45 — six slabs to fi
 
 | Code | Deliverable | Discipline | Scale | Format | Class | Status | Waits on | Resolves to |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| EL-100 | Power and small power layout - ground floor, +0.00 | Electrical | 1:50 | A1 sheet | L | not started | ARC-101 | — |
-| EL-101 | Power and small power layout - first floor, +3.30 | Electrical | 1:50 | A1 sheet | L | not started | ARC-102 | — |
-| EL-102 | Power and small power layout - second floor, +6.60 | Electrical | 1:50 | A1 sheet | L | not started | ARC-103 | — |
-| EL-103 | Power and small power layout - third floor, +9.90 | Electrical | 1:50 | A1 sheet | L | not started | ARC-104 | — |
-| EL-104 | Power and small power layout - penthouse floor, +13.20 | Electrical | 1:50 | A1 sheet | L | not started | ARC-105 | — |
-| EL-200 | Lighting and switching layout - ground floor, +0.00 | Electrical | 1:50 | A1 sheet | L | not started | ARC-101 | — |
-| EL-201 | Lighting and switching layout - first floor, +3.30 | Electrical | 1:50 | A1 sheet | L | not started | ARC-102 | — |
-| EL-202 | Lighting and switching layout - second floor, +6.60 | Electrical | 1:50 | A1 sheet | L | not started | ARC-103 | — |
-| EL-203 | Lighting and switching layout - third floor, +9.90 | Electrical | 1:50 | A1 sheet | L | not started | ARC-104 | — |
-| EL-204 | Lighting and switching layout - penthouse floor, +13.20 | Electrical | 1:50 | A1 sheet | L | not started | ARC-105 | — |
-| EL-300 | Low voltage, data and security layout - ground floor, +0.00 | Electrical | 1:50 | A1 sheet | L | not started | ARC-101 | — |
-| EL-301 | Low voltage, data and security layout - first floor, +3.30 | Electrical | 1:50 | A1 sheet | L | not started | ARC-102 | — |
-| EL-302 | Low voltage, data and security layout - second floor, +6.60 | Electrical | 1:50 | A1 sheet | L | not started | ARC-103 | — |
-| EL-303 | Low voltage, data and security layout - third floor, +9.90 | Electrical | 1:50 | A1 sheet | L | not started | ARC-104 | — |
-| EL-304 | Low voltage, data and security layout - penthouse floor, +13.20 | Electrical | 1:50 | A1 sheet | L | not started | ARC-105 | — |
-| ME-100 | HVAC layout - ground floor, +0.00 | Mechanical | 1:50 | A1 sheet | L | not started | ARC-101 | — |
-| ME-101 | HVAC layout - first floor, +3.30 | Mechanical | 1:50 | A1 sheet | L | not started | ARC-102 | — |
-| ME-102 | HVAC layout - second floor, +6.60 | Mechanical | 1:50 | A1 sheet | L | not started | ARC-103 | — |
-| ME-103 | HVAC layout - third floor, +9.90 | Mechanical | 1:50 | A1 sheet | L | not started | ARC-104 | — |
-| ME-104 | HVAC layout - penthouse floor, +13.20 | Mechanical | 1:50 | A1 sheet | L | not started | ARC-105 | — |
-| PL-100 | Water supply layout - ground floor, +0.00 | Plumbing | 1:50 | A1 sheet | L | not started | ARC-101 | — |
-| PL-101 | Water supply layout - first floor, +3.30 | Plumbing | 1:50 | A1 sheet | L | not started | ARC-102 | — |
-| PL-102 | Water supply layout - second floor, +6.60 | Plumbing | 1:50 | A1 sheet | L | not started | ARC-103 | — |
-| PL-103 | Water supply layout - third floor, +9.90 | Plumbing | 1:50 | A1 sheet | L | not started | ARC-104 | — |
-| PL-104 | Water supply layout - penthouse floor, +13.20 | Plumbing | 1:50 | A1 sheet | L | not started | ARC-105 | — |
-| PL-200 | Drainage layout - ground floor, +0.00 | Plumbing | 1:50 | A1 sheet | L | not started | ARC-101 | — |
-| PL-201 | Drainage layout - first floor, +3.30 | Plumbing | 1:50 | A1 sheet | L | not started | ARC-102 | — |
-| PL-202 | Drainage layout - second floor, +6.60 | Plumbing | 1:50 | A1 sheet | L | not started | ARC-103 | — |
-| PL-203 | Drainage layout - third floor, +9.90 | Plumbing | 1:50 | A1 sheet | L | not started | ARC-104 | — |
-| PL-204 | Drainage layout - penthouse floor, +13.20 | Plumbing | 1:50 | A1 sheet | L | not started | ARC-105 | — |
-| EL-400 | Electrical single line diagram | Electrical | Schematic | A1 sheet | L | blocked | EL-100 | — |
-| ME-200 | HVAC schematic and plant arrangement | Mechanical | Schematic | A1 sheet | L | blocked | ME-100, ARC-106 | — |
-| PL-300 | Drainage and water riser diagram | Plumbing | Schematic | A1 sheet | L | blocked | PL-100, PL-200 | — |
+| EL-100 | Power and small power layout - ground floor, +0.00 | Electrical | 1:50 | A1 sheet | L | issued | ARC-101 | EL-100 |
+| EL-101 | Power and small power layout - first floor, +3.30 | Electrical | 1:50 | A1 sheet | L | issued | ARC-102 | EL-101 |
+| EL-102 | Power and small power layout - second floor, +6.60 | Electrical | 1:50 | A1 sheet | L | issued | ARC-103 | EL-102 |
+| EL-103 | Power and small power layout - third floor, +9.90 | Electrical | 1:50 | A1 sheet | L | issued | ARC-104 | EL-103 |
+| EL-104 | Power and small power layout - penthouse floor, +13.20 | Electrical | 1:50 | A1 sheet | L | issued | ARC-105 | EL-104 |
+| EL-200 | Lighting and switching layout - ground floor, +0.00 | Electrical | 1:50 | A1 sheet | L | issued | ARC-101 | EL-200 |
+| EL-201 | Lighting and switching layout - first floor, +3.30 | Electrical | 1:50 | A1 sheet | L | issued | ARC-102 | EL-201 |
+| EL-202 | Lighting and switching layout - second floor, +6.60 | Electrical | 1:50 | A1 sheet | L | issued | ARC-103 | EL-202 |
+| EL-203 | Lighting and switching layout - third floor, +9.90 | Electrical | 1:50 | A1 sheet | L | issued | ARC-104 | EL-203 |
+| EL-204 | Lighting and switching layout - penthouse floor, +13.20 | Electrical | 1:50 | A1 sheet | L | issued | ARC-105 | EL-204 |
+| EL-300 | Low voltage, data and security layout - ground floor, +0.00 | Electrical | 1:50 | A1 sheet | L | issued | ARC-101 | EL-300 |
+| EL-301 | Low voltage, data and security layout - first floor, +3.30 | Electrical | 1:50 | A1 sheet | L | issued | ARC-102 | EL-301 |
+| EL-302 | Low voltage, data and security layout - second floor, +6.60 | Electrical | 1:50 | A1 sheet | L | issued | ARC-103 | EL-302 |
+| EL-303 | Low voltage, data and security layout - third floor, +9.90 | Electrical | 1:50 | A1 sheet | L | issued | ARC-104 | EL-303 |
+| EL-304 | Low voltage, data and security layout - penthouse floor, +13.20 | Electrical | 1:50 | A1 sheet | L | issued | ARC-105 | EL-304 |
+| ME-100 | HVAC layout - ground floor, +0.00 | Mechanical | 1:50 | A1 sheet | L | issued | ARC-101 | ME-100 |
+| ME-101 | HVAC layout - first floor, +3.30 | Mechanical | 1:50 | A1 sheet | L | issued | ARC-102 | ME-101 |
+| ME-102 | HVAC layout - second floor, +6.60 | Mechanical | 1:50 | A1 sheet | L | issued | ARC-103 | ME-102 |
+| ME-103 | HVAC layout - third floor, +9.90 | Mechanical | 1:50 | A1 sheet | L | issued | ARC-104 | ME-103 |
+| ME-104 | HVAC layout - penthouse floor, +13.20 | Mechanical | 1:50 | A1 sheet | L | issued | ARC-105 | ME-104 |
+| PL-100 | Water supply layout - ground floor, +0.00 | Plumbing | 1:50 | A1 sheet | L | issued | ARC-101 | PL-100 |
+| PL-101 | Water supply layout - first floor, +3.30 | Plumbing | 1:50 | A1 sheet | L | issued | ARC-102 | PL-101 |
+| PL-102 | Water supply layout - second floor, +6.60 | Plumbing | 1:50 | A1 sheet | L | issued | ARC-103 | PL-102 |
+| PL-103 | Water supply layout - third floor, +9.90 | Plumbing | 1:50 | A1 sheet | L | issued | ARC-104 | PL-103 |
+| PL-104 | Water supply layout - penthouse floor, +13.20 | Plumbing | 1:50 | A1 sheet | L | issued | ARC-105 | PL-104 |
+| PL-200 | Drainage layout - ground floor, +0.00 | Plumbing | 1:50 | A1 sheet | L | issued | ARC-101 | PL-200 |
+| PL-201 | Drainage layout - first floor, +3.30 | Plumbing | 1:50 | A1 sheet | L | issued | ARC-102 | PL-201 |
+| PL-202 | Drainage layout - second floor, +6.60 | Plumbing | 1:50 | A1 sheet | L | issued | ARC-103 | PL-202 |
+| PL-203 | Drainage layout - third floor, +9.90 | Plumbing | 1:50 | A1 sheet | L | issued | ARC-104 | PL-203 |
+| PL-204 | Drainage layout - penthouse floor, +13.20 | Plumbing | 1:50 | A1 sheet | L | issued | ARC-105 | PL-204 |
+| EL-400 | Electrical single line diagram | Electrical | Schematic | A1 sheet | L | issued | EL-100 | EL-400 |
+| ME-200 | HVAC schematic and plant arrangement | Mechanical | Schematic | A1 sheet | L | issued | ME-100, ARC-106 | ME-200 |
+| PL-300 | Drainage and water riser diagram | Plumbing | Schematic | A1 sheet | L | issued | PL-100, PL-200 | PL-300 |
 
 - **EL-100** — Coordination layout. Cable sizes, duct sizes, pipe sizes and loads are the services engineer's.
 - **EL-101** — Coordination layout. Cable sizes, duct sizes, pipe sizes and loads are the services engineer's.

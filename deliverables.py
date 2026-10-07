@@ -359,6 +359,7 @@ def _package_d():
                 f"{prefix}-{series + i}",
                 f"{title} - {name.lower()} floor, {ffl}", "D", "L",
                 discipline=discipline, scale="1:50",
+                sheet=f"{prefix}-{series + i}",
                 depends=(f"ARC-{101 + i}",), source=("EL_LEVELS",),
                 series=f"{prefix}-{series}", index=i, across="levels",
                 note="Coordination layout. Cable sizes, duct sizes, pipe "
@@ -366,14 +367,14 @@ def _package_d():
     rows += [
         Row("EL-400", "Electrical single line diagram", "D", "L",
             discipline="Electrical", fmt="A1 sheet", scale="Schematic",
-            depends=("EL-100",),
+            sheet="EL-400", depends=("EL-100",),
             note="One diagram for the whole building, not one per level."),
         Row("ME-200", "HVAC schematic and plant arrangement", "D", "L",
             discipline="Mechanical", fmt="A1 sheet", scale="Schematic",
-            depends=("ME-100", "ARC-106")),
+            sheet="ME-200", depends=("ME-100", "ARC-106")),
         Row("PL-300", "Drainage and water riser diagram", "D", "L",
             discipline="Plumbing", fmt="A1 sheet", scale="Schematic",
-            depends=("PL-100", "PL-200")),
+            sheet="PL-300", depends=("PL-100", "PL-200")),
     ]
     return rows
 
