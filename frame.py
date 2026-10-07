@@ -29,6 +29,16 @@ def titleblock_top():
     return TITLEBLOCK_Y - max(0, min(len(REVISIONS), REV_ROWS) - 3) * REV_PITCH
 PROJECT = "FIVE-STOREY VACATION VILLA"
 CLIENT = "PRIVATE CLIENT"
+# The site.  A drawing set without one is a set nobody can build from, and
+# the location is not decoration here: it fixes the governing code, the
+# seismic zone, the climate the services are sized for and the authority
+# the drawings are submitted to.
+LOCATION = "SHAMANDEEL, QUESNA, MENOUFIA, EGYPT"
+# The codes the set is drawn to.  Named rather than left as "the local
+# code", because a compliance matrix against an unnamed code is a blank
+# page with a heading.
+CODES = ("ECP 201 — Egyptian Code for Loads",
+         "ECP 203 — Egyptian Code for Reinforced Concrete")
 REV = "P4"                # the set's current revision - a sheet may be behind
 # Revision record, newest last.  A revision letter is only useful if it
 # says what changed, so the title block prints this.
@@ -256,7 +266,10 @@ def titleblock(sh, y0=None):
     sh.line_mm(PANEL_X, y0 + 60, PANEL_R, y0 + 60, w=0.3, color=GREY)
     sh.text_mm(PANEL_X + 3, y0 + 11, PROJECT, size=5.2, anchor="start",
                weight=700, ls=0.5)
-    sh.text_mm(PANEL_R - 3, y0 + 11, CLIENT, size=2.4, anchor="end",
+    # The site, not the client: "PRIVATE CLIENT" told a reader nothing, and
+    # this line is the only place on the sheet that says where the building
+    # goes.  The client is named in the register's project data instead.
+    sh.text_mm(PANEL_R - 3, y0 + 11, LOCATION, size=2.4, anchor="end",
                color=GREY, ls=0.3)
     sh.text_mm(PANEL_X + 3, y0 + 24, "DRAWING", size=2.0, anchor="start",
                color=GREY, ls=0.4)

@@ -146,8 +146,13 @@ def _package_0():
         Row("GEO-001", "Soil investigation and foundation recommendation",
             "0", "X", discipline="Geotechnical", fmt="Report",
             depends=("SUR-001",),
-            note="Bearing capacity, water table, sulphate content. "
-                 "STR-101 cannot be started without it."),
+            note="Central Nile Delta ground is well characterised as a "
+                 "region, and that is enough to assume a foundation type "
+                 "for layout. It is not enough to size one: allowable "
+                 "bearing pressure, the water table and sulphate content "
+                 "are plot figures, and this row stays open until they "
+                 "arrive with a source - boreholes, or figures the "
+                 "engineer will sign."),
         Row("CLI-001", "Exterior scheme selection - A, B or C", "0", "X",
             discipline="Client decision", fmt="Written instruction",
             depends=("ARC-200",),
@@ -201,9 +206,9 @@ def _package_b():
             "D", depends=("ARC-000",), source=("EL_LEVELS",)),
         Row("ARC-002", "General notes, symbols and code compliance matrix",
             "B", "L",
-            note="Notes and symbols are ours. The compliance matrix is "
-                 "completed against the governing local code by the "
-                 "architect of record."),
+            note="Notes and symbols are ours. The matrix is set against "
+                 "ECP 201 and ECP 203, the Egyptian codes the site is "
+                 "governed by, and signed off by the architect of record."),
         Row("ARC-100", "Context and master site plan", "B", "D",
             scale="1:75", sheet="A-000", depends=("SUR-001",),
             note="Issued with the boundary marked indicative."),
@@ -266,7 +271,9 @@ def _package_c():
     rows = [
         Row("STR-001", "Structural notes, materials and design criteria",
             "C", "L", discipline="Structure", fmt="A1 sheet",
-            note="Design criteria to be set and signed by the structural "
+            note="To ECP 203, with loads to ECP 201. The seismic zone and "
+                 "its design ground acceleration, the wind basis and the "
+                 "concrete grades are set and signed by the structural "
                  "engineer. No values assumed here."),
         Row("STR-100", "Excavation, grading and shoring", "C", "L",
             discipline="Structure", scale="1:100",

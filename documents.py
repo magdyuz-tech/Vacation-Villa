@@ -37,9 +37,14 @@ engineered and is not gets built from by whoever holds it:
 """
 
 OPEN_ITEMS = [
-    "A measured topographic and boundary survey (SUR-001) and a soil "
-    "investigation (GEO-001) are not in hand. Together they block seven "
-    "structural rows. Boundaries on A-000 are issued marked indicative.",
+    "A measured topographic and boundary survey (SUR-001) is not in hand; "
+    "boundaries on A-000 are issued marked indicative.",
+    "The ground is central Nile Delta, which is well characterised as a "
+    "region — enough to assume a foundation type and lay the structure "
+    "out, not enough to size it. Allowable bearing pressure, the water "
+    "table and sulphate content are plot figures, and GEO-001 stays open "
+    "until they arrive with a source. No soil value is written on any "
+    "sheet here.",
     "The north neighbour has not been surveyed. The north wall carries "
     "windows on every level, so the overlooking check on that face is "
     "open.",
@@ -65,9 +70,21 @@ def markdown(rows=None):
     out = []
     w = out.append
 
+    import frame as F
+
     w("# Master Deliverables List")
     w("")
     w("Detached vacation villa — five levels, six structural slabs.")
+    w("")
+    w(f"**Site** — {F.LOCATION.title()}, in the central Nile Delta.")
+    w(f"**Client** — {F.CLIENT.title()}.")
+    w("")
+    w("**Codes** — " + "; ".join(F.CODES) + ". ECP 201 (2012) divides "
+      "Egypt into five seismic zones with design ground accelerations of "
+      "0.10 g, 0.13 g, 0.15 g and 0.20 g for zones 1 to 4 and 0.25 g and "
+      "0.30 g for zones 5a and 5b. Which zone governs this site, and the "
+      "wind basis with it, is named by the structural engineer on "
+      "STR-001 — it is not assumed here.")
     w("")
     w(f"> **{RULE}**")
     w("")

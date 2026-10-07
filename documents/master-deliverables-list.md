@@ -2,6 +2,11 @@
 
 Detached vacation villa — five levels, six structural slabs.
 
+**Site** — Shamandeel, Quesna, Menoufia, Egypt, in the central Nile Delta.
+**Client** — Private Client.
+
+**Codes** — ECP 201 — Egyptian Code for Loads; ECP 203 — Egyptian Code for Reinforced Concrete. ECP 201 (2012) divides Egypt into five seismic zones with design ground accelerations of 0.10 g, 0.13 g, 0.15 g and 0.20 g for zones 1 to 4 and 0.25 g and 0.30 g for zones 5a and 5b. Which zone governs this site, and the wind basis with it, is named by the structural engineer on STR-001 — it is not assumed here.
+
 > **Nothing is issued as engineering that has not been engineered.**
 
 These documents are for the owner's own use: design record, build
@@ -51,7 +56,7 @@ Structural slabs: +0.00, +3.30, +6.60, +9.90, +13.20, +16.45 — six slabs to fi
 | CLI-001 | Exterior scheme selection - A, B or C | Client decision | - | Written instruction | X | not started | ARC-200 | — |
 
 - **SUR-001** — Boundaries on A-000 are indicative until this is in hand. The north neighbour has not been surveyed at all.
-- **GEO-001** — Bearing capacity, water table, sulphate content. STR-101 cannot be started without it.
+- **GEO-001** — Central Nile Delta ground is well characterised as a region, and that is enough to assume a foundation type for layout. It is not enough to size one: allowable bearing pressure, the water table and sulphate content are plot figures, and this row stays open until they arrive with a source - boreholes, or figures the engineer will sign.
 - **CLI-001** — Three skins are live on one agreed building. Finishes, details and the finishes quantities all wait on this.
 
 ## Package A — Presentation and estimation
@@ -103,7 +108,7 @@ Structural slabs: +0.00, +3.30, +6.60, +9.90, +13.20, +16.45 — six slabs to fi
 | ARC-700 | External works and landscape | Architecture | 1:75 | A1 sheet | D | not started | ARC-100 | — |
 
 - **ARC-000** — This register. Status on it is derived at build time from the sheet builders and the files on disk.
-- **ARC-002** — Notes and symbols are ours. The compliance matrix is completed against the governing local code by the architect of record.
+- **ARC-002** — Notes and symbols are ours. The matrix is set against ECP 201 and ECP 203, the Egyptian codes the site is governed by, and signed off by the architect of record.
 - **ARC-100** — Issued with the boundary marked indicative.
 - **ARC-106** — Falls, outlets, parapets, water tanks and the plant deck. Drawn nowhere in the set today.
 - **ARC-200** — Seven sheets: south and sides for each scheme, plus the street elevation in context.
@@ -134,7 +139,7 @@ Structural slabs: +0.00, +3.30, +6.60, +9.90, +13.20, +16.45 — six slabs to fi
 | STR-400 | Retaining and boundary walls | Structure | 1:50 | A1 sheet | L | blocked | SUR-001, GEO-001 | — |
 | STR-500 | Cantilever balcony structure | Structure | 1:20 | A1 sheet | L | blocked | CLI-001, STR-302 | — |
 
-- **STR-001** — Design criteria to be set and signed by the structural engineer. No values assumed here.
+- **STR-001** — To ECP 203, with loads to ECP 201. The seismic zone and its design ground acceleration, the wind basis and the concrete grades are set and signed by the structural engineer. No values assumed here.
 - **STR-101** — Grid and column positions are exact; footing sizes, depths and reinforcement are the engineer's.
 - **STR-200** — Every column coordinate, carried through all five levels. Sections and reinforcement left blank.
 - **STR-305** — The penthouse floor and the roof over the third floor are the same slab.
@@ -227,9 +232,10 @@ Structural slabs: +0.00, +3.30, +6.60, +9.90, +13.20, +16.45 — six slabs to fi
 
 ## Open items
 
-1. A measured topographic and boundary survey (SUR-001) and a soil investigation (GEO-001) are not in hand. Together they block seven structural rows. Boundaries on A-000 are issued marked indicative.
-2. The north neighbour has not been surveyed. The north wall carries windows on every level, so the overlooking check on that face is open.
-3. Three exterior schemes are live on one agreed building. The scheme selection (CLI-001) gates the details, the finishes and the finishes quantities.
-4. Sheets A-300, A-301 and A-302 are enlargements of apartment units that no longer exist. They are already left out of the bound set and should be formally withdrawn rather than reissued.
-5. Rates are class X throughout. No rate appears in any document here without a named source, and QS-004 is issued with its rate column open.
+1. A measured topographic and boundary survey (SUR-001) is not in hand; boundaries on A-000 are issued marked indicative.
+2. The ground is central Nile Delta, which is well characterised as a region — enough to assume a foundation type and lay the structure out, not enough to size it. Allowable bearing pressure, the water table and sulphate content are plot figures, and GEO-001 stays open until they arrive with a source. No soil value is written on any sheet here.
+3. The north neighbour has not been surveyed. The north wall carries windows on every level, so the overlooking check on that face is open.
+4. Three exterior schemes are live on one agreed building. The scheme selection (CLI-001) gates the details, the finishes and the finishes quantities.
+5. Sheets A-300, A-301 and A-302 are enlargements of apartment units that no longer exist. They are already left out of the bound set and should be formally withdrawn rather than reissued.
+6. Rates are class X throughout. No rate appears in any document here without a named source, and QS-004 is issued with its rate column open.
 
