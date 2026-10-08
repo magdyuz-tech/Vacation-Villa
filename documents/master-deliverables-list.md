@@ -41,11 +41,11 @@ Structural slabs: +0.00, +3.30, +6.60, +9.90, +13.20, +16.45 — six slabs to fi
 | --- | --- | --- | --- | --- | --- |
 | 0 — Information required from others | 3 | 1 | 0 | 1 | 1 |
 | A — Presentation and estimation | 8 | 8 | 0 | 0 | 0 |
-| B — Architecture | 21 | 20 | 0 | 0 | 1 |
+| B — Architecture | 21 | 21 | 0 | 0 | 0 |
 | C — Structure | 12 | 12 | 0 | 0 | 0 |
 | D — Building services | 33 | 33 | 0 | 0 | 0 |
 | E — Quantities and cost control | 4 | 4 | 0 | 0 | 0 |
-| **Total** | **81** | **78** | **0** | **1** | **2** |
+| **Total** | **81** | **79** | **0** | **1** | **1** |
 
 ## Package 0 — Information required from others
 
@@ -104,7 +104,7 @@ Structural slabs: +0.00, +3.30, +6.60, +9.90, +13.20, +16.45 — six slabs to fi
 | ARC-403 | Reflected ceiling plan - third floor, +9.90 | Architecture | 1:50 | A1 sheet | D | issued | ARC-104 | ARC-403 |
 | ARC-404 | Reflected ceiling plan - penthouse floor, +13.20 | Architecture | 1:50 | A1 sheet | D | issued | ARC-105 | ARC-404 |
 | ARC-500 | Door and window schedule | Architecture | 1:100 | A1 sheet | D | issued | ARC-200 | ARC-500 |
-| ARC-600 | Construction details | Architecture | 1:5 / 1:10 | A1 sheet | L | not started | CLI-001 | — |
+| ARC-600 | Construction details | Architecture | 1:5 / 1:10 | A1 sheet | L | issued | CLI-001 | ARC-600 |
 | ARC-700 | External works and landscape | Architecture | 1:75 | A1 sheet | D | issued | ARC-100 | ARC-700 |
 
 - **ARC-000** — This register. Status on it is derived at build time from the sheet builders and the files on disk.
@@ -238,5 +238,6 @@ Structural slabs: +0.00, +3.30, +6.60, +9.90, +13.20, +16.45 — six slabs to fi
 3. The north neighbour is a single storey, confirmed by the client. The north wall carries windows on all five levels; only the ground floor looks at anything, and from +3.30 up they clear its roof. Its exact height and position still come with SUR-001.
 4. The exterior is settled: scheme A, “Wave”, adopted at P18. Schemes B and C still build and stay in the repository as the record of what was offered, stamped not selected and left out of the issue.
 5. Sheets A-300, A-301 and A-302 are withdrawn at P22, being enlargements of apartments the villa does not have. They still build and stay in the repository as the record, stamped on the face and left out of the issue.
-6. Rates are class X throughout. No rate appears in any document here without a named source, and QS-004 is issued with its rate column open.
+6. ARC-600 draws four junctions figured from the geometry, and names against QS-003 every build-up it does not specify. Until those topics are answered no detail on it can be built, priced or warranted, and no quantity is taken from it.
+7. Rates are class X throughout. No rate appears in any document here without a named source, and QS-004 is issued with its rate column open.
 

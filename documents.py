@@ -56,6 +56,10 @@ OPEN_ITEMS = [
     "enlargements of apartments the villa does not have. They still "
     "build and stay in the repository as the record, stamped on the "
     "face and left out of the issue.",
+    "ARC-600 draws four junctions figured from the geometry, and names "
+    "against QS-003 every build-up it does not specify. Until those "
+    "topics are answered no detail on it can be built, priced or "
+    "warranted, and no quantity is taken from it.",
     "Rates are class X throughout. No rate appears in any document here "
     "without a named source, and QS-004 is issued with its rate column "
     "open.",

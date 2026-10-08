@@ -23,6 +23,7 @@ import deliverables as dl
 import documents as doc
 import elevations as el
 import services as sv
+import details as det
 import structure as st
 import fixtures as fx
 import frame as F
@@ -4110,6 +4111,79 @@ def sheet_external_works():
 
 
 # ===========================================================================
+# ARC-600  CONSTRUCTION DETAILS
+# ===========================================================================
+# The last sheet of package B, and the one most easily written as fiction.
+# Four junctions at 1:10, each carrying two kinds of line: the dimensions
+# this project owns, figured, and the build-ups nobody has specified,
+# hatched and named against the specification topic that must answer for
+# them.  details.py says more about why.
+#
+# The sheet exists partly because the bill already referred to it - "slab
+# edges, the nosing and the cove are additional and are detailed on
+# ARC-600" - which was a reference to a drawing that did not exist.  A
+# document that cites a sheet nobody has drawn is worse than one that
+# admits the gap.
+# Two columns of two.  The origin of each cell is the detail's own datum,
+# not the middle of the box: the drawing sits to the left of it and the
+# note column to the right, which is why they are not evenly spaced.
+DET_CELLS = [(150.0, 240.0), (420.0, 240.0), (150.0, 476.0), (420.0, 476.0)]
+
+
+def sheet_details():
+    """ARC-600: four junctions, figured but not specified."""
+    sh = Sheet("ARC-600", "Construction Details", "typical junctions",
+               "1:5 / 1:10 @ A1")
+    sh.rev = "P22"
+    F.border(sh)
+
+    for i, (cx, cy) in enumerate(DET_CELLS):
+        det.draw(sh, i, cx, cy)
+        code, title = det.TITLES[i]
+        sh.text_mm(cx - 132, cy + 74, code, size=3.4, anchor="start",
+                   weight=700)
+        sh.text_mm(cx - 118, cy + 74, title.upper(), size=2.6,
+                   anchor="start", ls=0.35)
+        sh.text_mm(cx - 118, cy + 79, det.scale_note(i), size=2.1,
+                   anchor="start", color=GREY)
+        sh.line_mm(cx - 132, cy + 82, cx + 126, cy + 82, w=0.25,
+                   color=GREY)
+
+    F.heading(sh, sub="TYPICAL JUNCTIONS   ·   1:5 AND 1:10   ·   MILLIMETRES")
+    y = F.datum_panel(sh, 52, "FIGURED FROM THE GEOMETRY", [
+        ("External / party wall", f"{WT * 1000:.0f} mm"),
+        ("Internal partition", f"{PT * 1000:.0f} mm"),
+        ("Parapet", f"{PARAPET * 1000:.0f} mm × 1100 high"),
+        ("Structural zone", f"{STRUCTURAL_ZONE * 1000:.0f} mm"),
+        ("Clear height", f"{CLEAR_HEIGHT:.2f} m"),
+        ("Slab nosing", f"{A_NOSING * 1000:.0f} mm"),
+        ("Cove light", f"{A_COVE * 1000:.0f} × {A_COVE * 1000:.0f} mm"),
+        ("Balustrade", f"{BALUSTRADE_H * 1000:.0f} mm high"),
+        ("Glass set in from the edge", f"{V3_WAVE_BALUSTRADE * 1000:.0f} mm")])
+    F.notes(sh, y + 8, [
+        "Layout only, and in a stricter sense than the rest of the set: "
+        "every figured dimension here is this project's and exact, and "
+        "everything hatched is a build-up nobody has specified yet. The "
+        "hatched zones are drawn at a plausible thickness so the junction "
+        "can be read; none of those thicknesses is a specification.",
+        "Each hatched zone names the QS-003 topic that has to answer for "
+        "it. Until that topic is answered the detail cannot be built, "
+        "priced or warranted, and no quantity is taken from this sheet.",
+        f"The {STRUCTURAL_ZONE * 1000:.0f} mm structural zone is ours "
+        f"because it sets the floor-to-floor; how much of it is slab, and "
+        f"what is in the slab, is the engineer's. No reinforcement, cover "
+        f"or grade appears here.",
+        "Thermal performance, waterproofing warranty, movement and "
+        "buildability are the specifier's. The drawing shows where things "
+        "meet, not that the meeting works.",
+        "D1 is the junction the whole frontage depends on, and it is the "
+        "one carrying a 2.00 m cantilever: read it with STR-500.",
+    ])
+    F.titleblock(sh)
+    return sh
+
+
+# ===========================================================================
 # ARC-301  TRANSVERSE SECTION B-B
 # ===========================================================================
 # A-A cuts north-south at x 20.70 and shows the building's depth.  Nothing
@@ -4713,7 +4787,7 @@ def sheet_register():
 SHEETS = (sheet_cover, sheet_general_notes,
           *_str_builders(), *_svc_builders(),
           *_cutaway_builders(),
-          sheet_register, sheet_openings, sheet_roof,
+          sheet_register, sheet_openings, sheet_roof, sheet_details,
           sheet_section_b, sheet_external_works,
           *_rcp_builders(),
           sheet_site, sheet_ground, sheet_first, sheet_second,

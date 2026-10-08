@@ -894,6 +894,62 @@ def every_wall_has_a_material():
     return problems
 
 
+def details_point_at_real_topics():
+    """ARC-600's unspecified zones must name a topic that exists.
+
+    The detail sheet's whole claim is that what it does not specify is
+    named somewhere that will: each hatched build-up carries "TO BE
+    SPECIFIED - QS-003, <topic>".  That is a pointer, and a pointer into
+    another document is exactly the thing that rots - rename a topic in
+    the specification schedule and the detail still reads perfectly
+    while sending its reader to a heading that no longer exists.
+
+    So every topic ARC-600 names must be one `documents.SPEC_TOPICS`
+    actually has.
+
+    What it cannot catch: a zone pointing at a topic that exists but is
+    the wrong one - a membrane sent to Masonry would pass.
+    """
+    import re
+    import documents
+    import drafting as D
+    import plans
+
+    said = []
+    text_mm, tag = D.Sheet.text_mm, D.Sheet.tag
+
+    def _text(self, x, y, s, **kw):
+        said.append(s)
+        return text_mm(self, x, y, s, **kw)
+
+    def _tag(self, x, y, s, **kw):
+        said.append(s)
+        return tag(self, x, y, s, **kw)
+
+    D.Sheet.text_mm, D.Sheet.tag = _text, _tag
+    try:
+        plans.sheet_details()
+    finally:
+        D.Sheet.text_mm, D.Sheet.tag = text_mm, tag
+
+    topics = {t for t, _what in documents.SPEC_TOPICS}
+    problems, seen = [], set()
+    for s in said:
+        if not isinstance(s, str):
+            continue
+        m = re.search(r"QS-003,\s*(.+?)\s*$", s)
+        if m and m.group(1) not in topics and m.group(1) not in seen:
+            seen.add(m.group(1))
+            problems.append(
+                f"ARC-600 sends a reader to QS-003 topic “{m.group(1)}”, "
+                f"which the specification schedule does not have")
+    if not any(re.search(r"QS-003,", s) for s in said if isinstance(s, str)):
+        problems.append(
+            "ARC-600 carries no specification pointers at all - either the "
+            "sheet changed or the notes stopped being drawn")
+    return problems
+
+
 def out_of_the_issue_says_why():
     """A sheet outside the issued set must say so on its own face.
 
@@ -1299,6 +1355,7 @@ def main():
                      ("walls", every_wall_has_a_material),
                      ("prose", prose_says_the_real_thickness),
                      ("issued", out_of_the_issue_says_why),
+                     ("detail", details_point_at_real_topics),
                      ("bill", bill_reconciles),
                      ("grid", grid_carries_the_walls),
                      ("mdl", deliverables_register)):

@@ -256,19 +256,22 @@ def _balcony(sh, scheme):
 
 
 def _glass_balustrade(sh, lo, hi, ffl, s):
-    sh.rect(lo, ffl, hi - lo, 1.10, fill="none", stroke=s["frame"],
+    sh.rect(lo, ffl, hi - lo, BALUSTRADE_H, fill="none", stroke=s["frame"],
             sw=LW_SECONDARY)
-    sh.line(lo, ffl + 1.10, hi, ffl + 1.10, w=LW_CUT, color=s["frame"])
+    sh.line(lo, ffl + BALUSTRADE_H, hi, ffl + BALUSTRADE_H, w=LW_CUT,
+            color=s["frame"])
 
 
 def _iron_balustrade(sh, lo, hi, ffl):
     """Scheme B: wrought-iron panels between rendered piers."""
-    sh.line(lo, ffl + 1.10, hi, ffl + 1.10, w=LW_CUT, color=B_FRAME)
+    sh.line(lo, ffl + BALUSTRADE_H, hi, ffl + BALUSTRADE_H, w=LW_CUT,
+            color=B_FRAME)
     sh.line(lo, ffl + 0.08, hi, ffl + 0.08, w=LW_SECONDARY, color=B_FRAME)
     n = int((hi - lo) / B_BALUSTER)
     for i in range(1, n):
         x = lo + i * (hi - lo) / n
-        sh.line(x, ffl + 0.08, x, ffl + 1.10, w=LW_THIN, color=B_FRAME)
+        sh.line(x, ffl + 0.08, x, ffl + BALUSTRADE_H, w=LW_THIN,
+                color=B_FRAME)
 
 
 # ---------------------------------------------------------------------------

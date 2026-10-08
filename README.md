@@ -29,7 +29,7 @@ repository.
 
 ## The set
 
-**73 sheets** are issued, across five packages. `ARC-001` is the cover and
+**74 sheets** are issued, across five packages. `ARC-001` is the cover and
 the index — built from the sheets themselves rather than typed — and
 `ARC-000` is the Master Deliverables List, which carries every deliverable
 including the ones that are not drawings.
@@ -46,6 +46,7 @@ including the ones that are not drawings.
 | `A-430` | Axonometric, three balcony options compared | D |
 | `ARC-400` … `ARC-404` | Reflected ceiling plans, one per level | D |
 | `ARC-500` | Door and window schedule, measured off the plans' own openings | D |
+| `ARC-600` | Four construction details at 1:5 and 1:10 — figured, not specified | **L** |
 | `ARC-700` | External works: paving, turf, pergola, barbecue, gate and trees | D |
 | `A-02` … `A-06` | Interior cutaway axonometrics, one per level | D |
 | `STR-001` … `STR-500` | 12 structural sheets: grid, footings, six slab framing layouts, the cantilever | **L** |
@@ -181,6 +182,7 @@ python3 viewer.py         # drawing-set.html
 | `quantities.py` | The measure: the bill, taken off the drawing calls themselves. |
 | `structure.py`  | Package C's grid, footings, beams and voids.                   |
 | `services.py`   | Package D's zones, wet-room stacks and schematics.             |
+| `details.py`    | ARC-600's four junctions: what is figured, what is not.        |
 | `checks.py`     | The rules, run before every build.                             |
 | `build.py`      | Every format in one pass, and prunes superseded issues.        |
 | `dxf_backend.py`| The same drawing interface, emitting CAD geometry.             |
@@ -493,10 +495,8 @@ writes.
   not enough to size one — so no bearing pressure, water table or
   sulphate figure is written on any sheet, and four structural rows wait
   on it.
-- **ARC-600**, construction details, which wait on the specification
-  rather than on the geometry.
 - The parapet's material, the one wall nobody has specified.
 
-Those five are in the register on `ARC-000` with their class and their
+Those four are in the register on `ARC-000` with their class and their
 status, and the status is derived rather than typed: a row cannot claim
 to be issued because somebody forgot to change it back.

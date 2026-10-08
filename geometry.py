@@ -408,6 +408,12 @@ V3_WAVE_E = 1.50               # projection at the east end
 # number the brief set, so the check has something fixed to fail against.
 V3_WAVE_LIMIT = 2.00
 V3_WAVE_BALUSTRADE = 0.12      # glass line, inboard of the slab edge
+# The guarding height, which the elevations drew three times as the
+# literal 1.10 and ARC-600 details.  It is a code figure rather than a
+# shape: whichever fire and safety code is finally named sets it, and if
+# that number moves, every balustrade in the set has to move with it -
+# which it can only do from one place.
+BALUSTRADE_H = 1.10
 V3_WAVE_REVEAL = 0.40          # recessed reveal in the soffit, same curve
 V3_WAVE_FASCIA = 0.15          # upstand band on the slab edge (elevation)
 

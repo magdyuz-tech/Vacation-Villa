@@ -276,7 +276,7 @@ def _package_b():
             note="Every opening in the building is already a constant, so "
                  "the schedule is measured rather than compiled."),
         Row("ARC-600", "Construction details", "B", "L", scale="1:5 / 1:10",
-            depends=("CLI-001",),
+            sheet="ARC-600", depends=("CLI-001",),
             note="Balcony nosing, parapet, threshold, roof upstand. "
                  "Buildability, waterproofing and thermal performance are "
                  "the specifier's, not ours."),
