@@ -413,7 +413,7 @@ def villa_garden(sh):
 def sheet_site():
     D.set_scale(75, *SITE_ORIGIN)
     sh = Sheet("A-000", "Site Plan — Detached Villa", "+0.00", "1:75 @ A1")
-    sh.rev, sh.status = "P21", F.STATUS_FINAL_DRAFT
+    sh.rev, sh.status = "P22", F.STATUS_FINAL_DRAFT
     F.border(sh)
     villa_neighbours(sh)
     street(sh)
@@ -504,8 +504,8 @@ def sheet_site():
         "work starts on site.",
         "Structure is an RC frame on the grid shown, 300 mm columns on "
         "wall centrelines so none stands in a room. The A-300 "
-        "enlargements are the last sheets still on the old 11.50 × 14.50 "
-        "footprint.",
+        "enlargements, the last sheets on the old 11.50 × 14.50 "
+        "footprint, are withdrawn at P22.",
     ])
     F.compass_and_scale(sh, x=502.0, y=452.0)
     F.titleblock(sh)
@@ -801,7 +801,7 @@ def sheet_ground():
     D.set_scale(50, *PLAN_ORIGIN)
     sh = Sheet("A-100", "Ground Floor Plan \u2014 Detached Villa", "+0.00",
                "1:50 @ A1")
-    sh.rev, sh.status = "P21", F.STATUS_FINAL_DRAFT
+    sh.rev, sh.status = "P22", F.STATUS_FINAL_DRAFT
     F.border(sh)
 
     with sh.on("G-ANNO-BNDY"):
@@ -865,8 +865,8 @@ def sheet_ground():
         "Bedrooms are numbered 1 to 11 through the house, south to "
         "north and west before east on each floor; the ground "
         "floor's room is the guest bedroom and carries no number.",
-        "The A-300 enlargements are the last sheets still on the old "
-        "11.50 × 14.50 footprint.",
+        "The A-300 enlargements are withdrawn at P22: they show the "
+        "apartment building, not this one.",
     ])
 
     F.compass_and_scale(sh, x=470.0, y=500.0)
@@ -2406,6 +2406,16 @@ def sheet_section():
 # the wet cores, the kitchenettes and the service floor - the places where
 # the extra scale actually buys something - and the whole-unit plans stay at
 # 1:50 on A-101 and A-103.
+#
+# WITHDRAWN AT P22.  They enlarge the apartment building the client asked
+# for before the villa, down to kitchenette joinery and a 1.10 m hall; the
+# villa has no apartments, no service kitchen and not that footprint.  They
+# are kept and still build, because a set that deletes what it superseded
+# cannot show how the building was arrived at, and because the client holds
+# a bound issue with these three sheets in it - but they are stamped on the
+# face, left out of the issued set, and `checks.py` refuses to let either
+# half of that slip.
+WITHDRAWN_BY = "A-100 to A-104"
 
 
 def _detail_sheet(number, title, level, origin, clip, draw, schedule):
@@ -2458,6 +2468,7 @@ def sheet_unit_typical():
         "runs longer than 2 m fall at 1:40 within the 300 mm floor zone.",
     ])
     fx.scale_bar(sh, 40, 556, metres=5)
+    F.withdraw(sh, "P22", WITHDRAWN_BY)
     F.titleblock(sh)
     return sh
 
@@ -2497,6 +2508,7 @@ def sheet_unit_third():
         "No room on this floor is entered through another.",
     ])
     fx.scale_bar(sh, 40, 556, metres=5)
+    F.withdraw(sh, "P22", WITHDRAWN_BY)
     F.titleblock(sh)
     return sh
 
@@ -2542,6 +2554,7 @@ def sheet_service():
         "floor over.",
     ])
     fx.scale_bar(sh, 50, 556, metres=5)
+    F.withdraw(sh, "P22", WITHDRAWN_BY)
     F.titleblock(sh)
     return sh
 
@@ -3586,7 +3599,7 @@ IX_NUM, IX_TITLE, IX_LEVEL, IX_SCALE, IX_REV = 0.0, 36.0, 140.0, 214.0, 252.0
 # rather than written inline so checks.py can compare it against the sheet
 # it claims to describe.
 IX_SELF = ("ARC-001", "Cover Sheet & Drawing Index", "the whole set",
-           "NTS", "P21")
+           "NTS", "P22")
 
 _INDEXING = False
 
@@ -3681,7 +3694,8 @@ def sheet_cover():
             f"ARC-001: {len(rows)} sheets and the index holds "
             f"{2 * IX_PER_COL}")
     sh.text_mm(IX_COL_X[0], 566,
-               "SHEETS IN GREY ARE BUILT BUT NOT PART OF THE ISSUE",
+               "SHEETS IN GREY ARE BUILT BUT NOT PART OF THE ISSUE — "
+               "WITHDRAWN OR NOT SELECTED, AND EACH SAYS WHICH ON ITS FACE",
                size=2.0, anchor="start", color=LIGHT, ls=0.4)
 
     outside, _measured = ew_unallocated()
@@ -3705,10 +3719,10 @@ def sheet_cover():
         "sheet carries. An index typed beside the drawings goes wrong "
         "within a revision or two, and it is the one document a reader "
         "trusts when deciding a drawing does not exist.",
-        "Rows in grey are built but outside the issue: the A-300 "
-        "enlargements, which are of apartments the villa no longer has, "
-        "and the scheme B and C elevations, which the client did not "
-        "choose.",
+        "Rows in grey are built but outside the issue, and each says why "
+        "on its own face: the A-300 enlargements are withdrawn at P22, "
+        "being of apartments the villa no longer has, and the scheme B "
+        "and C elevations are stamped not selected.",
         "The prefix is part of the number. A-402 is the street elevation "
         "and ARC-402 the second floor's ceiling plan.",
         "Deliverables beyond the drawings — the structural, services and "

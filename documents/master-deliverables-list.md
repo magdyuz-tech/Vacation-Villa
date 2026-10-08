@@ -231,12 +231,12 @@ Structural slabs: +0.00, +3.30, +6.60, +9.90, +13.20, +16.45 — six slabs to fi
 - **QS-003** — Quantities are ours; performance specifications and approved-equal judgements are the specifier's.
 - **QS-004** — The measured quantities with a rate column, for budgeting and for checking a quotation against. Rates stay empty until a named source fills them - nothing here goes out to tender.
 
-## Open items
+## Open items and standing qualifications
 
 1. A measured topographic and boundary survey (SUR-001) is not in hand; boundaries on A-000 are issued marked indicative.
 2. The ground is central Nile Delta, which is well characterised as a region — enough to assume a foundation type and lay the structure out, not enough to size it. Allowable bearing pressure, the water table and sulphate content are plot figures, and GEO-001 stays open until they arrive with a source. No soil value is written on any sheet here.
 3. The north neighbour is a single storey, confirmed by the client. The north wall carries windows on all five levels; only the ground floor looks at anything, and from +3.30 up they clear its roof. Its exact height and position still come with SUR-001.
 4. The exterior is settled: scheme A, “Wave”, adopted at P18. Schemes B and C still build and stay in the repository as the record of what was offered, stamped not selected and left out of the issue.
-5. Sheets A-300, A-301 and A-302 are enlargements of apartment units that no longer exist. They are already left out of the bound set and should be formally withdrawn rather than reissued.
+5. Sheets A-300, A-301 and A-302 are withdrawn at P22, being enlargements of apartments the villa does not have. They still build and stay in the repository as the record, stamped on the face and left out of the issue.
 6. Rates are class X throughout. No rate appears in any document here without a named source, and QS-004 is issued with its rate column open.
 

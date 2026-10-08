@@ -52,9 +52,10 @@ OPEN_ITEMS = [
     "The exterior is settled: scheme A, “Wave”, adopted at P18. Schemes B "
     "and C still build and stay in the repository as the record of what "
     "was offered, stamped not selected and left out of the issue.",
-    "Sheets A-300, A-301 and A-302 are enlargements of apartment units "
-    "that no longer exist. They are already left out of the bound set and "
-    "should be formally withdrawn rather than reissued.",
+    "Sheets A-300, A-301 and A-302 are withdrawn at P22, being "
+    "enlargements of apartments the villa does not have. They still "
+    "build and stay in the repository as the record, stamped on the "
+    "face and left out of the issue.",
     "Rates are class X throughout. No rate appears in any document here "
     "without a named source, and QS-004 is issued with its rate column "
     "open.",
@@ -147,7 +148,11 @@ def markdown(rows=None):
                 w(f"- **{r.code}** — {r.note}")
             w("")
 
-    w("## Open items")
+    # not all of these are open any more - the scheme is chosen and the
+    # A-300s are withdrawn - but a reader of the register needs the
+    # settled ones as much as the open ones, and dropping a line the day
+    # it is answered is how a register stops explaining itself.
+    w("## Open items and standing qualifications")
     w("")
     for i, item in enumerate(OPEN_ITEMS, 1):
         w(f"{i}. {item}")

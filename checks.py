@@ -894,6 +894,52 @@ def every_wall_has_a_material():
     return problems
 
 
+def out_of_the_issue_says_why():
+    """A sheet outside the issued set must say so on its own face.
+
+    Two things can go wrong, and they are opposites.
+
+    A sheet drops out of `SET_ORDER` - by an edit, a rename, a merge -
+    and nothing anywhere says it is not current.  It still builds, still
+    renders, still looks exactly like the drawings beside it, and the
+    only trace of its leaving is a number missing from a list nobody
+    reads line by line.  That is how a drawing of a superseded building
+    ends up in somebody's hand.
+
+    Or a sheet that is marked withdrawn or not selected gets bound into
+    the issue anyway, which is worse: now it is stamped AND current.
+
+    So: in the issue and unmarked, or out of the issue and marked.  The
+    mark is the status line, which is also what the title block prints,
+    so the rule and the drawing cannot disagree about it.
+
+    What it cannot catch: a sheet marked withdrawn that should not be.
+    Nothing here knows what the client agreed to; it only knows that
+    whatever a sheet claims about itself matches where it is bound.
+    """
+    import export_share
+    import frame as F
+    import plans
+
+    marks = ("Withdrawn", "Option not selected")
+    issued = set(export_share.SET_ORDER)
+    problems = []
+    for build in plans.SHEETS:
+        sh = build()
+        status = getattr(sh, "status", None) or F.STATUS
+        marked = status.startswith(marks)
+        if sh.number in issued and marked:
+            problems.append(
+                f"{sh.number} is bound into the issue and stamped "
+                f"“{status.split('—')[0].strip()}” - it cannot be both")
+        if sh.number not in issued and not marked:
+            problems.append(
+                f"{sh.number} is built but left out of the issue, and "
+                f"nothing on the sheet says why: it reads as current "
+                f"wherever it is read on its own")
+    return problems
+
+
 def prose_says_the_real_thickness():
     """A wall thickness written in words must be one that exists.
 
@@ -1252,6 +1298,7 @@ def main():
                      ("index", index_is_honest),
                      ("walls", every_wall_has_a_material),
                      ("prose", prose_says_the_real_thickness),
+                     ("issued", out_of_the_issue_says_why),
                      ("bill", bill_reconciles),
                      ("grid", grid_carries_the_walls),
                      ("mdl", deliverables_register)):

@@ -2,15 +2,18 @@
 
 An architectural drawing set for a detached five-storey villa at
 Shamandeel, Quesna, Menoufia, Egypt — the central Nile Delta. The house
-sits hard against the east boundary with its entrance garden to the west,
+stands 1.00 m clear of all three side boundaries, hard against the east
+setback with its whole entrance garden to the west,
 a three-storey blind neighbour behind that garden, a single-storey
 clay-brick one to the east and another single storey to the north. Drawn
 to ECP 201 and ECP 203.
 
-Parts of the body of this file below still describe the four-storey
-apartment building the design started as, before the detached villa was
-agreed. The sheets, the module table and the deliverables register are
-current; the accommodation and fire sections are not.
+This file described the four-storey apartment building the design started
+as for longer than it should have; the accommodation, set-out, design,
+ventilation and fire sections are rewritten at P22 to the villa the
+drawings actually show, and the areas in them are measured by
+`quantities.py` rather than typed. Where this file and a sheet disagree,
+the sheet is right.
 
 Everything is produced with free, open-source software — Python, [ezdxf]
 for the CAD files and [CairoSVG] for the sheets — and exported in the
@@ -26,47 +29,74 @@ repository.
 
 ## The set
 
-| Sheet     | Title                                  | Level  | Scale |
-| --------- | -------------------------------------- | ------ | ----- |
-| `ARC-000` | Master Deliverables List               | —      | NTS   |
-| `A-000`   | Site Plan                              | +0.00  | 1:75  |
-| `A-100`   | Ground Floor Plan                      | +0.00  | 1:50  |
-| `A-101`   | First Floor Plan                       | +3.30  | 1:50  |
-| `A-102`   | Second Floor Plan                      | +6.60  | 1:50  |
-| `A-103`   | Third Floor Plan                       | +9.90  | 1:50  |
-| `A-104`   | Penthouse Plan                         | +13.20 | 1:50  |
-| `A-200`   | Section A–A                            | —      | 1:50  |
-| `A-400` / `A-401` | South, then side and rear elevations — scheme A, Wave | — | 1:50 / 1:75 |
-| `A-402`   | Street Elevation in Context            | —      | 1:100 |
-| `A-430`   | Axonometric — Three Balcony Options    | —      | 1:250 |
+**73 sheets** are issued, across five packages. `ARC-001` is the cover and
+the index — built from the sheets themselves rather than typed — and
+`ARC-000` is the Master Deliverables List, which carries every deliverable
+including the ones that are not drawings.
+
+| Sheets | What | Class |
+| ------ | ---- | ----- |
+| `ARC-001`, `ARC-002` | Cover, project data and drawing index; general notes and the code matrix | D |
+| `ARC-000` | Master Deliverables List — 81 rows, status derived | D |
+| `A-000` | Site plan, 1:75 | D |
+| `A-100` … `A-104` | The five floor plans, 1:50 — ground, first, second, third, penthouse | D |
+| `ARC-106` | Roof plan over the penthouse: falls, outlets, parapets | D |
+| `A-200`, `ARC-301` | Sections A–A and B–B, 1:50 | D |
+| `A-400`, `A-401`, `A-402` | South, side and rear elevations and the street in context — scheme A | D |
+| `A-430` | Axonometric, three balcony options compared | D |
+| `ARC-400` … `ARC-404` | Reflected ceiling plans, one per level | D |
+| `ARC-500` | Door and window schedule, measured off the plans' own openings | D |
+| `ARC-700` | External works: paving, turf, pergola, barbecue, gate and trees | D |
+| `A-02` … `A-06` | Interior cutaway axonometrics, one per level | D |
+| `STR-001` … `STR-500` | 12 structural sheets: grid, footings, six slab framing layouts, the cantilever | **L** |
+| `EL-`, `ME-`, `PL-` | 33 services coordination layouts and schematics | **L** |
+
+Class **D** is derived from `geometry.py` and ours to issue; class **L**
+is layout and coordination for an engineer to size and certify, stamped
+as such on every sheet. Nothing is issued as engineering that has not been
+engineered.
 
 Scheme A, "Wave", was adopted at P18, and the plans are drawn to its
-serpentine balcony: 1.95 m deep at each end, 0.75 m at the waist, 12.8 m²
-a floor. `A-410` / `A-411` (scheme B, Arcade) and `A-420` / `A-421`
-(scheme C, Facet) still build and stay here as the record of what was
-offered, stamped not selected and left out of the issue.
+serpentine balcony: 1.95 m deep at each end and, since the client deepened
+the waist at P19, 1.35 m there — 15.7 m² a floor. `A-410` / `A-411`
+(scheme B, Arcade) and `A-420` / `A-421` (scheme C, Facet) still build and
+stay here as the record of what was offered, stamped not selected and left
+out of the issue.
 
 `A-300`, `A-301` and `A-302` are enlargements of apartment units that the
-detached villa no longer has. They are built but left out of the bound
-set, and should be formally withdrawn rather than reissued.
+detached villa no longer has. They are **withdrawn at P22**: kept and
+still building, because a set that deletes what it superseded cannot show
+how the building was arrived at and the client holds a bound issue
+containing them, but stamped across the face, left out of the issued set,
+and held there by `checks.out_of_the_issue_says_why` — which also refuses
+a sheet that falls out of the issue without saying why.
 
 All sheets are ISO A1 landscape (841 × 594 mm) with a title block, key,
 area schedule, general notes, north point and graphic scale. A-100 covers
-the whole plot, so the garden corridor, barbecue, pergola and patio are
-drawn with the ground floor; the upper sheets cover the building only.
+the whole plot, so the entrance garden, barbecue, pergola and forecourt
+are drawn with the ground floor; the upper sheets cover the building only.
+ARC-700 measures all of it.
 
 ## What the building is
 
-| Level  | Accommodation | GIA | External |
-| ------ | ------------- | --- | -------- |
-| +0.00  | Entrance lobby and reception, living and reception, lounge and breakfast room, guest bedroom or office, central service kitchen (12.9 m²) with servery, wash-up, staff WC and bin store, central laundry (4.0 m²), guest WC, guest bath, linen, dry store and plant | 147.3 m² | — |
-| +3.30  | Two one-bedroom apartments — A 64.7 m², B 63.2 m² — each with a kitchenette and a cantilevered balcony the full width of its block | 147.3 m² | 13.8 m² |
-| +6.60  | Identical to the floor below | 147.3 m² | 13.8 m² |
-| +9.90  | Two-bedroom apartment (≈116 m²) whose living, dining and kitchen span both blocks, between a full-width south terrace on the cantilever and a shaded north terrace | 135.1 m² | 26.1 m² |
-| **Total** | Five apartments over a floor of shared service accommodation | **577.1 m²** | **53.7 m²** |
+One household, eleven numbered bedrooms, over five levels on a 128.3 m²
+plate. Every area below is measured from the plans by `quantities.py`,
+not typed here.
 
-The service kitchen and laundry on the ground floor serve every apartment
-above.
+| Level  | Accommodation | Net internal | External |
+| ------ | ------------- | ------------ | -------- |
+| +0.00  | Reception hall (43.1 m²) opening onto the garden frontage, dining and kitchen, guest bedroom with its own ensuite, laundry and guest WC | 108.3 m² | garden |
+| +3.30  | Living area on the frontage, master bedroom with ensuite, two further bedrooms off a lobby and a shared bath | 108.3 m² | 15.7 m² |
+| +6.60  | Four bedrooms — two of them suites with ensuite and dressing — a shared bath, landing and lobby | 107.0 m² | 15.7 m² |
+| +9.90  | Second living area on the frontage, three bedrooms, two of them ensuite suites | 105.3 m² | 15.7 m² |
+| +13.20 | Set-back penthouse: living and dining, one bedroom and a bath, between a west terrace, a north terrace and an open corridor | 44.8 m² | 15.7 m² balcony, 11.5 m² west and 12.2 m² north terrace, 33.3 m² corridor |
+| **Total** | A single house, not flats | **473.7 m²** | — |
+
+The accommodation above was agreed level by level and the sheets are
+stamped final draft for it. An earlier design on this plot — four
+storeys, five apartments and a shared service kitchen — is what sheets
+`A-300` to `A-302` enlarge, and is the reason some of the module and
+fixture names in the code still read "apt A" and "apt B".
 
 ## Which file to open, and in what
 
@@ -76,14 +106,15 @@ above.
 | `drawings/`         | SVG, A1                             | **Inkscape**, **Penpot**, Figma, any browser — editable vector artwork      |
 | `pdf/`              | vector PDF, exactly 841 × 594 mm    | any reader; prints to scale; Inkscape and Scribus can edit it              |
 | `png/`              | 150 dpi, 4967 px wide               | **Sweet Home 3D** and the online planners, to trace a 3D model over        |
-| `drawing-set.html`  | all nine sheets, self-contained     | any browser, offline — tabs, zoom, pan                                      |
+| `drawing-set.html`  | the whole issue, self-contained     | any browser, offline — tabs, zoom, pan                                      |
 
 ### Editing the plans as CAD
 
-`cad/` holds one DXF per level plus `vacation-home-all-levels.dxf`, which
-carries all five side by side, each on its own layer set (`…-SITE`, `…-00`,
-`…-01`, `…-02`, `…-03`). Model space is millimetres at full size, so a wall
-measures its real length and you can draw straight on top.
+`cad/` holds one DXF per plan, elevation and section, plus
+`vacation-home-all-levels.dxf`, which carries the site and all five levels
+side by side, each on its own layer set (`…-SITE`, `…-00` to `…-04`).
+Model space is millimetres at full size, so a wall measures its real
+length and you can draw straight on top.
 
 Entities are sorted onto standard architectural layers, so you can switch
 off what you don't want and edit what you do:
@@ -107,8 +138,8 @@ Sweet Home 3D is the shortest route, and it is free:
 1. `Plan > Import background image…` and choose the PNG for the level you
    want — the wizard takes BMP, JPEG, PNG or GIF.
 2. When it asks for the scale, click the two ends of the overall dimension
-   and type its value: **11.50 m** across the building on any floor plan, or
-   **23.00 m** along the garden on the site plan.
+   and type its value: **9.50 m** across the building on any floor plan, or
+   **23.00 m** along the street frontage on the site plan.
 3. Draw walls over the traced plan, then switch to the 3D view.
 
 The online planners (Floorplanner, Planner5D, Coohom and similar) work the
@@ -147,6 +178,11 @@ python3 viewer.py         # drawing-set.html
 | `axonometric.py`| Isometric projection of the geometry — a view, not a render.   |
 | `deliverables.py`| The Master Deliverables List as data; status derived.         |
 | `documents.py`  | Renders the register to Markdown and onto sheet ARC-000.       |
+| `quantities.py` | The measure: the bill, taken off the drawing calls themselves. |
+| `structure.py`  | Package C's grid, footings, beams and voids.                   |
+| `services.py`   | Package D's zones, wet-room stacks and schematics.             |
+| `checks.py`     | The rules, run before every build.                             |
+| `build.py`      | Every format in one pass, and prunes superseded issues.        |
 | `dxf_backend.py`| The same drawing interface, emitting CAD geometry.             |
 | `export_cad.py` | Runs the sheets against the CAD backend.                       |
 | `export_share.py`| PDF and PNG issues, and the bound set.                        |
@@ -161,17 +197,22 @@ build.
 ## Set-out
 
 Origin (0, 0) is the south-west corner of the plot; x runs east, y north.
-The street is on the south side and the gate is at the west end of the
-garden corridor.
+The street is on the south side; the gate is a 2.40 m opening at the west
+end of the frontage, and the forecourt in front of the door is at the
+east end.
 
 ```
-garden corridor, west of the building   11.50 × 5.00 m    57.50 m²
-garden corridor, in front of it         11.50 × 3.50 m    40.25 m²
-block A (front)                          6.50 × 14.50 m   94.25 m²
-block B (rear)                           5.00 × 14.50 m   72.50 m²
-plot                                                     264.50 m²
-built footprint                                          166.75 m²   coverage 63 %
+plot, an L on the street frontage                        264.50 m²
+house, 9.50 × 13.50 m                      12.50 .. 22.00 x
+                                            3.50 .. 17.00 y   128.25 m²
+entrance garden, west of the house       11.50 m of frontage
+setbacks, paved as side passages         1.00 m on three sides
+built footprint                                          128.25 m²   coverage 48 %
 ```
+
+The house is not in the middle of its plot and the drawings do not pretend
+it is: it stands hard against the east setback, and the whole of the west
+is one entrance garden.
 
 External and party walls are 300 mm brick of any colour — both faces are
 plastered or rendered, so no brick on this building is ever seen — internal
@@ -182,8 +223,10 @@ material of its own.
 
 Clear ceiling height is **3.00 m**, the client's minimum. A 0.30 m
 structural zone puts the floors 3.30 m apart, so levels are +0.00, +3.30,
-+6.60 and +9.90, the roof over the third floor is at +13.20, and the stair
-is a 19-riser dog-leg at 174 × 275 mm.
++6.60, +9.90 and the penthouse at +13.20, with the roof over it at +16.45
+and the top of the building at +17.05. The stair is a dog-leg in a
+2.00 × 3.30 m well, 18 risers at 183 × 260 mm in two 0.90 m flights, and
+it stacks on the same well at every level.
 
 The ground floor sits **0.50 m above the garden**: garden level −0.50,
 finished floor level +0.00, with three risers at 167 mm at the entrance and
@@ -195,172 +238,173 @@ and colour rather than size.
 
 ### Structure
 
-An RC frame, columns 300 × 300 on a grid set out along the wall
+An RC frame, columns 300 × 300 on a 3 × 4 grid set out along the wall
 centrelines so that none of them stands in a room:
 
 ```
-x  11.65   15.34   18.00   22.85      spans 3.69 / 2.66 / 4.85 m
-y   3.65    7.24   10.54   14.66   17.85    spans 3.59 / 3.30 / 4.12 / 3.19 m
+A  12.65   B  17.46   C  21.85        spans A–B 4.81, B–C 4.39 m
+1   3.65   2   8.46   3  12.56   4  16.85
+                                      spans 1–2 4.81, 2–3 4.10, 3–4 4.29 m
 ```
 
-Longest span 4.85 m, comfortably within flat-slab range. The frame follows
-the plan rather than the plan working around the frame.
+Longest span 4.81 m, comfortably within flat-slab range. The frame follows
+the plan rather than the plan working around the frame, and `checks.py`
+proves the rule it rests on: every 300 mm wall stands on a grid line, so
+every one of them has a beam under it. There is exactly one exception —
+the penthouse's north wall, a line load on the +13.20 slab spanning B to
+C — and because the check named it rather than passing it, STR-305
+carries a secondary beam under it.
 
 ### Resolving the survey sketch
 
-The client's sketch recorded a 0.50 m step in the north boundary across
-block A's width *and* a 5.50 m offset between the two blocks' north walls.
-Those cannot both be true. It is resolved here in favour of a **straight
-boundary at y = 18.00**, with both blocks running north to meet it, which
-is the 0.50 m northward shift the client asked for. Every boundary
-dimension still needs a measured survey before construction — see note 1 on
-sheet A-000.
+The client's sketch recorded a 0.50 m step in the north boundary *and* a
+5.50 m offset between the two north walls of the building as it then was.
+Those cannot both be true. It is resolved in favour of a **straight
+boundary at y = 18.00**, which is the 0.50 m northward shift the client
+asked for. That resolution is an assumption, not a measurement: every
+boundary dimension still needs SUR-001 before construction, and note 1 on
+sheet A-000 says so on the drawing.
 
 ## Design response
 
-**Only the west boundary is built against.** The client confirms that the
-north and east boundaries are open to the environment and may be windowed;
-the adjoining owner to the east will not build above 3.00 m. So three of
-the four elevations — south, east and north — are glazed, and the west is
-the single blind wall. Three moves follow from that:
+**The villa is detached on three sides.** The client took the building off
+the east boundary at P5, setting it back 1.00 m from west, north and east
+and facing the street across its own forecourt. That cost 22 % of the
+floor — 114.8 m² inside the walls against 147.3 as a party-wall
+building — and it
+bought the one thing a party wall cannot: daylight and cross ventilation
+on every face. Three moves follow from it.
 
-- **Every habitable room sits on an external wall.** Block B takes windows
-  in the east wall at every level; block A's north end is one room the full
-  6.05 m width with two windows in the north wall. The light court that
-  revision P3 cut through all four storeys has gone with them, which gives
-  back 7.3 m² a floor — about 29 m² over the building.
-- **The building moves 1.50 m south** into its own garden, so each block is
-  14.50 m deep instead of 13.00, and **balconies cantilever a further
-  1.20 m** beyond that, each running the full width of its own block and
-  divided on the party wall line by a 250 mm screen. Nothing projects over
-  a boundary; the overhang is subject to the local projection rule.
-- **The west wall is opened** where it faces our own garden, south of
-  y = 5.00 — the one short length that is not a party wall, giving
-  apartment A's living room corner light down the 23 m garden axis.
-  Everywhere else the west wall is blind.
+- **The party wall becomes a spine.** With no neighbour attached there is
+  no wall that must stay solid, so the line down the middle of the plate
+  is structure only: a row of columns on grid B with downstand beams
+  between them, opened the full 4.81 m where a plan wants to read across
+  it. The first floor's lobby and the second floor's landing are both
+  that opening.
+- **The frontage is a serpentine cantilever.** Scheme A, adopted at P18
+  and deepened at P19, carries 15.7 m² of balcony on each of the four
+  upper levels: 1.95 m at each end, drawn in to 1.35 m at the waist, deep
+  enough to sit out on along the whole frontage. It is the most
+  engineering-sensitive element in the building and has its own sheet,
+  STR-500.
+- **The west is louvred, not glazed.** The neighbour behind the garden is
+  three storeys and blind toward us, so the west wall takes ventilation
+  louvres and no view. East and north carry ordinary windows: the east
+  neighbour is a single storey in clay brick 1.00 m away, which the first
+  floor's sills clear by 1.20 m.
 
-Arched openings face the garden on every level, and arch heads are shown
+Arched openings face the garden at ground level, and arch heads are shown
 dashed in plan.
 
-### The core
+### The stair
 
-Stair, lift, protected lobby and services riser stack identically on every
-floor in the east strip of block A:
+A private villa stair, not a protected one: two 0.90 m flights, 18 risers
+at 183 × 260 mm, in a 2.00 × 3.30 m well that stacks at every level. It
+needs no enclosure, no smoke vent and no lift — and on the first and third
+floors it is not even in a room of its own, standing openly in the living
+area with no wall between.
 
-```
-protected stair 15.40 – 17.85   10.60 – 14.60    2.45 × 4.00   two 1.10 m flights
-fire lobby      15.40 – 17.85    8.98 – 10.48    2.45 × 1.50
-lift shaft      15.40 – 17.10    7.30 –  8.86    1.70 × 1.56   knock-out slabs
-riser cupboard  17.20 – 17.85    7.30 –  8.86    0.65 × 1.56   off the lobby
-```
+That stacking is not negotiable: the well is fixed in `geometry.py` once
+and every floor is set out from it, so a stair that failed to line
+through would be a geometry error rather than a drafting one.
 
-The lift shaft is built full height now with removable infill slabs at each
-level, so a lift can be installed later without cutting structure or taking
-area out of an occupied apartment. Both apartments on a floor open directly
-off the fire lobby, and the riser cupboard is entered from the lobby rather
-than from inside a dwelling.
+### The penthouse, and what it cost
 
-The core stops at y = 14.72. North of it, block A is one room the full
-6.05 m width on every floor: the dry store and plant room on the ground
-floor, apartment A's 23.6 m² bedroom on floors 1 and 2, and the 18.0 m²
-bedroom 2 on the third.
+The penthouse is set back on the east half of the plate, between a west
+terrace, a north terrace and an open corridor that joins them down the
+west side — 2.51 m clear against the 2.00 m the client asked for, pergola
+over its whole length, with the front door off it. That corridor leaves
+the flat 4.09 m clear, which will not take two bedrooms side by side, and
+stacking them would need 12.06 m of the 13.50 m depth and leave 1.44 m
+for both terraces. The second bedroom is what pays for the corridor, and
+the drawing says so rather than quietly dropping one.
 
-### Where the party wall can be opened
-
-The party wall can only be opened between **y 3.80 and 7.18**. North of
-that, block A's east strip is the stair, the fire lobby, the lift and the
-riser, so the wall backs onto the core rather than onto a room. On floors
-1 and 2 that matters only for apartment B's front door, which opens off
-the lobby. On the third floor it decides the whole plan: the living,
-dining and kitchen run right across that band as one 10.60 m wide room,
-because it is the only place the two blocks can be joined inside a single
-dwelling — and the south terrace therefore moves out onto the cantilever
-rather than sitting on the link.
+At +16.45 the penthouse is a fourth storey for most planning codes.
 
 ### Services
 
-All wet rooms stack floor to floor onto a spine on the party wall.
-Apartment A's bathroom takes the full width of block A's east end so that
-it sits hard against the party wall, directly below the riser cupboard;
-apartment B's kitchenette runs along the other face of the same wall.
-Kitchen extract from the ground floor rises in its own fire-rated shaft
-within that cupboard and discharges above roof level.
+Wet rooms stack floor to floor. The services package measured exactly one
+zone that is wet on all five levels — 2.50 × 3.50 m on the east side —
+and the PL series is laid out on it, one drainage stack straight to the
+ground. Everything else in the EL, ME and PL sheets is coordination
+layout for the services engineer, carrying no sizes.
 
 ## Ventilation
 
-Three elevations are open, so every habitable room is daylit and cross
+Three elevations are open, so every habitable room is daylit and
 ventilated from its own external wall.
 
-| Wall  | Level  | Openings                                                    |
-| ----- | ------ | ----------------------------------------------------------- |
-| East  | +0.00  | Lounge ×2, central laundry, guest bath, guest bedroom       |
-| East  | +3.30  | Apt B living, bathroom, bedroom, dressing / study           |
-| East  | +6.60  | as +3.30                                                     |
-| East  | +9.90  | Living band, bedroom 1, master ensuite                       |
-| North | +0.00  | Service kitchen, dry store; guest bedroom ×2 in block B     |
-| North | +3.30  | Apt A bedroom ×2; apt B dressing / study ×2                 |
-| North | +6.60  | as +3.30                                                     |
-| North | +9.90  | Bedroom 2 ×2 (block B's north wall is the terrace parapet)  |
-| South | all    | Full garden frontage, arched at ground floor                |
-| West  | all    | Blind, except one window where it faces our own garden      |
+| Wall  | Openings |
+| ----- | -------- |
+| South | The garden frontage at every level: arched at ground floor, sliding doors onto the cantilever above |
+| East  | Ordinary windows at every level, clearing the single-storey neighbour's roof from the first floor up |
+| North | Ordinary windows at every level; only the ground floor looks at anything, and the neighbour there is a single storey too |
+| West  | Louvred ventilation only — the neighbour behind the garden is three storeys and blind toward us |
 
-Every window range clears the 300 mm columns standing in that wall. What is
-left internal — the third floor family bath, guest WC, store and passage,
-the ground floor wash-up, servery, staff WC, bin store and guest WC — is
-mechanically extracted at six air changes per hour.
-
-The adjoining owner to the east may build up to 3.00 m. That would obscure
-the ground floor east windows but none above; the drawings say so in note 4
-on A-100. Openings in a boundary wall remain subject to local fire
-separation and rights of light rules.
+Every window range clears the 300 mm columns standing in that wall, which
+is a check rather than a claim: `checks.py` rebuilds each plan and refuses
+an opening that runs through a column. What is left internal is the
+circulation and the wet rooms, and those are mechanically extracted; the
+rate is the services engineer's, and no figure for it is written on any
+sheet here.
 
 ## Fire
 
-A **single protected stair** is the client's decision, confirmed in
-writing, and the drawings are set out on that basis. It is not a
-compliance check: the governing code has not been named, so the strategy
-still needs the authority's agreement, and the sheets say so.
+This is a single dwelling, and it is drawn as one: one private stair, no
+protected lobby, no smoke vent, no sprinklers and no lift. That follows
+from the building being a house rather than the five flats the design
+started as — but it is **not a compliance check**, and the set does not
+pretend otherwise.
 
-- Single protected stair, FD30S self-closing doors onto a fire lobby at
-  every level, apartments opening off that lobby.
-- The stair enclosure stands in the middle of block A and has no external
-  wall, so it cannot be smoke-ventilated by a window. A 1.2 m² automatic
-  opening vent (2.15 × 0.55 m) goes through the roof slab over the top
-  landing, drawn on A-103 and A-301 and shown open on A-200.
-- Sprinklers throughout.
-- The ground floor is one non-residential compartment under the
-  apartments: 2 hour separation to the floor over, with a suppression hood
-  over the cooking line.
-- Kitchen grease extract in a dedicated fire-rated shaft.
-
-At four storeys with five dwellings and a commercial kitchen beneath
-sleeping accommodation, this needs verifying against the local authority
-before it goes any further.
+What is open is the governing code. ECP 201 and ECP 203 are named on every
+sheet, and they are loads and reinforced concrete: neither says anything
+about means of escape. A five-storey single dwelling served by one
+unenclosed stair is exactly the arrangement an authority will have a view
+on, and that view has not been sought. Nothing in this set should be read
+as saying it has.
 
 ## Status
 
-Preliminary design issue, revision **P4** — not for construction. Work to
-figured dimensions only; do not scale from the drawings.
+Final draft for the agreed levels, revision **P22** — not for
+construction. Work to figured dimensions only; do not scale from the
+drawings.
 
-| Rev | Date | Issued for |
-| --- | ---- | ---------- |
-| P1  | 2026-09-18 | First issue |
-| P2  | 2026-09-24 | East boundary windows, 3.30 m floor heights, garden shown with the ground floor |
-| P3  | 2026-09-29 | Four storeys, apartments and central service floor, straight north boundary, 1.50 m south extension, RC frame, lift shaft. Central kitchen reduced 30 % to 12.9 m²; laundry reduced to one machine at 4.0 m²; balconies taken to the full width of each block; every WC and bathroom re-routed so that none is entered through a service room or another room; third floor replanned around the party wall constraint |
-| P4  | 2026-09-29 | Client confirms only the west boundary is built against. North and east opened up and windowed at every level; light court removed and built over, +7.3 m² a floor; block A's north end replanned as one room the full width; single protected stair recorded as the client's decision, with a 1.2 m² automatic opening vent at the stair head |
+The revision record is `frame.REVISIONS`, and the title block prints the
+issues each sheet has actually been through, with the date and what
+changed — a sheet that has not changed stays at its own letter rather
+than being swept up in a set-wide bump. The turning points:
 
-The title block carries this record and stamps the build date, so a sheet
-always says which issue it is.
+| Rev | Changed |
+| --- | ------- |
+| P3  | Four storeys, apartments over a central service floor |
+| P5  | **Detached villa**: 1.00 m setbacks on three sides, the wave cantilever, the party wall gone |
+| P9  | Penthouse added, between two terraces |
+| P12 | Bedrooms numbered 1 to 11; all five floors issued as final draft |
+| P18 | Scheme A, "Wave", adopted; the site named |
+| P19 | The serpentine's waist deepened 0.75 to 1.35 m |
+| P20 | Internal partitions 100 mm red brick |
+| P21 | 300 mm external and party walls: brick, colour unrestricted |
+| P22 | `A-300` to `A-302` withdrawn |
+
+So the drawings carry their own history: nothing in this file is the
+record, and where the two disagree the title block is right.
 
 ### The section and the enlargements
 
 `A-200` is drawn by the same engine as the plans, by mapping the plan's
 north–south axis onto the sheet's x and the level onto its y, so its
 dimensions come out of `geometry.py` like everything else. It cuts at
-y = 16.20 — marked A–A on every floor plan — through the south glazing,
-the lift shaft, the protected lobby, one stair flight and the room at the
-north end of block A, where it passes through a north window at every
-level.
+x = 20.70 — marked A–A on every floor plan — looking west: the one
+north–south line that passes through a room at every level and through
+every wet room in the east strip, while clearing all three column lines,
+so the slabs are seen spanning rather than a column standing in the cut.
+
+`ARC-301` cuts the other way, at y = 10.80 through the stair well, and is
+the only drawing of the building's width. What each cut passes through is
+read off the plans by the same probe `checks.py` uses, so a section
+cannot show a wall the plan does not have — on ARC-301 even the question
+of whether the east wall is glazed at the cut is answered from that
+level's own opening list, each time the sheet is built.
 
 ### Checks
 
@@ -438,12 +482,21 @@ writes.
 
 ### Still open
 
-- The governing fire code. The single stair is settled as the client's
-  choice; what is open is the authority's agreement to it, and with it the
-  vent's required free area, the travel distances and the sprinkler
-  standard.
-- Measured survey of the north boundary, and the local rule on the 1.20 m
-  balcony overhang.
-- The third floor's guest WC, store, family bath and passage stay
-  internal and mechanically extracted; everything habitable is now on an
-  external wall.
+- **The governing fire code**, and with it the authority's view of a
+  five-storey house on one unenclosed stair. ECP 201 and ECP 203 do not
+  answer it.
+- **SUR-001**, a measured survey. Every boundary on A-000 is issued marked
+  indicative, and the local rule on the cantilever's projection over the
+  frontage turns on it.
+- **GEO-001**, a ground investigation. The Delta is well characterised as
+  a region — enough to assume a foundation type and lay the structure out,
+  not enough to size one — so no bearing pressure, water table or
+  sulphate figure is written on any sheet, and four structural rows wait
+  on it.
+- **ARC-600**, construction details, which wait on the specification
+  rather than on the geometry.
+- The parapet's material, the one wall nobody has specified.
+
+Those five are in the register on `ARC-000` with their class and their
+status, and the status is derived rather than typed: a row cannot claim
+to be issued because somebody forgot to change it back.

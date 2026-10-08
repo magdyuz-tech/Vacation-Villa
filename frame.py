@@ -75,8 +75,10 @@ REVISIONS = [
      "serpentine waist deepened 0.75 to 1.35 m; 15.7 m² of balcony a floor"),
     ("P20", "2026-10-07",
      "internal partitions 100 mm red brick, specified by the client"),
-    ("P21", None,
+    ("P21", "2026-10-07",
      "300 mm external and party walls: brick, colour unrestricted"),
+    ("P22", None,
+     "A-300 to A-302 withdrawn: enlargements of a building not being built"),
 ]
 STATUS = "Preliminary design issue — not for construction."
 STATUS_FINAL_DRAFT = ("Final draft — layout agreed with the client; "
@@ -86,6 +88,12 @@ STATUS_FINAL_DRAFT = ("Final draft — layout agreed with the client; "
 # or "agreed" in the way a drawing is.
 STATUS_REGISTER = ("Document control — every status on this sheet is "
                    "derived at build time from the issued set.")
+# A drawing of a building nobody is building.  It is kept, because a set
+# that destroys its own history cannot show how the building was arrived
+# at, and because the client holds a bound issue with these sheets in it.
+# Keeping it means marking it.
+STATUS_WITHDRAWN = ("Withdrawn at {0} — superseded by {1}. Record only; "
+                    "not for construction, pricing or measurement.")
 # The issue date, stamped at build time. Set SHEET_DATE to pin it when a
 # reproducible build matters.
 DATE = os.environ.get("SHEET_DATE") or _dt.date.today().isoformat()
@@ -315,6 +323,31 @@ def titleblock(sh, y0=None):
         sh.text_mm(PANEL_X + 44, y0 + 89 + i * REV_PITCH,
                    f"{r}   {when or DATE}   {what}", size=2.1,
                    anchor="start")
+
+
+def withdraw(sh, rev, superseded_by):
+    """Stamp a sheet withdrawn: a status line, and the word on the face.
+
+    The title block on its own is not enough.  A withdrawn drawing is
+    dangerous exactly where a title block is not read - one sheet loose
+    on a table, a photograph of the middle of it, a reader scaling a
+    room off a plan of a building that was never going to be built.  So
+    the word goes diagonally across the drawing itself, pale enough to
+    read the plan through and large enough that no crop of it can be
+    mistaken for a current drawing.
+
+    Call it last, after the sheet's content: there is no z-order here
+    beyond the order things are drawn in.
+    """
+    sh.rev = rev
+    sh.status = STATUS_WITHDRAWN.format(rev, superseded_by)
+    cx, cy = 294.0, 300.0
+    sh.text_mm(cx, cy, "WITHDRAWN", size=40.0, anchor="middle", weight=700,
+               color="#c4c4c4", ls=8.0, rot=-27,
+               style="opacity:0.75")
+    sh.text_mm(cx, cy + 24, f"SUPERSEDED BY {superseded_by.upper()}",
+               size=5.4, anchor="middle", weight=400, color="#b4b4b4",
+               ls=2.2, rot=-27, style="opacity:0.9")
 
 
 def compass_and_scale(sh, x=440.0, y=500.0):

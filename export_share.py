@@ -51,10 +51,12 @@ if __name__ == "__main__":
 # the sheets the villa set is issued as, in the order they are read.  Two
 # groups are left out on purpose, both for the same reason: binding them
 # would hand the reader drawings of a building that is not being built.
-# The A-300 enlargements are of apartment units that no longer exist, and
-# A-410 to A-421 are exterior schemes B and C, which the client did not
-# choose.  All of them stay in the repository and still build; they are
-# simply not part of the issue.
+# The A-300 enlargements are of apartment units that no longer exist and
+# are withdrawn at P22, and A-410 to A-421 are exterior schemes B and C,
+# which the client did not choose.  All of them stay in the repository and
+# still build; they are simply not part of the issue, and each says so on
+# its own face - `checks.out_of_the_issue_says_why` refuses a sheet that
+# leaves this list without a stamp, or arrives in it carrying one.
 SET_ORDER = ["ARC-001", "ARC-002", "ARC-000",
              "A-000", "A-100", "A-101", "A-102", "A-103", "A-104",
              "ARC-106",
