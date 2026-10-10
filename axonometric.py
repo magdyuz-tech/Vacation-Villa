@@ -182,6 +182,32 @@ def cutaway(sh, level, walls, sills, colour="#efe7d9", profile=None):
                         ffl + CUT, colour)
 
 
+MIN_NAMED = 8.0                 # m2; below this a room goes unnamed
+
+
+def labels(sh, level, rooms, min_area=MIN_NAMED):
+    """Name the principal rooms on the floor they stand on.
+
+    An unlabelled doll's house is a pretty picture of a building nobody
+    can name a room in, which is most of what these sheets are for.  The
+    name is set on the floor plane rather than floating above it, so it
+    reads as lying in the room, and it is drawn last so no wall covers
+    it.
+
+    `min_area` keeps the ensuites and the WCs off: at this scale four or
+    five names a floor is a drawing and ten is a thicket.
+    """
+    ffl = EL_LEVELS[level]
+    named = []
+    for name, area, cx, cy in rooms:
+        if area < min_area:
+            continue
+        u, v = P(cx, cy, ffl + 0.02)
+        sh.tag(u, v, name.upper(), size=2.2, color=INK)
+        named.append(name)
+    return named
+
+
 def _wall_piece(sh, x0, y0, x1, y1, a, b, horiz, z0, z1, colour):
     if horiz:
         box(sh, a, y0, b, y1, z0, z1, colour, stroke=INK, sw=LW_THIN)

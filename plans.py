@@ -2971,9 +2971,14 @@ def sheet_elev_b_sides():
 # 1:75.  The vertical origin follows the floor: v = z + (x + y) sin30, so
 # a cutaway of the penthouse sits ten metres higher up the sheet than one
 # of the ground floor unless the origin moves with it.
-AX_CUT_SCALE = 75
-AX_CUT_OX = 214.0
-AX_CUT_OY = 533.0
+# Solved from the projection's own extents rather than nudged: the model
+# runs u -3.90 to 17.71 and v (floor-relative) 7.02 to 20.70, so at 1:50
+# it is 432 x 273 mm in a drawing column of 552 x 520. It used to be 1:75,
+# which drew it at 288 x 182 and left two thirds of the sheet empty.
+AX_CUT_SCALE = 50
+AX_CUT_OX = 156.0
+AX_CUT_OY = 577.0
+_CUT_ROOMS = {}
 
 
 def _cutaway_data(level):
@@ -2983,13 +2988,29 @@ def _cutaway_data(level):
 
     build = (sheet_ground, sheet_first, sheet_second, sheet_third,
              sheet_penthouse)[level]
+    # the rooms, with their centres: Sheet.schedule keeps the name and the
+    # area but not where the room is, and the cutaway wants to write the
+    # name on the floor
+    rooms = []
+    real_room = D.Sheet.room
+
+    def _room(self, x, y, w, h, name, area=None, **kw):
+        at = kw.get("at")
+        cx, cy = at if at else (x + w / 2.0, y + h / 2.0)
+        rooms.append((kw.get("sched_name") or name,
+                      area if area is not None else w * h, cx, cy))
+        return real_room(self, x, y, w, h, name, area, **kw)
+
     rec, *_rest, restore = checks._record()
+    D.Sheet.room = _room
     try:
         sh = build()
     finally:
         restore()
+        D.Sheet.room = real_room
     walls = [(x0, y0, x1, y1, list(op)) for x0, y0, x1, y1, op, _f in rec]
     schedule = list(sh.schedule)
+    _CUT_ROOMS[level] = rooms
     sills = {}
     for face, lv, a, b, kind in el.openings():
         if lv != level:
@@ -3006,11 +3027,12 @@ def _cutaway_sheet(level, name):
     sh = Sheet(f"A-{level + 2:02d}",
                f"Interior Cutaway — {name} Floor", f"+{EL_LEVELS[level]:.2f}",
                f"1:{AX_CUT_SCALE} @ A1")
-    sh.rev = "P21"
+    sh.rev = "P25"
     F.border(sh)
     ax.cutaway(sh, level, walls, sills,
                colour=el.SCHEME[SCHEME]["render"],
                profile=el.SCHEME[SCHEME]["profile"])
+    named = ax.labels(sh, level, _CUT_ROOMS[level])
 
     F.heading(sh)
     y = F.legend(sh, 52)
@@ -3022,6 +3044,7 @@ def _cutaway_sheet(level, name):
         ("View", "isometric from the south-west"),
         ("Scheme", f"{SCHEME} — {el.SCHEME[SCHEME]['name']}"),
         ("Balcony", f"{wave_area():.1f} m²" if level else "—"),
+        ("Rooms named", f"{len(named)} of {len(schedule)}"),
         ("Drawn from", f"A-{100 + level}")])
     F.notes(sh, y + 6, [
         f"The {name.lower()} floor as a doll's house, its walls cut "
@@ -3037,6 +3060,10 @@ def _cutaway_sheet(level, name):
         "Faces are painted back to front rather than depth-sorted, so a "
         "detail may overlap where two surfaces nearly touch. The plan "
         "governs.",
+        f"Rooms of {ax.MIN_NAMED:.0f} m² and over are named on the floor "
+        f"they stand on. The ensuites, stores and WCs are not: at this "
+        f"scale ten names a floor is a thicket, and A-{100 + level} "
+        f"schedules every one of them.",
         "For looking at. Nothing is dimensioned here and nothing should "
         "be measured off it.",
     ])

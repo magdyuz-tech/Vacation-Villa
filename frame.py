@@ -81,8 +81,10 @@ REVISIONS = [
      "A-300 to A-302 withdrawn: enlargements of a building not being built"),
     ("P23", "2026-10-10",
      "services layouts: overlapping labels; ground floor re-centred"),
-    ("P24", None,
+    ("P24", "2026-10-10",
      "EL-400, ME-200 and PL-300 drawn back onto the sheet"),
+    ("P25", None,
+     "interior cutaways drawn at 1:50, with the principal rooms named"),
 ]
 STATUS = "Preliminary design issue — not for construction."
 STATUS_FINAL_DRAFT = ("Final draft — layout agreed with the client; "
