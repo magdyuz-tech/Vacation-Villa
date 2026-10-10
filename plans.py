@@ -3140,9 +3140,15 @@ def _svc_schematic(code, title, discipline, purpose):
     """A diagram rather than a plan: levels stacked, riser through them."""
     data = _svc_data()
     zone = data["zone"]
-    D.set_scale(50, -150.0, 470.0)
+    # Solved, not guessed: the diagram runs x 0.10 to 12.00 and y -2.05 to
+    # +17.55, which at 1:50 is 238 x 392 mm, and the drawing column is
+    # 552 x 520. The origin centres that. It used to be -150.0, which put
+    # the whole diagram 130 mm off the left edge of the sheet - the levels,
+    # the riser, the plant, all of it - leaving three issued sheets blank
+    # but for their right-hand panel.
+    D.set_scale(50, 169.0, 461.0)
     sh = Sheet(code, title, "the whole building", "schematic")
-    sh.rev = "P21"
+    sh.rev = "P24"
     sh.status = sv.STAMP
     F.border(sh)
 
@@ -3172,8 +3178,10 @@ def _svc_schematic(code, title, discipline, purpose):
            "ENGINEER", size=1.8, color=INK)
 
     F.heading(sh)
-    y = F.legend(sh, 52)
-    y = F.datum_panel(sh, y + 8, "THE RISER", [
+    # no key: the frame's is a plan key - walls, doors, glazing, parapets -
+    # and there is not one of those on a riser diagram. A key that
+    # describes a different drawing is worse than none.
+    y = F.datum_panel(sh, 52, "THE RISER", [
         ("Levels served", f"{len(EL_LEVELS)}"),
         ("Riser reserved",
          f"{zone[2] - zone[0]:.2f} × {zone[3] - zone[1]:.2f} m"

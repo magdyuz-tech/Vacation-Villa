@@ -79,9 +79,10 @@ REVISIONS = [
      "300 mm external and party walls: brick, colour unrestricted"),
     ("P22", "2026-10-08",
      "A-300 to A-302 withdrawn: enlargements of a building not being built"),
-    ("P23", None,
-     "services layouts: labels that printed over one another, and the "
-     "ground floor off-centre"),
+    ("P23", "2026-10-10",
+     "services layouts: overlapping labels; ground floor re-centred"),
+    ("P24", None,
+     "EL-400, ME-200 and PL-300 drawn back onto the sheet"),
 ]
 STATUS = "Preliminary design issue — not for construction."
 STATUS_FINAL_DRAFT = ("Final draft — layout agreed with the client; "
