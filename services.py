@@ -119,25 +119,52 @@ def isolated_wet(rooms=None, zone=None):
 # --------------------------------------------------------------------------
 # drawing
 # --------------------------------------------------------------------------
-def draw_zone(sh, zone, label="SERVICES RISER & STACK ZONE"):
+def draw_zone(sh, zone, label="RISER & STACK ZONE"):
+    """The one zone that is wet on every level.
+
+    The label is short, set small, and sits low in the box. It was one
+    long line across the middle, which at 1:50 is 60 mm of type across a
+    50 mm box: it printed over the east wall and the section mark beyond
+    it. Moved above the box it printed over the name of the room it
+    stands in instead. The bottom of the box is the one part of it that
+    is reliably empty - a room's name is set at the room's centre, and
+    no room on any level centres there.
+    """
     x0, y0, x1, y1 = zone[:4]
     sh.rect(x0, y0, x1 - x0, y1 - y0, fill="#e8eef2", stroke=INK,
             sw=LW_SECONDARY, dash="5 3")
-    sh.tag((x0 + x1) / 2.0, (y0 + y1) / 2.0 + 0.30, label, size=1.8,
-           color=INK)
-    sh.tag((x0 + x1) / 2.0, (y0 + y1) / 2.0 - 0.60,
-           f"{x1 - x0:.2f} × {y1 - y0:.2f} m RESERVED", size=1.6,
-           color=GREY)
+    sh.tag((x0 + x1) / 2.0, y0 + 0.72, label, size=1.8, color=INK)
+    # the size alone: every size on this sheet is small, and MIN_TEXT
+    # clamps 1.6 mm up to 4.23, so "2.50 x 3.50 m RESERVED" came out as
+    # wide as the 2.50 m box it was labelling
+    sh.tag((x0 + x1) / 2.0, y0 + 0.36,
+           f"{x1 - x0:.2f} × {y1 - y0:.2f} m", size=1.6, color=GREY)
 
 
 def draw_isolated(sh, here, text="OWN DROP"):
+    """A wet room that does not share the main stack.
+
+    The mark goes just inside the top edge, not under the room's name:
+    `Sheet.room` sets its label in sheet millimetres and the block runs
+    about 9 mm either side of the centre, which at 1:50 is 0.45 m - the
+    exact offset this used, so the two printed on top of each other on
+    every services sheet.
+    """
     for x, y, w, h, _name in here:
         sh.rect(x, y, w, h, fill="none", stroke=INK, sw=LW_SECONDARY,
                 dash="3 2")
-        sh.tag(x + w / 2, y + h / 2 - 0.45, text, size=1.6, color=INK)
+        sh.tag(x + w / 2, y + h - 0.22, text, size=1.6, color=INK)
 
 
 def draw_rooms(sh, here, keep, text):
+    """Shade the rooms this system serves, and say what the shading means.
+
+    The caption is set in sheet millimetres at the head of the drawing
+    column, not at a plan coordinate. It used to stand at a fixed point
+    inside the building, which on the ground floor is the middle of the
+    laundry: the caption and the room's own name printed over each other,
+    on eleven sheets.
+    """
     n = 0
     for x, y, w, h, name in here:
         if not keep(name):
@@ -146,7 +173,10 @@ def draw_rooms(sh, here, keep, text):
                 dash="2 1.5")
         n += 1
     if n:
-        sh.tag(V3_X0 + 1.30, V3_Y1 - 0.80, text, size=1.7, color=GREY)
+        sh.rect_mm(22, 55, 5.0, 3.2, fill="#eef2f4", stroke=GREY, sw=0.15,
+                   dash="1.6 1.2")
+        sh.text_mm(29, 58, f"SHADED — {text}", size=2.2, anchor="start",
+                   color=GREY, ls=0.3)
     return n
 
 

@@ -77,8 +77,11 @@ REVISIONS = [
      "internal partitions 100 mm red brick, specified by the client"),
     ("P21", "2026-10-07",
      "300 mm external and party walls: brick, colour unrestricted"),
-    ("P22", None,
+    ("P22", "2026-10-08",
      "A-300 to A-302 withdrawn: enlargements of a building not being built"),
+    ("P23", None,
+     "services layouts: labels that printed over one another, and the "
+     "ground floor off-centre"),
 ]
 STATUS = "Preliminary design issue — not for construction."
 STATUS_FINAL_DRAFT = ("Final draft — layout agreed with the client; "

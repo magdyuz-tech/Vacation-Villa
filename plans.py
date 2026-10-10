@@ -3077,10 +3077,13 @@ def _svc_data():
 def _svc_sheet(code, level, title, discipline, marks, purpose):
     data = _svc_data()
     _lv, name, fn = RCP_LEVELS[level]
-    D.set_scale(50, *(GF_ORIGIN if level == 0 else PLAN_ORIGIN))
+    # every level on the same origin: these sheets draw the building and
+    # not the plot, so the ground floor has no reason to sit where A-100
+    # puts it to make room for the garden - it just sat off-centre
+    D.set_scale(50, *PLAN_ORIGIN)
     sh = Sheet(code, f"{title} — {name} Floor", f"+{EL_LEVELS[level]:.2f}",
                "1:50 @ A1")
-    sh.rev = "P21"
+    sh.rev = "P23"
     sh.status = sv.STAMP
     F.border(sh)
 
