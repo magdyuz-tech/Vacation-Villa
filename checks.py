@@ -894,6 +894,112 @@ def every_wall_has_a_material():
     return problems
 
 
+def nothing_is_drawn_off_the_sheet():
+    """Every drawn thing must land inside the sheet's border.
+
+    This rule exists because of EL-400, ME-200 and PL-300, which set
+    their origin to x -150 mm and drew content starting at 20 mm: the
+    levels, the riser, the plant and the connection below ground were
+    all 130 mm off the left edge of the paper.  Three sheets were issued
+    blank but for their right-hand panel, and nothing complained,
+    because every one of those lines was drawn perfectly - just not on
+    the page.
+
+    An origin is the one number on a sheet that is easy to get badly
+    wrong and impossible to notice in code: the geometry is right, the
+    scale is right, and the drawing is somewhere else.
+
+    Clipped drawing is exempt.  The 1:25 enlargements run the whole plan
+    and crop to a window, so they legitimately draw far outside the
+    sheet and rely on the clip to cut it; anything between begin_clip
+    and end_clip is not checked.
+
+    What it cannot catch: text.  Only the anchor point is recorded, so a
+    label anchored just inside the border can still run off it, and a
+    label inside the border can still sit on top of another one.  That
+    is what looking at the sheet is for.
+    """
+    import drafting as D
+    import plans
+
+    lo_x, lo_y = 10.0 - 2.0, 10.0 - 2.0
+    hi_x, hi_y = D.SHEET_W - 10.0 + 2.0, D.SHEET_H - 10.0 + 2.0
+    out, depth = [], [0]
+
+    def note(x, y):
+        if depth[0] == 0 and not (lo_x <= x <= hi_x and lo_y <= y <= hi_y):
+            out.append((x, y))
+
+    real = {n: getattr(D.Sheet, n) for n in
+            ("line_mm", "rect_mm", "text_mm", "poly", "circle", "ellipse",
+             "arc", "begin_clip", "end_clip")}
+
+    def line_mm(self, x1, y1, x2, y2, **kw):
+        note(x1, y1); note(x2, y2)
+        return real["line_mm"](self, x1, y1, x2, y2, **kw)
+
+    def rect_mm(self, x, y, w, h, **kw):
+        note(x, y); note(x + w, y + h)
+        return real["rect_mm"](self, x, y, w, h, **kw)
+
+    def text_mm(self, x, y, s, **kw):
+        note(x, y)
+        return real["text_mm"](self, x, y, s, **kw)
+
+    def poly(self, pts, **kw):
+        for a, b in pts:
+            note(D.X(a), D.Y(b))
+        return real["poly"](self, pts, **kw)
+
+    def circle(self, x, y, r_m, **kw):
+        for dx, dy in ((-1, 0), (1, 0), (0, -1), (0, 1)):
+            note(D.X(x + dx * r_m), D.Y(y + dy * r_m))
+        return real["circle"](self, x, y, r_m, **kw)
+
+    def ellipse(self, cx, cy, rx_m, ry_m, **kw):
+        note(D.X(cx - rx_m), D.Y(cy - ry_m))
+        note(D.X(cx + rx_m), D.Y(cy + ry_m))
+        return real["ellipse"](self, cx, cy, rx_m, ry_m, **kw)
+
+    def arc(self, cx, cy, r_m, a0, a1, **kw):
+        note(D.X(cx - r_m), D.Y(cy - r_m))
+        note(D.X(cx + r_m), D.Y(cy + r_m))
+        return real["arc"](self, cx, cy, r_m, a0, a1, **kw)
+
+    def begin_clip(self, x, y, w, h):
+        depth[0] += 1
+        return real["begin_clip"](self, x, y, w, h)
+
+    def end_clip(self):
+        depth[0] = max(0, depth[0] - 1)
+        return real["end_clip"](self)
+
+    patched = dict(line_mm=line_mm, rect_mm=rect_mm, text_mm=text_mm,
+                   poly=poly, circle=circle, ellipse=ellipse, arc=arc,
+                   begin_clip=begin_clip, end_clip=end_clip)
+    problems = []
+    try:
+        for name, fn in patched.items():
+            setattr(D.Sheet, name, fn)
+        for build in plans.SHEETS:
+            out.clear()
+            depth[0] = 0
+            sh = build()
+            if out:
+                xs = [p[0] for p in out]
+                ys = [p[1] for p in out]
+                problems.append(
+                    f"{sh.number}: {len(out)} points are drawn off the "
+                    f"sheet — x {min(xs):.0f} to {max(xs):.0f}, y "
+                    f"{min(ys):.0f} to {max(ys):.0f}, against a border of "
+                    f"{lo_x + 2:.0f},{lo_y + 2:.0f} to {hi_x - 2:.0f},"
+                    f"{hi_y - 2:.0f}")
+    finally:
+        for name, fn in real.items():
+            setattr(D.Sheet, name, fn)
+    return problems
+
+
 def details_point_at_real_topics():
     """ARC-600's unspecified zones must name a topic that exists.
 
@@ -1356,6 +1462,7 @@ def main():
                      ("prose", prose_says_the_real_thickness),
                      ("issued", out_of_the_issue_says_why),
                      ("detail", details_point_at_real_topics),
+                     ("onpage", nothing_is_drawn_off_the_sheet),
                      ("bill", bill_reconciles),
                      ("grid", grid_carries_the_walls),
                      ("mdl", deliverables_register)):

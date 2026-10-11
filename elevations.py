@@ -289,7 +289,7 @@ def _wall(sh, lo, hi, z0, z1, s):
 # ---------------------------------------------------------------------------
 # a whole face
 # ---------------------------------------------------------------------------
-def elevation(sh, face, scheme, levels=True):
+def elevation(sh, face, scheme, levels=True, ground=1.40):
     """Draw one face of one scheme.  Returns what it drew, for the checker.
 
     `levels` is off in the street context drawing, where the villa has
@@ -300,7 +300,12 @@ def elevation(sh, face, scheme, levels=True):
     drawn = []
 
     # ground, and the wall from it to the roof slab
-    sh.line(lo - 1.40, GARDEN_LEVEL, hi + 1.40, GARDEN_LEVEL, w=LW_CUT,
+    # `ground` is how far the ground line runs past the building each
+    # side: generous on a sheet carrying one elevation, short on A-401,
+    # where three stand side by side and 1.40 m of it ran the east
+    # elevation's ground line off the left edge of the paper and 12 mm
+    # into the north elevation's.
+    sh.line(lo - ground, GARDEN_LEVEL, hi + ground, GARDEN_LEVEL, w=LW_CUT,
             color=INK)
     _wall(sh, lo, hi, GARDEN_LEVEL, ROOF_LEVEL, s)
 

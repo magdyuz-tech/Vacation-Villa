@@ -2705,6 +2705,13 @@ EL_CURVE_ORIGIN = (-5.0, 578.0)   # 1:100, the curve in plan beneath it
 EL_ORIGIN_3 = ((-21.67, 418.0),   # 1:75, east  at  25..205 mm
                (63.33, 418.0),    #       north at 230..357 mm
                (335.33, 418.0))   #       west  at 382..562 mm
+# Those three space the BUILDINGS 25 mm apart and take no account of the
+# ground line, which runs past each building on both sides. At 1.40 m -
+# 18.7 mm at 1:75 - the east elevation's line started 3.7 mm off the left
+# edge of the sheet and ran 12 mm into the north elevation's. At 0.40 m
+# the east line starts at 19.7 and the west ends at 567, both inside the
+# drawing column.
+EL_GROUND_3 = 0.40
 
 
 # Scheme A is the one the client chose.  B and C stay in the repository
@@ -2770,8 +2777,9 @@ def _sides_sheet(number, scheme):
                        f"Side & Rear Elevations — Scheme {scheme} "
                        f"“{s['name']}”", "east, north and west", "1:75 @ A1")
             _scheme_issue(sh, scheme)
+            sh.rev = "P26"          # the ground line, shortened to fit
             F.border(sh)
-        el.elevation(sh, face, scheme)
+        el.elevation(sh, face, scheme, ground=EL_GROUND_3)
         sh.tag((lo + hi) / 2.0, GARDEN_LEVEL - 2.40,
                f"{el.FACE_NAME[face].upper()} ELEVATION", size=2.4, color=INK)
         sh.dim_h(lo, hi, GARDEN_LEVEL - 1.30, ext_from=GARDEN_LEVEL)
@@ -3163,17 +3171,21 @@ def _svc_sheet(code, level, title, discipline, marks, purpose):
     return sh
 
 
+# Solved, not guessed: the diagram runs x 0.10 to 12.00 and y -2.05 to
+# +17.55, which at 1:50 is 238 x 392 mm in a drawing column of 552 x 520,
+# and this centres it. It used to be -150.0, which put the whole diagram
+# 130 mm off the left edge of the sheet - the levels, the riser, the
+# plant, all of it - leaving three issued sheets blank but for their
+# right-hand panel. It is a named constant now so that the check which
+# would have caught that can be tested against it.
+SVC_SCHEMATIC_ORIGIN = (169.0, 461.0)
+
+
 def _svc_schematic(code, title, discipline, purpose):
     """A diagram rather than a plan: levels stacked, riser through them."""
     data = _svc_data()
     zone = data["zone"]
-    # Solved, not guessed: the diagram runs x 0.10 to 12.00 and y -2.05 to
-    # +17.55, which at 1:50 is 238 x 392 mm, and the drawing column is
-    # 552 x 520. The origin centres that. It used to be -150.0, which put
-    # the whole diagram 130 mm off the left edge of the sheet - the levels,
-    # the riser, the plant, all of it - leaving three issued sheets blank
-    # but for their right-hand panel.
-    D.set_scale(50, 169.0, 461.0)
+    D.set_scale(50, *SVC_SCHEMATIC_ORIGIN)
     sh = Sheet(code, title, "the whole building", "schematic")
     sh.rev = "P24"
     sh.status = sv.STAMP
@@ -3463,7 +3475,6 @@ def sheet_str_columns():
     st.grid_dims(sh)
 
     y = 52.0
-    sh.text_mm(IX_COL_X[0] * 0 + 580, 0, "", size=2)   # keep the panel clean
     rows = [("Mark", "x", "y", "Levels")]
     for mark, x, yy, levels in grid_columns():
         rows.append((mark, f"{x:.2f}", f"{yy:.2f}",

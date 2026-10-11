@@ -435,6 +435,18 @@ the key had said "200 mm partition" for weeks, and it immediately found
 eight sheets of structural notes still explaining what "the 120 mm
 partitions" do.
 
+A third rule watches the one thing that is easy to get badly wrong and
+impossible to see in code: the origin. `nothing_is_drawn_off_the_sheet`
+rebuilds every sheet with the drawing primitives recording where they
+land, and refuses anything outside the border. It was written after
+`EL-400`, `ME-200` and `PL-300` were found to have drawn their whole
+diagram 130 mm off the left edge of the paper — the geometry right, the
+scale right, the drawing somewhere else — and it reproduces that failure
+when the old origin is put back. Clipped drawing is exempt, because the
+1:25 enlargements run the whole plan and crop to a window. It cannot see
+a label sitting on another label; only looking can, which is what the
+contact sheet is for.
+
 The 1:25 sheets run the ordinary plan code at a larger scale and crop to
 the part being shown, so an enlargement cannot disagree with the plan it
 came from. They cover the wet cores, the kitchenettes and the service
