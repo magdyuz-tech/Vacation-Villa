@@ -367,29 +367,56 @@ as saying it has.
 
 ## Status
 
-Final draft for the agreed levels, revision **P22** — not for
+Final draft for the agreed levels, set revision **P28** — not for
 construction. Work to figured dimensions only; do not scale from the
 drawings.
+
+**74 sheets issued**, and **79 of the 81 deliverables** on `ARC-000`.
+The two that are not issued are `SUR-001`, a measured survey, and
+`GEO-001`, a ground investigation: both class **X**, both needing
+somebody to visit the plot, and `GEO-001` blocking four structural rows
+behind it. Nothing else in the register is waiting on this office.
 
 The revision record is `frame.REVISIONS`, and the title block prints the
 issues each sheet has actually been through, with the date and what
 changed — a sheet that has not changed stays at its own letter rather
-than being swept up in a set-wide bump. The turning points:
+than being swept up in a set-wide bump, which is why the issued set is
+spread across seven of them:
 
-| Rev | Changed |
-| --- | ------- |
-| P3  | Four storeys, apartments over a central service floor |
-| P5  | **Detached villa**: 1.00 m setbacks on three sides, the wave cantilever, the party wall gone |
-| P9  | Penthouse added, between two terraces |
-| P12 | Bedrooms numbered 1 to 11; all five floors issued as final draft |
-| P18 | Scheme A, "Wave", adopted; the site named |
-| P19 | The serpentine's waist deepened 0.75 to 1.35 m |
-| P20 | Internal partitions 100 mm red brick |
-| P21 | 300 mm external and party walls: brick, colour unrestricted |
-| P22 | `A-300` to `A-302` withdrawn |
+| Rev | Sheets | Changed |
+| --- | -----: | ------- |
+| P21 | 28 | 300 mm external and party walls: brick, colour unrestricted |
+| P22 | 4 | `A-300` to `A-302` withdrawn |
+| P23 | 30 | Services layouts: overlapping labels; ground floor re-centred |
+| P24 | 3 | `EL-400`, `ME-200`, `PL-300` drawn back onto the sheet |
+| P26 | 1 | `A-401`: the three ground lines stop clear of the frame |
+| P27 | 5 | The stair, which the interior cutaways did not show at all |
+| P28 | 3 | `STR-500`, `ARC-301`, `ARC-400` re-centred in their columns |
+
+Earlier turning points, from the record: **P3** four storeys of
+apartments over a service floor; **P5** the detached villa, 1.00 m
+setbacks on three sides, the party wall gone; **P9** the penthouse;
+**P12** bedrooms numbered 1 to 11 and all five floors agreed; **P18**
+scheme A adopted and the site named; **P19** the serpentine's waist
+deepened 0.75 to 1.35 m; **P20** internal partitions 100 mm red brick.
 
 So the drawings carry their own history: nothing in this file is the
 record, and where the two disagree the title block is right.
+
+### What has changed since P21
+
+P21 was the last change to the building itself. Everything after it is
+the set being read rather than designed: a withdrawal that should have
+happened when the villa replaced the apartments, and then five rounds of
+faults found by looking at the sheets — labels printed over one another,
+three schematics drawn off the edge of the paper, a cantilever sheet with
+a third of the cantilever behind the panel, and five cutaways that did
+not draw the stair. Not one was a geometry error and not one could have
+been found in the geometry. One of them became a rule, because an origin
+is checkable; the rest are what looking is for.
+
+P25 is not in the table above because no issued sheet still carries it:
+it was the cutaways, and P27 moved them again.
 
 ### The section and the enlargements
 
