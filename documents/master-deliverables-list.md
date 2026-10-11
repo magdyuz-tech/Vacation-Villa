@@ -45,7 +45,8 @@ Structural slabs: +0.00, +3.30, +6.60, +9.90, +13.20, +16.45 — six slabs to fi
 | C — Structure | 12 | 12 | 0 | 0 | 0 |
 | D — Building services | 33 | 33 | 0 | 0 | 0 |
 | E — Quantities and cost control | 4 | 4 | 0 | 0 | 0 |
-| **Total** | **81** | **79** | **0** | **1** | **1** |
+| F — Programme and document control | 2 | 1 | 0 | 1 | 0 |
+| **Total** | **83** | **80** | **0** | **2** | **1** |
 
 ## Package 0 — Information required from others
 
@@ -231,6 +232,16 @@ Structural slabs: +0.00, +3.30, +6.60, +9.90, +13.20, +16.45 — six slabs to fi
 - **QS-003** — Quantities are ours; performance specifications and approved-equal judgements are the specifier's.
 - **QS-004** — The measured quantities with a rate column, for budgeting and for checking a quotation against. Rates stay empty until a named source fills them - nothing here goes out to tender.
 
+## Package F — Programme and document control
+
+| Code | Deliverable | Discipline | Scale | Format | Class | Status | Waits on | Resolves to |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| PRG-001 | Design and information release programme | Project management | - | Schedule | D | issued | ARC-000 | — |
+| PRG-002 | Dated construction programme | Project management | - | Schedule | X | blocked | PRG-001, QS-001, GEO-001 | — |
+
+- **PRG-001** — The order the register's own dependencies already force, read off them rather than judged by eye: which deliverables can start today, what each one waits on, the longest chain through the project and what every class X row holds up. It carries no dates and no durations - see PRG-002 - and its only input is this register, so a dependency added to a row moves the programme on the next build.
+- **PRG-002** — The sequence with durations and dates on it. Not started, and not startable here: a duration is a commitment somebody makes - the surveyor, the municipality holding the permit, the engineer, the contractor - and a plausible-looking bar length gets quoted back as a date the moment it is drawn. It stays open until those people put their own figures against PRG-001's stages.
+
 ## Open items and standing qualifications
 
 1. A measured topographic and boundary survey (SUR-001) is not in hand; boundaries on A-000 are issued marked indicative.
@@ -239,5 +250,6 @@ Structural slabs: +0.00, +3.30, +6.60, +9.90, +13.20, +16.45 — six slabs to fi
 4. The exterior is settled: scheme A, “Wave”, adopted at P18. Schemes B and C still build and stay in the repository as the record of what was offered, stamped not selected and left out of the issue.
 5. Sheets A-300, A-301 and A-302 are withdrawn at P22, being enlargements of apartments the villa does not have. They still build and stay in the repository as the record, stamped on the face and left out of the issue.
 6. ARC-600 draws four junctions figured from the geometry, and names against QS-003 every build-up it does not specify. Until those topics are answered no detail on it can be built, priced or warranted, and no quantity is taken from it.
-7. Rates are class X throughout. No rate appears in any document here without a named source, and QS-004 is issued with its rate column open.
+7. There is no way up to the roof over the penthouse. The stair runs from the ground floor to the penthouse and stops there — it is drawn “dn” only on A-104 — and the deck at +16.45 carries the water tanks, which somebody has to reach to clean, fill and replace. A hatch and ladder, or a last short flight, is a design decision with a hole in a slab behind it, so it is recorded here rather than drawn on an assumption. Found at P29 while measuring the stair, which had never been measured.
+8. Rates are class X throughout. No rate appears in any document here without a named source, and QS-004 is issued with its rate column open.
 

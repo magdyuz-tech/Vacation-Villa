@@ -1396,11 +1396,17 @@ def deliverables_register():
             problems.append(
                 f"{r.code} is class D but names neither an issued sheet "
                 f"nor the constants it is derived from")
+        # Almost every class D row is measured off the geometry.  PRG-001
+        # is not: it is derived from this register's own dependency graph,
+        # which is one step further from geometry.py but no less derived -
+        # and no less able to name where it comes from.  So a source
+        # resolves against either module, and a name in neither still
+        # fails.
         for name in r.source:
-            if not hasattr(G, name):
+            if not (hasattr(G, name) or hasattr(DL, name)):
                 problems.append(
-                    f"{r.code} says it is derived from geometry.{name}, "
-                    f"which does not exist")
+                    f"{r.code} says it is derived from {name}, which is in "
+                    f"neither geometry.py nor deliverables.py")
 
     # dependencies must terminate, or "blocked" means nothing
     seen, stack = set(), set()
@@ -1471,6 +1477,220 @@ def deliverables_register():
     return problems
 
 
+def revision_notes_fit_the_title_block():
+    """A revision note runs off the sheet rather than wrapping.
+
+    `F.notes` raises when a note would overprint the title block, so
+    prose on the face of a sheet is protected.  The revision lines inside
+    the title block are not: they are drawn at a fixed start with no
+    wrap and no guard, so an over-long one is simply cut off at the
+    panel edge - and the sentence that says what changed at this
+    revision is the one sentence on the sheet a reader checks first.
+    P29's own note was written too long and lost its last four words,
+    which is what prompted this.
+
+    The budget is derived from the panel rather than guessed: the text
+    starts 44 mm into the panel, the panel ends at PANEL_R, and every
+    character of this font at this size is about half its height wide.
+    The factor is approximate, so the rule is set to bite a little
+    before the clip rather than after it.
+
+    What it cannot catch: a note that fits and says nothing useful.
+    """
+    import drafting as D
+    import frame as F
+
+    room = F.PANEL_R - (F.PANEL_X + 44)
+    limit = int(room / (0.50 * D.MIN_TEXT))
+    problems = []
+    for rev, when, what in F.REVISIONS:
+        line = f"{rev}   {when or F.DATE}   {what}"
+        if len(line) > limit:
+            problems.append(
+                f"{rev}'s note is {len(line)} characters and the title "
+                f"block holds about {limit}: the last "
+                f"{len(line) - limit} would be cut off at the panel edge "
+                f"- {what[-40:]!r}")
+    return problems
+
+
+def a_schedule_shows_its_rows():
+    """A sheet called a schedule must have the schedule on it.
+
+    STR-200 is called "Column Schedule & Grid".  It built its twelve rows
+    into a local variable, never drew them, and returned - so for seven
+    revisions it issued a grid with no coordinates anywhere on it, under
+    a note promising "the coordinate printed beside it" and a register
+    row promising "every column coordinate".  Nothing caught it: the
+    sheet drew without error, every geometric check passed, and the only
+    way to see it was to read the sheet and notice an absence, which is
+    the hardest thing to see on a drawing.
+
+    So the rule reads the text the sheet actually emits and insists the
+    marks are in it: every column mark on STR-200, every opening mark on
+    ARC-500.  A table dropped, a loop that stops early, a column of the
+    table moved off the page - all of them fail here.
+
+    The mark alone is not enough to look for, and the first version of
+    this rule found that out: STR-200's grid plan labels every column
+    A1 to C4 on the drawing, so a check for the marks passed happily
+    with the table deleted.  It has to look for the ROW - the mark and
+    its figures side by side, on one line of the sheet - which is the
+    thing that was actually missing.
+
+    What it cannot catch, and what covers it:
+
+      * whether the figures on each line are right.
+        `schedule_matches_the_openings` holds ARC-500 to the plans, and
+        STR-200's coordinates come from `grid_columns()`, which
+        `grid_carries_the_walls` holds to them too.
+      * a row emitted but printed off the page.  This rule reads the
+        text, not where it landed, so a table driven past the sheet edge
+        still satisfies it; `nothing_is_drawn_off_the_sheet` is what
+        fails on that, and both were injected to be sure one of them
+        fires.
+    """
+    import re
+
+    import elevations as el
+    import frame as F
+    import geometry as G
+    import plans
+
+    def lines(sheet, band=0.5):
+        """[[text]] - what the sheet prints, gathered into rows.
+
+        A table row is several text elements on one baseline, so the
+        baseline groups them.  `band` is how far apart two baselines can
+        be and still count as one row: STR-200 puts a whole row on one
+        baseline and wants 0.5 mm, while ARC-500 sets each mark 4 mm
+        above its own figures, so its row is a band rather than a line.
+
+        A band wide enough to hold ARC-500's row is also wide enough to
+        hold the matching row of its second column, so a mark and a size
+        found in one band are not proof they are side by side.  This
+        rule is only asking whether the line is on the sheet at all;
+        `schedule_matches_the_openings` is what proves the figures are
+        the right ones.
+        """
+        found = {}
+        for x, y, s in re.findall(
+                r'<text x="([-\d.]+)" y="([-\d.]+)"[^>]*>([^<]*)</text>',
+                F.render(sheet)):
+            found.setdefault(float(y), []).append(s.strip())
+        out, last = [], None
+        for y in sorted(found):
+            if last is None or y - last > band:
+                out.append([])
+            out[-1].extend(found[y])
+            last = y
+        return out
+
+    problems = []
+    rows = lines(plans.sheet_str_columns())
+    for mark, x, y, _levels in G.grid_columns():
+        if not any(mark in cells and f"{x:.2f}" in cells
+                   and f"{y:.2f}" in cells for cells in rows):
+            problems.append(
+                f"STR-200 is called a column schedule and prints no line "
+                f"giving {mark} its coordinates {x:.2f}, {y:.2f} - the "
+                f"mark on the grid is not a schedule")
+
+    rows = lines(plans.sheet_openings(), band=5.0)
+    for r in el.opening_schedule():
+        size = f"{r['w'] * 1000:.0f} × {r['h'] * 1000:.0f}"
+        if not any(r["mark"] in cells and size in cells for cells in rows):
+            problems.append(
+                f"ARC-500 prints no line giving {r['mark']} its size "
+                f"{size} mm")
+    return problems
+
+
+def programme_carries_no_dates():
+    """PRG-001 must stay a sequence, and never become a promise.
+
+    The programme is the one document in the set whose whole discipline is
+    a negative: it says what order the work goes in and refuses to say how
+    long any of it takes, because a duration is a commitment somebody
+    makes and nobody here has been asked.  That refusal is one sentence
+    away from being lost - a helpful "about 3 weeks" in a note, a worked
+    example with a date in it - and once a figure is on the page it gets
+    quoted back as a date whatever the surrounding prose says.  So the
+    rule is mechanical: no duration, no date, no month, and the Duration
+    column open on every single row.
+
+    Also proves the sequence covers the register exactly once and runs
+    the right way round, so a row can never print above something it
+    waits on.
+
+    What it cannot catch: whether the dependencies in the register are the
+    real ones.  A programme derived from a graph that is missing an edge
+    is a wrong programme derived faithfully, and no rule here would know.
+    That is a judgement about the work, and it stays with whoever reads
+    the sequence.
+    """
+    import re
+
+    import deliverables as DL
+    import documents
+    import programme as P
+
+    problems = []
+    rows = DL.register()
+
+    # every deliverable placed exactly once
+    placed = [r.code for _n, group in P.stages(rows) for r in group]
+    if len(placed) != len(set(placed)):
+        problems.append("a deliverable is in the programme twice")
+    missing = {r.code for r in rows} - set(placed)
+    if missing:
+        problems.append(f"the programme leaves out {', '.join(sorted(missing))}")
+
+    # and behind everything it waits on
+    index = {r.code: r for r in rows}
+    stage = {r.code: P.stage(r.code, index) for r in rows}
+    for r in rows:
+        for d in r.depends:
+            if d in stage and stage[d] >= stage[r.code]:
+                problems.append(
+                    f"{r.code} is in stage {stage[r.code]} and waits on "
+                    f"{d}, which is in stage {stage[d]} - the sequence "
+                    f"would have it start before its own dependency")
+
+    text = documents.programme_markdown()
+
+    # no duration, in any of the ways one gets written
+    units = (r"day|days|week|weeks|wk|wks|month|months|mo|year|years|yr"
+             r"|hour|hours|working day|working days|calendar day")
+    for hit in re.findall(rf"\b\d+(?:\.\d+)?\s*(?:{units})\b", text, re.I):
+        problems.append(f"the programme states a duration: {hit!r}")
+
+    # no date, written as a number or as a month
+    months = ("january february march april may june july august september "
+              "october november december").split()
+    for pattern, what in ((r"\b(?:19|20)\d{2}-\d{2}-\d{2}\b", "a date"),
+                          (r"\bQ[1-4]\s*(?:19|20)\d{2}\b", "a quarter"),
+                          (r"\b(?:19|20)\d{2}\b", "a year"),
+                          (r"\b(?:" + "|".join(months) + r")\b", "a month")):
+        for hit in re.findall(pattern, text, re.I):
+            problems.append(f"the programme states {what}: {hit!r}")
+
+    # the duration column open on every row of the sequence
+    body = text.partition("## The sequence")[2]
+    lines = [ln for ln in body.splitlines()
+             if ln.startswith("| ") and not set(ln) <= set("|-: ")]
+    lines = [ln for ln in lines if "Duration" not in ln]
+    if len(lines) != len(rows):
+        problems.append(
+            f"the sequence table has {len(lines)} rows and the register "
+            f"has {len(rows)}")
+    for ln in lines:
+        if not ln.rstrip().endswith(f"| {documents.OPEN} |"):
+            problems.append(f"a programme row has a duration in it: "
+                            f"{ln[:60]!r}")
+    return problems
+
+
 def main():
     import plans
 
@@ -1506,7 +1726,10 @@ def main():
                      ("onpage", nothing_is_drawn_off_the_sheet),
                      ("bill", bill_reconciles),
                      ("grid", grid_carries_the_walls),
-                     ("mdl", deliverables_register)):
+                     ("mdl", deliverables_register),
+                     ("prog", programme_carries_no_dates),
+                     ("table", a_schedule_shows_its_rows),
+                     ("revnote", revision_notes_fit_the_title_block)):
         problems = fn()
         total += len(problems)
         state = "OK" if not problems else f"{len(problems)} PROBLEMS"

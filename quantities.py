@@ -112,19 +112,55 @@ def facade_openings():
 
 def columns():
     """Column lifts and their concrete, which is measurable: the section
-    is a constant and the storey height is a constant.  What is not
-    measurable is the reinforcement in them."""
+    is a constant and every storey height is one.  What is not measurable
+    is the reinforcement in them.
+
+    The lift above the penthouse is not FLOOR_TO_FLOOR.  +13.20 to the
+    roof at +16.45 is 3.25 m, and multiplying every lift in the building
+    by 3.30 counted 50 mm of column that is not there on each of the four
+    that go up there.  Small - 0.2 m of lift, 0.018 m³ - and wrong in the
+    direction a bill is always wrong in, so each lift is measured between
+    the levels it actually spans.
+    """
     import checks
 
-    lifts = 0
-    for _level, _name, build in _levels():
+    tops = list(G.EL_LEVELS[1:]) + [G.V4_TOP]
+    lifts, height = 0, 0.0
+    for level, _name, build in _levels():
         _w, _l, cols, *_rest, restore = checks._record()
         try:
             build()
         finally:
             restore()
         lifts += len(cols)
-    return lifts, lifts * G.FLOOR_TO_FLOOR, lifts * G.FLOOR_TO_FLOOR * G.COL ** 2
+        height += len(cols) * (tops[level] - G.EL_LEVELS[level])
+    return lifts, height, height * G.COL ** 2
+
+
+def stair():
+    """The stair, by the same arithmetic `fixtures.stair` draws it with.
+
+    It was measured nowhere.  The dog-leg runs in one well from the ground
+    floor to the penthouse, it is drawn on all five plans, it is in both
+    sections and - since P27 - in all five cutaways, and the bill had no
+    stair in it and the specification schedule asked for no tread, no
+    nosing and no handrail.  A whole trade, drawn five times and bought by
+    nobody.
+
+    The figures are recomputed here from the same constants rather than
+    read back out of the drawing, and `checks.stair_stacks` already proves
+    the drawn stair matches them.  Returns the numbers the bill needs:
+
+        (storeys, risers, rise, treads, going, width, landing_area)
+    """
+    x0, y0, x1, y1 = G.V3_STAIR
+    storeys = len(G.EL_LEVELS) - 1            # four rises to five levels
+    width = (x1 - x0 - G.V3_STAIR_WELL) / 2.0
+    risers = max(2, round(G.FLOOR_TO_FLOOR / G.V3_STAIR_RISE))
+    rise = G.FLOOR_TO_FLOOR / risers
+    treads = (risers // 2) * 2                # two flights to a storey
+    landing = (x1 - x0) * G.V3_STAIR_LANDING
+    return (storeys, risers, rise, treads, G.V3_STAIR_GOING, width, landing)
 
 
 def takeoff():
@@ -210,6 +246,39 @@ def takeoff():
             f"structural opening. See ARC-500. Frames, glazing and "
             f"ironmongery are specification, not geometry."))
 
+    # --- stair ------------------------------------------------------------
+    storeys, risers, rise, treads, going, width, landing = stair()
+    items.append(Item(
+        "Stair", f"Reinforced concrete dog-leg flights and half landings, "
+        f"{storeys} storeys", "m²",
+        storeys * (treads * going * width + landing), "L",
+        f"{storeys} storey rises of {risers} risers at "
+        f"{rise * 1000:.0f} mm, {treads} treads a storey at "
+        f"{going * 1000:.0f} mm going, flights {width * 1000:.0f} mm wide, "
+        f"half landings {landing:.2f} m² each. Plan area of flight and "
+        f"landing; waist thickness and reinforcement are the engineer's, "
+        f"so no volume is given."))
+    items.append(Item(
+        "Stair", "Tread, riser and nosing finish", "nr",
+        storeys * treads, "D",
+        f"{storeys * treads} treads and the risers with them, measured as "
+        f"the geometry sets them out. Material, nosing profile and the "
+        f"slip resistance of it are specification - see QS-003."))
+    items.append(Item(
+        "Stair", "Balustrade to the open well", "m",
+        (G.V3_STAIR[3] - G.V3_STAIR[1]) * len(G.EL_LEVELS), "D",
+        f"The east edge of the well on all {len(G.EL_LEVELS)} levels, "
+        f"which the plans tag OPEN STAIR — BALUSTRADE, at "
+        f"{G.BALUSTRADE_H:.2f} m. Infill, fixings and the handrail on it "
+        f"are specification."))
+    items.append(Item(
+        "Stair", "Handrail to the flights", "m", None, "L",
+        "Not measured: a handrail follows an arrangement nobody has drawn "
+        "yet - one side or both, wall-fixed or on the balustrade, with or "
+        "without the extensions past the top and bottom risers that a code "
+        "may require. It is named here so it cannot be forgotten, and "
+        "stays unmeasured until QS-003 answers it."))
+
     # --- finishes ---------------------------------------------------------
     floor = sum(sum(a for _n, a in rooms[lv]) for lv in rooms)
     items.append(Item("Finishes", "Floor finish, net internal", "m²", floor,
@@ -267,8 +336,8 @@ def takeoff():
 def by_trade(items=None):
     items = items if items is not None else takeoff()
     out = []
-    for trade in ("Substructure", "Frame", "Masonry", "Openings", "Finishes",
-                  "Roof", "External works", "Services"):
+    for trade in ("Substructure", "Frame", "Masonry", "Openings", "Stair",
+                  "Finishes", "Roof", "External works", "Services"):
         here = [i for i in items if i.trade == trade]
         if here:
             out.append((trade, here))

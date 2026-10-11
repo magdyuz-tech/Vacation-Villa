@@ -30,7 +30,7 @@ all. **Nothing in this document is priced.**
 | L | Suspended slab at +13.20 | m² | 128.25 | Area measured; thickness is the engineer's, so no volume is given. |
 | L | Suspended slab at +16.45 | m² | 55.53 | Area measured; thickness is the engineer's, so no volume is given. |
 | L | Cantilever balcony slab, A serpentine | m² | 62.70 | Four levels at 15.7 m² each. The most engineering-sensitive element in the building; see STR-500. |
-| D | Columns, 300 × 300 mm | nr | 52.00 | 171.6 m of lift, 15.44 m³ of concrete. Reinforcement is the engineer's. |
+| D | Columns, 300 × 300 mm | nr | 52.00 | 171.4 m of lift, 15.43 m³ of concrete. Reinforcement is the engineer's. |
 
 ## Masonry
 
@@ -47,6 +47,15 @@ all. **Nothing in this document is priced.**
 | D | Doors, 6 types | nr | 9.00 | 38.3 m² of structural opening. See ARC-500. Frames, glazing and ironmongery are specification, not geometry. |
 | D | Windows, 16 types | nr | 69.00 | 127.9 m² of structural opening. See ARC-500. Frames, glazing and ironmongery are specification, not geometry. |
 | D | Louvres, 2 types | nr | 17.00 | 6.7 m² of structural opening. See ARC-500. Frames, glazing and ironmongery are specification, not geometry. |
+
+## Stair
+
+| Class | Description | Unit | Quantity | Note |
+| --- | --- | --- | ---: | --- |
+| L | Reinforced concrete dog-leg flights and half landings, 4 storeys | m² | 24.45 | 4 storey rises of 18 risers at 183 mm, 18 treads a storey at 260 mm going, flights 900 mm wide, half landings 1.90 m² each. Plan area of flight and landing; waist thickness and reinforcement are the engineer's, so no volume is given. |
+| D | Tread, riser and nosing finish | nr | 72.00 | 72 treads and the risers with them, measured as the geometry sets them out. Material, nosing profile and the slip resistance of it are specification - see QS-003. |
+| D | Balustrade to the open well | m | 16.50 | The east edge of the well on all 5 levels, which the plans tag OPEN STAIR — BALUSTRADE, at 1.10 m. Infill, fixings and the handrail on it are specification. |
+| L | Handrail to the flights | m | — | Not measured: a handrail follows an arrangement nobody has drawn yet - one side or both, wall-fixed or on the balustrade, with or without the extensions past the top and bottom risers that a code may require. It is named here so it cannot be forgotten, and stays unmeasured until QS-003 answers it. |
 
 ## Finishes
 
@@ -94,4 +103,4 @@ all. **Nothing in this document is priced.**
 4. Services. The EL, ME and PL series are coordination layouts; their quantities follow the services engineer's design.
 5. Rates, overheads, preliminaries, profit and contingency.
 
-33 items: 22 class D, 10 class L, 1 class X.
+37 items: 24 class D, 12 class L, 1 class X.

@@ -43,6 +43,7 @@ The balconies stop at the corner on every level: the 1.00 m setbacks forbid anyt
 - The exterior is settled: scheme A, “Wave”, adopted at P18. Schemes B and C still build and stay in the repository as the record of what was offered, stamped not selected and left out of the issue.
 - Sheets A-300, A-301 and A-302 are withdrawn at P22, being enlargements of apartments the villa does not have. They still build and stay in the repository as the record, stamped on the face and left out of the issue.
 - ARC-600 draws four junctions figured from the geometry, and names against QS-003 every build-up it does not specify. Until those topics are answered no detail on it can be built, priced or warranted, and no quantity is taken from it.
+- There is no way up to the roof over the penthouse. The stair runs from the ground floor to the penthouse and stops there — it is drawn “dn” only on A-104 — and the deck at +16.45 carries the water tanks, which somebody has to reach to clean, fill and replace. A hatch and ladder, or a last short flight, is a design decision with a hole in a slab behind it, so it is recorded here rather than drawn on an assumption. Found at P29 while measuring the stair, which had never been measured.
 - Rates are class X throughout. No rate appears in any document here without a named source, and QS-004 is issued with its rate column open.
 
 The set is issued for the owner's record, costing and construction information. It is not a tender issue and it is not for construction.

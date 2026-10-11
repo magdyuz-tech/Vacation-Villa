@@ -367,21 +367,27 @@ as saying it has.
 
 ## Status
 
-Final draft for the agreed levels, set revision **P28** — not for
+Final draft for the agreed levels, set revision **P29** — not for
 construction. Work to figured dimensions only; do not scale from the
 drawings.
 
-**74 sheets issued**, and **79 of the 81 deliverables** on `ARC-000`.
-The two that are not issued are `SUR-001`, a measured survey, and
-`GEO-001`, a ground investigation: both class **X**, both needing
-somebody to visit the plot, and `GEO-001` blocking four structural rows
-behind it. Nothing else in the register is waiting on this office.
+**74 sheets issued**, and **80 of the 83 deliverables** on `ARC-000`.
+The three that are not are `SUR-001`, a measured survey, `GEO-001`, a
+ground investigation, and `PRG-002`, the dated construction programme:
+all class **X**, the first two needing somebody to visit the plot and
+the third needing durations that only the people who will do the work
+can give. Nothing else in the register is waiting on this office.
+
+`PRG-001`, new at P29, is the programme those three sit in: the order
+the work has to happen in, derived from the register's own dependencies.
+It carries no dates, for the same reason the structural sheets carry no
+reinforcement.
 
 The revision record is `frame.REVISIONS`, and the title block prints the
 issues each sheet has actually been through, with the date and what
 changed — a sheet that has not changed stays at its own letter rather
 than being swept up in a set-wide bump, which is why the issued set is
-spread across seven of them:
+spread across eight of them:
 
 | Rev | Sheets | Changed |
 | --- | -----: | ------- |
@@ -392,6 +398,7 @@ spread across seven of them:
 | P26 | 1 | `A-401`: the three ground lines stop clear of the frame |
 | P27 | 5 | The stair, which the interior cutaways did not show at all |
 | P28 | 3 | `STR-500`, `ARC-301`, `ARC-400` re-centred in their columns |
+| P29 | 2 | `STR-200` prints its column schedule; `ARC-000` gains package F |
 
 Earlier turning points, from the record: **P3** four storeys of
 apartments over a service floor; **P5** the detached villa, 1.00 m
@@ -407,13 +414,20 @@ record, and where the two disagree the title block is right.
 
 P21 was the last change to the building itself. Everything after it is
 the set being read rather than designed: a withdrawal that should have
-happened when the villa replaced the apartments, and then five rounds of
+happened when the villa replaced the apartments, and then six rounds of
 faults found by looking at the sheets — labels printed over one another,
 three schematics drawn off the edge of the paper, a cantilever sheet with
-a third of the cantilever behind the panel, and five cutaways that did
-not draw the stair. Not one was a geometry error and not one could have
-been found in the geometry. One of them became a rule, because an origin
-is checkable; the rest are what looking is for.
+a third of the cantilever behind the panel, five cutaways that did not
+draw the stair, and a column schedule with no columns on it. Not one was
+a geometry error and not one could have been found in the geometry.
+
+Three of them have become rules, because they turned out to be
+checkable after all: an origin, a schedule missing its own rows, and a
+revision note too long for the panel. P29's round found a further class
+of absence the drawings could not show — the stair was drawn five times
+and measured nowhere, the specification schedule asked for no tread and
+no handrail, and nothing in the project said what order any of the work
+goes in. The rest is what looking is for.
 
 P25 is not in the table above because no issued sheet still carries it:
 it was the cutaways, and P27 moved them again.
@@ -474,6 +488,23 @@ when the old origin is put back. Clipped drawing is exempt, because the
 a label sitting on another label; only looking can, which is what the
 contact sheet is for.
 
+Three rules added at P29 watch a fault that is quieter than any of
+those: a document that is complete in its own terms and silently missing
+something. `a_schedule_shows_its_rows` reads back the text each schedule
+sheet prints and insists every mark appears on a line with its figures.
+It was written because `STR-200`, "Column Schedule & Grid", built its
+twelve rows into a local variable, never drew them, and had been issued
+that way since P21 — a grid with no coordinates anywhere on it, under a
+note promising "the coordinate printed beside it". The first version of
+the rule looked for the marks alone and passed happily with the table
+deleted, because the grid plan labels every column; it has to look for
+the row. `revision_notes_fit_the_title_block` derives how many
+characters the title block holds and refuses a longer one, after P29's
+own revision note was written too long and lost its last four words
+off the panel edge. And `programme_carries_no_dates` holds `PRG-001` to
+its one discipline: no duration, no date, no month, and the duration
+column open on every row.
+
 The 1:25 sheets run the ordinary plan code at a larger scale and crop to
 the part being shown, so an enlargement cannot disagree with the plan it
 came from. They cover the wet cores, the kitchenettes and the service
@@ -496,8 +527,8 @@ a decision cannot be written down here and left unbuilt.
 
 ### The deliverables register
 
-`deliverables.py` holds the Master Deliverables List: eighty-one rows
-across packages 0 and A to E, printed on sheet `ARC-000` and written to
+`deliverables.py` holds the Master Deliverables List: eighty-three rows
+across packages 0 and A to F, printed on sheet `ARC-000` and written to
 `documents/master-deliverables-list.md`. Two things about it are worth
 knowing.
 
@@ -521,6 +552,38 @@ project really produces its sheets or documents, and `checks.py` fails
 the build if a row names a sheet no builder draws or a document nothing
 writes.
 
+### The programme
+
+The register says what is produced and who is competent to produce it.
+It never said *when*, and for eighty-three deliverables that is a real
+gap: which of them could be started today, and which cannot start
+because somebody else has not done something, was nowhere written down.
+
+`programme.py` closes it without inventing anything. Every row already
+carries what it waits on, so the sequence is already in the register —
+`stage()` is the longest path to a row, which is the earliest stage it
+can sit in, and the stages fall out of that. A dependency added to a row
+moves it, and everything behind it, on the next build. The document is
+`documents/programme.md`, deliverable `PRG-001`.
+
+What it will not do is put a number against any of it. How long a
+survey takes, how long a municipality holds a permit, what a contractor
+will commit to — every one is class **X**, and a bar chart with invented
+bar lengths is the programme equivalent of a foundation detail with
+invented reinforcement. So the duration column is printed open, exactly
+as `QS-004`'s rate column is, `PRG-002` carries the dated programme as a
+class **X** row nobody has started, and a check refuses a date, a month
+or a duration anywhere in the document.
+
+What is left is true today and worth reading. The critical chain is
+`SUR-001 → ARC-100 → ARC-700 → QS-001 → QS-004 → A-08`: the longest path
+in the project starts at a survey nobody has commissioned and ends at
+the cost report the owner most wants, so the single instruction that
+shortens the whole programme is to order the survey. Behind the two
+site gates sit twelve rows, ten of them issued anyway against an
+assumption written on the face of the drawing, and two that genuinely
+cannot start.
+
 ### Still open
 
 - **The governing fire code**, and with it the authority's view of a
@@ -535,7 +598,16 @@ writes.
   sulphate figure is written on any sheet, and four structural rows wait
   on it.
 - The parapet's material, the one wall nobody has specified.
+- **A way up to the roof.** The stair runs from the ground floor to the
+  penthouse and stops; the deck at +16.45 carries the water tanks, which
+  somebody has to reach. A hatch and ladder, or a last short flight, is
+  a design decision with a hole in a slab behind it, so it is recorded
+  rather than drawn on an assumption. Found at P29 while measuring the
+  stair, which had never been measured either.
+- **PRG-002**, the dated construction programme. `PRG-001` gives the
+  sequence; the durations are the surveyor's, the authority's, the
+  engineer's and the contractor's to supply.
 
-Those four are in the register on `ARC-000` with their class and their
+Those are in the register on `ARC-000` with their class and their
 status, and the status is derived rather than typed: a row cannot claim
 to be issued because somebody forgot to change it back.

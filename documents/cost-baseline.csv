@@ -6,6 +6,8 @@ trade,class,description,unit,quantity,rate,source,amount
 "Openings",D,"Doors, 6 types",nr,9.00,,,
 "Openings",D,"Windows, 16 types",nr,69.00,,,
 "Openings",D,"Louvres, 2 types",nr,17.00,,,
+"Stair",D,"Tread, riser and nosing finish",nr,72.00,,,
+"Stair",D,"Balustrade to the open well",m,16.50,,,
 "Finishes",D,"Floor finish, net internal",m²,473.70,,,
 "Finishes",D,"Ceiling finish, net internal",m²,473.70,,,
 "Finishes",D,"Internal plaster",m²,1163.43,,,

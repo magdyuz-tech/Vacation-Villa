@@ -87,6 +87,7 @@ PACKAGES = (
     ("C", "Structure"),
     ("D", "Building services"),
     ("E", "Quantities and cost control"),
+    ("F", "Programme and document control"),
 )
 
 CLASSES = {
@@ -413,10 +414,38 @@ def _package_e():
     ]
 
 
+def _package_f():
+    return [
+        Row("PRG-001", "Design and information release programme", "F", "D",
+            discipline="Project management", fmt="Schedule",
+            doc="programme.md", depends=("ARC-000",),
+            source=("register", "Row"),
+            note="The order the register's own dependencies already force, "
+                 "read off them rather than judged by eye: which "
+                 "deliverables can start today, what each one waits on, "
+                 "the longest chain through the project and what every "
+                 "class X row holds up. It carries no dates and no "
+                 "durations - see PRG-002 - and its only input is this "
+                 "register, so a dependency added to a row moves the "
+                 "programme on the next build."),
+        Row("PRG-002", "Dated construction programme", "F", "X",
+            discipline="Project management", fmt="Schedule",
+            depends=("PRG-001", "QS-001", "GEO-001"),
+            note="The sequence with durations and dates on it. Not "
+                 "started, and not startable here: a duration is a "
+                 "commitment somebody makes - the surveyor, the "
+                 "municipality holding the permit, the engineer, the "
+                 "contractor - and a plausible-looking bar length gets "
+                 "quoted back as a date the moment it is drawn. It stays "
+                 "open until those people put their own figures against "
+                 "PRG-001's stages."),
+    ]
+
+
 def register():
     """Every deliverable, in package order."""
     rows = (_package_0() + _package_a() + _package_b() + _package_c()
-            + _package_d() + _package_e())
+            + _package_d() + _package_e() + _package_f())
     return rows
 
 

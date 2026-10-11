@@ -1,6 +1,6 @@
 # Cost Estimation Report
 
-**22 measured items. No total.**
+**24 measured items. No total.**
 
 This report is class **X**: it cannot be completed here. The quantities are ours and exact; the rates are not ours at all, and an elemental estimate is quantities times rates.
 
@@ -25,6 +25,8 @@ What follows is therefore the estimate with every quantity filled in and every r
 | Openings | Doors, 6 types | nr | 9.00 | | | |
 | Openings | Windows, 16 types | nr | 69.00 | | | |
 | Openings | Louvres, 2 types | nr | 17.00 | | | |
+| Stair | Tread, riser and nosing finish | nr | 72.00 | | | |
+| Stair | Balustrade to the open well | m | 16.50 | | | |
 | Finishes | Floor finish, net internal | m² | 473.70 | | | |
 | Finishes | Ceiling finish, net internal | m² | 473.70 | | | |
 | Finishes | Internal plaster | m² | 1,163.43 | | | |

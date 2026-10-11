@@ -60,6 +60,14 @@ OPEN_ITEMS = [
     "against QS-003 every build-up it does not specify. Until those "
     "topics are answered no detail on it can be built, priced or "
     "warranted, and no quantity is taken from it.",
+    "There is no way up to the roof over the penthouse. The stair runs "
+    "from the ground floor to the penthouse and stops there — it is drawn "
+    "“dn” only on A-104 — and the deck at +16.45 carries the water tanks, "
+    "which somebody has to reach to clean, fill and replace. A hatch and "
+    "ladder, or a last short flight, is a design decision with a hole in "
+    "a slab behind it, so it is recorded here rather than drawn on an "
+    "assumption. Found at P29 while measuring the stair, which had never "
+    "been measured.",
     "Rates are class X throughout. No rate appears in any document here "
     "without a named source, and QS-004 is issued with its rate column "
     "open.",
@@ -440,16 +448,35 @@ SPEC_TOPICS = [
                  "performance, operation, ironmongery, seals and "
                  "thresholds. ARC-500 measures the openings; none of this "
                  "is in them."),
+    # The stair was missing from this schedule entirely until P29, while
+    # being drawn on all five plans, both sections and all five cutaways.
+    # A trade can be drawn a dozen times and still be bought by nobody.
+    ("Stair", "Tread and riser finish, nosing profile and its slip "
+              "resistance, the balustrade's infill and fixings, the "
+              "handrail arrangement — one side or both, wall-fixed or on "
+              "the balustrade, and whether the code in force requires "
+              "extensions past the top and bottom risers. Flights, "
+              "landings and the balustrade are measured in QS-001; the "
+              "handrail is named there and left unmeasured until this is "
+              "answered."),
     ("Internal finishes", "Plaster system, paint, which rooms are tiled "
                           "and to what height, floor finish per room, "
                           "skirtings and junctions."),
     ("External finishes", "Render system and colour, the slab nosing and "
                           "its cove light, balustrade glass and fixings."),
     ("Roof", "Membrane, insulation, falls screed, upstands, outlets and "
-             "overflows, protection and the walking surface."),
+             "overflows, protection and the walking surface. The plant "
+             "deck at the north-west carries the water tanks: their "
+             "number, capacity, material, supports and the pipework to "
+             "them are all to be specified, and how anyone reaches the "
+             "deck is an open design item rather than a specification one "
+             "— the stair stops at the penthouse."),
     ("External works", "Paving material and bedding, sub-base, falls, "
                        "edgings, turf and topsoil, irrigation, the gate, "
-                       "the street wall's coping and finish."),
+                       "the street wall's coping and finish. The pergola's "
+                       "timber, its section, fixing and preservative "
+                       "treatment, and the barbecue counter's structure "
+                       "and worktop."),
     ("Services", "Everything. The EL, ME and PL series are coordination "
                  "only."),
 ]
@@ -469,6 +496,136 @@ def specification_markdown():
     out += ["", "Quantities for every item above are in QS-001 and QS-002 "
                 "where the geometry fixes them, and are marked class L or "
                 "X where it does not.", ""]
+    return "\n".join(out)
+
+
+# --------------------------------------------------------------------------
+# Package F - the sequence, with the durations left to the people who own them
+# --------------------------------------------------------------------------
+OPEN = "open"            # what a cell says when the figure is not ours
+
+
+def programme_markdown():
+    """PRG-001: the order the work has to happen in, and nothing more.
+
+    Every column here is derived.  There is deliberately no date and no
+    duration: the Duration column is printed open, the way QS-004's rate
+    column is, because a bar length is a commitment somebody makes and a
+    plausible-looking one gets quoted back as a promise.  `checks.py`
+    proves the column stays open.
+    """
+    import deliverables as DL
+    import programme as P
+
+    rows = DL.register()
+    state = {r.code: s for r, s in DL.resolved()}
+    n_stages, longest, behind = P.summary(rows)
+    ready = P.can_start_now(rows)
+
+    out = ["# Design and Information Release Programme", "",
+           "The order the work has to happen in, derived from the "
+           "register's own dependencies rather than judged by eye. Every "
+           "deliverable in the Master Deliverables List appears here "
+           "exactly once, in the earliest stage it can possibly sit in.",
+           ""]
+
+    out += ["## There are no dates in this document", "",
+            "That is not an omission, it is the same rule the rest of the "
+            "set is issued under. A duration is a commitment somebody "
+            "makes — the surveyor, the municipality holding the permit, "
+            "the structural engineer, the contractor — and none of those "
+            "people have been asked yet. A bar chart with invented bar "
+            "lengths is the programme equivalent of a foundation detail "
+            "with invented reinforcement: it looks like information, it "
+            "gets built from, and it is worth nothing. So the **Duration** "
+            "column below is printed open, exactly as QS-004's rate column "
+            "is, and **PRG-002** — the dated construction programme — is "
+            "in the register as class X and not started.",
+            "",
+            "What is here instead is true and useful today: the sequence, "
+            "the longest chain through the project, and what each thing "
+            "the project cannot produce is holding up.",
+            ""]
+
+    out += ["## Where the project stands", "",
+            f"- **{len(rows)} deliverables** in **{n_stages} stages**.",
+            f"- **{len(ready)}** wait on nothing at all and could be "
+            f"started the day the brief is agreed.",
+            f"- **{len(behind)}** sit behind something this project cannot "
+            f"produce. **{sum(1 for c in behind if state[c] == DL.ISSUED)}** "
+            f"of those are issued anyway, against an assumption written on "
+            f"the face of the drawing; the other "
+            f"**{sum(1 for c in behind if state[c] != DL.ISSUED)}** cannot "
+            f"start. See the gates below.",
+            f"- The longest chain is **{len(longest)} deliverables** deep. "
+            f"Nothing compresses it, because each step waits on the one "
+            f"before it.",
+            ""]
+
+    out += ["## The critical chain", "",
+            "The longest path through the register. This is the project's "
+            "own lower bound on time, named at the start rather than "
+            "discovered at the end:", ""]
+    index = {r.code: r for r in rows}
+    for i, code in enumerate(longest):
+        row = index[code]
+        arrow = "" if i == 0 else "↳ "
+        out.append(f"{'  ' * i}{arrow}**{code}** {row.title} "
+                   f"— class {row.klass}, {OPEN} duration")
+    out += ["",
+            "It starts at a survey nobody has commissioned and ends at a "
+            "cost report, which is worth reading twice: the figure the "
+            "owner most wants is the furthest thing in the project from "
+            "being producible, and the single instruction that shortens "
+            "the whole programme is to order SUR-001.",
+            ""]
+
+    out += ["## The gates", "",
+            "A gate is a class X row — something that cannot be produced "
+            "here at any level of effort. The count is the argument: each "
+            "is one line in the register with this much work standing "
+            "behind it.", "",
+            "The second column matters as much as the first. Where the "
+            "design could proceed against an open gate it has, and the "
+            "drawing says so on its face: ARC-100 is issued with the "
+            "boundary marked indicative, not held back until a surveyor "
+            "arrives. Those rows are **issued provisionally** — real, "
+            "usable, and liable to move when the gate closes. The rest "
+            "genuinely cannot start.", "",
+            "| Gate | What it is | Issued provisionally | Cannot start | "
+            "Blocked deliverables |",
+            "| --- | --- | ---: | ---: | --- |"]
+    for row, held in P.gates(rows):
+        done = [c for c in held if state[c] == DL.ISSUED]
+        stuck = [c for c in held if state[c] != DL.ISSUED]
+        out.append(f"| **{row.code}** | {row.title} | {len(done)} | "
+                   f"{len(stuck)} | {', '.join(stuck) or '—'} |")
+    out += ["",
+            "A row counted provisional is not a row that got away with "
+            "something: it is a decision, recorded, to issue against an "
+            "assumption that is written on the drawing. When the gate "
+            "closes, every one of them is re-checked against what arrives, "
+            "and any that moves is reissued at the next revision.",
+            ""]
+
+    out += ["## The sequence", "",
+            "Stage 0 waits on nothing. A row in stage *n* has at least "
+            "*n* deliverables that must finish in order before it starts "
+            "— not before one of them is done, before all of them are. "
+            "Status is the register's, derived at build time.", "",
+            "| Stage | Deliverable | | Class | Status | Waits on | "
+            "Duration |",
+            "| ---: | --- | --- | :-: | --- | --- | --- |"]
+    for n, group in P.stages(rows):
+        for r in group:
+            waits = ", ".join(r.depends) or "—"
+            out.append(f"| {n} | **{r.code}** | {r.title} | {r.klass} | "
+                       f"{state[r.code]} | {waits} | {OPEN} |")
+    out.append("")
+
+    out += [f"> **{RULE}**", "",
+            "The same rule reads, on a programme: no duration is issued "
+            "that nobody has committed to.", ""]
     return "\n".join(out)
 
 
@@ -632,7 +789,8 @@ RENDERS = {"master-deliverables-list.md": write_markdown,
            "cost-baseline.csv": _writer("cost-baseline.csv", baseline_csv),
            "design-brief.md": _writer("design-brief.md", brief_markdown),
            "cost-estimation-report.md": _writer("cost-estimation-report.md",
-                                                estimate_markdown)}
+                                                estimate_markdown),
+           "programme.md": _writer("programme.md", programme_markdown)}
 
 
 # --------------------------------------------------------------------------

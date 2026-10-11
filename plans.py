@@ -3477,6 +3477,71 @@ def sheet_str_foundation():
     ])
 
 
+# STR-200's table: mark, coordinates, and where the column starts and
+# stops.  Laid out below the grid plan, which ends at y 440.
+CS_Y = 466.0                   # the header
+CS_PITCH = 5.8
+CS_X = (152.0, 215.0, 258.0, 310.0, 356.0)   # mark, x, y, from, to
+
+
+def _column_schedule(sh):
+    """Draw the schedule the sheet is named after.
+
+    It was computed and thrown away.  `sheet_str_columns` built these
+    rows into a local called `rows`, never drew them, and returned - so
+    STR-200 carried a grid, a note promising "the coordinate printed
+    beside it", and no coordinate anywhere on the sheet.  A register row
+    claiming "every column coordinate" sat on top of that for seven
+    revisions.  `checks.a_schedule_shows_its_rows` now fails the build if
+    this stops being drawn.
+    """
+    head = ("MARK", "x", "y", "FROM", "TO")
+    sh.text_mm(CS_X[0], CS_Y - 8.0, "COLUMN SCHEDULE", size=3.4,
+               anchor="start", weight=700, ls=0.4)
+    sh.text_mm(CS_X[0], CS_Y - 2.0,
+               f"{len(grid_columns())} COLUMNS  ·  COORDINATES IN METRES "
+               f"FROM THE PLOT'S SOUTH-WEST CORNER", size=2.1,
+               anchor="start", color=GREY, ls=0.3)
+    for i, label in enumerate(head):
+        sh.text_mm(CS_X[i], CS_Y + 5.0, label, size=2.1, color=GREY,
+                   anchor="start" if i == 0 else "end", ls=0.3)
+    sh.line_mm(CS_X[0], CS_Y + 7.6, CS_X[-1], CS_Y + 7.6, w=0.35, color=INK)
+
+    for n, (mark, x, yy, levels) in enumerate(grid_columns()):
+        y = CS_Y + 13.0 + n * CS_PITCH
+        # a column stands on the levels it carries, so it stops at the
+        # slab ABOVE the last of them: level 3 means it tops out at
+        # +13.20, not at +9.90.  The panel used to read the list
+        # straight and called that one +9.90, understating every column
+        # in the building by a storey.
+        top = V4_TOP if levels[-1] == len(EL_LEVELS) - 1 else \
+            EL_LEVELS[levels[-1] + 1]
+        for i, s in enumerate((mark, f"{x:.2f}", f"{yy:.2f}", "FDN",
+                               f"+{top:.2f}")):
+            sh.text_mm(CS_X[i], y, s, size=2.2,
+                       anchor="start" if i == 0 else "end",
+                       weight=700 if i == 0 else 400,
+                       color=INK if i != 3 else GREY)
+        sh.line_mm(CS_X[0], y + 1.9, CS_X[-1], y + 1.9, w=0.12, color=LIGHT)
+    sh.text_mm(CS_X[0], CS_Y + 13.0 + len(grid_columns()) * CS_PITCH + 4.0,
+               "FROM: top of foundation, whose level comes with GEO-001.",
+               size=2.1, anchor="start", color=GREY)
+
+
+def _column_tops():
+    """{top level: how many columns stop there} - for the panel.
+
+    Derived rather than typed, because typing it is how the sheet came to
+    say +9.90 and +13.20 for columns that reach +13.20 and +16.45.
+    """
+    out = {}
+    for _mark, _x, _y, levels in grid_columns():
+        top = V4_TOP if levels[-1] == len(EL_LEVELS) - 1 else \
+            EL_LEVELS[levels[-1] + 1]
+        out[top] = out.get(top, 0) + 1
+    return out
+
+
 def sheet_str_columns():
     """STR-200: the grid, and every column's coordinate."""
     D.set_scale(50, *STR_ORIGIN)
@@ -3486,21 +3551,18 @@ def sheet_str_columns():
     st.grid(sh, bubbles=False)
     st.columns_at(sh, 0)
     st.grid_dims(sh)
+    sh.rev = "P29"          # the schedule it was named for, and its heights
+    _column_schedule(sh)
 
-    y = 52.0
-    rows = [("Mark", "x", "y", "Levels")]
-    for mark, x, yy, levels in grid_columns():
-        rows.append((mark, f"{x:.2f}", f"{yy:.2f}",
-                     f"{levels[0]}–{levels[-1]}"))
+    tops = _column_tops()
     return _str_panel(sh, _grid_rows() + [
-        ("Columns to +9.90", f"{sum(1 for c in grid_columns() if 4 not in c[3])}"),
-        ("Columns to +13.20", f"{sum(1 for c in grid_columns() if 4 in c[3])}"),
+        (f"Columns to +{z:.2f}", f"{n}") for z, n in sorted(tops.items())] + [
         ("Section", "by the engineer")],
         list(_STR_COMMON) + [
         "Every column is marked by its grid intersection and stands at "
-        "the coordinate printed beside it. Eight run from the foundation "
-        "to +13.20; four — B2, B3, C2 and C3 — carry on to the roof over "
-        "the penthouse.",
+        "the coordinate the schedule below the plan prints against it. "
+        "Eight run from the foundation to +13.20; four — B2, B3, C2 and "
+        "C3 — carry on to the roof over the penthouse.",
         "Sections and reinforcement are the engineer's. The marks and "
         "coordinates are what this sheet issues.",
     ])
@@ -4803,7 +4865,7 @@ def sheet_register():
     """
     sh = Sheet("ARC-000", "Master Deliverables List", "the whole set",
                "NTS")
-    sh.rev = "P21"
+    sh.rev = "P29"          # package F, and two more rows to fit
     sh.status = F.STATUS_REGISTER
     F.border(sh)
     doc.register_table(sh)
@@ -4814,7 +4876,7 @@ def sheet_register():
     for r, _s in rows:
         klass[r.klass] = klass.get(r.klass, 0) + 1
 
-    F.heading(sh, sub="DOCUMENT CONTROL   ·   PACKAGES 0 AND A TO E   ·   "
+    F.heading(sh, sub="DOCUMENT CONTROL   ·   PACKAGES 0 AND A TO F   ·   "
                       "STATUS DERIVED")
     y = F.datum_panel(sh, 52, "THE SET AT A GLANCE", [
         ("Deliverables", f"{len(rows)}"),
