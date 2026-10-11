@@ -1075,7 +1075,8 @@ def _villa_bedroom_floor(sh):
     what gives the east elevation one set of openings instead of two.
 
     Both suites open onto the south cantilever - the same wave as the floors
-    above and below, so it now runs all three storeys.
+    above and below, so it runs on all four levels that have one: the
+    first, the second, the third and the penthouse.
     """
     # --- shell: the third floor's envelope, 1.00 m off three boundaries ---
     sh.wall(V3_X0, V3_Y0, V3_X1, V3_Y0 + WT, openings=V2_WIN_S)

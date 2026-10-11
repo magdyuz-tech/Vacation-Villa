@@ -1,41 +1,42 @@
-#!/usr/bin/env python3
 """
 geometry.py - the single source of truth for the building's set-out.
 
+A detached five-storey vacation villa at Shamandeel, Quesna, Menoufia,
+in the central Nile Delta.
+
 Origin (0, 0) is the south-west corner of the plot, x east, y north.  The
-street runs along the south boundary and the entrance gate is at the west
-end of the garden corridor.
+street runs along the south boundary and the entrance gate is a 2.40 m
+opening at the west end of the frontage.
 
-Revision P3 converts the three-storey house into a four-storey building:
+    +0.00   reception hall, dining, kitchen, guest bedroom and ensuite
+    +3.30   living area, bedrooms 1 to 3
+    +6.60   bedrooms 4 to 7, two of them suites
+    +9.90   living area, bedrooms 8 to 10
+    +13.20  penthouse: living and dining, bedroom 11, between terraces
+    +16.45  roof over the penthouse; +17.05 top of the building
 
-    +0.00   entrance, lounges, guest room/office, central service kitchen
-    +3.30   two one-bedroom apartments
-    +6.60   two one-bedroom apartments (identical to +3.30)
-    +9.90   two-bedroom apartment, south terrace and north terrace
+    plot, an L on the street frontage                     = 264.50 m2
+    house, 9.50 x 13.50, x 12.50..22.00, y 3.50..17.00    = 128.25 m2
+    setbacks, paved as side passages, west/north/east      =   1.00 m
 
-Only the WEST boundary is built against.  The client confirms that the
-north and east boundaries are open to the environment and may be windowed;
-the adjoining owner to the east will not build above 3.00 m.  The west
-wall is therefore the only blind elevation, and it is opened over the
-1.50 m where it faces the plot's own garden corridor.
+The villa is DETACHED on three sides.  It was a party-wall building of
+two blocks until revision P5, and the history is worth knowing because
+some module and fixture names still carry it: `_plan_apartment` and the
+A-300 enlargements draw the superseded scheme, which is withdrawn.
+Detaching cost 22% of the plate - 114.8 m2 inside the walls against
+147.3 - and bought daylight and cross ventilation on every face.
 
-Three set-out changes came with it:
+Only the WEST elevation is blind, and that is the neighbour's doing
+rather than the boundary's: the house behind the garden is three storeys
+and faces away from us, so the west wall takes ventilation louvres and
+no view.  North and east carry ordinary windows; both those neighbours
+are single storey, which is why the east wall can be glazed at all.
 
-  * The north boundary is taken as a straight line at y = 18.00.  The
-    client's sketch recorded a 0.50 m notch across block A's width and a
-    5.50 m offset between the two blocks' north walls; neither can be true
-    at once.  Resolved in favour of a straight boundary, with both blocks
-    running north to 18.00.  Still to be confirmed by measured survey.
-  * The south wall of both blocks moves 1.50 m into the garden, to
-    y = 3.50, so each block is 14.50 m deep.
-  * Balconies on the upper floors cantilever a further 1.20 m south of
-    that wall; the ground floor and the garden below are unaffected.
-
-    garden corridor   west of the building, 11.50 x 5.00   =  57.50 m2
-                      in front of it,       11.50 x 3.50   =  40.25 m2
-    block A (front)                          6.50 x 14.50  =  94.25 m2
-    block B (rear)                           5.00 x 14.50  =  72.50 m2
-    plot                                                   = 264.50 m2
+One set-out question is still open and is marked on A-000: the client's
+sketch recorded a 0.50 m notch in the north boundary AND a 5.50 m offset
+between the two north walls of the building as it then was, and neither
+can be true at once.  Resolved in favour of a straight boundary at
+y = 18.00, which is an assumption until SUR-001 measures it.
 """
 
 import math
