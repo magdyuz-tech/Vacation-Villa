@@ -24,8 +24,11 @@ true to scale and can be measured off.
 [ezdxf]: https://ezdxf.mozman.at/
 [CairoSVG]: https://cairosvg.org/
 
-Nothing here relates to the daily-movers dashboard in the rest of this
-repository.
+This repository is the whole project: clone it, `pip install -r
+requirements.txt`, run `python3 build.py`, and it writes every sheet in
+every format next to itself. It began life in a folder of another
+repository and moved here at P29 with its history intact, which is why
+the record below starts at P1.
 
 ## The set
 
@@ -37,7 +40,7 @@ including the ones that are not drawings.
 | Sheets | What | Class |
 | ------ | ---- | ----- |
 | `ARC-001`, `ARC-002` | Cover, project data and drawing index; general notes and the code matrix | D |
-| `ARC-000` | Master Deliverables List — 81 rows, status derived | D |
+| `ARC-000` | Master Deliverables List — 83 rows, status derived | D |
 | `A-000` | Site plan, 1:75 | D |
 | `A-100` … `A-104` | The five floor plans, 1:50 — ground, first, second, third, penthouse | D |
 | `ARC-106` | Roof plan over the penthouse: falls, outlets, parapets | D |

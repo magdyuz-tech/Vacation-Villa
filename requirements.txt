@@ -1,0 +1,11 @@
+# Three dependencies, all free and open source.
+#
+#   ezdxf      writes the DXF files that LibreCAD, QCAD and FreeCAD open
+#   cairosvg   rasterises the SVG sheets to PNG and to PDF
+#   pypdf      binds the per-sheet PDFs into the one issued set
+#
+# Nothing else is needed: the drawings themselves are emitted as SVG by
+# drafting.py, which is pure Python and has no dependency at all.
+ezdxf>=1.1
+cairosvg>=2.7
+pypdf>=4.0

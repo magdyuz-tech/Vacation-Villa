@@ -100,7 +100,7 @@ def bind(pdf_dir, out_dir=None, rev=None):
         "/Subject": "Master deliverables list, site plan, five floor "
                     "plans, section A-A and the exterior schemes. "
                     "Final draft, not for construction.",
-        "/Creator": "floor-plans/plans.py",
+        "/Creator": "plans.py",
     })
     path = os.path.join(out_dir, f"vacation-villa-drawing-set-{rev}.pdf")
     with open(path, "wb") as fh:

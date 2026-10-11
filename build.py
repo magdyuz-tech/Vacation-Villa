@@ -99,36 +99,22 @@ def main():
                        os.path.join(HERE, "drawing-set.html"))
     print(f"{os.path.basename(out):34s} {os.path.getsize(out) / 1024:6.0f} kB")
 
-    mirror()
     return svgs
 
 
-def mirror():
-    """Refresh the downloadable copy of the code, if it is there.
-
-    The repository carries a second copy of these modules under
-    Claude/, packaged so the project can be downloaded and run on its
-    own. It was kept current by remembering to run a script, which means
-    it was not kept current: it sat at P16 for twelve revisions, with a
-    frame.py calling the building a four-storey vacation home and 21 MB
-    of drawings of the apartment block this was before P5.
-
-    So the build does it, every time, and no one has to remember. It is
-    a no-op outside the repository - a downloaded copy has no mirror to
-    refresh - and a failure here is reported rather than fatal, because
-    the drawings are already written by the time it runs.
-    """
-    import subprocess
-    script = os.path.join(os.path.dirname(HERE), "Claude",
-                          "sync-from-floor-plans.sh")
-    if not os.path.isfile(script):
-        return
-    print("\nmirror")
-    try:
-        done = subprocess.run(["sh", script], capture_output=True, text=True)
-        print((done.stdout or done.stderr).strip() or "nothing to do")
-    except OSError as exc:                       # pragma: no cover
-        print(f"could not refresh the mirror: {exc}")
+# There was a `mirror()` step here until P29, and the reason it is gone
+# is worth keeping.  This project used to live in a folder of another
+# repository, so a second copy of the modules was kept under Claude/ for
+# anyone who wanted to download and run it on its own.  That copy was
+# maintained by remembering to run a script, which means it was not
+# maintained: it sat at P16 for twelve revisions, calling the building a
+# four-storey vacation home and carrying 21 MB of drawings of the
+# apartment block this was before P5.  The build was made to refresh it
+# so nobody had to remember.
+#
+# Moving here removed the need rather than the risk: this repository IS
+# the downloadable copy, there is no second place for it to drift from,
+# and the honest fix for duplicated truth is to stop duplicating it.
 
 
 if __name__ == "__main__":
