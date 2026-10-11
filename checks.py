@@ -895,7 +895,13 @@ def every_wall_has_a_material():
 
 
 def nothing_is_drawn_off_the_sheet():
-    """Every drawn thing must land inside the sheet's border.
+    """Every drawn thing must land inside the drawing area.
+
+    Which is the sheet's border on three sides and the left edge of the
+    right-hand panel on the fourth, because a drawing that runs in behind
+    the panel is as lost as one that runs off the paper. Everything
+    frame.py draws is exempt: the panel, the title block, the key and the
+    notes are the frame's business and the panel is where they live.
 
     This rule exists because of EL-400, ME-200 and PL-300, which set
     their origin to x -150 mm and drew content starting at 20 mm: the
@@ -924,11 +930,40 @@ def nothing_is_drawn_off_the_sheet():
 
     lo_x, lo_y = 10.0 - 2.0, 10.0 - 2.0
     hi_x, hi_y = D.SHEET_W - 10.0 + 2.0, D.SHEET_H - 10.0 + 2.0
-    out, depth = [], [0]
+    out, depth, framing = [], [0], [0]
 
     def note(x, y):
-        if depth[0] == 0 and not (lo_x <= x <= hi_x and lo_y <= y <= hi_y):
+        if depth[0] or framing[0]:
+            return
+        # the right-hand panel is the frame's. A sheet that draws its own
+        # content into it has not gone off the paper, so the border test
+        # misses it entirely - STR-500 ran 185 mm of a 9.50 m cantilever
+        # in behind the panel and looked, on the sheet, like a balcony
+        # two thirds the width of the building.
+        if not (lo_x <= x <= F_PANEL and lo_y <= y <= hi_y):
             out.append((x, y))
+
+    import frame as F
+
+    # Everything frame.py draws is the frame's business, panel included.
+    # Wrapping its entry points is how the rule tells a sheet's drawing
+    # from the sheet furniture around it.
+    # the LEFT edge of the panel, which is the right edge of the drawing
+    # column; PANEL_R is its far side and would have let a sheet draw
+    # clean across the panel and still pass
+    F_PANEL = F.PANEL_X - 5.0
+    framed = ("border", "heading", "legend", "schedule", "datum_panel",
+              "notes", "titleblock", "withdraw")
+    real_f = {n: getattr(F, n) for n in framed}
+
+    def wrap(fn):
+        def inner(*a, **kw):
+            framing[0] += 1
+            try:
+                return fn(*a, **kw)
+            finally:
+                framing[0] -= 1
+        return inner
 
     real = {n: getattr(D.Sheet, n) for n in
             ("line_mm", "rect_mm", "text_mm", "poly", "circle", "ellipse",
@@ -981,6 +1016,9 @@ def nothing_is_drawn_off_the_sheet():
     try:
         for name, fn in patched.items():
             setattr(D.Sheet, name, fn)
+        for name, fn in real_f.items():
+            setattr(F, name, wrap(fn))
+            setattr(plans.F, name, getattr(F, name))
         for build in plans.SHEETS:
             out.clear()
             depth[0] = 0
@@ -989,14 +1027,17 @@ def nothing_is_drawn_off_the_sheet():
                 xs = [p[0] for p in out]
                 ys = [p[1] for p in out]
                 problems.append(
-                    f"{sh.number}: {len(out)} points are drawn off the "
-                    f"sheet — x {min(xs):.0f} to {max(xs):.0f}, y "
-                    f"{min(ys):.0f} to {max(ys):.0f}, against a border of "
-                    f"{lo_x + 2:.0f},{lo_y + 2:.0f} to {hi_x - 2:.0f},"
+                    f"{sh.number}: {len(out)} points are drawn outside the "
+                    f"drawing area — x {min(xs):.0f} to {max(xs):.0f}, y "
+                    f"{min(ys):.0f} to {max(ys):.0f}, against "
+                    f"{lo_x + 2:.0f},{lo_y + 2:.0f} to {F_PANEL:.0f},"
                     f"{hi_y - 2:.0f}")
     finally:
         for name, fn in real.items():
             setattr(D.Sheet, name, fn)
+        for name, fn in real_f.items():
+            setattr(F, name, fn)
+            setattr(plans.F, name, fn)
     return problems
 
 

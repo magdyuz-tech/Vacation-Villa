@@ -30,8 +30,13 @@ import frame as F
 from geometry import *          # noqa: F401,F403  (pure constants)
 
 SITE_ORIGIN = (150.0, 390.0)     # 1:75
-PLAN_ORIGIN = (-60.0, 450.0)     # 1:50, upper floors
-GF_ORIGIN = (40.0, 495.0)        # 1:50, ground floor with the whole plot
+PLAN_ORIGIN = (-60.0, 450.0)     # 1:50, every floor including the ground
+# GF_ORIGIN lived here: a wide origin from when A-100 drew the whole plot
+# beside the building. A-100 has not used it since the villa was drawn,
+# and the two sheets that still did - the ground-floor RCP and the
+# ground-floor services layouts - were drawing the building alone and so
+# just sat 150 mm right of centre with the garden's empty space beside
+# them. One origin for all five levels.
 PARAPET_FILL = "#6f6f6f"
 
 # Gross internal area per floor: the whole plate, less the open terrace on
@@ -3580,9 +3585,16 @@ def sheet_str_walls():
 
 def sheet_str_cantilever():
     """STR-500: the balcony, at 1:20, because it is the hard one."""
-    D.set_scale(20, -340.0, 300.0)
+    # Solved: the balcony is 9.50 m across, which at 1:20 is 475 mm in a
+    # drawing column of 552, and it runs y 0.40 to 4.95 with its grid
+    # bubbles and its note, which is 227 mm. This centres that. The old
+    # origin put the east 185 mm of the cantilever behind the right-hand
+    # panel, so the sheet whose whole subject is the curve showed two
+    # thirds of it.
+    D.set_scale(20, -568.5, 440.0)
     sh = _str_sheet("STR-500", "Cantilever Balcony Structure",
                     f"{V4_LEVEL} and the three floors below", "1:20 @ A1")
+    sh.rev = "P28"          # re-centred; it was half behind the panel
     pts = wave_points(n=200)
     sh.poly([(pts[0][0], V3_Y0)] + pts + [(pts[-1][0], V3_Y0)],
             fill="#e7ebee", stroke=INK, sw=LW_CUT)
@@ -3991,11 +4003,11 @@ def _rcp_bulkheads(sh, rooms):
 def _rcp_sheet(level, name, draw):
     ffl = EL_LEVELS[level]
     soffit = ffl + CLEAR_HEIGHT
-    D.set_scale(50, *(GF_ORIGIN if level == 0 else PLAN_ORIGIN))
+    D.set_scale(50, *PLAN_ORIGIN)
     sh = Sheet(f"ARC-{400 + level}",
                f"Reflected Ceiling Plan — {name} Floor", f"+{ffl:.2f}",
                "1:50 @ A1")
-    sh.rev = "P21"
+    sh.rev = "P21" if level else "P28"
     F.border(sh)
 
     rooms = _rcp_plan(sh, draw)
@@ -4252,7 +4264,10 @@ def sheet_details():
 # memory: patch Sheet.wall and Sheet.room, build each floor, and record
 # what crosses the line.
 SEC_Y_V = 10.80
-SEC2_ORIGIN = (-170.0, 448.0)        # 1:50, x 11.50 at 60 mm, -2.60 at 500
+# 1:50. The section runs x 11.50 to 23.00 with its setback notes, which
+# is 230 mm of a 552 mm column; this centres it, where it used to sit
+# against the left edge with 267 mm of nothing to its right.
+SEC2_ORIGIN = (-55.0, 448.0)
 
 # (x0, x1) of every wall the cut crosses, by level.  The west wall is blind
 # here on every floor - its louvres are elsewhere along the face - and the
@@ -4306,7 +4321,7 @@ def sheet_section_b():
     D.set_scale(50, *SEC2_ORIGIN)
     sh = Sheet("ARC-301", "Section B–B — Transverse", "looking north",
                "1:50 @ A1")
-    sh.rev = "P21"
+    sh.rev = "P28"
     F.border(sh)
 
     x_w, x_e = V3_X0, V3_X1                 # 12.50 .. 22.00

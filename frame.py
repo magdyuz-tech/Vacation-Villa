@@ -87,8 +87,10 @@ REVISIONS = [
      "interior cutaways drawn at 1:50, with the principal rooms named"),
     ("P26", "2026-10-11",
      "A-401: the three ground lines no longer cross the frame or meet"),
-    ("P27", None,
+    ("P27", "2026-10-11",
      "the stair, which the interior cutaways did not show at all"),
+    ("P28", None,
+     "ARC-400 centred: the last sheet still on the old wide origin"),
 ]
 STATUS = "Preliminary design issue — not for construction."
 STATUS_FINAL_DRAFT = ("Final draft — layout agreed with the client; "
