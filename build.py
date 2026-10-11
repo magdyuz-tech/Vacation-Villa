@@ -98,7 +98,37 @@ def main():
     out = viewer.build(os.path.join(HERE, "drawings"),
                        os.path.join(HERE, "drawing-set.html"))
     print(f"{os.path.basename(out):34s} {os.path.getsize(out) / 1024:6.0f} kB")
+
+    mirror()
     return svgs
+
+
+def mirror():
+    """Refresh the downloadable copy of the code, if it is there.
+
+    The repository carries a second copy of these modules under
+    Claude/, packaged so the project can be downloaded and run on its
+    own. It was kept current by remembering to run a script, which means
+    it was not kept current: it sat at P16 for twelve revisions, with a
+    frame.py calling the building a four-storey vacation home and 21 MB
+    of drawings of the apartment block this was before P5.
+
+    So the build does it, every time, and no one has to remember. It is
+    a no-op outside the repository - a downloaded copy has no mirror to
+    refresh - and a failure here is reported rather than fatal, because
+    the drawings are already written by the time it runs.
+    """
+    import subprocess
+    script = os.path.join(os.path.dirname(HERE), "Claude",
+                          "sync-from-floor-plans.sh")
+    if not os.path.isfile(script):
+        return
+    print("\nmirror")
+    try:
+        done = subprocess.run(["sh", script], capture_output=True, text=True)
+        print((done.stdout or done.stderr).strip() or "nothing to do")
+    except OSError as exc:                       # pragma: no cover
+        print(f"could not refresh the mirror: {exc}")
 
 
 if __name__ == "__main__":

@@ -112,7 +112,7 @@ fixture names in the code still read "apt A" and "apt B".
 ### Editing the plans as CAD
 
 `cad/` holds one DXF per plan, elevation and section, plus
-`vacation-home-all-levels.dxf`, which carries the site and all five levels
+`vacation-villa-all-levels.dxf`, which carries the site and all five levels
 side by side, each on its own layer set (`…-SITE`, `…-00` to `…-04`).
 Model space is millimetres at full size, so a wall measures its real
 length and you can draw straight on top.

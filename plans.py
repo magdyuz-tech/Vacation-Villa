@@ -1,14 +1,16 @@
 #!/usr/bin/env python3
 """
-plans.py - generates the drawing set for the four-storey vacation home.
+plans.py - every sheet in the five-storey vacation villa's drawing set.
 
-  A-000  Site plan                             +0.00   1:75
-  A-100  Ground floor plan                     +0.00   1:50
-  A-101  First floor plan                      +3.30   1:50
-  A-102  Second floor plan                     +6.60   1:50
-  A-103  Third floor & roof plan                +9.90   1:50
+Seventy-four sheets are issued and a handful more are built and kept out
+of the issue; the authoritative list is `export_share.SET_ORDER`, and
+ARC-001 prints the index by building each sheet and asking its name.
+This docstring used to list the sheets, which is why it still said four
+storeys and named a "Third floor & roof plan" that has not existed since
+the penthouse was added at P9. A list in a comment is a list that rots.
 
-Run:  python3 plans.py [output_dir]
+  python3 plans.py [output_dir]      the SVGs, nothing else
+  python3 build.py                   every format, checks first
 """
 
 import math

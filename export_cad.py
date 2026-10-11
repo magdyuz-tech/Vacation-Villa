@@ -80,7 +80,7 @@ def export(out_dir):
     doc = new_document()
     for builder, _name, suffix, dx in LEVELS:
         _run(builder, doc, offset=(dx * 1000.0, 0.0), suffix=suffix)
-    path = os.path.join(out_dir, "vacation-home-all-levels.dxf")
+    path = os.path.join(out_dir, "vacation-villa-all-levels.dxf")
     doc.saveas(path)
     written.append((path, len(doc.modelspace())))
     return written
