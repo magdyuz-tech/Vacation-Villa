@@ -3035,7 +3035,7 @@ def _cutaway_sheet(level, name):
     sh = Sheet(f"A-{level + 2:02d}",
                f"Interior Cutaway — {name} Floor", f"+{EL_LEVELS[level]:.2f}",
                f"1:{AX_CUT_SCALE} @ A1")
-    sh.rev = "P25"
+    sh.rev = "P27"
     F.border(sh)
     ax.cutaway(sh, level, walls, sills,
                colour=el.SCHEME[SCHEME]["render"],
@@ -3065,6 +3065,11 @@ def _cutaway_sheet(level, name):
         "A window leaves the wall under it standing to its sill; a door "
         "leaves a gap to the floor. Both come from the opening heights "
         "scheduled on ARC-500.",
+        f"The stair is cut where the walls are cut, so the flight stops "
+        f"at {ax.CUT:.2f} m and the half landing above it, with the "
+        f"flight off it, is dashed as an element above the cut plane. "
+        f"Treads, rise and going are the ones fixtures.stair draws in "
+        f"plan: {18} risers at 183 × 260 in two 0.90 m flights.",
         "Faces are painted back to front rather than depth-sorted, so a "
         "detail may overlap where two surfaces nearly touch. The plan "
         "governs.",

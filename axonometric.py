@@ -161,7 +161,11 @@ def cutaway(sh, level, walls, sills, colour="#efe7d9", profile=None):
     if level > 0:
         balcony(sh, ffl, profile, colour)
 
-    for x0, y0, x1, y1, openings in sorted(walls, key=_depth):
+    # Walls and stair treads go into one list and are sorted together.
+    # They used to be two passes, which would have painted every tread
+    # over whatever wall stood in front of it.
+    solids = []
+    for x0, y0, x1, y1, openings in walls:
         horiz = (x1 - x0) >= (y1 - y0)
         lo, hi = (x0, x1) if horiz else (y0, y1)
         pos = lo
@@ -170,16 +174,21 @@ def cutaway(sh, level, walls, sills, colour="#efe7d9", profile=None):
             if b <= a:
                 continue
             if a > pos:
-                _wall_piece(sh, x0, y0, x1, y1, pos, a, horiz, ffl,
-                            ffl + CUT, colour)
+                solids.append(_piece(x0, y0, x1, y1, pos, a, horiz, ffl,
+                                     ffl + CUT, colour))
             sill = sills.get((round(a, 2), round(b, 2)), 0.0)
             if sill > 0.01:      # a window leaves the wall under it
-                _wall_piece(sh, x0, y0, x1, y1, a, b, horiz, ffl,
-                            ffl + min(sill, CUT), colour)
+                solids.append(_piece(x0, y0, x1, y1, a, b, horiz, ffl,
+                                     ffl + min(sill, CUT), colour))
             pos = b
         if pos < hi:
-            _wall_piece(sh, x0, y0, x1, y1, pos, hi, horiz, ffl,
-                        ffl + CUT, colour)
+            solids.append(_piece(x0, y0, x1, y1, pos, hi, horiz, ffl,
+                                 ffl + CUT, colour))
+    solids += _stair_solids(level, colour)
+    for x0, y0, x1, y1, z0, z1, col in sorted(
+            solids, key=lambda s: -(s[0] + s[1] + s[2] + s[3])):
+        box(sh, x0, y0, x1, y1, z0, z1, col, stroke=INK, sw=LW_THIN)
+    _stair_above(sh, level)
 
 
 MIN_NAMED = 8.0                 # m2; below this a room goes unnamed
@@ -208,8 +217,73 @@ def labels(sh, level, rooms, min_area=MIN_NAMED):
     return named
 
 
-def _wall_piece(sh, x0, y0, x1, y1, a, b, horiz, z0, z1, colour):
+def _piece(x0, y0, x1, y1, a, b, horiz, z0, z1, colour):
+    """One length of wall between two openings, as a solid to be sorted."""
     if horiz:
-        box(sh, a, y0, b, y1, z0, z1, colour, stroke=INK, sw=LW_THIN)
-    else:
-        box(sh, x0, a, x1, b, z0, z1, colour, stroke=INK, sw=LW_THIN)
+        return (a, y0, b, y1, z0, z1, colour)
+    return (x0, a, x1, b, z0, z1, colour)
+
+
+def _flight():
+    """The dog-leg as `fixtures.stair` sets it out, in numbers.
+
+    Read from the same constants the plans pass it, so the cutaway's
+    stair cannot be a different stair from A-100's: 18 risers at 183 mm,
+    two 0.90 m flights either side of a 0.20 m well, the up flight on the
+    east walking north, the half landing across the north end.
+    """
+    x0, y0, x1, y1 = V3_STAIR
+    width = (x1 - x0 - V3_STAIR_WELL) / 2.0
+    risers = max(2, round(FLOOR_TO_FLOOR / V3_STAIR_RISE))
+    rise = FLOOR_TO_FLOOR / risers
+    treads = risers // 2
+    run = treads * V3_STAIR_GOING
+    start = y1 - V3_STAIR_LANDING - run
+    return (x0, y0, x1, y1, width, rise, treads, run, start,
+            x0 + width + V3_STAIR_WELL)
+
+
+def _stair_solids(level, colour):
+    """The treads, as far up as the walls are cut and no further.
+
+    A stair drawn whole in a cutaway stands a storey high inside walls
+    that stop at 1.20 m, which reads as a mistake.  It is cut where
+    everything else on the sheet is cut, and what is above the cut is
+    drawn as a ghost by `_stair_above` - the same convention the key
+    already carries for an element above the cut plane.
+    """
+    (_x0, _y0, x1, _y1, _w, rise, treads, _run, start,
+     ex0) = _flight()
+    ffl = EL_LEVELS[level]
+    out = []
+    for i in range(treads):
+        z = ffl + (i + 1) * rise
+        if z - ffl > CUT:
+            break
+        a = start + i * V3_STAIR_GOING
+        out.append((ex0, a, x1, a + V3_STAIR_GOING, ffl, z,
+                    shade(colour, 0.94)))
+    return out
+
+
+def _stair_above(sh, level):
+    """The half landing and the flight off it, beyond the cut."""
+    x0, _y0, x1, y1, width, rise, treads, run, start, _ex0 = _flight()
+    ffl = EL_LEVELS[level]
+    half = ffl + treads * rise
+    land = y1 - V3_STAIR_LANDING
+    ghost = dict(fill="none", stroke=LIGHT, sw=LW_THIN, dash="2.2 1.6")
+    sh.poly([P(x0, land, half), P(x1, land, half),
+             P(x1, y1, half), P(x0, y1, half)], **ghost)
+    sh.poly([P(x0, land, half), P(x0 + width, land, half),
+             P(x0 + width, start, half + treads * rise),
+             P(x0, start, half + treads * rise)], **ghost)
+    # Over the flight and above the cut, not on the floor beside it. On
+    # the floor it landed on the reception hall's own name, because the
+    # ground floor's hall is the room the stair stands in and a room's
+    # name is set at its centre. Lifting the label to the cut height
+    # moves it up the sheet by CUT + 0.25 m of projection, which no
+    # floor-plane label can reach.
+    u, v = P(x0 + width + V3_STAIR_WELL + width / 2.0, start + 0.35 * run,
+             ffl + CUT + 0.25)
+    sh.tag(u, v, "STAIR UP", size=2.0, color=INK)

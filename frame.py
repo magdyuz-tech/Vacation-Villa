@@ -85,8 +85,10 @@ REVISIONS = [
      "EL-400, ME-200 and PL-300 drawn back onto the sheet"),
     ("P25", "2026-10-10",
      "interior cutaways drawn at 1:50, with the principal rooms named"),
-    ("P26", None,
+    ("P26", "2026-10-11",
      "A-401: the three ground lines no longer cross the frame or meet"),
+    ("P27", None,
+     "the stair, which the interior cutaways did not show at all"),
 ]
 STATUS = "Preliminary design issue — not for construction."
 STATUS_FINAL_DRAFT = ("Final draft — layout agreed with the client; "
