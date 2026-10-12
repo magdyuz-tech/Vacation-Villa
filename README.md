@@ -658,21 +658,15 @@ cannot start.
 - **SUR-001**, a measured survey. Every boundary on A-000 is issued marked
   indicative, and the local rule on the cantilever's projection over the
   frontage turns on it.
-- **GEO-001**, a ground investigation. The Delta is well characterised as
-  a region — enough to assume a foundation type and lay the structure out,
-  not enough to size one — and four structural rows still wait on it.
-  What changed at P31 is that the assumption is now written down instead
-  of being made silently: `GEO-002` records a bearing pressure, sulphate
-  and chloride figures as regional typicals with no source, and a water
-  table the client gives as confirmed at 2.50 m below natural ground
-  level. None of it closes `GEO-001`, whose own test is a figure with a
-  source — boreholes, or figures an engineer will sign — and none of it
-  may be designed to. The point of writing them down is that a set
-  drawing pad footings under twelve columns has already assumed a
-  bearing pressure, and an assumption nobody writes down is one nobody
-  can argue with. One of them changes a drawing: the water table lies
-  below the depth the bearing figures assume, so `STR-100` draws no
-  dewatering and says on its face why, and that it needs confirming.
+- **GEO-001**, a ground investigation. The ground *data* is complete and
+  issued: `GEO-002` carries all seven parameters in full, each with its
+  basis, and nothing further is waiting on this office. What stays open
+  is the investigation itself, which is a different thing — somebody
+  sinking boreholes and signing the result. Four structural rows still
+  wait on it, and the row cannot be closed from here even as a
+  bookkeeping matter: status is derived, so `GEO-001` would have to be
+  given a document to read as issued, and the only document that would
+  do it is a soil report nobody has written.
 - The parapet's material, the one wall nobody has specified.
 - **A way up to the roof.** The stair runs from the ground floor to the
   penthouse and stops; the deck at +16.45 carries the water tanks, which

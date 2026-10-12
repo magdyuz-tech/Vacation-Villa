@@ -857,10 +857,18 @@ def ground_markdown():
             "type, cover and water-cement ratio follow from it and are "
             "the engineer's specification; none of them is written on "
             "any sheet in this set.", "",
-            "The replacement-layer bearing pressure describes a ground "
-            "improvement nobody has decided on. It is listed so the "
-            "option is visible, not because it is in the design.", "",
-            "## What would close GEO-001", ""
+            "The replacement-layer figure is not a second opinion "
+            "about this ground; it is what the ground would bear after "
+            "being partly replaced. Reaching it means excavating the "
+            "organic and soft crust and rebuilding 0.8 - 1.2 m of "
+            "compacted sandy gravel under the whole footprint, in "
+            "25 cm layers to not less than 95 % modified Proctor. That "
+            "is an excavation, a material and a compaction standard "
+            "nobody has decided on, priced or signed, and it is "
+            "recorded here exactly as supplied. The figure holds only "
+            "if the work is done, so it may not be read as an "
+            "alternative allowable pressure for the ground as found.", "",
+            "## What would close GEO-001", "",
             "Boreholes to a depth the engineer specifies, with "
             "laboratory testing for sulphates and chlorides, reported "
             "and signed. Four rows wait on it: STR-100, STR-101, "
