@@ -1,14 +1,14 @@
 # Five-Storey Vacation Villa — 2D Drawing Set
 
 An architectural drawing set for a detached five-storey villa at
-Shamandeel, Quesna, Menoufia, Egypt — the central Nile Delta. The house
+Ezbit Abu Rukbah, Quesna, Menoufia, Egypt — the central Nile Delta. The house
 stands 1.00 m clear of all three side boundaries, hard against the east
 setback with its whole entrance garden to the west,
 a three-storey blind neighbour behind that garden, a single-storey
 clay-brick one to the east and another single storey to the north. Drawn
 to ECP 201 and ECP 203.
 
-This file described the four-storey apartment building the design started
+This file described the five-storey villa building the design started
 as for longer than it should have; the accommodation, set-out, design,
 ventilation and fire sections are rewritten at P22 to the villa the
 drawings actually show, and the areas in them are measured by
