@@ -43,8 +43,11 @@ OPEN_ITEMS = [
     "region — enough to assume a foundation type and lay the structure "
     "out, not enough to size it. Allowable bearing pressure, the water "
     "table and sulphate content are plot figures, and GEO-001 stays open "
-    "until they arrive with a source. No soil value is written on any "
-    "sheet here.",
+    "until they arrive with a source. What the layout assumes in the "
+    "meantime is written down on GEO-002, each figure with its basis: "
+    "regional typicals with no source, and a water table the client "
+    "gives as confirmed. They are assumptions, they are stamped as "
+    "assumptions wherever they print, and nothing is sized from them.",
     "The north neighbour is a single storey, confirmed by the client. The "
     "north wall carries windows on all five levels; only the ground floor "
     "looks at anything, and from +3.30 up they clear its roof. Its exact "
@@ -255,8 +258,19 @@ DECISIONS = [
      "Delta ground, known as a region; no site investigation commissioned.",
      "—",
      "Enough to assume a foundation type and lay the structure out, not "
-     "enough to size one. GEO-001 stays open and no soil value is written "
-     "on any sheet."),
+     "enough to size one. GEO-001 stays open. No soil value was written "
+     "on any sheet until the figures of 2026-10-12 below."),
+    ("2026-10-12", "Assumed ground parameters",
+     "Regional typical bearing, sulphate and chloride figures supplied, "
+     "with the groundwater table given as confirmed at 2.50 m below "
+     "natural ground level.",
+     "geometry.GROUND",
+     "Recorded on GEO-002 with each figure's basis, and printed on "
+     "STR-100 and STR-101 beside the stamp that says what it is. GEO-001 "
+     "is not closed by them: a regional typical has no source and the "
+     "water table has no borehole. The water table is the one that "
+     "changes a drawing — it lies below the depth the bearing figures "
+     "assume, so STR-100 draws no dewatering."),
     ("2026-10-07", "North neighbour",
      "A single storey, as on the east.",
      "geometry.NBR_N_STOREYS",
@@ -789,6 +803,73 @@ def estimate_markdown():
     return "\n".join(out)
 
 
+def ground_markdown():
+    """GEO-002: what the layout assumes about the soil, and on whose word."""
+    import geometry as G
+
+    out = ["# Assumed Ground Parameters", "",
+           "The soil figures this set's layout rests on. Every one of them "
+           "is written here with its basis, and the basis is the point of "
+           "the document.", "",
+           "**This is not a ground investigation and it does not close "
+           "GEO-001.** No borehole was sunk, no sample was tested and no "
+           "engineer has signed any figure below. Nothing here may be "
+           "designed to, and no foundation may be sized from it.", "",
+           "It exists because the assumption was being made either way. A "
+           "set that draws pad footings under twelve columns has already "
+           "assumed a bearing pressure and a founding stratum; for thirty "
+           "revisions this one made that assumption silently and said the "
+           "soil values \"do not exist yet\". They did exist, as regional "
+           "knowledge rather than measurement. Writing them down is what "
+           "lets the engineer disagree with a number instead of guessing "
+           "at one.", "",
+           "| Parameter | Figure | Basis | Bears on |",
+           "| --------- | ------ | ----- | -------- |"]
+    for label, figure, basis, note in G.GROUND:
+        out.append(f"| {label} | {figure} | {G.GROUND_BASIS[basis]} | "
+                   f"{note} |")
+    out += ["",
+            "## The two kinds of fact in that table", "",
+            "The ranges are **regional typicals for the central Nile "
+            "Delta** and have no source whatever. They are the published "
+            "character of Delta alluvium, not of this plot, and the plot "
+            "can differ from its region by more than the range is wide.",
+            "",
+            "The water table is **the client's**, who gives it as "
+            "confirmed for this plot at "
+            f"{G.ground('Groundwater table')[0]}. That is a better fact "
+            "than a regional typical and still not a measurement, so it "
+            "is recorded the way this set already records the "
+            "neighbours' heights on SUR-001: as the client describes "
+            "them, which is enough to design against and not enough to "
+            "build to.", "",
+            "## What follows from it, and what does not", "",
+            f"The bearing figures are quoted at {G.GROUND_TEST_DEPTH}. "
+            "The water table lies below that, so a dig to that depth is "
+            "expected to be dry, and STR-100 draws no dewatering. That "
+            "is the one place where a figure in this table changes what "
+            "a drawing shows, and it is the one most worth confirming "
+            "first: the figure is a single depth with no seasonal range "
+            "on it, and the fields next door are flood-irrigated.", "",
+            "The sulphate and chloride figures are reported as ECP 203 "
+            "moderate to severe exposure, class 2 to 3. That class is "
+            "quoted as it was given and is not determined here. Cement "
+            "type, cover and water-cement ratio follow from it and are "
+            "the engineer's specification; none of them is written on "
+            "any sheet in this set.", "",
+            "The replacement-layer bearing pressure describes a ground "
+            "improvement nobody has decided on. It is listed so the "
+            "option is visible, not because it is in the design.", "",
+            "## What would close GEO-001", ""
+            "Boreholes to a depth the engineer specifies, with "
+            "laboratory testing for sulphates and chlorides, reported "
+            "and signed. Four rows wait on it: STR-100, STR-101, "
+            "STR-400 and PRG-002. Until then every figure above travels "
+            "with its stamp, and `checks.ground_figures_own_their_basis` "
+            "refuses any sheet that prints one without it.", ""]
+    return "\n".join(out)
+
+
 def _writer(name, render):
     def write(out_dir=None):
         out_dir = out_dir or os.path.join(HERE, "documents")
@@ -815,7 +896,9 @@ RENDERS = {"master-deliverables-list.md": write_markdown,
            "design-brief.md": _writer("design-brief.md", brief_markdown),
            "cost-estimation-report.md": _writer("cost-estimation-report.md",
                                                 estimate_markdown),
-           "programme.md": _writer("programme.md", programme_markdown)}
+           "programme.md": _writer("programme.md", programme_markdown),
+           "geotechnical-assumptions.md": _writer(
+               "geotechnical-assumptions.md", ground_markdown)}
 
 
 # --------------------------------------------------------------------------

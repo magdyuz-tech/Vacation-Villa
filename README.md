@@ -43,7 +43,7 @@ including the ones that are not drawings.
 | Sheets | What | Class |
 | ------ | ---- | ----- |
 | `ARC-001`, `ARC-002` | Cover, project data and drawing index; general notes and the code matrix | D |
-| `ARC-000` | Master Deliverables List — 83 rows, status derived | D |
+| `ARC-000` | Master Deliverables List — 84 rows, status derived | D |
 | `A-000` | Site plan, 1:75 | D |
 | `A-100` … `A-104` | The five floor plans, 1:50 — ground, first, second, third, penthouse | D |
 | `ARC-106` | Roof plan over the penthouse: falls, outlets, parapets | D |
@@ -404,11 +404,11 @@ number nobody checks.
 
 ## Status
 
-Final draft for the agreed levels, set revision **P30** — not for
+Final draft for the agreed levels, set revision **P31** — not for
 construction. Work to figured dimensions only; do not scale from the
 drawings.
 
-**74 sheets issued**, and **80 of the 83 deliverables** on `ARC-000`.
+**74 sheets issued**, and **81 of the 84 deliverables** on `ARC-000`.
 The three that are not are `SUR-001`, a measured survey, `GEO-001`, a
 ground investigation, and `PRG-002`, the dated construction programme:
 all class **X**, the first two needing somebody to visit the plot and
@@ -431,6 +431,16 @@ sheet named the wrong village — Shamandeel, where the house is at Ezbit
 Abu Rukbah — so every sheet genuinely changed, and all **74 issued
 sheets reissue together at P30**. It is the only set-wide reissue in the
 project's history, and not one line of the building moved to cause it.
+
+**P31 goes back to the rule.** Ground parameters arrived, and exactly
+five sheets changed: `ARC-000` gained the `GEO-002` row, `STR-001`,
+`STR-100` and `STR-101` carry the figures, and `ARC-001` changed because
+the index prints each sheet's revision and four of its rows now read
+P31. That last one is the cascade worth knowing about — the cover is
+never edited directly and reissues whenever anything else does. The
+other 69 sheets are byte-identical to their P30 issue, which is how the
+five were identified: the SVGs reproduce exactly, so the build itself
+says which sheets changed rather than anybody deciding.
 
 The three withdrawn `A-300` sheets stay at P22. A withdrawn drawing is a
 record of what was once issued; reprinting it with a corrected address
@@ -542,6 +552,22 @@ off the panel edge. And `programme_carries_no_dates` holds `PRG-001` to
 its one discipline: no duration, no date, no month, and the duration
 column open on every row.
 
+`ground_figures_own_their_basis`, added at P31, guards the newest and
+most dangerous kind of figure in the set. A bearing pressure is the one
+number on a structural sheet somebody could act on without reading a
+note, and every ground figure here is an assumption. So a sheet
+printing one of `geometry.GROUND`'s figures must also print that
+figure's stamp — `ASSUMED` or `CLIENT-CONFIRMED` — and any text shaped
+like a soil figure must be one `GROUND` declares, so a typed value
+cannot drift from the constant the way the 120 mm partitions did. Both
+halves were proved by injection: stripping the stamp off `STR-100`'s
+water table and typing an undeclared `95 kPa` into `STR-101` each
+failed the build. What it cannot catch is a figure quoted against the
+wrong parameter — the soil sulphate range under a chloride heading
+reads as fine, because both numbers are declared — and it has no
+opinion whatever on whether any figure is true. That is what `GEO-001`
+is still open for.
+
 The 1:25 sheets run the ordinary plan code at a larger scale and crop to
 the part being shown, so an enlargement cannot disagree with the plan it
 came from. They cover the wet cores, the kitchenettes and the service
@@ -564,7 +590,7 @@ a decision cannot be written down here and left unbuilt.
 
 ### The deliverables register
 
-`deliverables.py` holds the Master Deliverables List: eighty-three rows
+`deliverables.py` holds the Master Deliverables List: eighty-four rows
 across packages 0 and A to F, printed on sheet `ARC-000` and written to
 `documents/master-deliverables-list.md`. Two things about it are worth
 knowing.
@@ -592,7 +618,7 @@ writes.
 ### The programme
 
 The register says what is produced and who is competent to produce it.
-It never said *when*, and for eighty-three deliverables that is a real
+It never said *when*, and for eighty-four deliverables that is a real
 gap: which of them could be started today, and which cannot start
 because somebody else has not done something, was nowhere written down.
 
@@ -634,9 +660,19 @@ cannot start.
   frontage turns on it.
 - **GEO-001**, a ground investigation. The Delta is well characterised as
   a region — enough to assume a foundation type and lay the structure out,
-  not enough to size one — so no bearing pressure, water table or
-  sulphate figure is written on any sheet, and four structural rows wait
-  on it.
+  not enough to size one — and four structural rows still wait on it.
+  What changed at P31 is that the assumption is now written down instead
+  of being made silently: `GEO-002` records a bearing pressure, sulphate
+  and chloride figures as regional typicals with no source, and a water
+  table the client gives as confirmed at 2.50 m below natural ground
+  level. None of it closes `GEO-001`, whose own test is a figure with a
+  source — boreholes, or figures an engineer will sign — and none of it
+  may be designed to. The point of writing them down is that a set
+  drawing pad footings under twelve columns has already assumed a
+  bearing pressure, and an assumption nobody writes down is one nobody
+  can argue with. One of them changes a drawing: the water table lies
+  below the depth the bearing figures assume, so `STR-100` draws no
+  dewatering and says on its face why, and that it needs confirming.
 - The parapet's material, the one wall nobody has specified.
 - **A way up to the roof.** The stair runs from the ground floor to the
   penthouse and stops; the deck at +16.45 carries the water tanks, which

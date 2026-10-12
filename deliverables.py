@@ -156,7 +156,21 @@ def _package_0():
                  "bearing pressure, the water table and sulphate content "
                  "are plot figures, and this row stays open until they "
                  "arrive with a source - boreholes, or figures the "
-                 "engineer will sign."),
+                 "engineer will sign. GEO-002 now records what is "
+                 "assumed in their place. It does not close this row: a "
+                 "regional typical has no source, and the client's water "
+                 "table has no borehole behind it."),
+        Row("GEO-002", "Assumed ground parameters for layout", "0", "D",
+            discipline="Geotechnical", fmt="Register",
+            doc="geotechnical-assumptions.md",
+            source=("GROUND", "GROUND_BASIS", "GROUND_TEST_DEPTH"),
+            note="The soil figures the layout rests on, each with its "
+                 "basis. Ours to issue because it is a record of what "
+                 "was assumed, not a soil report - the distinction the "
+                 "whole register turns on. Written because the "
+                 "assumption was being made either way, in the choice to "
+                 "draw pads rather than a raft, and an assumption nobody "
+                 "writes down is one nobody can argue with."),
         Row("CLI-001", "Client instructions and decisions record", "0", "D",
             discipline="Client decision", fmt="Register",
             doc="client-decisions.md",

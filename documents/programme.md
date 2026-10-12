@@ -10,8 +10,8 @@ What is here instead is true and useful today: the sequence, the longest chain t
 
 ## Where the project stands
 
-- **83 deliverables** in **6 stages**.
-- **19** wait on nothing at all and could be started the day the brief is agreed.
+- **84 deliverables** in **6 stages**.
+- **20** wait on nothing at all and could be started the day the brief is agreed.
 - **12** sit behind something this project cannot produce. **10** of those are issued anyway, against an assumption written on the face of the drawing; the other **2** cannot start. See the gates below.
 - The longest chain is **6 deliverables** deep. Nothing compresses it, because each step waits on the one before it.
 
@@ -51,6 +51,7 @@ Stage 0 waits on nothing. A row in stage *n* has at least *n* deliverables that 
 | Stage | Deliverable | | Class | Status | Waits on | Duration |
 | ---: | --- | --- | :-: | --- | --- | --- |
 | 0 | **SUR-001** | Measured topographic and boundary survey | X | not started | — | open |
+| 0 | **GEO-002** | Assumed ground parameters for layout | D | issued | — | open |
 | 0 | **CLI-001** | Client instructions and decisions record | D | issued | — | open |
 | 0 | **A-01** | Exterior views - axonometric, three schemes | D | issued | — | open |
 | 0 | **A-02** | Interior cutaway axonometric - ground floor, +0.00 | D | issued | — | open |

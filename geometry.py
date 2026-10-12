@@ -132,6 +132,81 @@ FLOOR_TO_FLOOR = CLEAR_HEIGHT + STRUCTURAL_ZONE          # 3.30 m
 GARDEN_LEVEL = -0.50
 ENTRY_RISERS = 3
 
+# ---------------------------------------------------------------------------
+# Ground
+# ---------------------------------------------------------------------------
+# What is believed about the soil under this plot, and on whose word.
+#
+# None of this is a site investigation and none of it closes GEO-001, whose
+# own test is a figure "with a source - boreholes, or figures the engineer
+# will sign".  What it replaces is worse than itself: for thirty revisions
+# the set said the soil values "do not exist yet", which was true of
+# measurements and false of knowledge - the central Delta is well enough
+# characterised that a foundation type could be assumed, and the assumption
+# was being made silently, in the choice to draw pads at all.  Writing the
+# numbers down makes the assumption arguable.
+#
+# Each row carries its own basis, because they are not the same kind of
+# fact.  The ranges are regional typicals with no source at all.  The water
+# table is the client's, who says it is confirmed for this plot - which is
+# how this project already records the neighbours' heights on SUR-001:
+# enough to design against, not enough to build to.  A figure may only be
+# printed on a sheet beside its basis, and checks.ground_figures_own_their
+# _basis refuses one that is not.
+GROUND_BASIS = {
+    "regional": "ASSUMED - Nile Delta regional typical, no source",
+    "client": "CLIENT-CONFIRMED - not measured, no borehole",
+}
+
+# label, figure, basis key, what it bears on
+GROUND = (
+    ("Net allowable bearing pressure",
+     "80 - 110 kPa", "regional",
+     "On undisturbed natural alluvial silty clay at 1.2 - 1.8 m depth. "
+     "Consolidation settlement governs over shear failure."),
+    ("Bearing pressure, replaced ground",
+     "120 - 150 kPa", "regional",
+     "Reachable by taking out the soft organic crust and replacing it with "
+     "0.8 - 1.2 m of compacted sandy gravel. The replacement is a design "
+     "decision nobody has taken."),
+    ("Groundwater table",
+     "2.50 m below natural ground level", "client",
+     "Below the 1.2 - 1.8 m the bearing figures assume, so the dig is dry "
+     "at that depth. Seasonal fluctuation with flood irrigation next door "
+     "is not quantified here."),
+    ("Sulphates in soil",
+     "0.20 - 0.80 % by weight", "regional",
+     "2,000 - 8,000 mg/kg. Agricultural runoff and fertiliser."),
+    ("Sulphates in groundwater",
+     "1,200 - 3,500 mg/L", "regional",
+     "Reported as ECP 203 moderate to severe exposure, class 2 to 3. The "
+     "class is quoted as given, not determined here."),
+    ("Chlorides in soil",
+     "0.05 - 0.30 % by weight", "regional",
+     "Pitting and depassivation risk to foundation reinforcement."),
+    ("Chlorides in groundwater",
+     "500 - 2,000 mg/L", "regional",
+     "Bears on cover and cement type, both of which are specification."),
+)
+
+# The depth the bearing figures are quoted at.  Not a founding depth: the
+# founding depth is the engineer's, and follows the foundation they choose.
+GROUND_TEST_DEPTH = "1.2 - 1.8 m"
+
+
+def ground(label):
+    """(figure, stamp) for one ground parameter, for printing on a sheet.
+
+    The stamp is not decoration.  A bearing pressure on a structural sheet
+    is the one number on it a contractor could act on without reading the
+    notes, so checks.ground_figures_own_their_basis refuses any sheet that
+    prints one of these figures without the stamp that says what it is.
+    """
+    for name, figure, basis, _note in GROUND:
+        if name == label:
+            return figure, GROUND_BASIS[basis].split(" - ")[0]
+    raise KeyError(f"no ground parameter named {label!r}")
+
 # levels
 LEVELS = {0: "+0.00", 1: "+3.30", 2: "+6.60", 3: "+9.90"}
 ROOF_LEVEL = 13.20             # top of the slab over the third floor

@@ -1216,6 +1216,97 @@ def prose_says_the_real_thickness():
     return problems
 
 
+def ground_figures_own_their_basis():
+    """A soil figure may not appear on a sheet without saying what it is.
+
+    A bearing pressure is the one number on a structural sheet a
+    contractor could act on without reading a note, and every figure this
+    project holds about the ground is an assumption: regional typicals
+    with no source at all, and a water table the client gives as
+    confirmed but nobody has drilled for.  Printing them is still right -
+    the assumption was being made anyway, in the choice to draw pads
+    rather than a raft, and a number on the sheet is a number the
+    engineer can argue with.  Printing them bare would be worse than not
+    printing them.
+
+    So two rules.  Any sheet that prints one of geometry.GROUND's figures
+    must also print that figure's stamp, so the figure and the warning
+    cannot be separated by a later edit that moves one and not the other.
+    And any text that looks like a ground figure - a pressure in kPa, a
+    concentration in mg/L or mg/kg, a depth below natural ground level -
+    must be one GROUND actually declares, so a typed value cannot drift
+    from the constant the way the 120 mm partitions did.
+
+    What it cannot catch: a figure quoted against the wrong parameter.
+    Printing the soil sulphate range under a chloride heading reads as
+    fine here, because both numbers are declared.  It catches a figure
+    losing its stamp or drifting from its source, not a label being
+    wrong.  Nor does it know whether any figure is true - no check can,
+    and that is exactly what GEO-001 is still open for.
+    """
+    import re
+    import drafting as D
+    import geometry as G
+    import plans
+
+    said = []
+    text_mm, tag = D.Sheet.text_mm, D.Sheet.tag
+
+    def _text(self, x, y, s, **kw):
+        said.append(s)
+        return text_mm(self, x, y, s, **kw)
+
+    def _tag(self, x, y, s, **kw):
+        said.append(s)
+        return tag(self, x, y, s, **kw)
+
+    # Figures as GROUND declares them, and the stamp each one travels with.
+    stamps = {figure: G.GROUND_BASIS[basis].split(" - ")[0]
+              for _label, figure, basis, _note in G.GROUND}
+    # Anything shaped like a ground figure, declared or not.
+    shaped = re.compile(
+        r"\d[\d,.]*\s*(?:-\s*[\d,.]+\s*)?"
+        r"(?:kPa|kg/cm²|mg/L|mg/kg|%\s*by\s*weight"
+        r"|m\s*below\s*(?:natural\s*ground\s*level|NGL))",
+        re.IGNORECASE)
+
+    problems, seen = [], set()
+    D.Sheet.text_mm, D.Sheet.tag = _text, _tag
+    try:
+        for build in plans.SHEETS:
+            said.clear()
+            sh = build()
+            page = [s for s in said if isinstance(s, str)]
+            whole = " \n".join(page)
+            for figure, stamp in stamps.items():
+                if figure in whole and stamp not in whole:
+                    key = (sh.number, figure, "stamp")
+                    if key not in seen:
+                        seen.add(key)
+                        problems.append(
+                            f"{sh.number}: prints the ground figure "
+                            f"“{figure}” with no “{stamp}” anywhere on the "
+                            f"sheet - the figure has lost the one thing "
+                            f"that says it is not a measurement")
+            for s in page:
+                for m in shaped.finditer(s):
+                    hit = m.group(0).strip()
+                    if any(hit in figure or figure in hit
+                           for figure in stamps):
+                        continue
+                    key = (sh.number, hit)
+                    if key not in seen:
+                        seen.add(key)
+                        problems.append(
+                            f"{sh.number}: says “{hit}” of the ground, "
+                            f"which geometry.GROUND does not declare - a "
+                            f"soil figure typed rather than derived: "
+                            f"“{s.strip()[:60]}…”")
+    finally:
+        D.Sheet.text_mm, D.Sheet.tag = text_mm, tag
+    return problems
+
+
 def bill_reconciles():
     """The bill must agree with the drawings it was measured from.
 
@@ -1817,7 +1908,8 @@ def main():
                      ("prog", programme_carries_no_dates),
                      ("table", a_schedule_shows_its_rows),
                      ("fits", title_block_text_fits),
-                     ("guard", guarding_height_comes_from_the_constant)):
+                     ("guard", guarding_height_comes_from_the_constant),
+                     ("ground", ground_figures_own_their_basis)):
         problems = fn()
         total += len(problems)
         state = "OK" if not problems else f"{len(problems)} PROBLEMS"
