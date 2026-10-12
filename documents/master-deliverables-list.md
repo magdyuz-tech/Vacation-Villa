@@ -2,7 +2,7 @@
 
 Detached vacation villa — five levels, six structural slabs.
 
-**Site** — Shamandeel, Quesna, Menoufia, Egypt, in the central Nile Delta.
+**Site** — Ezbit Abu Rukbah, Quesna, Menoufia, Egypt, in the central Nile Delta.
 **Client** — Private Client.
 
 **Codes** — ECP 201 — Egyptian Code for Loads; ECP 203 — Egyptian Code for Reinforced Concrete; Code 305 — Protection of Structures from Fire. ECP 201 (2012) divides Egypt into five seismic zones with design ground accelerations of 0.10 g, 0.13 g, 0.15 g and 0.20 g for zones 1 to 4 and 0.25 g and 0.30 g for zones 5a and 5b. Which zone governs this site, and the wind basis with it, is named by the structural engineer on STR-001 — it is not assumed here.

@@ -1,6 +1,6 @@
 # Architectural Design Brief
 
-**Five-Storey Vacation Villa** — Shamandeel, Quesna, Menoufia, Egypt.
+**Five-Storey Vacation Villa** — Ezbit Abu Rukbah, Quesna, Menoufia, Egypt.
 
 Written from the drawings rather than before them: every figure below is measured from the same geometry the set is drawn from, so the brief describes the building that exists rather than the one that was intended.
 

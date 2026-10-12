@@ -263,6 +263,20 @@ DECISIONS = [
      "The last unknown face. Only the ground-floor north windows look at "
      "anything; from +3.30 up they clear its roof. Nothing in the plans "
      "had to move."),
+    # The entry above this one, of 2026-10-07, stands as it was written.
+    # A decisions register that is edited when a decision turns out to be
+    # wrong stops being a register and becomes a tidy story: what was
+    # instructed on the day is what it has to say, and a correction is a
+    # new line, not a rewrite of an old one.
+    ("2026-10-12", "Site, corrected",
+     "Ezbit Abu Rukbah, Quesna, Menoufia, Egypt — replacing Shamandeel, "
+     "which was the wrong village.",
+     "frame.LOCATION",
+     "The title block of every sheet named the wrong place for twenty-nine "
+     "revisions, so the whole set reissues at P30 — this is the one change "
+     "that touches all 74 drawings without altering a line of the "
+     "building. The instruction of 2026-10-07 above is left as it was "
+     "given."),
 ]
 
 
@@ -329,7 +343,7 @@ def quantities_markdown():
     import quantities as Q
 
     out = ["# Bill of Quantities", "",
-           "Detached vacation villa — Shamandeel, Quesna, Menoufia, Egypt.",
+           "Detached vacation villa — Ezbit Abu Rukbah, Quesna, Menoufia, Egypt.",
            "", "**Itemised, unpriced, by trade.**", "", QS_HEAD, ""]
     totals = {}
     for trade, items in _qs_rows():

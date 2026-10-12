@@ -1,6 +1,6 @@
 # Bill of Quantities
 
-Detached vacation villa — Shamandeel, Quesna, Menoufia, Egypt.
+Detached vacation villa — Ezbit Abu Rukbah, Quesna, Menoufia, Egypt.
 
 **Itemised, unpriced, by trade.**
 

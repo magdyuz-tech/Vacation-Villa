@@ -1,7 +1,7 @@
 """
 geometry.py - the single source of truth for the building's set-out.
 
-A detached five-storey vacation villa at Shamandeel, Quesna, Menoufia,
+A detached five-storey vacation villa at Ezbit Abu Rukbah, Quesna,
 in the central Nile Delta.
 
 Origin (0, 0) is the south-west corner of the plot, x east, y north.  The

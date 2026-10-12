@@ -34,7 +34,7 @@ CLIENT = "PRIVATE CLIENT"
 # the location is not decoration here: it fixes the governing code, the
 # seismic zone, the climate the services are sized for and the authority
 # the drawings are submitted to.
-LOCATION = "SHAMANDEEL, QUESNA, MENOUFIA, EGYPT"
+LOCATION = "EZBIT ABU RUKBAH, QUESNA, MENOUFIA, EGYPT"
 # The codes the set is drawn to.  Named rather than left as "the local
 # code", because a compliance matrix against an unnamed code is a blank
 # page with a heading.
@@ -95,7 +95,7 @@ REVISIONS = [
     ("P29", "2026-10-11",
      "STR-200: the column schedule it was named for; heights corrected"),
     ("P30", None,
-     "Code 305 named as the governing fire code; guarding height derived"),
+     "site corrected to Ezbit Abu Rukbah; Code 305 named as the fire code"),
 ]
 STATUS = "Preliminary design issue — not for construction."
 STATUS_FINAL_DRAFT = ("Final draft — layout agreed with the client; "

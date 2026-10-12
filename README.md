@@ -6,14 +6,17 @@ stands 1.00 m clear of all three side boundaries, hard against the east
 setback with its whole entrance garden to the west,
 a three-storey blind neighbour behind that garden, a single-storey
 clay-brick one to the east and another single storey to the north. Drawn
-to ECP 201 and ECP 203.
+to ECP 201, ECP 203 and Code 305.
 
-This file described the five-storey villa building the design started
-as for longer than it should have; the accommodation, set-out, design,
-ventilation and fire sections are rewritten at P22 to the villa the
-drawings actually show, and the areas in them are measured by
-`quantities.py` rather than typed. Where this file and a sheet disagree,
-the sheet is right.
+Until P22 this file still described the **four-storey apartment building
+the design began as** — the building became a villa at P5 and the README
+did not. Its accommodation, set-out, design, ventilation and fire
+sections were rewritten then to the villa the drawings actually show,
+and the areas in them are measured by `quantities.py` rather than typed.
+That sentence is about this file's own history, not the building's, and
+it is kept because the stale-description habit it records is the one
+this project keeps having to catch. Where this file and a sheet
+disagree, the sheet is right.
 
 Everything is produced with free, open-source software — Python, [ezdxf]
 for the CAD files and [CairoSVG] for the sheets — and exported in the
@@ -401,7 +404,7 @@ number nobody checks.
 
 ## Status
 
-Final draft for the agreed levels, set revision **P29** — not for
+Final draft for the agreed levels, set revision **P30** — not for
 construction. Work to figured dimensions only; do not scale from the
 drawings.
 
@@ -419,20 +422,20 @@ reinforcement.
 
 The revision record is `frame.REVISIONS`, and the title block prints the
 issues each sheet has actually been through, with the date and what
-changed — a sheet that has not changed stays at its own letter rather
-than being swept up in a set-wide bump, which is why the issued set is
-spread across eight of them:
+changed. The rule is that a sheet which has not changed keeps its own
+letter rather than being swept up in a set-wide bump, and for nine
+revisions that left the issued set spread across seven letters at once.
 
-| Rev | Sheets | Changed |
-| --- | -----: | ------- |
-| P21 | 28 | 300 mm external and party walls: brick, colour unrestricted |
-| P22 | 4 | `A-300` to `A-302` withdrawn |
-| P23 | 30 | Services layouts: overlapping labels; ground floor re-centred |
-| P24 | 3 | `EL-400`, `ME-200`, `PL-300` drawn back onto the sheet |
-| P26 | 1 | `A-401`: the three ground lines stop clear of the frame |
-| P27 | 5 | The stair, which the interior cutaways did not show at all |
-| P28 | 3 | `STR-500`, `ARC-301`, `ARC-400` re-centred in their columns |
-| P29 | 2 | `STR-200` prints its column schedule; `ARC-000` gains package F |
+**P30 is the exception that proves the rule.** The title block of every
+sheet named the wrong village — Shamandeel, where the house is at Ezbit
+Abu Rukbah — so every sheet genuinely changed, and all **74 issued
+sheets reissue together at P30**. It is the only set-wide reissue in the
+project's history, and not one line of the building moved to cause it.
+
+The three withdrawn `A-300` sheets stay at P22. A withdrawn drawing is a
+record of what was once issued; reprinting it with a corrected address
+would be tidying a record, which is the one thing a record must not
+allow.
 
 Earlier turning points, from the record: **P3** four storeys of
 apartments over a service floor; **P5** the detached villa, 1.00 m

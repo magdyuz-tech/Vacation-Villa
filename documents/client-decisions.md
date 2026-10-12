@@ -58,3 +58,11 @@ Every instruction that changed the drawings, grouped by what it changed rather t
 
 **What it moved.** The last unknown face. Only the ground-floor north windows look at anything; from +3.30 up they clear its roof. Nothing in the plans had to move.
 
+## Site, corrected — 2026-10-12
+
+**Instruction.** Ezbit Abu Rukbah, Quesna, Menoufia, Egypt — replacing Shamandeel, which was the wrong village.
+
+**Where it lives.** `frame.LOCATION`
+
+**What it moved.** The title block of every sheet named the wrong place for twenty-nine revisions, so the whole set reissues at P30 — this is the one change that touches all 74 drawings without altering a line of the building. The instruction of 2026-10-07 above is left as it was given.
+
