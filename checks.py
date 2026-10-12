@@ -1477,8 +1477,77 @@ def deliverables_register():
     return problems
 
 
-def revision_notes_fit_the_title_block():
-    """A revision note runs off the sheet rather than wrapping.
+def guarding_height_comes_from_the_constant():
+    """No sheet may print a guarding height the geometry does not hold.
+
+    `BALUSTRADE_H` exists for one reason, written in geometry.py: the
+    guarding height is a code figure rather than a shape, whichever fire
+    and safety code is finally named sets it, and if it moves every
+    balustrade and parapet in the set has to move with it - which they
+    can only do from one place.
+
+    ARC-002's compliance matrix typed it.  The one sheet in the set whose
+    whole job is to be checked against a code was carrying the code's own
+    figure by hand, where a change to BALUSTRADE_H would have redrawn
+    every balustrade in the building and left the matrix saying 1.10.
+
+    So this reads back every string every sheet prints, finds any height
+    in metres that looks like a guarding or parapet figure, and refuses
+    one that is not BALUSTRADE_H.  The same shape of rule as
+    `prose_says_the_real_thickness`, pointed at the other number in this
+    set that a code owns.
+
+    What it cannot catch: a guarding height drawn at the wrong height
+    without being written down.  `elevation_envelope` holds the drawn
+    ones to the constant.
+    """
+    import re
+
+    import frame as F
+    import geometry as G
+    import plans
+
+    want = G.BALUSTRADE_H
+    # Heights only.  A parapet is 0.25 m thick and 1.10 m high, and both
+    # numbers sit in the same sentence, so a rule reading every figure
+    # near the word "parapet" would fail on the thickness for ever.
+    # `every_wall_has_a_material` and `prose_says_the_real_thickness`
+    # own thicknesses; this owns heights, and takes only a figure the
+    # text itself calls one.
+    metres = re.compile(r"\b(\d\.\d{2})\s*m\b(?!m)")
+    mils = re.compile(r"\b(\d{3,4})\s*mm\s*(?:high|tall)")
+    problems = []
+    for build in plans.SHEETS:
+        sh = build()
+        # a row of a table is several text elements on one baseline, so
+        # the keyword and the figure are rarely in the same string - the
+        # first version of this rule looked inside one string and could
+        # not fire at all
+        rows = {}
+        for y, body in re.findall(
+                r'<text x="[-\d.]+" y="([-\d.]+)"[^>]*>([^<]*)</text>',
+                F.render(sh)):
+            rows.setdefault(round(float(y) * 2) / 2, []).append(body)
+        for line in (" ".join(cells) for cells in rows.values()):
+            if not re.search(r"balustrade|parapet|guard", line, re.I):
+                continue
+            if "high" not in line.lower() and "tall" not in line.lower():
+                found = [float(h) for h in metres.findall(line)]
+            else:
+                found = ([float(h) for h in metres.findall(line)]
+                         + [int(h) / 1000.0 for h in mils.findall(line)])
+            for h in found:
+                if abs(h - want) > 0.005:
+                    problems.append(
+                        f"{sh.number} prints a guarding or parapet height "
+                        f"of {h:.2f} m; geometry.BALUSTRADE_H is "
+                        f"{want:.2f} m - that figure belongs to a code, "
+                        f"and it is typed here: {line.strip()[:60]!r}")
+    return problems
+
+
+def title_block_text_fits():
+    """A title-block line runs off the sheet rather than wrapping.
 
     `F.notes` raises when a note would overprint the title block, so
     prose on the face of a sheet is protected.  The revision lines inside
@@ -1499,10 +1568,15 @@ def revision_notes_fit_the_title_block():
     """
     import drafting as D
     import frame as F
+    import plans
 
-    room = F.PANEL_R - (F.PANEL_X + 44)
-    limit = int(room / (0.50 * D.MIN_TEXT))
+    def budget(indent):
+        return int((F.PANEL_R - (F.PANEL_X + indent)) / (0.50 * D.MIN_TEXT))
+
     problems = []
+
+    # the revision notes, drawn 44 mm into the panel
+    limit = budget(44)
     for rev, when, what in F.REVISIONS:
         line = f"{rev}   {when or F.DATE}   {what}"
         if len(line) > limit:
@@ -1511,6 +1585,19 @@ def revision_notes_fit_the_title_block():
                 f"block holds about {limit}: the last "
                 f"{len(line) - limit} would be cut off at the panel edge "
                 f"- {what[-40:]!r}")
+
+    # and the status line, drawn 3 mm in, which has the same fault and
+    # no guard at all.  Found when ARC-002's status grew to name the
+    # fire code and lost the end of it - "...and Code 3".
+    limit = budget(3)
+    for build in plans.SHEETS:
+        sh = build()
+        status = getattr(sh, "status", None) or F.STATUS
+        if len(status) > limit:
+            problems.append(
+                f"{sh.number}'s status line is {len(status)} characters "
+                f"and the title block holds about {limit}: it would be "
+                f"cut at the panel edge - {status[-40:]!r}")
     return problems
 
 
@@ -1729,7 +1816,8 @@ def main():
                      ("mdl", deliverables_register),
                      ("prog", programme_carries_no_dates),
                      ("table", a_schedule_shows_its_rows),
-                     ("revnote", revision_notes_fit_the_title_block)):
+                     ("fits", title_block_text_fits),
+                     ("guard", guarding_height_comes_from_the_constant)):
         problems = fn()
         total += len(problems)
         state = "OK" if not problems else f"{len(problems)} PROBLEMS"

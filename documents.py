@@ -60,6 +60,17 @@ OPEN_ITEMS = [
     "against QS-003 every build-up it does not specify. Until those "
     "topics are answered no detail on it can be built, priced or "
     "warranted, and no quantity is taken from it.",
+    "The governing fire code is named at P30 — Code 305, the Egyptian "
+    "code for protecting structures from fire, enforced through Civil "
+    "Protection — and naming it is all that is done. No requirement from "
+    "it is written on any sheet: its text could not be read here, the "
+    "edition in force is unconfirmed after the Ministry of Housing's "
+    "March 2026 decision on a new fire-prevention code, and whether a "
+    "detached single-family dwelling is treated separately from a "
+    "building of several households is the question that decides whether "
+    "one unenclosed stair to five storeys is a problem at all. That "
+    "question goes to Civil Protection or to an engineer licensed to "
+    "answer it. A code is not chosen, and there is no laxer one to adopt.",
     "There is no way up to the roof over the penthouse. The stair runs "
     "from the ground floor to the penthouse and stops there — it is drawn "
     "“dn” only on A-104 — and the deck at +16.45 carries the water tanks, "

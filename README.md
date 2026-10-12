@@ -361,12 +361,43 @@ from the building being a house rather than the five flats the design
 started as — but it is **not a compliance check**, and the set does not
 pretend otherwise.
 
-What is open is the governing code. ECP 201 and ECP 203 are named on every
-sheet, and they are loads and reinforced concrete: neither says anything
-about means of escape. A five-storey single dwelling served by one
-unenclosed stair is exactly the arrangement an authority will have a view
-on, and that view has not been sought. Nothing in this set should be read
-as saying it has.
+The governing code is named at P30: **Code 305**, the Egyptian code for
+the design principles and implementation requirements for protecting
+structures from fire, issued by the Housing and Building National
+Research Centre and enforced through Civil Protection, which does not
+accept a building that does not comply with it. It joins ECP 201 and
+ECP 203 on ARC-002 and STR-001 — those two are loads and reinforced
+concrete and say nothing whatever about means of escape, so for
+twenty-nine revisions this set named no code that governed fire at all.
+
+Naming it is all that is done, and the distinction matters. **No
+requirement from Code 305 is written on any sheet here, because its text
+could not be read.** Two things in particular are open:
+
+- **Which edition is in force.** Code 305 has been issued in parts and
+  editions over two decades, and the Ministry of Housing issued a
+  decision in March 2026 requiring a new fire-prevention code to be
+  applied. Whether that supersedes 305, and what it changes, is not
+  something this office can establish from here.
+- **How a detached single-family dwelling is treated.** This is the
+  question worth asking first, and asking plainly: a house for one
+  household is not an apartment block, and the provisions that would
+  make a five-storey building with one unenclosed stair impossible are
+  generally written for buildings with several households in them.
+  Whether Code 305 draws that line, and where, decides whether this
+  stair is a problem at all.
+
+A code is not something a project chooses. There is no laxer Egyptian
+fire code to adopt instead, and nominating one would not relax the
+building — it would fail at permit, which is the expensive way to find
+out. The useful move is the question above, put to Civil Protection or
+to an Egyptian engineer licensed to answer it, before the stair is
+built rather than after.
+
+`EXITS_PER_FLOOR` is now a constant in `geometry.py` and prints on the
+compliance matrix: one, the private stair, unenclosed. It is the single
+fact an authority will ask about, and a number nowhere written down is a
+number nobody checks.
 
 ## Status
 
@@ -589,9 +620,12 @@ cannot start.
 
 ### Still open
 
-- **The governing fire code**, and with it the authority's view of a
-  five-storey house on one unenclosed stair. ECP 201 and ECP 203 do not
-  answer it.
+- **The authority's view of a five-storey house on one unenclosed
+  stair.** The code is named at P30 — Code 305 — but its text was not
+  readable from here, the edition in force is unconfirmed after the
+  Ministry's March 2026 decision, and whether a single-family dwelling
+  is treated separately is the question that decides this. Nothing in
+  this set should be read as a compliance check.
 - **SUR-001**, a measured survey. Every boundary on A-000 is issued marked
   indicative, and the local rule on the cantilever's projection over the
   frontage turns on it.

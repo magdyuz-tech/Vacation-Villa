@@ -354,6 +354,13 @@ V3_STAIR_RISE = 0.185          # target rise; 3.30 / 18 = 183 mm as drawn
 V3_STAIR_GOING = 0.26
 V3_STAIR_LANDING = 0.95
 V3_STAIR_WELL = 0.20
+# One stair, and every floor above the ground has no other way out of it.
+# Declared rather than left implicit because it is the single fact a fire
+# authority will ask this building about, and a number that is nowhere
+# written down is a number nobody checks.  If a second stair, an external
+# escape or a roof route is ever added, this moves with it - and the
+# compliance matrix on ARC-002 moves with this.
+EXITS_PER_FLOOR = 1
 
 # --- east strip: suite 1 south, shared bath in the middle, suite 2 north ---
 # Suite 2 moves to the north end so its bedroom takes the north wall and can

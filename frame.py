@@ -39,7 +39,8 @@ LOCATION = "SHAMANDEEL, QUESNA, MENOUFIA, EGYPT"
 # code", because a compliance matrix against an unnamed code is a blank
 # page with a heading.
 CODES = ("ECP 201 — Egyptian Code for Loads",
-         "ECP 203 — Egyptian Code for Reinforced Concrete")
+         "ECP 203 — Egyptian Code for Reinforced Concrete",
+         "Code 305 — Protection of Structures from Fire")
 REV = "P4"                # the set's current revision - a sheet may be behind
 # Revision record, newest last.  A revision letter is only useful if it
 # says what changed, so the title block prints this.
@@ -91,8 +92,10 @@ REVISIONS = [
      "the stair, which the interior cutaways did not show at all"),
     ("P28", "2026-10-11",
      "ARC-400 centred: the last sheet still on the old wide origin"),
-    ("P29", None,
+    ("P29", "2026-10-11",
      "STR-200: the column schedule it was named for; heights corrected"),
+    ("P30", None,
+     "Code 305 named as the governing fire code; guarding height derived"),
 ]
 STATUS = "Preliminary design issue — not for construction."
 STATUS_FINAL_DRAFT = ("Final draft — layout agreed with the client; "
@@ -153,7 +156,11 @@ def legend(sh, y0=52):
                  f"{G.WT * 1000:.0f} mm — {G.WALL_MATERIAL[G.WT]}"),
         ("partition", f"Internal partition, {G.PT * 1000:.0f} mm — "
                       f"{G.WALL_MATERIAL[G.PT]}"),
-        ("parapet", "Terrace parapet, 250 mm × 1100 mm high"),
+        # ...and the parapet row sat directly under that comment still
+        # typing both of its figures, including the guarding height,
+        # which a fire and safety code owns.
+        ("parapet", f"Terrace parapet, {G.PARAPET * 1000:.0f} mm × "
+                    f"{G.BALUSTRADE_H * 1000:.0f} mm high"),
         ("door", "Single leaf door, swing shown to opening side"),
         ("window", "Glazed opening — arched head where noted"),
         ("hidden", "Element above the cut plane (pergola, slab over)"),

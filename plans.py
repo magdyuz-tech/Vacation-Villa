@@ -3333,6 +3333,7 @@ def sheet_str_notes():
     """STR-001: what the package is, and what it deliberately is not."""
     sh = _str_sheet("STR-001", "Structural Notes & Design Criteria",
                     "the whole frame", "NTS")
+    sh.rev = "P30"          # the code line it prints gained Code 305
     sh.text_mm(18, 26, "STRUCTURAL NOTES & DESIGN CRITERIA", size=6.0,
                anchor="start", weight=700, ls=0.6)
     sh.text_mm(18, 35, f"{F.LOCATION}   ·   " + "   ·   ".join(F.CODES),
@@ -3892,12 +3893,22 @@ def _compliance_rows():
         ("Stair, flight width",
          f"{(sx1 - sx0 - V3_STAIR_WELL) / 2:.2f} m"),
         ("Stair, well", f"{sx1 - sx0:.2f} × {sy1 - sy0:.2f} m"),
-        ("Balustrade and parapet", "1.10 m"),
+        # BALUSTRADE_H, not the literal: the constant exists precisely
+        # so that a guarding height set by a code can move from one
+        # place, and this row was typed - the one sheet in the set whose
+        # job is to be checked against a code was the one carrying the
+        # code figure by hand.
+        ("Balustrade and parapet", f"{BALUSTRADE_H:.2f} m"),
         ("Window sill", f"{EL_SILL:.2f} m above floor"),
         ("Balcony projection", f"{V3_WAVE_DEEP:.2f} m maximum"),
         ("Overlooking, east", f"single storey {SETBACK:.2f} m away"),
         ("Overlooking, west", f"{NBR_W_STOREYS} storeys, blind"),
         ("Overlooking, north", f"{NBR_N_STOREYS} storey"),
+        # Stated because it is the single question an authority will ask
+        # of this building, and a matrix that left it out would be
+        # answering the easy ones.
+        ("Exits per floor", f"{EXITS_PER_FLOOR}, private stair, "
+                            f"unenclosed"),
     ]
 
 
@@ -3905,10 +3916,10 @@ def sheet_general_notes():
     """ARC-002: general notes, symbols and the code compliance matrix."""
     sh = Sheet("ARC-002", "General Notes, Symbols & Compliance",
                "the whole set", "NTS")
-    sh.rev = "P21"
-    sh.status = ("Layout for the architect of record — the compliance "
-                 "matrix is completed and signed against ECP 201 and "
-                 "ECP 203.")
+    sh.rev = "P30"          # Code 305 named; the guarding height derived
+    sh.status = ("Layout for the architect of record — the matrix is "
+                 "completed and signed against ECP 201, ECP 203 and "
+                 "Code 305.")
     F.border(sh)
 
     sh.text_mm(18, 26, "GENERAL NOTES & COMPLIANCE MATRIX", size=6.0,
@@ -3975,9 +3986,14 @@ def sheet_general_notes():
         "The matrix carries our figure for every item a house is normally "
         "tested against, measured from the geometry and exact.",
         "The required value, the clause and the verdict are left open on "
-        "purpose. They belong to ECP 201 and ECP 203 and to whoever signs "
-        "the compliance statement; a column of limits invented here would "
-        "be worse than an empty one, because it would be believed.",
+        "purpose. They belong to ECP 201, ECP 203 and Code 305, and to "
+        "whoever signs the compliance statement; a column of limits "
+        "invented here would be worse than an empty one, because it "
+        "would be believed.",
+        "Code 305 governs fire. It is named here and nowhere quoted: the "
+        "edition in force is confirmed with Civil Protection, and how it "
+        "treats a detached single-family dwelling is the question the "
+        "exits row turns on.",
         "The symbols panel is the same key every sheet in the set "
         "carries, so a reader who has this sheet can read any of them.",
     ])
