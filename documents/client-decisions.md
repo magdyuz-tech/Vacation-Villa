@@ -48,7 +48,15 @@ Every instruction that changed the drawings, grouped by what it changed rather t
 
 **Where it lives.** `—`
 
-**What it moved.** Enough to assume a foundation type and lay the structure out, not enough to size one. GEO-001 stays open and no soil value is written on any sheet.
+**What it moved.** Enough to assume a foundation type and lay the structure out, not enough to size one. GEO-001 stays open. No soil value was written on any sheet until the figures of 2026-10-12 below.
+
+## Assumed ground parameters — 2026-10-12
+
+**Instruction.** Regional typical bearing, sulphate and chloride figures supplied, with the groundwater table given as confirmed at 2.50 m below natural ground level.
+
+**Where it lives.** `geometry.GROUND`
+
+**What it moved.** Recorded on GEO-002 with each figure's basis, and printed on STR-100 and STR-101 beside the stamp that says what it is. GEO-001 is not closed by them: a regional typical has no source and the water table has no borehole. The water table is the one that changes a drawing — it lies below the depth the bearing figures assume, so STR-100 draws no dewatering.
 
 ## North neighbour — 2026-10-07
 

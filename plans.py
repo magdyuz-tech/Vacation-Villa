@@ -3333,7 +3333,7 @@ def sheet_str_notes():
     """STR-001: what the package is, and what it deliberately is not."""
     sh = _str_sheet("STR-001", "Structural Notes & Design Criteria",
                     "the whole frame", "NTS")
-    sh.rev = "P30"
+    sh.rev = "P31"
     sh.text_mm(18, 26, "STRUCTURAL NOTES & DESIGN CRITERIA", size=6.0,
                anchor="start", weight=700, ls=0.6)
     sh.text_mm(18, 35, f"{F.LOCATION}   ·   " + "   ·   ".join(F.CODES),
@@ -3362,8 +3362,12 @@ def sheet_str_notes():
          ["GEO-001, the soil investigation. The ground is central Nile "
           "Delta and well characterised as a region, which is enough to "
           "assume a foundation type and lay it out, and not enough to "
-          "size one. Allowable bearing pressure, the water table and "
-          "sulphate content are plot figures.",
+          "size one.",
+          "The assumed ground parameters are now written down rather "
+          "than left implicit - see GEO-002 and the panel on STR-100 and "
+          "STR-101. Every one of them is an assumption and says so. "
+          "None of them is a measurement, none was taken from this plot "
+          "except the water table, and none may be designed to.",
           "SUR-001, the measured survey, for the boundary STR-400 sits "
           "on."]),
         ("The one rule the architecture already settled",
@@ -3404,6 +3408,7 @@ def sheet_str_excavation():
     D.set_scale(75, *STR_SITE_ORIGIN)
     sh = _str_sheet("STR-100", "Excavation, Grading & Shoring",
                     f"{GARDEN_LEVEL:.2f} garden, +0.00 villa", "1:75 @ A1")
+    sh.rev = "P31"
     with sh.on("G-ANNO-BNDY"):
         sh.poly(PLOT, stroke=INK, sw=LW_SECONDARY, dash="9 2 1.6 2")
     sh.rect(0.0, -2.60, 23.0, 2.60, fill="#f6f6f6", stroke="none", sw=0)
@@ -3437,12 +3442,20 @@ def sheet_str_excavation():
         ("Dig depth", "by GEO-001 and STR-101"),
         ("Formation level", "by GEO-001"),
         ("Shoring", "by the engineer"),
-        ("Water table", "by GEO-001"),
+        ("Water table", " - ".join(ground("Groundwater table"))),
         ("Neighbour, east", f"{NBR_E_STOREYS} storey, {SETBACK:.2f} m away"),
     ], list(_STR_COMMON) + [
         "The extent of the dig is a layout decision and is drawn. Its "
         "depth is not: formation level follows the foundation, the "
         "foundation follows the bearing pressure, and that is GEO-001.",
+        f"The water table is the client's figure for this plot, not a "
+        f"measurement. At {ground('Groundwater table')[0]} it lies below "
+        f"the {GROUND_TEST_DEPTH} the assumed bearing pressures are "
+        f"quoted at, so a dig to that depth is expected to be dry and no "
+        f"dewatering is drawn. Confirm it before excavating: the figure "
+        f"carries no borehole, it is a single depth with no seasonal "
+        f"range against flood irrigation next door, and a dig that meets "
+        f"water is a different job from the one on this sheet.",
         "Shoring, dewatering and the sequence of excavation are the "
         "engineer's and the contractor's. The east neighbour stands "
         f"{SETBACK:.2f} m from the dig and is a single storey in clay "
@@ -3455,6 +3468,7 @@ def sheet_str_foundation():
     """STR-101: a pad under every column, at the right coordinate."""
     D.set_scale(50, *STR_ORIGIN)
     sh = _str_sheet("STR-101", "Foundation Layout", "formation by GEO-001")
+    sh.rev = "P31"
     st.grid(sh)
     nominal = st.footings(sh)
     st.columns_at(sh, 0, label=False)
@@ -3464,14 +3478,21 @@ def sheet_str_foundation():
     return _str_panel(sh, _grid_rows() + [
         ("Pads", f"{len(grid_columns())}"),
         ("Pad size", "by the engineer"),
-        ("Founding depth", "by GEO-001")],
+        ("Founding depth", "by GEO-001"),
+        ("Bearing pressure", " - ".join(ground(
+            "Net allowable bearing pressure")))],
         list(_STR_COMMON) + [
         f"A pad is drawn under every column at the coordinate the column "
         f"stands on. The square shown is a nominal {nominal:.2f} m so the "
         f"layout reads; it is not a size and must not be scaled.",
-        "Pad sizes, founding depth, blinding and reinforcement follow the "
-        "allowable bearing pressure, the water table and the sulphate "
-        "content, which come from GEO-001 and do not exist yet.",
+        f"Pad sizes, founding depth, blinding and reinforcement follow "
+        f"the bearing pressure, water table and sulphate content. "
+        f"GEO-002 records what is assumed for all three - the figure "
+        f"above is a regional typical with no source, at "
+        f"{GROUND_TEST_DEPTH}. Nothing here may be sized from it.",
+        "GEO-002 does not close GEO-001. ECP 203 moderate to severe "
+        "exposure is reported there; cement, cover and water-cement "
+        "ratio follow from it and are the engineer's.",
         "A raft or piles may prove more appropriate than pads. That is "
         "the engineer's call once the ground is known; the coordinates "
         "on this sheet hold either way.",
@@ -3732,7 +3753,7 @@ IX_NUM, IX_TITLE, IX_LEVEL, IX_SCALE, IX_REV = 0.0, 36.0, 140.0, 214.0, 252.0
 # rather than written inline so checks.py can compare it against the sheet
 # it claims to describe.
 IX_SELF = ("ARC-001", "Cover Sheet & Drawing Index", "the whole set",
-           "NTS", "P30")
+           "NTS", "P31")
 
 _INDEXING = False
 
@@ -4881,7 +4902,7 @@ def sheet_register():
     """
     sh = Sheet("ARC-000", "Master Deliverables List", "the whole set",
                "NTS")
-    sh.rev = "P30"
+    sh.rev = "P31"
     sh.status = F.STATUS_REGISTER
     F.border(sh)
     doc.register_table(sh)

@@ -94,8 +94,10 @@ REVISIONS = [
      "ARC-400 centred: the last sheet still on the old wide origin"),
     ("P29", "2026-10-11",
      "STR-200: the column schedule it was named for; heights corrected"),
-    ("P30", None,
+    ("P30", "2026-10-12",
      "site corrected to Ezbit Abu Rukbah; Code 305 named as the fire code"),
+    ("P31", None,
+     "ground parameters recorded on GEO-002; water table given as 2.50 m"),
 ]
 STATUS = "Preliminary design issue — not for construction."
 STATUS_FINAL_DRAFT = ("Final draft — layout agreed with the client; "

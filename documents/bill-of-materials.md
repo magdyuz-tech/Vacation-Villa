@@ -19,7 +19,7 @@ all. **Nothing in this document is priced.**
 | D | Concrete, columns | m³ | 15.43 | 300 mm square × the storey height, measured. Grade is the engineer's. |
 | L | Concrete, slabs | m³ | — | Area is measured; the thickness is the engineer's. |
 | X | Reinforcement | t | — | The engineer's, entirely. |
-| D | Glazing | m² | 127.87 | Structural opening area. Glass build-up is specification. |
+| D | Glazing | m² | 127.88 | Structural opening area. Glass build-up is specification. |
 | D | Door leaves and frames | m² | 38.31 |  |
 | D | Louvres | m² | 6.70 |  |
 | D | Internal plaster | m² | 1,163.43 |  |
