@@ -46,8 +46,35 @@ LAYERS = {
 }
 
 
+# A DXF records when it was made, in four header variables, two random
+# GUIDs and two ezdxf version stamps.  None of that describes the drawing:
+# the sheet carries its revision and issue date in the title block, which
+# is the record a reader actually uses.  Left alone they rewrote all 16
+# CAD files on every build, so `git status` could not tell a changed
+# drawing from a re-run - and this project identifies what changed by
+# rebuilding and seeing which files differ.  They are pinned to the
+# issue date instead, and move only when the issue does.
+_STAMP = "vacation-villa"
+
+
+def _issue_juliandate():
+    import datetime as _dt
+    import frame
+    from ezdxf.tools.juliandate import juliandate
+    y, m, d = (int(v) for v in frame.DATE.split("-"))
+    return juliandate(_dt.datetime(y, m, d))
+
+
 def new_document():
     doc = ezdxf.new("R2010", setup=True)
+    stamp = _issue_juliandate()
+    for var in ("$TDCREATE", "$TDUCREATE", "$TDUPDATE", "$TDUUPDATE"):
+        doc.header[var] = stamp
+    # Fixed, not random: these identify the file, and a new identity on
+    # every build is exactly the churn being removed.
+    doc.header["$FINGERPRINTGUID"] = "{00000000-0000-0000-0000-000000000001}"
+    doc.header["$VERSIONGUID"] = "{00000000-0000-0000-0000-000000000002}"
+    doc.ezdxf_metadata()["CREATED_BY_EZDXF"] = _STAMP
     doc.header["$INSUNITS"] = 4        # millimetres
     doc.header["$MEASUREMENT"] = 1     # metric
     doc.header["$LUNITS"] = 2          # decimal

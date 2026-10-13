@@ -14,6 +14,7 @@ Opens in LibreCAD, QCAD, FreeCAD, DraftSight, SketchUp, Sweet Home 3D
 """
 
 import os
+import re
 import sys
 
 import ezdxf
@@ -61,6 +62,60 @@ def _run(builder, doc, offset=(0.0, 0.0), suffix=""):
         plans.Sheet = original
 
 
+# ezdxf writes its own version-and-timestamp stamp into the file at save
+# time, so unlike the header variables it cannot be pinned beforehand.
+# DXF is a plain line-based format with no offset table, so rewriting the
+# stamp in the saved text is safe.
+_EZDXF_STAMP = re.compile(r"\d+\.\d+\.\d+ @ [0-9T:.+-]+")
+
+
+# Set as the file is saved rather than when it is built, so unlike the
+# rest of the header these cannot be pinned on the document beforehand.
+_PINNED_AT_SAVE = {
+    "$TDUPDATE": None,            # filled from $TDCREATE, which is pinned
+    "$TDUUPDATE": None,
+    "$VERSIONGUID": "{00000000-0000-0000-0000-000000000002}",
+}
+
+
+def _pin_save(doc, path):
+    """saveas, then flatten what ezdxf stamps into the file as it saves.
+
+    DXF is a line-based format with no offset table, so a value may be
+    rewritten in place without disturbing anything around it.  The header
+    is a flat run of `9 / $NAME / <group> / <value>`, which puts a
+    variable's value two lines after its name.
+    """
+    doc.saveas(path)
+    with open(path, "r", encoding="utf-8") as fh:
+        lines = fh.read().split("\n")
+
+    created = f"{doc.header['$TDCREATE']}"
+    for i, line in enumerate(lines):
+        name = line.strip()
+        if name in _PINNED_AT_SAVE and i + 2 < len(lines):
+            value = _PINNED_AT_SAVE[name] or created
+            lines[i + 2] = value
+    text = _EZDXF_STAMP.sub("vacation-villa", "\n".join(lines))
+    with open(path, "w", encoding="utf-8") as fh:
+        fh.write(text)
+
+
+def deterministic_ordering():
+    """Re-exec with a fixed hash seed, once, before any document is built.
+
+    ezdxf emits part of the OBJECTS section in the iteration order of a
+    set of strings, so the order of two entries follows the interpreter's
+    hash randomisation and changes run to run.  Everything else about the
+    file is pinned; this is the only cause that cannot be fixed from
+    inside the process, because the seed is fixed at interpreter start.
+    """
+    if os.environ.get("PYTHONHASHSEED") == "0":
+        return
+    os.environ["PYTHONHASHSEED"] = "0"
+    os.execv(sys.executable, [sys.executable] + sys.argv)
+
+
 def export(out_dir):
     os.makedirs(out_dir, exist_ok=True)
     written = []
@@ -73,7 +128,7 @@ def export(out_dir):
         # the revision rides in the file name here too, for the same reason
         # it does on the SVG: a stale DXF in a folder is otherwise invisible
         path = os.path.join(out_dir, f"{name}-{rev}.dxf")
-        doc.saveas(path)
+        _pin_save(doc, path)
         written.append((path, len(doc.modelspace())))
 
     # every level side by side in one model, each on its own layer set
@@ -81,7 +136,7 @@ def export(out_dir):
     for builder, _name, suffix, dx in LEVELS:
         _run(builder, doc, offset=(dx * 1000.0, 0.0), suffix=suffix)
     path = os.path.join(out_dir, "vacation-villa-all-levels.dxf")
-    doc.saveas(path)
+    _pin_save(doc, path)
     written.append((path, len(doc.modelspace())))
     return written
 
@@ -96,6 +151,7 @@ def audit(path):
 
 
 if __name__ == "__main__":
+    deterministic_ordering()
     here = os.path.dirname(os.path.abspath(__file__))
     out = sys.argv[1] if len(sys.argv) > 1 else os.path.join(here, "cad")
     for path, n in export(out):
