@@ -30,6 +30,7 @@ from the geometry, L needing someone else's design before it can be
 measured, X impossible here at all.
 """
 
+import math
 import os
 import sys
 
@@ -242,7 +243,7 @@ def takeoff():
         items.append(Item(
             "Openings", f"{label}, {len(rows)} types", "nr",
             sum(r["total"] for r in rows), "D",
-            f"{sum(r['w'] * r['h'] * r['total'] for r in rows):.1f} m² of "
+            f"{math.fsum(r['w'] * r['h'] * r['total'] for r in rows):.1f} m² of "
             f"structural opening. See ARC-500. Frames, glazing and "
             f"ironmongery are specification, not geometry."))
 

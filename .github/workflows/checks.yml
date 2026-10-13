@@ -17,12 +17,17 @@ jobs:
 
       - uses: actions/setup-python@v5
         with:
-          # Pinned deliberately. The bill's glazing total is exactly
-          # 127.875 m2, which sits on the rounding boundary of "%.2f",
-          # and CPython 3.12 gave sum() compensated summation - so 3.11
-          # prints 127.87 where 3.13 prints 127.88. The figure is correct
-          # either way and the interpreter decides the last digit, so the
-          # interpreter is pinned rather than left to drift.
+          # Pinned so the toolchain under the reproducibility assertion
+          # below does not drift on its own.
+          #
+          # It was pinned for a second reason that no longer holds: the
+          # bill's glazing total is exactly 127.875 m2, on the rounding
+          # boundary of "%.2f", and CPython 3.12 gave sum() compensated
+          # summation - so 3.11 printed 127.87 where 3.13 printed
+          # 127.88. The measure now sums with math.fsum, which is
+          # exactly rounded and order-independent, so that figure is the
+          # same on every interpreter and the pin no longer carries it.
+          # checks.the_bill_is_exactly_summed holds it there.
           python-version: '3.13'
 
       - name: System libraries
