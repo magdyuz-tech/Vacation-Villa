@@ -13,7 +13,7 @@ opening at the west end of the frontage.
     +6.60   bedrooms 4 to 7, two of them suites
     +9.90   living area, bedrooms 8 to 10
     +13.20  penthouse: living and dining, bedroom 11, between terraces
-    +16.45  roof over the penthouse; +17.05 top of the building
+    +16.45  roof over the penthouse; +17.55 top of the building
 
     plot, an L on the street frontage                     = 264.50 m2
     house, 9.50 x 13.50, x 12.50..22.00, y 3.50..17.00    = 128.25 m2
@@ -1112,6 +1112,29 @@ V4_PERGOLA_N = (V4_CORR_X1, V4_Y1, 19.40, V3_Y1 - PARAPET)
 V4_CANOPY = (V3_STAIR[0], V3_STAIR[1] - 0.30, V3_STAIR[2], V3_STAIR[3])
 V4_PLANT = (V3_X0 + PARAPET, 15.34, 14.80, V3_Y1 - PARAPET)   # tanks, NW
 
+# The way up to the penthouse roof, fixed at the client's instruction of
+# 2026-10-13.  It cannot go in the open corridor, which is the obvious
+# place: V4_PERGOLA runs over the corridor end to end, so a ladder there
+# would climb into it.  The north terrace is clear east of the pergola
+# band - 2.35 x 1.41 m of it - so the ladder stands against the flat's
+# north wall there and climbs the 3.25 m from +13.20 to V4_TOP.
+#
+# Where it stands is layout and is drawn.  What it is - rung spacing,
+# hoops, a gate or step-over at the top, fixings into the wall - is
+# specification and is not.
+V4_ROOF_LADDER = (20.28, V4_Y1, 20.88, V4_Y1 + 0.25)
+
+# The level the plant deck stands at, which is NOT the roof over the
+# penthouse.  V4_PLANT sits outside the flat's footprint entirely, and the
+# slab at V4_TOP measures that footprint and stops at its walls, so there
+# is no structure at +16.45 under the tanks and never was.  It was typed
+# as the roof in five places - the README, the design brief, the
+# specification schedule, and drawn that way on the riser schematics,
+# which then reported a height served 3.25 m too high.  Derived here so
+# there is one answer, and checks.the_plant_deck_stands_on_something
+# refuses a level with no slab under it.
+V4_PLANT_LEVEL = ROOF_LEVEL
+
 # The flat's west wall faces our own roof - 2.51 m of corridor, then the
 # terrace - not the boundary, so it takes ordinary windows.  The west rule
 # in checks.py is about the building's own west wall at x 12.50, which up
@@ -1182,9 +1205,18 @@ EL_HEAD = 2.40                 # head of every window and sliding door
 EL_DOOR_HEAD = 2.10            # the front door, which is not full height
 EL_VENT_LO, EL_VENT_HI = 2.10, 2.60     # the west louvres, at high level
 
-# The agreed top.  No scheme may raise it: the penthouse slab is at V4_TOP
-# and its parapet upstand is already drawn on A-104 and A-200.
-EL_TOP = V4_TOP + 0.60
+# The top of the building.  It was V4_TOP + 0.60 - a drained upstand, not
+# a guard, because nobody was meant to stand on the penthouse roof - and
+# the rule attached to it was that no scheme may raise it.
+#
+# The client raised it on 2026-10-13, instructing that the +16.45 roof be
+# given permanent access.  That is what forces the change: a roof people
+# go onto has to be guarded, guarding is BALUSTRADE_H, and 1.10 m of
+# guard where there was 0.60 m of upstand puts the top of the building
+# 0.50 m higher.  The envelope rule in checks.py reads BALUSTRADE_H now
+# rather than the old literal, so the two cannot drift apart, and raising
+# the agreed top stays a client decision rather than a drafting one.
+EL_TOP = V4_TOP + BALUSTRADE_H
 EL_LEVELS = [0.0, FLOOR_TO_FLOOR, 2 * FLOOR_TO_FLOOR, 3 * FLOOR_TO_FLOOR,
              ROOF_LEVEL]
 

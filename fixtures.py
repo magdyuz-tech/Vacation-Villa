@@ -455,6 +455,26 @@ def kitchenette(sh, x, y, w, d, axis="v"):
 
 
 @layer("A-ANNO-PATT")
+@layer("A-FLOR-STRS")
+def roof_ladder(sh, x0, y0, x1, y1, rungs=9):
+    """A fixed vertical ladder, in plan: two stiles and the rungs between.
+
+    On the same CAD layer as the stair, because it is the same thing -
+    the way up to a level - and somebody switching off circulation to
+    read the roof falls should lose both together.
+
+    The rungs are drawn evenly so the symbol reads as a ladder rather
+    than a duct.  Their spacing is not a specification: rung pitch,
+    hoops, the step-over at the top and the fixings into the wall are
+    all the specifier's, and the note on the sheet says so.
+    """
+    w = x1 - x0
+    sh.rect(x0, y0, w, y1 - y0, sw=LW_SECONDARY, stroke=INK, fill="none")
+    for i in range(1, rungs):
+        t = x0 + w * i / rungs
+        sh.line(t, y0, t, y1, w=LW_THIN, color=GREY)
+
+
 def void_hatch(sh, x, y, w, d, label="OPEN TO SKY", pitch=1.1):
     """Diagonal hatch used for voids / open-to-sky courts."""
     n = int((w + d) / pitch)

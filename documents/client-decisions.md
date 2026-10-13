@@ -50,6 +50,14 @@ Every instruction that changed the drawings, grouped by what it changed rather t
 
 **What it moved.** Enough to assume a foundation type and lay the structure out, not enough to size one. GEO-001 stays open. No soil value was written on any sheet until the figures of 2026-10-12 below.
 
+## Access to the penthouse roof — 2026-10-13
+
+**Instruction.** The +16.45 roof to be given permanent access, accepting that the top of the building rises with it.
+
+**Where it lives.** `geometry.EL_TOP`
+
+**What it moved.** A fixed ladder from the north terrace, on A-104 and ARC-106 — not the open corridor, which the pergola covers end to end. The 0.60 m upstand becomes a guard at BALUSTRADE_H, so EL_TOP goes from +17.05 to +17.55 and the envelope rule in checks.py reads the constant rather than the old literal. The first and only instruction that has raised the agreed top. The same round corrected three documents that put the water tanks on the +16.45 roof: the plant deck is at +13.20 and the stair always reached it.
+
 ## Assumed ground parameters — 2026-10-12
 
 **Instruction.** Regional typical bearing, sulphate and chloride figures supplied, with the groundwater table given as confirmed at 2.50 m below natural ground level.

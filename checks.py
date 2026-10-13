@@ -661,10 +661,16 @@ def elevation_envelope():
                        3 * g.FLOOR_TO_FLOOR, g.ROOF_LEVEL]:
         problems.append("the elevations no longer stand on the agreed five "
                         "levels")
-    if g.EL_TOP > g.V4_TOP + 0.60 + 1e-9:
+    # The top used to be held at V4_TOP + 0.60, a drained upstand on a roof
+    # nobody stood on.  The client gave that roof permanent access on
+    # 2026-10-13, so the upstand became a guard and the ceiling became
+    # V4_TOP + BALUSTRADE_H.  Read from the constant rather than retyped:
+    # whichever code finally sets the guarding height sets this too.
+    if g.EL_TOP > g.V4_TOP + g.BALUSTRADE_H + 1e-9:
         problems.append(
             f"the exterior schemes top out at +{g.EL_TOP:.2f}, above the "
-            f"agreed slab at +{g.V4_TOP:.2f} and its parapet")
+            f"agreed slab at +{g.V4_TOP:.2f} and its guard at "
+            f"{g.BALUSTRADE_H:.2f} m")
     # scheme B arches its openings, and an arch is a crown height the
     # storey has to be able to spare.  A semicircular head on a 2.30 m bay
     # would rise 1.15 m over a head already at 2.40 m and come out through
@@ -1213,6 +1219,54 @@ def prose_says_the_real_thickness():
                             f"“{s.strip()[:60]}…”")
     finally:
         D.Sheet.text_mm, D.Sheet.tag = text_mm, tag
+    return problems
+
+
+def the_plant_deck_stands_on_something():
+    """A deck must be at a level the building has a slab at.
+
+    The water tanks were recorded on the roof at +16.45 in five places -
+    the README, the design brief, the specification schedule, and drawn
+    that way on all three riser schematics, which then reported a height
+    served 3.25 m too high.  Nothing in the geometry ever agreed: the
+    plant deck lies outside the penthouse flat's footprint, and the slab
+    at V4_TOP measures that footprint and stops at its walls, so there
+    has never been any structure at +16.45 under those tanks.
+
+    Nobody could see it.  On every plan the deck is in the right place -
+    only its level was wrong, and a level is a number in prose, not a
+    line on a drawing.  So this rule asks the one question the drawings
+    could not: at the level the deck claims, is there a slab under it?
+
+    What it cannot catch: a deck correctly on a slab and in the wrong
+    place on it, or a level that is right here and contradicted in prose
+    somewhere this does not read.  It ties the deck to structure, not
+    every sentence about it to the deck.
+    """
+    import geometry as G
+
+    problems = []
+    px0, py0, px1, py1 = G.V4_PLANT
+    # the floor plates, by level: the penthouse roof covers the flat only
+    plates = {
+        G.ROOF_LEVEL: (G.V3_X0, G.V3_Y0, G.V3_X1, G.V3_Y1),
+        G.V4_TOP: (G.V4_X0, G.V4_Y0, G.V4_X1, G.V4_Y1),
+    }
+    plate = plates.get(G.V4_PLANT_LEVEL)
+    if plate is None:
+        problems.append(
+            f"the plant deck claims +{G.V4_PLANT_LEVEL:.2f}, which is not "
+            f"a level this building has a slab at")
+        return problems
+    sx0, sy0, sx1, sy1 = plate
+    if not (sx0 - TOL <= px0 and sy0 - TOL <= py0
+            and px1 <= sx1 + TOL and py1 <= sy1 + TOL):
+        problems.append(
+            f"the plant deck at +{G.V4_PLANT_LEVEL:.2f} runs outside the "
+            f"slab at that level - the tanks stand on "
+            f"({px0:.2f}, {py0:.2f}) to ({px1:.2f}, {py1:.2f}) and the "
+            f"slab is ({sx0:.2f}, {sy0:.2f}) to ({sx1:.2f}, {sy1:.2f}), "
+            f"so part of them is carried by nothing")
     return problems
 
 
@@ -2017,7 +2071,8 @@ def main():
                      ("guard", guarding_height_comes_from_the_constant),
                      ("ground", ground_figures_own_their_basis),
                      ("dated", every_revision_carries_its_date),
-                     ("exact", the_bill_is_exactly_summed)):
+                     ("exact", the_bill_is_exactly_summed),
+                     ("plant", the_plant_deck_stands_on_something)):
         problems = fn()
         total += len(problems)
         state = "OK" if not problems else f"{len(problems)} PROBLEMS"

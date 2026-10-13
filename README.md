@@ -257,7 +257,7 @@ material of its own.
 Clear ceiling height is **3.00 m**, the client's minimum. A 0.30 m
 structural zone puts the floors 3.30 m apart, so levels are +0.00, +3.30,
 +6.60, +9.90 and the penthouse at +13.20, with the roof over it at +16.45
-and the top of the building at +17.05. The stair is a dog-leg in a
+and the top of the building at +17.55. The stair is a dog-leg in a
 2.00 × 3.30 m well, 18 risers at 183 × 260 mm in two 0.90 m flights, and
 it stacks on the same well at every level.
 
@@ -354,6 +354,31 @@ the drawing says so rather than quietly dropping one.
 
 At +16.45 the penthouse is a fourth storey for most planning codes.
 
+### Getting onto the roof
+
+The stair stops at the penthouse, and for three revisions the set said
+the reason that mattered was the water tanks: nobody could reach them.
+That was wrong, and the geometry had always said so. `V4_PLANT` lies
+outside the penthouse flat's footprint, and the slab at +16.45 measures
+that footprint and stops at its walls — so there has never been any
+structure up there to carry a tank. **The plant deck is at +13.20**, in
+the north-west corner beside the west terrace, three metres from where
+the stair lands. The tanks were always reachable. What had no access was
+the +16.45 roof itself: 47.5 m² of membrane with falls and outlets.
+
+Giving it access was not the free choice between a hatch and a flight
+that the record implied. A roof people stand on has to be guarded, and
+guarding is `BALUSTRADE_H`; the 0.60 m upstand there was a drained
+edge, not a guard. So access cost 0.50 m on the top of the building —
++17.05 to +17.55 — which is the one thing `EL_TOP` said no scheme may
+do. The client took that decision on 2026-10-13 and it is recorded with
+the constant it became, like every other instruction.
+
+The ladder is on the north terrace, not the open corridor, which is the
+obvious place until you notice the pergola runs over the corridor end to
+end. Where it stands is drawn; its rung pitch, hoops, the step-over at
+the guard and its fixings into the wall are specification and are not.
+
 ### Services
 
 Wet rooms stack floor to floor. The services package measured exactly one
@@ -429,7 +454,7 @@ number nobody checks.
 
 ## Status
 
-Final draft for the agreed levels, set revision **P31** — not for
+Final draft for the agreed levels, set revision **P32** — not for
 construction. Work to figured dimensions only; do not scale from the
 drawings.
 
@@ -466,6 +491,17 @@ never edited directly and reissues whenever anything else does. The
 other 69 sheets are byte-identical to their P30 issue, which is how the
 five were identified: the SVGs reproduce exactly, so the build itself
 says which sheets changed rather than anybody deciding.
+
+**P32 raised the agreed top, which nothing had ever done.** The client
+gave the +16.45 roof permanent access, and a roof people stand on has to
+be guarded: the 0.60 m upstand became a guard at `BALUSTRADE_H`, so the
+building went from +17.05 to +17.55. That reached well past the two
+sheets the ladder is drawn on — every elevation carries the top, the
+cover and the compliance matrix print it, and the penthouse base plan is
+drawn under six services layouts and a ceiling plan — so **22 sheets
+reissued**. Which ones is `plans.P32_SHEETS`, listed once rather than
+typed into twenty builders: the rule that an unchanged sheet keeps its
+letter is only as good as somebody's memory of which sheets moved.
 
 The three withdrawn `A-300` sheets stay at P22. A withdrawn drawing is a
 record of what was once issued; reprinting it with a corrected address
@@ -592,6 +628,18 @@ wrong parameter — the soil sulphate range under a chloride heading
 reads as fine, because both numbers are declared — and it has no
 opinion whatever on whether any figure is true. That is what `GEO-001`
 is still open for.
+
+`the_plant_deck_stands_on_something` asks the one question the drawings
+could not. The water tanks were recorded on the roof at +16.45 in five
+places — this file, the design brief, the specification schedule, and
+drawn that way on all three riser schematics, which then reported a
+height served 3.25 m too high. Nothing in the geometry ever agreed, and
+nobody could see it: on every plan the deck is in the right *place*, and
+only its *level* was wrong — a level being a number in prose rather than
+a line on a drawing. The rule asks whether there is a slab at the level
+the deck claims, and the old belief fails it, because the deck lies
+outside the only slab at +16.45. It cannot catch a deck correctly on a
+slab and in the wrong place on it.
 
 `the_bill_is_exactly_summed` guards a figure that was reading the
 machine rather than the building. The glazing total is exactly
@@ -721,12 +769,6 @@ cannot start.
   given a document to read as issued, and the only document that would
   do it is a soil report nobody has written.
 - The parapet's material, the one wall nobody has specified.
-- **A way up to the roof.** The stair runs from the ground floor to the
-  penthouse and stops; the deck at +16.45 carries the water tanks, which
-  somebody has to reach. A hatch and ladder, or a last short flight, is
-  a design decision with a hole in a slab behind it, so it is recorded
-  rather than drawn on an assumption. Found at P29 while measuring the
-  stair, which had never been measured either.
 - **PRG-002**, the dated construction programme. `PRG-001` gives the
   sequence; the durations are the surveyor's, the authority's, the
   engineer's and the contractor's to supply.
