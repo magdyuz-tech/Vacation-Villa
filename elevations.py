@@ -311,8 +311,8 @@ def elevation(sh, face, scheme, levels=True, ground=1.40):
 
     # the penthouse, standing on the roof slab; lighter where it stands back
     p0, p1, back = penthouse_span(face)
-    sh.rect(lo, ROOF_LEVEL, hi - lo, 1.10, fill=s["render"], stroke=INK,
-            sw=LW_SECONDARY)                       # the terrace parapet
+    sh.rect(lo, ROOF_LEVEL, hi - lo, BALUSTRADE_H, fill=s["render"],
+            stroke=INK, sw=LW_SECONDARY)           # the terrace parapet
     sh.rect(p0, ROOF_LEVEL, p1 - p0, V4_TOP - ROOF_LEVEL, fill=s["render"],
             stroke=INK if back < 0.01 else GREY,
             sw=LW_CUT if back < 0.01 else LW_SECONDARY)

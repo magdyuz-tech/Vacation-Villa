@@ -23,7 +23,7 @@ Written from the drawings rather than before them: every figure below is measure
 
 Gross plate 128.2 m² a floor over four floors and a set-back penthouse; 473.7 m² net internal in all. 136.2 m² of the plot lies outside the building.
 
-- 3.30 m floor to floor, 3.00 m clear under a 300 mm structural zone, top of building +17.05.
+- 3.30 m floor to floor, 3.00 m clear under a 300 mm structural zone, top of building +17.55.
 - Eleven numbered bedrooms and a guest room, each with its own or a shared bath; the wet rooms stack on one riser in the east strip, measured on PL-200.
 - A private stair, 18R at 183 × 260, in an open well with no enclosure and no lift.
 
@@ -44,7 +44,7 @@ The balconies stop at the corner on every level: the 1.00 m setbacks forbid anyt
 - Sheets A-300, A-301 and A-302 are withdrawn at P22, being enlargements of apartments the villa does not have. They still build and stay in the repository as the record, stamped on the face and left out of the issue.
 - ARC-600 draws four junctions figured from the geometry, and names against QS-003 every build-up it does not specify. Until those topics are answered no detail on it can be built, priced or warranted, and no quantity is taken from it.
 - The governing fire code is named at P30 — Code 305, the Egyptian code for protecting structures from fire, enforced through Civil Protection — and naming it is all that is done. No requirement from it is written on any sheet: its text could not be read here, the edition in force is unconfirmed after the Ministry of Housing's March 2026 decision on a new fire-prevention code, and whether a detached single-family dwelling is treated separately from a building of several households is the question that decides whether one unenclosed stair to five storeys is a problem at all. That question goes to Civil Protection or to an engineer licensed to answer it. A code is not chosen, and there is no laxer one to adopt.
-- There is no way up to the roof over the penthouse. The stair runs from the ground floor to the penthouse and stops there — it is drawn “dn” only on A-104 — and the deck at +16.45 carries the water tanks, which somebody has to reach to clean, fill and replace. A hatch and ladder, or a last short flight, is a design decision with a hole in a slab behind it, so it is recorded here rather than drawn on an assumption. Found at P29 while measuring the stair, which had never been measured.
+- The roof over the penthouse is reached by a fixed ladder from the north terrace, drawn on A-104 and ARC-106 at P32. Two things about that were wrong for three revisions and are worth recording. The water tanks are not on the +16.45 roof: the plant deck is at +13.20, in the north-west corner beside the west terrace, and the stair has always reached it — the slab at +16.45 measures the flat’s own footprint and stops at its walls. What had no access was the membrane, falls and outlets on the +16.45 roof itself. And giving it access was not a free choice of hatch or flight: a roof people stand on has to be guarded at BALUSTRADE_H, so the 0.60 m upstand became a 1.10 m guard and the top of the building rose from +17.05 to +17.55. The client took that decision on 2026-10-13; it is the only thing that has ever raised the agreed top.
 - Rates are class X throughout. No rate appears in any document here without a named source, and QS-004 is issued with its rate column open.
 
 The set is issued for the owner's record, costing and construction information. It is not a tender issue and it is not for construction.

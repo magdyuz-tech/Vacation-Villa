@@ -421,7 +421,7 @@ def villa_garden(sh):
 def sheet_site():
     D.set_scale(75, *SITE_ORIGIN)
     sh = Sheet("A-000", "Site Plan — Detached Villa", "+0.00", "1:75 @ A1")
-    sh.rev, sh.status = "P30", F.STATUS_FINAL_DRAFT
+    sh.rev, sh.status = _rev(sh), F.STATUS_FINAL_DRAFT
     F.border(sh)
     villa_neighbours(sh)
     street(sh)
@@ -809,7 +809,7 @@ def sheet_ground():
     D.set_scale(50, *PLAN_ORIGIN)
     sh = Sheet("A-100", "Ground Floor Plan \u2014 Detached Villa", "+0.00",
                "1:50 @ A1")
-    sh.rev, sh.status = "P30", F.STATUS_FINAL_DRAFT
+    sh.rev, sh.status = _rev(sh), F.STATUS_FINAL_DRAFT
     F.border(sh)
 
     with sh.on("G-ANNO-BNDY"):
@@ -1270,7 +1270,7 @@ def sheet_second():
     D.set_scale(50, *PLAN_ORIGIN)
     sh = Sheet("A-102", "Second Floor Plan — Detached Villa", "+6.60",
                "1:50 @ A1")
-    sh.rev, sh.status = "P30", F.STATUS_FINAL_DRAFT
+    sh.rev, sh.status = _rev(sh), F.STATUS_FINAL_DRAFT
     F.border(sh)
 
     with sh.on("G-ANNO-BNDY"):
@@ -1523,7 +1523,7 @@ def sheet_first():
     D.set_scale(50, *PLAN_ORIGIN)
     sh = Sheet("A-101", "First Floor Plan — Detached Villa", "+3.30",
                "1:50 @ A1")
-    sh.rev, sh.status = "P30", F.STATUS_FINAL_DRAFT
+    sh.rev, sh.status = _rev(sh), F.STATUS_FINAL_DRAFT
     F.border(sh)
 
     with sh.on("G-ANNO-BNDY"):
@@ -1811,7 +1811,7 @@ def sheet_third():
     sh = Sheet("A-103", "Third Floor Plan — Detached Villa", "+9.90",
                "1:50 @ A1")
     # P9: the stair no longer stops here, it carries on to the penthouse
-    sh.rev, sh.status = "P30", F.STATUS_FINAL_DRAFT
+    sh.rev, sh.status = _rev(sh), F.STATUS_FINAL_DRAFT
     F.border(sh)
 
     # the three setback lines, so the 1.00 m gap is measurable on the sheet
@@ -1987,6 +1987,15 @@ def _villa_penthouse(sh):
     sh.tag((qx0 + qx1) / 2.0, (qy0 + qy1) / 2.0, "TANKS", size=1.6,
            color=GREY)
 
+    # --- the way up to the penthouse roof, new at P32 ---------------------
+    # Not in the corridor: the pergola runs over that end to end.  The
+    # north terrace is clear east of the pergola band, so it goes there,
+    # against the flat's north wall.
+    lx0, ly0, lx1, ly1 = V4_ROOF_LADDER
+    fx.roof_ladder(sh, lx0, ly0, lx1, ly1)
+    sh.tag(lx0 - 0.25, (ly0 + ly1) / 2.0 + 0.04,
+           f"LADDER UP TO +{V4_TOP:.2f}", size=1.6, color=INK, anchor="end")
+
     sh.tag(18.60, 2.55, f"SOUTH BALCONY — {V4_BALCONY:.1f} m²", size=2.2,
            color=INK)
     sh.tag(20.40, 16.05, f"NORTH TERRACE — {V4_TERR_N:.1f} m²", size=2.1,
@@ -2097,7 +2106,7 @@ def sheet_penthouse():
     D.set_scale(50, *PLAN_ORIGIN)
     sh = Sheet("A-104", "Penthouse Plan — Detached Villa", V4_LEVEL,
                "1:50 @ A1")
-    sh.rev, sh.status = "P30", F.STATUS_FINAL_DRAFT
+    sh.rev, sh.status = _rev(sh), F.STATUS_FINAL_DRAFT
     F.border(sh)
 
     with sh.on("G-ANNO-BNDY"):
@@ -2268,7 +2277,7 @@ def sheet_section():
     D.set_scale(50, *SEC_ORIGIN)
     sh = Sheet("A-200", "Section A–A — Detached Villa",
                "looking west", "1:50 @ A1")
-    sh.rev, sh.status = "P30", F.STATUS_FINAL_DRAFT
+    sh.rev, sh.status = _rev(sh), F.STATUS_FINAL_DRAFT
     F.border(sh)
 
     y_s, y_n = V3_Y0, V3_Y1                      # 3.50 .. 17.00
@@ -2731,9 +2740,38 @@ STATUS_NOT_SELECTED = ("Option not selected — scheme {0} “{1}” was adopted
                        "at P18. Record only; not for construction.")
 
 
+# ---------------------------------------------------------------------------
+# What this issue changed
+# ---------------------------------------------------------------------------
+# P32 gave the penthouse roof permanent access, and a roof people stand on
+# has to be guarded, so EL_TOP went from a 0.60 m upstand to a 1.10 m
+# guard and the top of the building rose 0.50 m.  That reaches further
+# than the two sheets the ladder is drawn on: every elevation carries the
+# top, the cover and the compliance matrix print it, and the penthouse
+# base plan is drawn under six services layouts and a ceiling plan.  The
+# riser schematics changed for a different reason in the same round - they
+# had the tanks on the roof.
+#
+# Listed once here rather than typed into twenty builders, because the
+# rule is that a sheet which has not changed keeps its own letter, and
+# that rule is only as good as somebody's memory of which sheets moved.
+P32_SHEETS = frozenset({
+    "A-104", "A-400", "A-401", "A-402", "A-410", "A-411", "A-420", "A-421",
+    "ARC-001", "ARC-002", "ARC-106", "ARC-301", "ARC-404",
+    "EL-104", "EL-204", "EL-304", "EL-400",
+    "ME-104", "ME-200",
+    "PL-104", "PL-204", "PL-300",
+})
+
+
+def _rev(sh, default="P30"):
+    """This sheet's revision: P32 if this issue changed it, else its own."""
+    return "P32" if sh.number in P32_SHEETS else default
+
+
 def _scheme_issue(sh, scheme):
     """Stamp a scheme sheet according to whether it was chosen."""
-    sh.rev = "P30"
+    sh.rev = _rev(sh)
     if scheme != SCHEME:
         sh.status = STATUS_NOT_SELECTED.format(
             SCHEME, el.SCHEME[SCHEME]["name"])
@@ -2785,7 +2823,7 @@ def _sides_sheet(number, scheme):
                        f"Side & Rear Elevations — Scheme {scheme} "
                        f"“{s['name']}”", "east, north and west", "1:75 @ A1")
             _scheme_issue(sh, scheme)
-            sh.rev = "P30"
+            sh.rev = _rev(sh)
             F.border(sh)
         el.elevation(sh, face, scheme, ground=EL_GROUND_3)
         sh.tag((lo + hi) / 2.0, GARDEN_LEVEL - 2.40,
@@ -2835,7 +2873,7 @@ def sheet_axonometric():
         if sh is None:
             sh = Sheet("A-430", "Axonometric — Three Balcony Options",
                        "from the south-west", "1:250 @ A1")
-            sh.rev = "P30"
+            sh.rev = _rev(sh)
             F.border(sh)
         ax.view(sh, el.SCHEME[letter]["render"], profile)
         u, v = ax.P(V3_X0, V3_Y0, 0.0)
@@ -2896,7 +2934,7 @@ def sheet_street_context():
     D.set_scale(100, *EL_CTX_ONE)
     sh = Sheet("A-402", "Street Elevation in Context",
                f"scheme {SCHEME}, as surveyed", "1:100 @ A1")
-    sh.rev = "P30"
+    sh.rev = _rev(sh)
     F.border(sh)
     el.context_elevation(sh, SCHEME)
     sh.tag(11.50, GARDEN_LEVEL - 2.65,
@@ -3043,7 +3081,7 @@ def _cutaway_sheet(level, name):
     sh = Sheet(f"A-{level + 2:02d}",
                f"Interior Cutaway — {name} Floor", f"+{EL_LEVELS[level]:.2f}",
                f"1:{AX_CUT_SCALE} @ A1")
-    sh.rev = "P30"
+    sh.rev = _rev(sh)
     F.border(sh)
     ax.cutaway(sh, level, walls, sills,
                colour=el.SCHEME[SCHEME]["render"],
@@ -3131,7 +3169,7 @@ def _svc_sheet(code, level, title, discipline, marks, purpose):
     D.set_scale(50, *PLAN_ORIGIN)
     sh = Sheet(code, f"{title} — {name} Floor", f"+{EL_LEVELS[level]:.2f}",
                "1:50 @ A1")
-    sh.rev = "P30"
+    sh.rev = _rev(sh)
     sh.status = sv.STAMP
     F.border(sh)
 
@@ -3200,7 +3238,7 @@ def _svc_schematic(code, title, discipline, purpose):
     zone = data["zone"]
     D.set_scale(50, *SVC_SCHEMATIC_ORIGIN)
     sh = Sheet(code, title, "the whole building", "schematic")
-    sh.rev = "P30"
+    sh.rev = _rev(sh)
     sh.status = sv.STAMP
     F.border(sh)
 
@@ -3216,14 +3254,17 @@ def _svc_schematic(code, title, discipline, purpose):
 
     # the riser, running the full height
     rx0, rx1 = 5.20, 6.40
-    sh.rect(rx0, 0.0, rx1 - rx0, V4_TOP, fill="#e8eef2", stroke=INK,
-            sw=LW_SECONDARY, dash="5 3")
-    sh.tag((rx0 + rx1) / 2.0, V4_TOP / 2.0, "RISER", size=2.2, color=INK,
-           rot=-90)
-    sh.rect(rx0 - 1.40, V4_TOP, 3.90, 1.10, fill="#e0e4e7", stroke=INK,
-            sw=LW_SECONDARY)
-    sh.tag((rx0 + rx1) / 2.0, V4_TOP + 0.45, "PLANT / TANKS", size=1.9,
-           color=INK)
+    # The riser runs to the tanks, which stand on the plant deck at
+    # +13.20 - not on the roof over the penthouse.  This diagram drew
+    # them at V4_TOP and reported a height served 3.25 m too high.
+    sh.rect(rx0, 0.0, rx1 - rx0, V4_PLANT_LEVEL, fill="#e8eef2",
+            stroke=INK, sw=LW_SECONDARY, dash="5 3")
+    sh.tag((rx0 + rx1) / 2.0, V4_PLANT_LEVEL / 2.0, "RISER", size=2.2,
+           color=INK, rot=-90)
+    sh.rect(rx0 - 1.40, V4_PLANT_LEVEL, 3.90, 1.10, fill="#e0e4e7",
+            stroke=INK, sw=LW_SECONDARY)
+    sh.tag((rx0 + rx1) / 2.0, V4_PLANT_LEVEL + 0.45,
+           f"PLANT / TANKS  +{V4_PLANT_LEVEL:.2f}", size=1.9, color=INK)
     sh.line((rx0 + rx1) / 2.0, 0.0, (rx0 + rx1) / 2.0, -1.60, w=LW_CUT,
             color=INK, dash="6 3")
     sh.tag((rx0 + rx1) / 2.0, -2.05, "TO BELOW-GROUND DRAINAGE — BY THE "
@@ -3239,8 +3280,8 @@ def _svc_schematic(code, title, discipline, purpose):
          f"{zone[2] - zone[0]:.2f} × {zone[3] - zone[1]:.2f} m"
          if zone else "—"),
         ("Wet on", f"{len(zone[4])} levels" if zone else "—"),
-        ("Plant", "roof, north-west"),
-        ("Height served", f"{V4_TOP:.2f} m"),
+        ("Plant", f"+{V4_PLANT_LEVEL:.2f} deck, north-west"),
+        ("Height served", f"{V4_PLANT_LEVEL:.2f} m"),
         ("Sizes", "by the engineer"),
         ("Capacities", "by the engineer"),
         ("Below ground", "by the engineer")])
@@ -3290,7 +3331,7 @@ STR_SITE_ORIGIN = SITE_ORIGIN        # 1:75, as the site plan
 
 def _str_sheet(number, title, level_txt, scale="1:50 @ A1"):
     sh = Sheet(number, title, level_txt, scale)
-    sh.rev = "P30"
+    sh.rev = _rev(sh)
     sh.status = st.STAMP
     F.border(sh)
     return sh
@@ -3333,7 +3374,7 @@ def sheet_str_notes():
     """STR-001: what the package is, and what it deliberately is not."""
     sh = _str_sheet("STR-001", "Structural Notes & Design Criteria",
                     "the whole frame", "NTS")
-    sh.rev = "P31"
+    sh.rev = _rev(sh, "P31")
     sh.text_mm(18, 26, "STRUCTURAL NOTES & DESIGN CRITERIA", size=6.0,
                anchor="start", weight=700, ls=0.6)
     sh.text_mm(18, 35, f"{F.LOCATION}   ·   " + "   ·   ".join(F.CODES),
@@ -3408,7 +3449,7 @@ def sheet_str_excavation():
     D.set_scale(75, *STR_SITE_ORIGIN)
     sh = _str_sheet("STR-100", "Excavation, Grading & Shoring",
                     f"{GARDEN_LEVEL:.2f} garden, +0.00 villa", "1:75 @ A1")
-    sh.rev = "P31"
+    sh.rev = _rev(sh, "P31")
     with sh.on("G-ANNO-BNDY"):
         sh.poly(PLOT, stroke=INK, sw=LW_SECONDARY, dash="9 2 1.6 2")
     sh.rect(0.0, -2.60, 23.0, 2.60, fill="#f6f6f6", stroke="none", sw=0)
@@ -3468,7 +3509,7 @@ def sheet_str_foundation():
     """STR-101: a pad under every column, at the right coordinate."""
     D.set_scale(50, *STR_ORIGIN)
     sh = _str_sheet("STR-101", "Foundation Layout", "formation by GEO-001")
-    sh.rev = "P31"
+    sh.rev = _rev(sh, "P31")
     st.grid(sh)
     nominal = st.footings(sh)
     st.columns_at(sh, 0, label=False)
@@ -3573,7 +3614,7 @@ def sheet_str_columns():
     st.grid(sh, bubbles=False)
     st.columns_at(sh, 0)
     st.grid_dims(sh)
-    sh.rev = "P30"
+    sh.rev = _rev(sh)
     _column_schedule(sh)
 
     tops = _column_tops()
@@ -3681,7 +3722,7 @@ def sheet_str_cantilever():
     D.set_scale(20, -568.5, 440.0)
     sh = _str_sheet("STR-500", "Cantilever Balcony Structure",
                     f"{V4_LEVEL} and the three floors below", "1:20 @ A1")
-    sh.rev = "P30"
+    sh.rev = _rev(sh)
     pts = wave_points(n=200)
     sh.poly([(pts[0][0], V3_Y0)] + pts + [(pts[-1][0], V3_Y0)],
             fill="#e7ebee", stroke=INK, sw=LW_CUT)
@@ -3753,7 +3794,7 @@ IX_NUM, IX_TITLE, IX_LEVEL, IX_SCALE, IX_REV = 0.0, 36.0, 140.0, 214.0, 252.0
 # rather than written inline so checks.py can compare it against the sheet
 # it claims to describe.
 IX_SELF = ("ARC-001", "Cover Sheet & Drawing Index", "the whole set",
-           "NTS", "P31")
+           "NTS", "P32")
 
 _INDEXING = False
 
@@ -3819,7 +3860,7 @@ def sheet_cover():
     rows.sort(key=lambda r: (order.get(r[0], 10_000), r[0]))
 
     sh = Sheet(IX_SELF[0], IX_SELF[1], IX_SELF[2], IX_SELF[3])
-    sh.rev = IX_SELF[4]
+    sh.rev = _rev(sh, IX_SELF[4])
     F.border(sh)
 
     sh.text_mm(IX_COL_X[0], 26, F.PROJECT, size=6.6, anchor="start",
@@ -3937,7 +3978,7 @@ def sheet_general_notes():
     """ARC-002: general notes, symbols and the code compliance matrix."""
     sh = Sheet("ARC-002", "General Notes, Symbols & Compliance",
                "the whole set", "NTS")
-    sh.rev = "P30"
+    sh.rev = _rev(sh)
     sh.status = ("Layout for the architect of record — the matrix is "
                  "completed and signed against ECP 201, ECP 203 and "
                  "Code 305.")
@@ -4109,7 +4150,7 @@ def _rcp_sheet(level, name, draw):
     sh = Sheet(f"ARC-{400 + level}",
                f"Reflected Ceiling Plan — {name} Floor", f"+{ffl:.2f}",
                "1:50 @ A1")
-    sh.rev = "P30"
+    sh.rev = _rev(sh)
     F.border(sh)
 
     rooms = _rcp_plan(sh, draw)
@@ -4200,7 +4241,7 @@ def sheet_external_works():
     D.set_scale(75, *SITE_ORIGIN)
     sh = Sheet("ARC-700", "External Works & Landscape",
                f"{GARDEN_LEVEL:.2f} garden, +0.00 villa", "1:75 @ A1")
-    sh.rev = "P30"
+    sh.rev = _rev(sh)
     F.border(sh)
 
     with sh.on("G-ANNO-BNDY"):
@@ -4302,7 +4343,7 @@ def sheet_details():
     """ARC-600: four junctions, figured but not specified."""
     sh = Sheet("ARC-600", "Construction Details", "typical junctions",
                "1:5 / 1:10 @ A1")
-    sh.rev = "P30"
+    sh.rev = _rev(sh)
     F.border(sh)
 
     for i, (cx, cy) in enumerate(DET_CELLS):
@@ -4423,7 +4464,7 @@ def sheet_section_b():
     D.set_scale(50, *SEC2_ORIGIN)
     sh = Sheet("ARC-301", "Section B–B — Transverse", "looking north",
                "1:50 @ A1")
-    sh.rev = "P30"
+    sh.rev = _rev(sh)
     F.border(sh)
 
     x_w, x_e = V3_X0, V3_X1                 # 12.50 .. 22.00
@@ -4626,7 +4667,7 @@ def sheet_roof():
     D.set_scale(50, *PLAN_ORIGIN)
     sh = Sheet("ARC-106", "Roof Plan", f"+{V4_TOP:.2f} / {V4_LEVEL}",
                "1:50 @ A1")
-    sh.rev = "P30"
+    sh.rev = _rev(sh)
     F.border(sh)
 
     with sh.on("G-ANNO-BNDY"):
@@ -4677,8 +4718,17 @@ def sheet_roof():
     qx0, qy0, qx1, qy1 = V4_PLANT
     sh.rect(qx0, qy0, qx1 - qx0, qy1 - qy0, fill="#e0e4e7", stroke=INK,
             sw=LW_SECONDARY)
-    sh.tag((qx0 + qx1) / 2.0, 16.25, "PLANT DECK", size=1.8, color=INK)
+    sh.tag((qx0 + qx1) / 2.0, 16.25, "PLANT DECK  +13.20", size=1.8,
+           color=INK)
     sh.tag((qx0 + qx1) / 2.0, 15.68, "WATER TANKS", size=1.6, color=GREY)
+
+    # The way up to the penthouse roof, new at P32.  It stands on the
+    # north terrace because the pergola runs over the corridor end to
+    # end; where it stands is drawn, what it is is specification.
+    lx0, ly0, lx1, ly1 = V4_ROOF_LADDER
+    fx.roof_ladder(sh, lx0, ly0, lx1, ly1)
+    sh.tag(lx0 - 0.22, (ly0 + ly1) / 2.0 + 0.04, "ROOF LADDER", size=1.6,
+           color=INK, anchor="end")
 
     px0, py0, px1, py1 = V4_PERGOLA
     with sh.on("A-FLOR-OVER"):
@@ -4830,7 +4880,7 @@ def sheet_openings():
     rows = el.opening_schedule()
     sh = Sheet("ARC-500", "Door & Window Schedule", "all levels",
                "1:100 @ A1")
-    sh.rev = "P30"
+    sh.rev = _rev(sh)
     F.border(sh)
 
     sh.text_mm(OS_COL_X[0], 26, "DOOR & WINDOW SCHEDULE", size=6.0,
@@ -4902,7 +4952,7 @@ def sheet_register():
     """
     sh = Sheet("ARC-000", "Master Deliverables List", "the whole set",
                "NTS")
-    sh.rev = "P31"
+    sh.rev = _rev(sh, "P31")
     sh.status = F.STATUS_REGISTER
     F.border(sh)
     doc.register_table(sh)

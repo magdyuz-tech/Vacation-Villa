@@ -75,14 +75,19 @@ OPEN_ITEMS = [
     "one unenclosed stair to five storeys is a problem at all. That "
     "question goes to Civil Protection or to an engineer licensed to "
     "answer it. A code is not chosen, and there is no laxer one to adopt.",
-    "There is no way up to the roof over the penthouse. The stair runs "
-    "from the ground floor to the penthouse and stops there — it is drawn "
-    "“dn” only on A-104 — and the deck at +16.45 carries the water tanks, "
-    "which somebody has to reach to clean, fill and replace. A hatch and "
-    "ladder, or a last short flight, is a design decision with a hole in "
-    "a slab behind it, so it is recorded here rather than drawn on an "
-    "assumption. Found at P29 while measuring the stair, which had never "
-    "been measured.",
+    "The roof over the penthouse is reached by a fixed ladder from the "
+    "north terrace, drawn on A-104 and ARC-106 at P32. Two things about "
+    "that were wrong for three revisions and are worth recording. The "
+    "water tanks are not on the +16.45 roof: the plant deck is at "
+    "+13.20, in the north-west corner beside the west terrace, and the "
+    "stair has always reached it — the slab at +16.45 measures the "
+    "flat\u2019s own footprint and stops at its walls. What had no access "
+    "was the membrane, falls and outlets on the +16.45 roof itself. And "
+    "giving it access was not a free choice of hatch or flight: a roof "
+    "people stand on has to be guarded at BALUSTRADE_H, so the 0.60 m "
+    "upstand became a 1.10 m guard and the top of the building rose from "
+    "+17.05 to +17.55. The client took that decision on 2026-10-13; it "
+    "is the only thing that has ever raised the agreed top.",
     "Rates are class X throughout. No rate appears in any document here "
     "without a named source, and QS-004 is issued with its rate column "
     "open.",
@@ -261,6 +266,19 @@ DECISIONS = [
      "Enough to assume a foundation type and lay the structure out, not "
      "enough to size one. GEO-001 stays open. No soil value was written "
      "on any sheet until the figures of 2026-10-12 below."),
+    ("2026-10-13", "Access to the penthouse roof",
+     "The +16.45 roof to be given permanent access, accepting that the "
+     "top of the building rises with it.",
+     "geometry.EL_TOP",
+     "A fixed ladder from the north terrace, on A-104 and ARC-106 — not "
+     "the open corridor, which the pergola covers end to end. The "
+     "0.60 m upstand becomes a guard at BALUSTRADE_H, so EL_TOP goes "
+     "from +17.05 to +17.55 and the envelope rule in checks.py reads "
+     "the constant rather than the old literal. The first and only "
+     "instruction that has raised the agreed top. The same round "
+     "corrected three documents that put the water tanks on the +16.45 "
+     "roof: the plant deck is at +13.20 and the stair always reached "
+     "it."),
     ("2026-10-12", "Assumed ground parameters",
      "Regional typical bearing, sulphate and chloride figures supplied, "
      "with the groundwater table given as confirmed at 2.50 m below "
@@ -515,11 +533,13 @@ SPEC_TOPICS = [
                           "its cove light, balustrade glass and fixings."),
     ("Roof", "Membrane, insulation, falls screed, upstands, outlets and "
              "overflows, protection and the walking surface. The plant "
-             "deck at the north-west carries the water tanks: their "
-             "number, capacity, material, supports and the pipework to "
-             "them are all to be specified, and how anyone reaches the "
-             "deck is an open design item rather than a specification one "
-             "— the stair stops at the penthouse."),
+             "deck at the north-west carries the water tanks: it is at "
+             "+13.20, reached off the west terrace from the stair, and "
+             "their number, capacity, material, supports and the pipework "
+             "to them are all to be specified. The +16.45 roof is reached "
+             "by the fixed ladder on ARC-106: where it stands is drawn, "
+             "but its rung pitch, hoops, the step-over at the guard and "
+             "its fixings are specification."),
     ("External works", "Paving material and bedding, sub-base, falls, "
                        "edgings, turf and topsoil, irrigation, the gate, "
                        "the street wall's coping and finish. The pergola's "
