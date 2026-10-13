@@ -174,6 +174,19 @@ python3 viewer.py         # drawing-set.html
 `build.py` needs `ezdxf` and `cairosvg` (`pip install ezdxf cairosvg`);
 `plans.py` alone needs nothing beyond the standard library.
 
+The build is **reproducible**: two runs of `build.py` on the same source
+produce byte-identical output in all four formats, 259 files, so
+`git status` after a build is an honest answer to "what did I change".
+That is a working tool here rather than a nicety, because it is how a
+revision's changed sheets are identified. It took pinning four things
+that record *when* rather than *what*: the sheet date, which now comes
+from the revision record; cairo's PDF `/CreationDate`, rewritten to the
+issue date after each file is written, since cairo honours no
+`SOURCE_DATE_EPOCH`; the DXF header's four timestamps, two GUIDs and two
+ezdxf stamps; and the interpreter's hash seed, which ezdxf's ordering of
+part of the OBJECTS section follows. `SHEET_DATE` still overrides the
+date if a build needs a different one.
+
 | Module          | Role                                                          |
 | --------------- | ------------------------------------------------------------- |
 | `geometry.py`   | Single source of truth for the set-out: every dimension.       |
@@ -567,6 +580,20 @@ wrong parameter — the soil sulphate range under a chloride heading
 reads as fine, because both numbers are declared — and it has no
 opinion whatever on whether any figure is true. That is what `GEO-001`
 is still open for.
+
+`every_revision_carries_its_date` guards the date on all 81 sheets.
+That date used to be `date.today()`, which was wrong twice over: a sheet
+nobody had touched for a week printed a date a week newer than the issue
+it belongs to, and because the date prints on every sheet, **every build
+on a new day rewrote every sheet**. The second part is what made it
+serious. This project finds out what changed by rebuilding and seeing
+which files differ — it is how P31's five changed sheets were found out
+of 74 — and a floating date silently turns that answer into "all of
+them". Nothing on any sheet looks wrong, because a date that is off by a
+day looks exactly like one that is right. The date is now read from
+`frame.REVISIONS`, each sheet taking the date of its own revision, and
+the rule refuses a revision that carries no date. It cannot catch a date
+that is present and wrong.
 
 The 1:25 sheets run the ordinary plan code at a larger scale and crop to
 the part being shown, so an enlargement cannot disagree with the plan it

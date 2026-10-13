@@ -118,4 +118,9 @@ def main():
 
 
 if __name__ == "__main__":
+    # before anything is imported or built: the CAD export needs a fixed
+    # hash seed to order the DXF OBJECTS section the same way twice, and
+    # the seed can only be set by restarting the interpreter.
+    import export_cad
+    export_cad.deterministic_ordering()
     main()

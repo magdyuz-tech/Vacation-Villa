@@ -1216,6 +1216,48 @@ def prose_says_the_real_thickness():
     return problems
 
 
+def every_revision_carries_its_date():
+    """A revision must say when it was issued, the current one included.
+
+    The issue date on all 81 sheets is read from the last entry in
+    `frame.REVISIONS`.  That entry used to be allowed to carry None,
+    meaning "today", and the cost was invisible: a sheet nobody had
+    touched for a week printed a date a week newer than the issue it
+    belongs to, and because the date prints on every sheet, every build
+    on a new day rewrote all 81 of them.
+
+    That second part is what makes this worth a rule rather than a
+    convention.  This project finds out what changed by rebuilding and
+    seeing which files differ - it is how P31's five changed sheets were
+    identified out of 74.  A floating date silently turns that answer
+    into "all of them", and the failure cannot be seen on any sheet,
+    because a date that is wrong by a day looks exactly like one that is
+    right.
+
+    What it cannot catch: a date that is present and wrong.  Typing
+    2026-01-01 against P31 passes here and is nonsense; the rule only
+    insists that a revision commits to a date, not that the date is true.
+    """
+    import re
+    import frame as F
+
+    problems = []
+    for entry in F.REVISIONS:
+        rev, when = entry[0], entry[1]
+        if not when:
+            problems.append(
+                f"{rev} carries no date. The issue date of every sheet is "
+                f"read from the last revision, so a missing one dates the "
+                f"set from the clock and rewrites all 81 sheets on the "
+                f"next day's build")
+        elif not re.fullmatch(r"\d{4}-\d{2}-\d{2}", str(when)):
+            problems.append(
+                f"{rev} is dated {when!r}, which is not an ISO date")
+    if F.DATE and not re.fullmatch(r"\d{4}-\d{2}-\d{2}", str(F.DATE)):
+        problems.append(f"frame.DATE is {F.DATE!r}, not an ISO date")
+    return problems
+
+
 def ground_figures_own_their_basis():
     """A soil figure may not appear on a sheet without saying what it is.
 
@@ -1909,7 +1951,8 @@ def main():
                      ("table", a_schedule_shows_its_rows),
                      ("fits", title_block_text_fits),
                      ("guard", guarding_height_comes_from_the_constant),
-                     ("ground", ground_figures_own_their_basis)):
+                     ("ground", ground_figures_own_their_basis),
+                     ("dated", every_revision_carries_its_date)):
         problems = fn()
         total += len(problems)
         state = "OK" if not problems else f"{len(problems)} PROBLEMS"

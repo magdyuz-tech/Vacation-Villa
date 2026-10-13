@@ -19,6 +19,32 @@ import cairosvg
 
 A1_W_MM = 841.0
 
+# cairo stamps every PDF with the moment it was written, and honours no
+# SOURCE_DATE_EPOCH, so all 81 PDFs were rewritten on every build whether
+# or not a drawing had moved.  The date tells a reader nothing the title
+# block does not say better, and it cost the one thing this project uses
+# to find out what changed: rebuild, and see which files differ.  So the
+# metadata is flattened to the issue date after each file is written.
+# Only the document information is touched - page geometry, the content
+# stream and the embedded font subsets are copied through untouched.
+_PDF_EPOCH = "D:{0}000000Z"
+
+
+def _pin_pdf(path):
+    """Replace cairo's build-time metadata with the set's issue date."""
+    from pypdf import PdfReader, PdfWriter
+    import frame
+
+    reader = PdfReader(path)
+    writer = PdfWriter()
+    for page in reader.pages:
+        writer.add_page(page)
+    stamp = _PDF_EPOCH.format(frame.DATE.replace("-", ""))
+    writer.add_metadata({"/Producer": "vacation-villa",
+                         "/CreationDate": stamp, "/ModDate": stamp})
+    with open(path, "wb") as fh:
+        writer.write(fh)
+
 
 def export(svg_dir, pdf_dir, png_dir, dpi=150):
     os.makedirs(pdf_dir, exist_ok=True)
@@ -30,6 +56,7 @@ def export(svg_dir, pdf_dir, png_dir, dpi=150):
         pdf = os.path.join(pdf_dir, base + ".pdf")
         png = os.path.join(png_dir, base + ".png")
         cairosvg.svg2pdf(url=svg, write_to=pdf)
+        _pin_pdf(pdf)
         cairosvg.svg2png(url=svg, write_to=png, output_width=px,
                          background_color="white")
         out.append((pdf, png))
@@ -101,6 +128,10 @@ def bind(pdf_dir, out_dir=None, rev=None):
                     "plans, section A-A and the exterior schemes. "
                     "Final draft, not for construction.",
         "/Creator": "plans.py",
+        "/Producer": "vacation-villa",
+        # the bound set is dated by its issue, like every sheet in it
+        "/CreationDate": _PDF_EPOCH.format(F.DATE.replace("-", "")),
+        "/ModDate": _PDF_EPOCH.format(F.DATE.replace("-", "")),
     })
     path = os.path.join(out_dir, f"vacation-villa-drawing-set-{rev}.pdf")
     with open(path, "wb") as fh:

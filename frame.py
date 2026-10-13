@@ -96,7 +96,7 @@ REVISIONS = [
      "STR-200: the column schedule it was named for; heights corrected"),
     ("P30", "2026-10-12",
      "site corrected to Ezbit Abu Rukbah; Code 305 named as the fire code"),
-    ("P31", None,
+    ("P31", "2026-10-12",
      "ground parameters recorded on GEO-002; water table given as 2.50 m"),
 ]
 STATUS = "Preliminary design issue — not for construction."
@@ -113,9 +113,37 @@ STATUS_REGISTER = ("Document control — every status on this sheet is "
 # Keeping it means marking it.
 STATUS_WITHDRAWN = ("Withdrawn at {0} — superseded by {1}. Record only; "
                     "not for construction, pricing or measurement.")
-# The issue date, stamped at build time. Set SHEET_DATE to pin it when a
-# reproducible build matters.
-DATE = os.environ.get("SHEET_DATE") or _dt.date.today().isoformat()
+# The issue date of the current revision - read off REVISIONS, which is
+# already the revision record, rather than taken from the clock.
+#
+# It used to be `date.today()`, and that was wrong twice over.  A drawing
+# is dated by when it was issued, not by the day somebody happened to
+# re-run the build, so a sheet that nobody had touched for a week printed
+# a date a week newer than the issue it belongs to.  And because the date
+# prints on all 81 sheets, every build on a new day rewrote every sheet -
+# which broke the one tool this project uses to tell what changed.  P31
+# identified its five changed sheets by rebuilding and seeing which SVGs
+# differed; run a day later, that method would have reported all 81.
+#
+# So the date moves when the revision moves, and never otherwise.  Every
+# entry in REVISIONS must carry its own date for that to hold, which
+# checks.every_revision_carries_its_date enforces.
+DATE = os.environ.get("SHEET_DATE") or REVISIONS[-1][1]
+
+_REVISION_DATE = {rev: when for rev, when, _what in REVISIONS}
+
+
+def date_of(rev):
+    """The date a given revision was issued.
+
+    A sheet is dated by its own issue, not by the set's latest.  Most of
+    this set sits at P30 inside a P31 issue, and printing P31's date on
+    them would be the same fault as printing today's: a date that is not
+    the date of the thing it appears on.  A withdrawn sheet keeps the
+    date of the issue it was withdrawn at, for the same reason it keeps
+    its letter.
+    """
+    return _REVISION_DATE.get(rev) or DATE
 
 
 def border(sh):
@@ -323,7 +351,7 @@ def titleblock(sh, y0=None):
     cols = [(PANEL_X + 3, "DRAWING No", sh.number),
             (PANEL_X + 66, "REVISION", rev),
             (PANEL_X + 116, "SCALE", sh.scale_note),
-            (PANEL_X + 186, "DATE", DATE)]
+            (PANEL_X + 186, "DATE", date_of(rev))]
     for x, k, v in cols:
         sh.text_mm(x, y0 + 50, k, size=2.0, anchor="start", color=GREY,
                    ls=0.4)
