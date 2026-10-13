@@ -42,7 +42,12 @@ import geometry as G
 WALL_H = None           # set from CLEAR_HEIGHT at import, below
 WALL_H = G.CLEAR_HEIGHT  # blockwork runs slab top to slab soffit
 INT_DOOR_H = 2.10        # internal door head, as the section draws it
-PARAPET_T = 0.25         # the terrace parapet, which stands 1.10 m not 3.00
+# Read from geometry, not retyped.  These were the literals 0.25 and 1.10,
+# which agreed with the constants and so looked harmless - but
+# BALUSTRADE_H exists precisely because the guarding height is a code
+# figure that can move, and if it moved the bill would have gone on
+# measuring 1.10 m of parapet with nothing looking wrong anywhere.
+PARAPET_T = G.PARAPET    # the parapet, which stands BALUSTRADE_H not 3.00
 
 
 class Item:
@@ -219,7 +224,7 @@ def takeoff():
         # the parapet's, which deducts no openings at all. The bill then
         # carried 326.76 m² of partition where the answer was 281.40 -
         # gross, with every door still in it.
-        height = 1.10 if t == PARAPET_T else WALL_H
+        height = G.BALUSTRADE_H if t == PARAPET_T else WALL_H
         gross = net = 0.0
         for level in w:
             run, op_run = w[level].get(t, (0.0, 0.0))
@@ -232,8 +237,20 @@ def takeoff():
                 net += run * height - op_run * INT_DOOR_H
             else:
                 net += run * height
-        items.append(Item("Masonry", label, "m²", net, "D",
-                          f"{gross:.1f} m² gross, openings deducted."))
+        note = f"{gross:.1f} m² gross, openings deducted."
+        if t == PARAPET_T:
+            # The five plan builders stop at +13.20, so the guard round
+            # the penthouse roof is drawn on none of them and was in the
+            # bill nowhere.  P32 raised it to BALUSTRADE_H and made it
+            # the larger half of this row.
+            guard = G.penthouse_guard_run() * G.BALUSTRADE_H
+            gross += guard
+            net += guard
+            note = (f"{gross:.1f} m² gross. "
+                    f"{G.penthouse_guard_run():.2f} m of it is the guard "
+                    f"round the penthouse roof at +{G.V4_TOP:.2f}, which "
+                    f"no plan draws - the floor plans stop below it.")
+        items.append(Item("Masonry", label, "m²", net, "D", note))
 
     # --- openings ---------------------------------------------------------
     sched = el.opening_schedule()

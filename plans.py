@@ -2764,9 +2764,21 @@ P32_SHEETS = frozenset({
 })
 
 
+# P33 specified the parapet - the last unspecified wall - and brought
+# P32's own guard round the penthouse roof into the bill, 33 m of masonry
+# the five floor plans stop below and nothing was buying.  It reaches two
+# sheets: STR-400, which now carries the material and the guarding duty
+# that goes with it, and the cover, which prints the set's revision.
+P33_SHEETS = frozenset({"ARC-001", "STR-400"})
+
+
 def _rev(sh, default="P30"):
-    """This sheet's revision: P32 if this issue changed it, else its own."""
-    return "P32" if sh.number in P32_SHEETS else default
+    """This sheet's revision: the newest issue that changed it, else its own."""
+    if sh.number in P33_SHEETS:
+        return "P33"
+    if sh.number in P32_SHEETS:
+        return "P32"
+    return default
 
 
 def _scheme_issue(sh, scheme):
@@ -3699,7 +3711,17 @@ def sheet_str_walls():
         ("Ground retained", f"{abs(GARDEN_LEVEL):.2f} m"),
         ("Wall design", "by the engineer"),
         ("Boundary line", "by SUR-001"),
+        ("Parapet", f"{PARAPET * 1000:.0f} mm, {WALL_MATERIAL[PARAPET]}"),
+        ("Parapet duty", f"guard at {BALUSTRADE_H:.2f} m"),
     ], list(_STR_COMMON) + [
+        f"The parapet is {PARAPET * 1000:.0f} mm and the client has "
+        f"specified it: {WALL_MATERIAL[PARAPET]}. That names what it is "
+        f"made of and nothing more. Since P32 it is also the guard to "
+        f"every terrace and to the penthouse roof, standing "
+        f"{BALUSTRADE_H:.2f} m, which is a structural duty rather than a "
+        f"material one: whether {PARAPET * 1000:.0f} mm of brick carries "
+        f"a guard load cantilevering off a slab, and whether it has to "
+        f"be reinforced or become concrete, is the engineer's.",
         f"The garden sits {abs(GARDEN_LEVEL):.2f} m below the villa, so "
         f"the change in level is retained somewhere along the west face "
         f"and around the forecourt. Where is drawn; how is not.",
@@ -3794,7 +3816,7 @@ IX_NUM, IX_TITLE, IX_LEVEL, IX_SCALE, IX_REV = 0.0, 36.0, 140.0, 214.0, 252.0
 # rather than written inline so checks.py can compare it against the sheet
 # it claims to describe.
 IX_SELF = ("ARC-001", "Cover Sheet & Drawing Index", "the whole set",
-           "NTS", "P32")
+           "NTS", "P33")
 
 _INDEXING = False
 
