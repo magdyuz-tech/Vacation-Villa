@@ -593,6 +593,20 @@ reads as fine, because both numbers are declared — and it has no
 opinion whatever on whether any figure is true. That is what `GEO-001`
 is still open for.
 
+`the_bill_is_exactly_summed` guards a figure that was reading the
+machine rather than the building. The glazing total is exactly
+**127.875 m²** of structural opening, which lands precisely on the
+rounding boundary of `%.2f`. Added left to right in binary it comes to
+127.87499999999999 and prints 127.87; summed exactly it is 127.875 and
+prints 127.88. Which one appeared depended on the interpreter — CPython
+3.12 gave `sum()` compensated summation — and on the order the opening
+schedule happened to be in, so the bill said one thing on one machine
+and another on the next with nothing in the building changed. The
+measure now sums with `math.fsum`, which is exactly rounded and
+order-independent, and the rule insists the printed figure agrees with
+it. It cannot catch a figure that is exactly summed and measures the
+wrong thing; `bill_reconciles` is what ties the measure to the drawings.
+
 `every_revision_carries_its_date` guards the date on all 81 sheets.
 That date used to be `date.today()`, which was wrong twice over: a sheet
 nobody had touched for a week printed a date a week newer than the issue

@@ -1216,6 +1216,70 @@ def prose_says_the_real_thickness():
     return problems
 
 
+def the_bill_is_exactly_summed():
+    """A measured figure must be the building's, not the machine's.
+
+    The glazing total is exactly 127.875 m2 of structural opening, which
+    lands precisely on the rounding boundary of "%.2f".  Added
+    left-to-right in binary it comes to 127.87499999999999 and prints
+    127.87; summed exactly it is 127.875 and prints 127.88.  Which one
+    appeared depended on the interpreter - CPython 3.12 gave sum()
+    compensated summation - and on the order the opening schedule
+    happened to be in.  So the bill said one thing on one machine and
+    another on the next, with nothing in the building changed.
+
+    This rebuilds each schedule-derived area with math.fsum, which is
+    exactly rounded and order-independent, and insists the figure the
+    document prints agrees.  A return to naive accumulation moves the
+    glazing row and fails here.
+
+    What it cannot catch: a figure that is exactly summed and measures
+    the wrong thing.  It ties the printed number to the arithmetic, not
+    the arithmetic to the building - `bill_reconciles` is what ties the
+    measure to the drawings.
+    """
+    import math
+    import documents as D
+    import elevations as el
+    import geometry as G
+
+    sched = el.opening_schedule()
+    exact = {
+        "Glazing": math.fsum(r["w"] * r["h"] * r["total"]
+                             for r in sched if r["kind"] == "window"),
+        "Door leaves and frames": math.fsum(
+            r["w"] * r["h"] * r["total"]
+            for r in sched if r["kind"] == "door"),
+        "Louvres": math.fsum(r["w"] * r["h"] * r["total"]
+                             for r in sched if r["kind"] == "vent"),
+        "Waterproofing membrane": math.fsum(
+            a for _n, _b, a in G.roof_zones()),
+        "Paving": math.fsum(v for k, v in G.ew_areas().items()
+                            if "Turf" not in k),
+    }
+
+    printed = {}
+    for line in D.materials_markdown().split("\n"):
+        cells = [c.strip() for c in line.split("|")]
+        if len(cells) > 5 and cells[2] in exact:
+            printed[cells[2]] = cells[4]
+
+    problems = []
+    for label, value in sorted(exact.items()):
+        want = f"{value:.2f}"
+        got = printed.get(label)
+        if got is None:
+            problems.append(
+                f"the bill prints no row for {label!r}, so its figure "
+                f"cannot be checked against the measure")
+        elif got != want:
+            problems.append(
+                f"{label}: the bill prints {got} where the exact sum is "
+                f"{want} ({value!r}) - the figure is following the "
+                f"summation rather than the building")
+    return problems
+
+
 def every_revision_carries_its_date():
     """A revision must say when it was issued, the current one included.
 
@@ -1952,7 +2016,8 @@ def main():
                      ("fits", title_block_text_fits),
                      ("guard", guarding_height_comes_from_the_constant),
                      ("ground", ground_figures_own_their_basis),
-                     ("dated", every_revision_carries_its_date)):
+                     ("dated", every_revision_carries_its_date),
+                     ("exact", the_bill_is_exactly_summed)):
         problems = fn()
         total += len(problems)
         state = "OK" if not problems else f"{len(problems)} PROBLEMS"

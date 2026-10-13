@@ -16,6 +16,7 @@ wished for: a row naming a document nothing here renders reads as not
 started.
 """
 
+import math
 import os
 import sys
 
@@ -416,8 +417,17 @@ def materials_markdown():
 
     sched = el.opening_schedule()
     def area(kind):
-        return sum(r["w"] * r["h"] * r["total"]
-                   for r in sched if r["kind"] == kind)
+        # math.fsum, not sum: the glazing total is exactly 127.875 m2,
+        # which lands on the rounding boundary of "%.2f".  Added
+        # left-to-right in binary it comes to 127.87499999999999 and
+        # prints 127.87; summed exactly it is 127.875 and prints 127.88.
+        # CPython 3.12 gave sum() compensated summation, so the printed
+        # figure moved with the interpreter and with the order the
+        # schedule happened to be in.  fsum is exactly rounded and
+        # order-independent, so the bill now reads the building rather
+        # than the machine that measured it.
+        return math.fsum(r["w"] * r["h"] * r["total"]
+                         for r in sched if r["kind"] == kind)
 
     _lifts, _h, col_vol = Q.columns()
     # All three masonry rows name their material out of geometry, the same
@@ -452,9 +462,9 @@ def materials_markdown():
         ("Floor finish", "m²", q("Floor finish"), "D",
          "One figure; the split between finishes is specification."),
         ("Waterproofing membrane", "m²",
-         sum(a for _n, _b, a in G.roof_zones()), "D", ""),
-        ("Paving", "m²", sum(v for k, v in G.ew_areas().items()
-                             if "Turf" not in k), "D", ""),
+         math.fsum(a for _n, _b, a in G.roof_zones()), "D", ""),
+        ("Paving", "m²", math.fsum(v for k, v in G.ew_areas().items()
+                                   if "Turf" not in k), "D", ""),
         ("Turf", "m²", G.ew_areas()["Turf"], "D", ""),
         ("Timber, pergola", "m²", G.EW_PERGOLA[2] * G.EW_PERGOLA[3], "D", ""),
         ("Trees", "nr", float(len(G.EW_TREES)), "D", ""),
