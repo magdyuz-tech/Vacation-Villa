@@ -508,8 +508,10 @@ def sheet_site():
         "The client's survey sketch recorded a 0.50 m step in the north "
         "boundary and a 5.50 m offset between the two blocks' north walls; "
         "the two cannot both be true. Resolved in favour of a straight "
-        "boundary at 18.00. To be confirmed by measured survey before any "
-        "work starts on site.",
+        "boundary at 18.00, and the client made these dimensions final on "
+        "2026-10-13, which settles that resolution. Nobody has "
+        "independently measured the plot: SUR-001 is a setting-out and "
+        "verification job, and the setbacks it verifies are 1.00 m.",
         "Structure is an RC frame on the grid shown, 300 mm columns on "
         "wall centrelines so none stands in a room. The A-300 "
         "enlargements, the last sheets on the old 11.50 × 14.50 "
@@ -2771,9 +2773,17 @@ P32_SHEETS = frozenset({
 # that goes with it, and the cover, which prints the set's revision.
 P33_SHEETS = frozenset({"ARC-001", "STR-400"})
 
+# P34 made the client's plot dimensions final, so the boundary stopped
+# being drawn indicative: the site plan's own note, the general notes
+# that carried the caveat, the boundary-wall sheet, and the cover, which
+# prints the set's revision.
+P34_SHEETS = frozenset({"A-000", "ARC-001", "ARC-002", "STR-400"})
+
 
 def _rev(sh, default="P30"):
     """This sheet's revision: the newest issue that changed it, else its own."""
+    if sh.number in P34_SHEETS:
+        return "P34"
     if sh.number in P33_SHEETS:
         return "P33"
     if sh.number in P32_SHEETS:
@@ -3697,7 +3707,7 @@ def sheet_str_walls():
         sh.wall(gx + gw, 0.0, V3_X0 - SETBACK, 0.30)
     sh.tag(6.40, 0.80, f"STREET WALL — {GARDEN_WALL_H:.2f} m, INDICATIVE",
            size=1.9, color=INK)
-    sh.tag(6.40, -0.60, "LINE AWAITS SUR-001", size=1.7, color=GREY)
+    sh.tag(6.40, -0.60, "CLIENT'S LINE, FINAL", size=1.7, color=GREY)
     sh.tag((V3_X0 + V3_X1) / 2.0, GARDEN_LEVEL * 0 + 2.30,
            f"GARDEN {GARDEN_LEVEL:.2f} TO VILLA +0.00 — "
            f"{abs(GARDEN_LEVEL):.2f} m OF RETAINED GROUND", size=1.9,
@@ -3710,7 +3720,7 @@ def sheet_str_walls():
         ("Villa level", "+0.00"),
         ("Ground retained", f"{abs(GARDEN_LEVEL):.2f} m"),
         ("Wall design", "by the engineer"),
-        ("Boundary line", "by SUR-001"),
+        ("Boundary line", "client's, final"),
         ("Parapet", f"{PARAPET * 1000:.0f} mm, {WALL_MATERIAL[PARAPET]}"),
         ("Parapet duty", f"guard at {BALUSTRADE_H:.2f} m"),
     ], list(_STR_COMMON) + [
@@ -3816,7 +3826,7 @@ IX_NUM, IX_TITLE, IX_LEVEL, IX_SCALE, IX_REV = 0.0, 36.0, 140.0, 214.0, 252.0
 # rather than written inline so checks.py can compare it against the sheet
 # it claims to describe.
 IX_SELF = ("ARC-001", "Cover Sheet & Drawing Index", "the whole set",
-           "NTS", "P33")
+           "NTS", "P34")
 
 _INDEXING = False
 
@@ -4021,8 +4031,10 @@ def sheet_general_notes():
         "structural; frame and tolerance allowances are the supplier's.",
         "Every discrepancy between drawings is to be referred before any "
         "work is set out or any material ordered.",
-        "Boundaries, levels and the neighbours' heights are as described "
-        "by the client and await a measured survey, SUR-001.",
+        "Plot dimensions are the client's and are final. The neighbours' "
+        "heights and the levels are as they describe them. SUR-001, a "
+        "measured survey, is still to be made: nothing here has been "
+        "independently measured, and the setbacks are 1.00 m.",
         "Foundations, framing and every member size are the structural "
         "engineer's and are not set on any architectural sheet. The "
         "STR series is issued as layout for that design.",

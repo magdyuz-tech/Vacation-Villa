@@ -57,7 +57,7 @@ Structural slabs: +0.00, +3.30, +6.60, +9.90, +13.20, +16.45 — six slabs to fi
 | GEO-002 | Assumed ground parameters for layout | Geotechnical | - | Register | D | issued | — | — |
 | CLI-001 | Client instructions and decisions record | Client decision | - | Register | D | issued | — | — |
 
-- **SUR-001** — Boundaries on A-000 are indicative until this is in hand, as are the three neighbours' heights and positions - they are recorded as the client describes them, which is enough to design against and not enough to build to.
+- **SUR-001** — The plot dimensions were made final by the client on 2026-10-13, so the boundary is no longer drawn indicative and the building is set out from it. This row stays open for what a client's figure is not: an independent measurement. The villa stands 1.00 m clear of three boundaries, so a plot narrower than stated is found out when somebody sets it out on site with the foundations already priced. The three neighbours' heights and positions are still as the client describes them.
 - **GEO-001** — Central Nile Delta ground is well characterised as a region, and that is enough to assume a foundation type for layout. It is not enough to size one: allowable bearing pressure, the water table and sulphate content are plot figures, and this row stays open until they arrive with a source - boreholes, or figures the engineer will sign. GEO-002 now records what is assumed in their place. It does not close this row: a regional typical has no source, and the client's water table has no borehole behind it.
 - **GEO-002** — The soil figures the layout rests on, each with its basis. Ours to issue because it is a record of what was assumed, not a soil report - the distinction the whole register turns on. Written because the assumption was being made either way, in the choice to draw pads rather than a raft, and an assumption nobody writes down is one nobody can argue with.
 - **CLI-001** — Each instruction with its date and what it settled. Written down because a decision that lives only in a conversation gets re-argued: scheme A was chosen off three live options, and the plans were redrawn to it.
@@ -113,7 +113,7 @@ Structural slabs: +0.00, +3.30, +6.60, +9.90, +13.20, +16.45 — six slabs to fi
 - **ARC-000** — This register. Status on it is derived at build time from the sheet builders and the files on disk.
 - **ARC-001** — The index is built from the sheet builders, not typed beside them; only the cover's own row is written down, and a check proves it matches the sheet.
 - **ARC-002** — Notes and symbols are ours. The matrix is set against ECP 201 and ECP 203, the Egyptian codes the site is governed by, and signed off by the architect of record.
-- **ARC-100** — Issued with the boundary marked indicative.
+- **ARC-100** — Issued on the client's final plot dimensions.
 - **ARC-106** — Outlines, parapets, plant deck and levels are exact; the falls and outlet positions are architectural intent and PL-200 sets the real ones.
 - **ARC-200** — South, the three other faces, and the street elevation in context. Schemes B and C still build and stay in the repository as the record of what was offered, but they are stamped not selected and left out of the issue.
 - **ARC-301** — Cut east-west at y 10.80, looking north: the only drawing of the building's width, its spine and its two setbacks. The cantilever is not in it - an east-west cut crosses the balcony, it does not project - and A-A carries that.
@@ -246,7 +246,7 @@ Structural slabs: +0.00, +3.30, +6.60, +9.90, +13.20, +16.45 — six slabs to fi
 
 ## Open items and standing qualifications
 
-1. A measured topographic and boundary survey (SUR-001) is not in hand; boundaries on A-000 are issued marked indicative.
+1. The plot dimensions are the client's and were made final on 2026-10-13, so the boundary is no longer drawn indicative. A measured topographic and boundary survey (SUR-001) is still not in hand: nobody has independently measured this plot, and the villa stands 1.00 m clear of three boundaries, so the survey is now a setting-out and verification job rather than a design input.
 2. The ground is central Nile Delta, which is well characterised as a region — enough to assume a foundation type and lay the structure out, not enough to size it. Allowable bearing pressure, the water table and sulphate content are plot figures, and GEO-001 stays open until they arrive with a source. What the layout assumes in the meantime is written down on GEO-002, each figure with its basis: regional typicals with no source, and a water table the client gives as confirmed. They are assumptions, they are stamped as assumptions wherever they print, and nothing is sized from them.
 3. The north neighbour is a single storey, confirmed by the client. The north wall carries windows on all five levels; only the ground floor looks at anything, and from +3.30 up they clear its roof. Its exact height and position still come with SUR-001.
 4. The exterior is settled: scheme A, “Wave”, adopted at P18. Schemes B and C still build and stay in the repository as the record of what was offered, stamped not selected and left out of the issue.

@@ -50,6 +50,14 @@ Every instruction that changed the drawings, grouped by what it changed rather t
 
 **What it moved.** Enough to assume a foundation type and lay the structure out, not enough to size one. GEO-001 stays open. No soil value was written on any sheet until the figures of 2026-10-12 below.
 
+## Plot dimensions final — 2026-10-13
+
+**Instruction.** The dimensions the client supplied are final; the boundary is no longer to be drawn indicative.
+
+**Where it lives.** `geometry.PLOT`
+
+**What it moved.** It ratifies a resolution the set had made: the sketch recorded a 0.50 m notch in the north boundary and a 5.50 m offset between the two north walls, which could not both be true, and the straight boundary at y = 18.00 was chosen. Nothing in the geometry moves - only its standing. SUR-001 stays open for independent measurement and setting out, which a client's figure is not: the villa stands 1.00 m clear of three boundaries and a plot narrower than stated is found out on site.
+
 ## Parapet material — 2026-10-13
 
 **Instruction.** The 250 mm parapet to be brick, rendered both faces, like the rest of the building.

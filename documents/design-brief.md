@@ -37,7 +37,7 @@ The balconies stop at the corner on every level: the 1.00 m setbacks forbid anyt
 
 ## What the drawings do not decide
 
-- A measured topographic and boundary survey (SUR-001) is not in hand; boundaries on A-000 are issued marked indicative.
+- The plot dimensions are the client's and were made final on 2026-10-13, so the boundary is no longer drawn indicative. A measured topographic and boundary survey (SUR-001) is still not in hand: nobody has independently measured this plot, and the villa stands 1.00 m clear of three boundaries, so the survey is now a setting-out and verification job rather than a design input.
 - The ground is central Nile Delta, which is well characterised as a region — enough to assume a foundation type and lay the structure out, not enough to size it. Allowable bearing pressure, the water table and sulphate content are plot figures, and GEO-001 stays open until they arrive with a source. What the layout assumes in the meantime is written down on GEO-002, each figure with its basis: regional typicals with no source, and a water table the client gives as confirmed. They are assumptions, they are stamped as assumptions wherever they print, and nothing is sized from them.
 - The north neighbour is a single storey, confirmed by the client. The north wall carries windows on all five levels; only the ground floor looks at anything, and from +3.30 up they clear its roof. Its exact height and position still come with SUR-001.
 - The exterior is settled: scheme A, “Wave”, adopted at P18. Schemes B and C still build and stay in the repository as the record of what was offered, stamped not selected and left out of the issue.

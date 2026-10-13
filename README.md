@@ -289,15 +289,21 @@ the penthouse's north wall, a line load on the +13.20 slab spanning B to
 C — and because the check named it rather than passing it, STR-305
 carries a secondary beam under it.
 
-### Resolving the survey sketch
+### The plot dimensions
 
 The client's sketch recorded a 0.50 m step in the north boundary *and* a
 5.50 m offset between the two north walls of the building as it then was.
-Those cannot both be true. It is resolved in favour of a **straight
-boundary at y = 18.00**, which is the 0.50 m northward shift the client
-asked for. That resolution is an assumption, not a measurement: every
-boundary dimension still needs SUR-001 before construction, and note 1 on
-sheet A-000 says so on the drawing.
+Those cannot both be true. It was resolved in favour of a **straight
+boundary at y = 18.00**, and at P34 the client made the dimensions final,
+which settles that resolution.
+
+So the boundary is no longer drawn indicative. It is the client's figure,
+final, and the building is set out from it. `SUR-001` stays open for what
+a client's figure is not: nobody has independently measured this plot,
+the villa stands 1.00 m clear of three boundaries, and a plot even
+slightly narrower than stated is found out when somebody sets it out on
+site with the foundations already priced. The survey is a setting-out and
+verification job now, not a design input.
 
 ## Design response
 
@@ -455,7 +461,7 @@ number nobody checks.
 
 ## Status
 
-Final draft for the agreed levels, set revision **P32** — not for
+Final draft for the agreed levels, set revision **P34** — not for
 construction. Work to figured dimensions only; do not scale from the
 drawings.
 
@@ -773,9 +779,11 @@ cannot start.
   Ministry's March 2026 decision, and whether a single-family dwelling
   is treated separately is the question that decides this. Nothing in
   this set should be read as a compliance check.
-- **SUR-001**, a measured survey. Every boundary on A-000 is issued marked
-  indicative, and the local rule on the cantilever's projection over the
-  frontage turns on it.
+- **SUR-001**, a measured survey. The plot dimensions are the client's
+  and were made final at P34, so this is no longer a design input — but
+  nobody has independently measured the plot, the setbacks are 1.00 m on
+  three sides, and the local rule on the cantilever's projection over the
+  frontage still turns on where the boundary actually is.
 - **GEO-001**, a ground investigation. The ground *data* is complete and
   issued: `GEO-002` carries all seven parameters in full, each with its
   basis, and nothing further is waiting on this office. What stays open
