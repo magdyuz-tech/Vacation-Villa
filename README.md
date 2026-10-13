@@ -174,6 +174,18 @@ python3 viewer.py         # drawing-set.html
 `build.py` needs `ezdxf` and `cairosvg` (`pip install ezdxf cairosvg`);
 `plans.py` alone needs nothing beyond the standard library.
 
+Every push and pull request runs `.github/workflows/checks.yml`: the 29
+rules, then a build, then two assertions. That the committed `drawings/`
+and `documents/` match what the source generates — so a sheet cannot be
+edited in the repository without its generator, and a generator cannot
+change without its sheets being rebuilt. And that two builds on the same
+machine agree byte for byte. The committed PDFs and PNGs are deliberately
+*not* compared against the runner's: they are rasterised against whatever
+fonts the machine has, and the runner's are not the ones the committed
+renders were made with, so comparing them would fail on a difference that
+is not a change to any drawing. Each of the three assertions was checked
+by breaking it on purpose before the workflow was committed.
+
 The build is **reproducible**: two runs of `build.py` on the same source
 produce byte-identical output in all four formats, 259 files, so
 `git status` after a build is an honest answer to "what did I change".

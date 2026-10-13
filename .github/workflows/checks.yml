@@ -1,0 +1,78 @@
+name: checks
+
+# The set is generated, so there are two things worth proving on every
+# push: that the rules still pass, and that the build is still honest
+# about what it changed.
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          # Pinned deliberately. The bill's glazing total is exactly
+          # 127.875 m2, which sits on the rounding boundary of "%.2f",
+          # and CPython 3.12 gave sum() compensated summation - so 3.11
+          # prints 127.87 where 3.13 prints 127.88. The figure is correct
+          # either way and the interpreter decides the last digit, so the
+          # interpreter is pinned rather than left to drift.
+          python-version: '3.13'
+
+      - name: System libraries
+        # cairosvg loads libcairo through cffi at runtime; pip does not
+        # bring it.
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libcairo2
+
+      - name: Dependencies
+        run: pip install -r requirements.txt
+
+      - name: Rules
+        # checks.py exits non-zero when any rule reports a problem.
+        run: python3 checks.py
+
+      - name: Build
+        run: python3 build.py
+
+      - name: The committed sheets match their source
+        # Only the formats that do not depend on the host's fonts. SVG is
+        # generated markup and is identical anywhere; the documents are
+        # text measured off geometry.py. PDF and PNG are rasterised
+        # against whatever fonts the machine has - this runner's are not
+        # the ones the committed renders were made with - so comparing
+        # them here would fail on a difference that is not a change to
+        # the drawing. Their reproducibility is proved by the next step
+        # instead, which compares like with like.
+        run: |
+          git diff --exit-code -- drawings documents
+          test -z "$(git status --porcelain -- drawings documents)"
+
+      - name: The build is reproducible
+        # The real assertion, and the one this project leans on: a
+        # revision's changed sheets are identified by rebuilding and
+        # seeing which files differ, so a build that rewrites files it
+        # did not change destroys the answer. Both builds run on this
+        # same machine, so fonts are held constant and only
+        # non-determinism can show up.
+        run: |
+          mkdir -p /tmp/first
+          cp -r drawings pdf png cad /tmp/first/
+          cp vacation-villa-drawing-set-*.pdf /tmp/first/
+          python3 build.py
+          for d in drawings pdf png cad; do
+            diff -rq "/tmp/first/$d" "$d"
+          done
+          # the bound issue is assembled from the per-sheet PDFs and
+          # lives at the repository root, outside the folders above
+          for f in vacation-villa-drawing-set-*.pdf; do
+            cmp "/tmp/first/$f" "$f"
+          done
+          echo "two builds agree, byte for byte"
