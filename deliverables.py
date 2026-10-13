@@ -142,11 +142,16 @@ def _package_0():
     return [
         Row("SUR-001", "Measured topographic and boundary survey", "0", "X",
             discipline="Survey", scale="1:200", fmt="Report + DWG",
-            note="Boundaries on A-000 are indicative until this is in "
-                 "hand, as are the three neighbours' heights and "
-                 "positions - they are recorded as the client describes "
-                 "them, which is enough to design against and not enough "
-                 "to build to."),
+            note="The plot dimensions were made final by the client on "
+                 "2026-10-13, so the boundary is no longer drawn "
+                 "indicative and the building is set out from it. This "
+                 "row stays open for what a client's figure is not: an "
+                 "independent measurement. The villa stands 1.00 m clear "
+                 "of three boundaries, so a plot narrower than stated is "
+                 "found out when somebody sets it out on site with the "
+                 "foundations already priced. The three neighbours' "
+                 "heights and positions are still as the client "
+                 "describes them."),
         Row("GEO-001", "Soil investigation and foundation recommendation",
             "0", "X", discipline="Geotechnical", fmt="Report",
             depends=("SUR-001",),
@@ -237,7 +242,7 @@ def _package_b():
                  "governed by, and signed off by the architect of record."),
         Row("ARC-100", "Context and master site plan", "B", "D",
             scale="1:75", sheet="A-000", depends=("SUR-001",),
-            note="Issued with the boundary marked indicative."),
+            note="Issued on the client's final plot dimensions."),
     ]
     for (i, name, ffl), number in zip(levels(), plan_sheets):
         rows.append(Row(

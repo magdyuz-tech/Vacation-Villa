@@ -102,6 +102,8 @@ REVISIONS = [
      "roof access: ladder to +16.45, guard at 1.10, top now +17.55"),
     ("P33", "2026-10-13",
      "parapet specified brick; the penthouse guard enters the bill"),
+    ("P34", "2026-10-13",
+     "plot dimensions final; the boundary is no longer drawn indicative"),
 ]
 STATUS = "Preliminary design issue — not for construction."
 STATUS_FINAL_DRAFT = ("Final draft — layout agreed with the client; "

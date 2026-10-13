@@ -38,8 +38,12 @@ engineered and is not gets built from by whoever holds it:
 """
 
 OPEN_ITEMS = [
-    "A measured topographic and boundary survey (SUR-001) is not in hand; "
-    "boundaries on A-000 are issued marked indicative.",
+    "The plot dimensions are the client's and were made final on "
+    "2026-10-13, so the boundary is no longer drawn indicative. A "
+    "measured topographic and boundary survey (SUR-001) is still not in "
+    "hand: nobody has independently measured this plot, and the villa "
+    "stands 1.00 m clear of three boundaries, so the survey is now a "
+    "setting-out and verification job rather than a design input.",
     "The ground is central Nile Delta, which is well characterised as a "
     "region — enough to assume a foundation type and lay the structure "
     "out, not enough to size it. Allowable bearing pressure, the water "
@@ -266,6 +270,18 @@ DECISIONS = [
      "Enough to assume a foundation type and lay the structure out, not "
      "enough to size one. GEO-001 stays open. No soil value was written "
      "on any sheet until the figures of 2026-10-12 below."),
+    ("2026-10-13", "Plot dimensions final",
+     "The dimensions the client supplied are final; the boundary is no "
+     "longer to be drawn indicative.",
+     "geometry.PLOT",
+     "It ratifies a resolution the set had made: the sketch recorded a "
+     "0.50 m notch in the north boundary and a 5.50 m offset between the "
+     "two north walls, which could not both be true, and the straight "
+     "boundary at y = 18.00 was chosen. Nothing in the geometry moves - "
+     "only its standing. SUR-001 stays open for independent measurement "
+     "and setting out, which a client's figure is not: the villa stands "
+     "1.00 m clear of three boundaries and a plot narrower than stated "
+     "is found out on site."),
     ("2026-10-13", "Parapet material",
      "The 250 mm parapet to be brick, rendered both faces, like the rest "
      "of the building.",

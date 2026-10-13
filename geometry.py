@@ -32,11 +32,20 @@ and faces away from us, so the west wall takes ventilation louvres and
 no view.  North and east carry ordinary windows; both those neighbours
 are single storey, which is why the east wall can be glazed at all.
 
-One set-out question is still open and is marked on A-000: the client's
-sketch recorded a 0.50 m notch in the north boundary AND a 5.50 m offset
-between the two north walls of the building as it then was, and neither
-can be true at once.  Resolved in favour of a straight boundary at
-y = 18.00, which is an assumption until SUR-001 measures it.
+The set-out was settled by the client on 2026-10-13.  Their sketch had
+recorded a 0.50 m notch in the north boundary AND a 5.50 m offset between
+the two north walls of the building as it then was, and neither could be
+true at once; the set resolved it in favour of a straight boundary at
+y = 18.00, and the client has now made those dimensions final, which
+ratifies that resolution.
+
+So the boundary is no longer drawn indicative.  It is the client's
+figure, final, and the building is set out from it.  SUR-001 stays open
+for what a client's figure cannot do: nobody has independently measured
+this plot, and the villa stands 1.00 m clear of three boundaries, so a
+plot even slightly narrower than stated is found out when somebody sets
+it out on site with the foundations already priced.  That is a check and
+a setting-out job now, not a design input.
 """
 
 import math
