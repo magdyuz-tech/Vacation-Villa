@@ -10,7 +10,7 @@ trade,class,description,unit,quantity,note
 "Frame",D,"Columns, 300 × 300 mm",nr,52.00,"171.4 m of lift, 15.43 m³ of concrete. Reinforcement is the engineer's."
 "Masonry",D,"External and party wall, 300 mm — brick, colour unrestricted",m²,600.63,"806.0 m² gross, openings deducted."
 "Masonry",D,"Internal partition, 100 mm — red brick",m²,281.40,"326.8 m² gross, openings deducted."
-"Masonry",D,"Parapet, 250 mm — masonry — material to be specified",m²,27.13,"27.1 m² gross, openings deducted."
+"Masonry",D,"Parapet, 250 mm — brick, rendered both faces",m²,63.49,"63.5 m² gross. 33.06 m of it is the guard round the penthouse roof at +16.45, which no plan draws - the floor plans stop below it."
 "Openings",D,"Doors, 6 types",nr,9.00,"38.3 m² of structural opening. See ARC-500. Frames, glazing and ironmongery are specification, not geometry."
 "Openings",D,"Windows, 16 types",nr,69.00,"127.9 m² of structural opening. See ARC-500. Frames, glazing and ironmongery are specification, not geometry."
 "Openings",D,"Louvres, 2 types",nr,17.00,"6.7 m² of structural opening. See ARC-500. Frames, glazing and ironmongery are specification, not geometry."

@@ -100,6 +100,8 @@ REVISIONS = [
      "ground parameters recorded on GEO-002; water table given as 2.50 m"),
     ("P32", "2026-10-13",
      "roof access: ladder to +16.45, guard at 1.10, top now +17.55"),
+    ("P33", "2026-10-13",
+     "parapet specified brick; the penthouse guard enters the bill"),
 ]
 STATUS = "Preliminary design issue — not for construction."
 STATUS_FINAL_DRAFT = ("Final draft — layout agreed with the client; "

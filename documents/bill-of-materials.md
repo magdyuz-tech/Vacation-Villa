@@ -15,7 +15,7 @@ all. **Nothing in this document is priced.**
 | --- | --- | --- | ---: | --- |
 | D | External and party wall, 300 mm — brick, colour unrestricted | m² | 600.63 | Brick, specified by the client, with no colour constraint: both faces are plastered or rendered, so a facing brick would be paid for and never seen. Unit size, strength and mortar are specification. |
 | D | Internal partition, 100 mm — red brick | m² | 281.40 | Material specified by the client; a half-brick partition. Brick size, strength and mortar are still specification. |
-| D | Parapet, 250 mm — masonry — material to be specified | m² | 27.13 | The one wall left unspecified. |
+| D | Parapet, 250 mm — brick, rendered both faces | m² | 63.49 | Specified at P33, the last wall in the set that was not. The figure includes the guard round the penthouse roof, which no plan draws because the floor plans stop below it. Whether this thickness carries a guard load is the engineer's — STR-400. |
 | D | Concrete, columns | m³ | 15.43 | 300 mm square × the storey height, measured. Grade is the engineer's. |
 | L | Concrete, slabs | m³ | — | Area is measured; the thickness is the engineer's. |
 | X | Reinforcement | t | — | The engineer's, entirely. |

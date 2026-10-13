@@ -1222,6 +1222,53 @@ def prose_says_the_real_thickness():
     return problems
 
 
+def guards_are_measured_at_the_constant():
+    """Every parapet drawn must be in the bill, at the height it stands.
+
+    Two faults, both of which had already happened.
+
+    The measure typed 1.10 and 0.25 where BALUSTRADE_H and PARAPET
+    exist.  They agreed, so nothing looked wrong - but BALUSTRADE_H is
+    there precisely because the guarding height is a code figure that can
+    move, and if it moved the bill would have gone on measuring the old
+    one with no sheet contradicting it.
+
+    And the guard round the penthouse roof was measured nowhere.  The
+    five plan builders stop at +13.20, so nothing draws it; P32 raised it
+    from a 0.60 m drained upstand to a 1.10 m guard and the bill did not
+    move, leaving 33 m of masonry - more than the parapet that was being
+    measured - bought by nobody.  `bill_reconciles` could not see it: it
+    ties the bill to the roof zones, the opening schedule and the
+    external areas, and a parapet is in none of those.
+
+    So this recomputes the parapet area from the drawn runs and the
+    derived guard, at BALUSTRADE_H, and insists the bill agrees.
+
+    What it cannot catch: a parapet somewhere else again, drawn by no
+    plan and derived by no function.  It checks the two the building has,
+    not that they are the only two.
+    """
+    import geometry as G
+    import quantities as Q
+
+    w, _rooms = Q.walls()
+    drawn = sum(w[lv].get(round(G.PARAPET, 2), (0.0, 0.0))[0] for lv in w)
+    want = (drawn + G.penthouse_guard_run()) * G.BALUSTRADE_H
+
+    row = next((i for i in Q.takeoff()
+                if i.desc.startswith("Parapet")), None)
+    if row is None:
+        return ["the bill carries no parapet row at all"]
+    if abs(row.qty - want) > 0.01:
+        return [
+            f"the bill measures {row.qty:.2f} m² of parapet where the "
+            f"drawings carry {drawn:.2f} m run plus "
+            f"{G.penthouse_guard_run():.2f} m of guard round the "
+            f"penthouse roof, which at {G.BALUSTRADE_H:.2f} m is "
+            f"{want:.2f} m² - a guard is drawn that nobody is buying"]
+    return []
+
+
 def the_plant_deck_stands_on_something():
     """A deck must be at a level the building has a slab at.
 
@@ -2072,7 +2119,8 @@ def main():
                      ("ground", ground_figures_own_their_basis),
                      ("dated", every_revision_carries_its_date),
                      ("exact", the_bill_is_exactly_summed),
-                     ("plant", the_plant_deck_stands_on_something)):
+                     ("plant", the_plant_deck_stands_on_something),
+                     ("guards", guards_are_measured_at_the_constant)):
         problems = fn()
         total += len(problems)
         state = "OK" if not problems else f"{len(problems)} PROBLEMS"

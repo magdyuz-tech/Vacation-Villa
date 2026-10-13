@@ -76,7 +76,17 @@ PT = 0.10                      # internal partition: a half-brick on edge
 WALL_MATERIAL = {
     WT: "brick, colour unrestricted",
     PT: "red brick",
-    0.25: "masonry — material to be specified",   # the terrace parapet
+    # Specified by the client on 2026-10-13, the last wall in the building
+    # that was not.  Brick like the rest, and rendered like the rest: no
+    # masonry on this building is ever seen.
+    #
+    # This names what it is made of and nothing more.  Since P32 the
+    # parapet is also a guard at BALUSTRADE_H, which is a structural duty
+    # and not a material one - whether 250 mm of brick carries a guard
+    # load cantilevering 1.10 m off a slab, and whether it has to be
+    # reinforced or become concrete, is the engineer's, and STR-400 says
+    # so on its face.
+    0.25: "brick, rendered both faces",
 }
 PARAPET = 0.25                 # terrace parapet thickness (1.10 m high)
 
@@ -685,6 +695,20 @@ def grid_spans():
               GRID_X[i + 1] - GRID_X[i]) for i in range(len(GRID_X) - 1)],
             [(f"{j + 1}–{j + 2}", GRID_Y[j + 1] - GRID_Y[j])
              for j in range(len(GRID_Y) - 1)])
+
+
+def penthouse_guard_run():
+    """The run of guard round the penthouse roof, on the wall centrelines.
+
+    It is derived rather than read off a drawing call, because no plan
+    draws it: the five floor plans stop at +13.20 and the roof plan draws
+    the terrace parapets below it.  P32 raised this from a 0.60 m drained
+    upstand to a 1.10 m guard and left it out of the bill entirely -
+    33 m of it, more masonry than the terrace parapets that were being
+    measured.  checks.guards_are_measured_at_the_constant ties the bill
+    back to this so it cannot fall out again.
+    """
+    return 2.0 * ((V4_X1 - V4_X0) + (V4_Y1 - V4_Y0))
 
 
 def roof_zones():

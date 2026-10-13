@@ -50,6 +50,14 @@ Every instruction that changed the drawings, grouped by what it changed rather t
 
 **What it moved.** Enough to assume a foundation type and lay the structure out, not enough to size one. GEO-001 stays open. No soil value was written on any sheet until the figures of 2026-10-12 below.
 
+## Parapet material — 2026-10-13
+
+**Instruction.** The 250 mm parapet to be brick, rendered both faces, like the rest of the building.
+
+**Where it lives.** `geometry.WALL_MATERIAL`
+
+**What it moved.** The last wall in the set that was not specified. It names the material and nothing else: since P32 the parapet is also the guard at BALUSTRADE_H, and whether 250 mm of brick carries that load is the engineer's, recorded on STR-400. The same round found that P32's own guard round the penthouse roof — 33.06 m of it — was in the bill nowhere, because the five floor plans stop below it; the parapet row goes from 27.13 to 63.49 m².
+
 ## Access to the penthouse roof — 2026-10-13
 
 **Instruction.** The +16.45 roof to be given permanent access, accepting that the top of the building rises with it.

@@ -249,8 +249,9 @@ is one entrance garden.
 
 External and party walls are 300 mm brick of any colour — both faces are
 plastered or rendered, so no brick on this building is ever seen — internal
-partitions 100 mm red brick, terrace parapets 250 mm × 1100 mm high and the
-only wall still unspecified. `geometry.WALL_MATERIAL` holds all three, and
+partitions 100 mm red brick, terrace parapets 250 mm × 1100 mm high, brick and
+rendered like the rest — specified at P33, the last wall in the set that
+was not. `geometry.WALL_MATERIAL` holds all three, and
 every drawing, every key and every bill row reads it rather than naming a
 material of its own.
 
@@ -629,6 +630,22 @@ reads as fine, because both numbers are declared — and it has no
 opinion whatever on whether any figure is true. That is what `GEO-001`
 is still open for.
 
+`guards_are_measured_at_the_constant` catches two faults that had both
+already happened. The measure typed `1.10` and `0.25` where
+`BALUSTRADE_H` and `PARAPET` exist — they agreed, so nothing looked
+wrong, but that constant exists *because* the guarding height is a code
+figure that can move, and if it moved the bill would have gone on
+measuring the old one. And the guard round the penthouse roof was
+measured nowhere: the five plan builders stop at +13.20, so nothing
+draws it, and **P32 raised it to a 1.10 m guard without the bill
+moving** — 33 m of masonry, more than the parapet that *was* being
+measured, bought by nobody. `bill_reconciles` could not see it, because
+it ties the bill to roof zones, openings and external areas, and a
+parapet is in none of those. The rule recomputes the parapet from the
+drawn runs plus the derived guard, at `BALUSTRADE_H`, and the bill must
+agree. It cannot catch a third parapet somewhere else, drawn by no plan
+and derived by no function.
+
 `the_plant_deck_stands_on_something` asks the one question the drawings
 could not. The water tanks were recorded on the roof at +16.45 in five
 places — this file, the design brief, the specification schedule, and
@@ -768,7 +785,6 @@ cannot start.
   bookkeeping matter: status is derived, so `GEO-001` would have to be
   given a document to read as issued, and the only document that would
   do it is a soil report nobody has written.
-- The parapet's material, the one wall nobody has specified.
 - **PRG-002**, the dated construction programme. `PRG-001` gives the
   sequence; the durations are the surveyor's, the authority's, the
   engineer's and the contractor's to supply.
