@@ -371,6 +371,11 @@ def write_decisions(out_dir=None):
 # specification schedule is what has to be decided before any of it can be
 # bought, and the baseline is the bill with a rate column that stays empty
 # until a named source fills it.
+RATE_CLOSED = {
+    "L": "NOT PRICEABLE - class L, awaiting another designer",
+    "X": "NOT PRICEABLE - class X, cannot be measured here",
+}
+
 QS_HEAD = """\
 Measured from `geometry.py`, not scaled off the drawings. Wall runs come
 from the drawing calls themselves — the same calls the sheets are drawn
@@ -379,6 +384,15 @@ with — so the bill cannot drift from the building it bills for.
 Every row carries a class: **D** measured here and exact, **L** needing
 someone else's design before it can be measured, **X** impossible here at
 all. **Nothing in this document is priced.**
+"""
+
+QS_RATE = """\
+The rate and amount columns are open on a class D row and closed on every
+other, so a priced return cannot carry a figure against work whose design
+is still somebody else's. A class L row may still show a quantity — the
+six slab areas are ours, their thickness and reinforcement are not — and
+a rate against one of those would be priced against nothing. The same
+rows, in the same classes, are in `cost-baseline.csv` for pricing.
 """
 
 QS_EXCLUDED = [
@@ -404,16 +418,25 @@ def quantities_markdown():
 
     out = ["# Bill of Quantities", "",
            "Detached vacation villa — Ezbit Abu Rukbah, Quesna, Menoufia, Egypt.",
-           "", "**Itemised, unpriced, by trade.**", "", QS_HEAD, ""]
+           "", "**Itemised, unpriced, by trade.**", "", QS_HEAD, QS_RATE, ""]
     totals = {}
     for trade, items in _qs_rows():
         out += [f"## {trade}", "",
-                "| Class | Description | Unit | Quantity | Note |",
-                "| --- | --- | --- | ---: | --- |"]
+                "| Class | Description | Unit | Quantity | Rate | Amount "
+                "| Note |",
+                "| --- | --- | --- | ---: | ---: | ---: | --- |"]
         for i in items:
             q = "—" if i.qty is None else f"{i.qty:,.2f}"
+            # The rate cell is open on a class D row and closed on any
+            # other, and the class is what decides it, not whether a
+            # quantity happens to be printed.  Six slab rows carry an
+            # area and are still class L: the area is ours, the thickness
+            # and the reinforcement are the structural engineer's, so
+            # there is nothing a rate per square metre could be against.
+            rate = "&nbsp;" if i.klass == "D" else RATE_CLOSED[i.klass]
+            amount = "&nbsp;" if i.klass == "D" else "—"
             out.append(f"| {i.klass} | {i.desc} | {i.unit} | {q} | "
-                       f"{i.note} |")
+                       f"{rate} | {amount} | {i.note} |")
             totals[i.klass] = totals.get(i.klass, 0) + 1
         out.append("")
     out += ["## Excluded", ""]
@@ -436,16 +459,27 @@ def quantities_csv():
 
 
 def baseline_csv():
-    """QS-004: the measure with a rate column nobody has filled."""
+    """QS-004: the measure with a rate column nobody has filled.
+
+    Every row the bill carries appears here, class L and X included. A row
+    that is not class D keeps whatever quantity we have and carries the
+    reason in place of an open rate cell, so a pricer meets it and leaves
+    it alone instead of never meeting it at all. Dropping those rows is how
+    a return comes back looking complete while the slabs, the stair and
+    every service are missing from it.
+    """
     import quantities as Q
 
     rows = ["trade,class,description,unit,quantity,rate,source,amount"]
     for trade, items in _qs_rows():
         for i in items:
-            if i.klass != "D":
-                continue            # only what is measured can be priced
             desc = i.desc.replace('"', "'")
-            rows.append(f'"{trade}",D,"{desc}",{i.unit},{i.qty:.2f},,,')
+            q = "" if i.qty is None else f"{i.qty:.2f}"
+            if i.klass == "D":
+                rows.append(f'"{trade}",D,"{desc}",{i.unit},{q},,,')
+            else:
+                rows.append(f'"{trade}",{i.klass},"{desc}",{i.unit},{q},'
+                            f'"{RATE_CLOSED[i.klass]}",,')
     rows.append('"","","TOTAL","","",,,')
     return "\n".join(rows) + "\n"
 

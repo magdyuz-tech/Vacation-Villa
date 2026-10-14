@@ -1381,6 +1381,70 @@ def the_bill_is_exactly_summed():
     return problems
 
 
+def the_priced_schedule_carries_every_row():
+    """A schedule somebody prices must show the work it cannot price.
+
+    QS-004 is the only document with a rate column, so it is the one a
+    contractor fills in and returns.  It used to be built by skipping
+    every row that was not class D.  Thirteen rows vanished silently:
+    the foundations, all six suspended slabs, the stair structure and
+    every electrical, mechanical and plumbing item.  Nothing said they
+    had been left out - a priced return would have come back totalling
+    twenty-four rows and looking complete, with the structure of the
+    building missing from it, and the omission is invisible in the file
+    because an absent row leaves no trace.
+
+    This insists every row of the bill reaches the priced schedule, that
+    a row which is not class D says in its rate cell why nobody can price
+    it, and that no class D row arrives with a rate already in it.  The
+    class decides that, not whether a quantity is printed: six slab rows
+    carry an area and are still class L, because the area is ours and the
+    thickness is the structural engineer's.  Reinstating the
+    `klass != "D": continue` filter fails here with the name of each row
+    it drops.
+
+    What it cannot catch: a reason that is present and wrong, or a class
+    D quantity that is measured wrongly - `bill_reconciles` and
+    `the_bill_is_exactly_summed` are what tie the measure to the
+    drawings.  It only insists the pricer is shown every row.
+    """
+    import csv
+    import io
+    import documents as D
+    import quantities as Q
+
+    rows = list(csv.reader(io.StringIO(D.baseline_csv())))
+    header, body = rows[0], [r for r in rows[1:] if r and r[2] != "TOTAL"]
+    priced = {(r[0], r[2]): r for r in body}
+
+    problems = []
+    for trade, items in Q.by_trade():
+        for i in items:
+            key = (trade, i.desc.replace('"', "'"))
+            row = priced.get(key)
+            if row is None:
+                problems.append(
+                    f"the priced schedule drops {trade} / {i.desc!r} "
+                    f"(class {i.klass}), so a priced return comes back "
+                    f"with that work missing and nothing saying so")
+                continue
+            if i.klass != "D" and not row[header.index("rate")].strip():
+                problems.append(
+                    f"{trade} / {i.desc!r} is class {i.klass} and gives no "
+                    f"reason in its rate cell, so it reads as priceable")
+            if i.klass == "D" and row[header.index("rate")].strip():
+                problems.append(
+                    f"{trade} / {i.desc!r} is measured, but its rate cell "
+                    f"is already filled with "
+                    f"{row[header.index('rate')]!r} - this document is "
+                    f"issued unpriced")
+    if len(body) != sum(len(i) for _t, i in Q.by_trade()):
+        problems.append(
+            f"the priced schedule carries {len(body)} rows where the bill "
+            f"carries {sum(len(i) for _t, i in Q.by_trade())}")
+    return problems
+
+
 def every_revision_carries_its_date():
     """A revision must say when it was issued, the current one included.
 
@@ -2120,7 +2184,8 @@ def main():
                      ("dated", every_revision_carries_its_date),
                      ("exact", the_bill_is_exactly_summed),
                      ("plant", the_plant_deck_stands_on_something),
-                     ("guards", guards_are_measured_at_the_constant)):
+                     ("guards", guards_are_measured_at_the_constant),
+                     ("priced", the_priced_schedule_carries_every_row)):
         problems = fn()
         total += len(problems)
         state = "OK" if not problems else f"{len(problems)} PROBLEMS"
